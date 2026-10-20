@@ -62,7 +62,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="uk" className={`${inter.variable} ${playfair.variable} scroll-smooth`}>
-      <body className="min-h-screen bg-cacao-950 text-stone-100 antialiased selection:bg-gold-500 selection:text-cacao-950 font-sans">
+      <body className="min-h-screen bg-[#F5F5F7] text-[#1D1D1F] antialiased selection:bg-[#0071E3] selection:text-white font-sans">
         {children}
       </body>
     </html>
