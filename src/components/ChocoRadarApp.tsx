@@ -212,7 +212,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Шукати: малина в шоколаді, bean-to-bar, сирні цукерки, фундук, без цукру..."
+                placeholder="Шукати: шоколадні квіти, букети, малина в шоколаді, bean-to-bar, розписні цукерки..."
                 className="w-full bg-cacao-900/90 border border-stone-700/80 focus:border-gold-400 rounded-xl pl-10 pr-9 py-2.5 text-sm text-stone-100 placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-gold-500/20 transition"
               />
               {searchQuery && (
@@ -1048,7 +1048,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
               Choco<span className="text-gold-400">Radar</span>.ua — Всеукраїнський навігатор крафтового шоколаду
             </div>
             <p>
-              Плитки Bean-to-Bar • Розмальовані корпусні цукерки • Горіхи та сухофрукти в шоколаді • Малина та полуниця в шоколаді
+              Плитки Bean-to-Bar • Шоколадні квіти та букети • Розмальовані корпусні цукерки • Горіхи та сухофрукти • Малина та полуниця в шоколаді
             </p>
           </div>
           <div className="flex flex-wrap gap-4">
@@ -1282,6 +1282,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 <div>
                   <label className="block text-stone-300 font-medium mb-1">Що саме ви шукаєте?</label>
                   <select className="w-full bg-cacao-950 border border-stone-700 rounded-xl px-3.5 py-2.5 text-white">
+                    <option>Шоколадний букет / Шоколадні квіти (півонії, троянди, тюльпани)</option>
                     <option>Подарунковий набір (Розмальовані цукерки / Малина в шоколаді)</option>
                     <option>Дегустаційний сет Bean-to-Bar плиток</option>
                     <option>Набір без білого цукру / Веганський / Дитячий</option>
