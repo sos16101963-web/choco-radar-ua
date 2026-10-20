@@ -54,9 +54,11 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
   const [sortBy, setSortBy] = useState<'popular' | 'price100_asc' | 'clean_desc' | 'price_asc'>('popular');
 
   // AI Sommelier Advisor State
-  const [advisorGoal, setAdvisorGoal] = useState<'all' | 'gift-her' | 'gift-boss' | 'kids-healthy' | 'gourmet-self' | 'corporate'>('all');
+  const [advisorGoal, setAdvisorGoal] = useState<'all' | 'gift-her' | 'gift-boss' | 'kids' | 'gourmet-self' | 'corporate'>('all');
   const [advisorTaste, setAdvisorTaste] = useState<'all' | 'fruity' | 'nutty' | 'sweet' | 'intense'>('all');
   const [advisorMaxBudget, setAdvisorMaxBudget] = useState<number>(1000);
+  const [makerSearchQuery, setMakerSearchQuery] = useState('');
+  const [makerCityFilter, setMakerCityFilter] = useState<string>('all');
 
   // Comparison Drawer State (like Hotline/PN but for craft)
   const [compareIds, setCompareIds] = useState<string[]>(['p-1', 'p-2', 'p-3']);
@@ -370,7 +372,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                     { id: 'all', label: 'Всі варіанти' },
                     { id: 'gift-her', label: '💝 На подарунок (WOW)' },
                     { id: 'gift-boss', label: '🥃 Шефу / До вина' },
-                    { id: 'kids-healthy', label: '🌿 Дітям / Без цукру' },
+                    { id: 'kids', label: '🧸 Дітям' },
                     { id: 'gourmet-self', label: '🍫 Гурману до кави' },
                     { id: 'corporate', label: '💼 Корпоративні' },
                   ].map((item) => (
@@ -831,15 +833,15 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
           </div>
         </section>
 
-        {/* Verified Ukrainian Craft Makers Directory */}
-        <section className="space-y-6">
+        {/* Verified Ukrainian Craft Makers Directory (Full Database across Google, Instagram, TikTok, YouTube) */}
+        <section id="makers-registry" className="space-y-6">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <div className="text-xs font-bold uppercase tracking-wider text-gold-400 mb-1">
-                Реєстр перевірених виробників України
+                Повний реєстр українських виробників ({MAKERS.length} майстерень з Google, Instagram, TikTok, YouTube)
               </div>
               <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white">
-                Крафтові майстерні та шоколатьє на платформі
+                Всі крафтові виробники шоколадних виробів України
               </h2>
             </div>
             <button
@@ -851,8 +853,53 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {MAKERS.map((maker) => (
+          {/* Search & City Filter for Makers Registry */}
+          <div className="bg-cacao-900 border border-stone-800 rounded-2xl p-4 flex flex-wrap items-center gap-3">
+            <div className="relative flex-1 min-w-[240px]">
+              <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={makerSearchQuery}
+                onChange={(e) => setMakerSearchQuery(e.target.value)}
+                placeholder="Пошук майстерні за назвою, спеціалізацією, інстаграмом або містом..."
+                className="w-full bg-cacao-950 border border-stone-700 rounded-xl pl-10 pr-4 py-2 text-xs sm:text-sm text-white placeholder:text-stone-500 focus:outline-none focus:border-gold-400"
+              />
+            </div>
+
+            <div className="flex flex-wrap items-center gap-1.5">
+              {['all', 'Київ', 'Львів', 'Харків', 'Луцьк', 'Дніпро', 'Черкаси', 'Вінниця', 'Одеса', 'Ужгород'].map((city) => (
+                <button
+                  key={city}
+                  onClick={() => setMakerCityFilter(city)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-medium transition border ${
+                    makerCityFilter === city
+                      ? 'bg-gold-500 text-cacao-950 border-gold-400 font-bold'
+                      : 'bg-cacao-950 text-stone-300 border-stone-800 hover:border-stone-700'
+                  }`}
+                >
+                  {city === 'all' ? `Всі міста (${MAKERS.length})` : city}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {MAKERS.filter((m) => {
+              if (makerCityFilter !== 'all' && !m.city.toLowerCase().includes(makerCityFilter.toLowerCase())) {
+                return false;
+              }
+              if (makerSearchQuery.trim() !== '') {
+                const q = makerSearchQuery.toLowerCase();
+                return (
+                  m.name.toLowerCase().includes(q) ||
+                  m.specialty.toLowerCase().includes(q) ||
+                  m.city.toLowerCase().includes(q) ||
+                  m.instagramHandle.toLowerCase().includes(q) ||
+                  m.description.toLowerCase().includes(q)
+                );
+              }
+              return true;
+            }).map((maker) => (
               <div
                 key={maker.id}
                 className="bg-cacao-900 border border-stone-800 hover:border-gold-500/40 rounded-2xl p-5 flex flex-col justify-between transition"
@@ -887,6 +934,23 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                     {maker.description}
                   </p>
 
+                  {/* Social Channels Pills (Google / Web, Instagram, TikTok, YouTube) */}
+                  <div className="flex flex-wrap items-center gap-1.5 pt-1 text-[11px]">
+                    <span className="bg-pink-500/10 border border-pink-500/30 text-pink-300 px-2 py-0.5 rounded-md">
+                      IG: {maker.instagramHandle}
+                    </span>
+                    {maker.tiktokHandle && (
+                      <span className="bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 px-2 py-0.5 rounded-md">
+                        TikTok: {maker.tiktokHandle}
+                      </span>
+                    )}
+                    {maker.youtubeChannel && (
+                      <span className="bg-red-500/10 border border-red-500/30 text-red-300 px-2 py-0.5 rounded-md">
+                        YT: {maker.youtubeChannel}
+                      </span>
+                    )}
+                  </div>
+
                   <div className="flex flex-wrap gap-1 pt-1">
                     {maker.badges.map((b, i) => (
                       <span
@@ -902,12 +966,13 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 <div className="pt-4 mt-4 border-t border-stone-800/80 flex items-center justify-between gap-2">
                   <button
                     onClick={() => {
+                      setSelectedCategory(maker.mainCategory);
                       setSelectedMakerId(maker.id);
                       document.getElementById('catalog-section')?.scrollIntoView({ behavior: 'smooth' });
                     }}
                     className="text-xs text-stone-300 hover:text-gold-400 font-medium transition"
                   >
-                    Всі товари майстра →
+                    Дивитись вироби →
                   </button>
                   <button
                     onClick={() => setActiveMakerModal(maker)}
