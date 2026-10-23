@@ -27,6 +27,10 @@ import {
   Crown,
   Gift,
   Building2,
+  Tag,
+  Instagram,
+  Moon,
+  Sun,
 } from 'lucide-react';
 
 interface ChocoRadarAppProps {
@@ -46,53 +50,59 @@ const CATEGORY_SHORT_LABELS: Record<Exclude<CategorySlug, 'all'>, { label: strin
 
 const CITY_FILTERS: { id: string; label: string }[] = [
   { id: 'all', label: 'Вся Україна' },
-  { id: 'Харків', label: 'Харків' },
   { id: 'Київ', label: 'Київ' },
+  { id: 'Харків', label: 'Харків' },
   { id: 'Львів', label: 'Львів' },
-  { id: 'Луцьк / Волинь', label: 'Луцьк / Волинь' },
   { id: 'Дніпро', label: 'Дніпро' },
-  { id: 'Одеса', label: 'Одеса' },
-  { id: 'Полтава / Кременчук', label: 'Полтава / Кременчук' },
-  { id: 'Вінниця / Житомир', label: 'Вінниця / Житомир' },
-  { id: 'Захід та Центри', label: 'Черкаси / Закарпаття / Кропивницький' },
+  { id: 'Одеса / Південь', label: 'Одеса • Миколаїв' },
+  { id: 'Луцьк / Волинь', label: 'Луцьк • Волинь' },
+  { id: 'Вінниця / Хмельницький / Житомир', label: 'Вінниця • Хмельницький • Житомир' },
+  { id: 'Полтава / Суми / Запоріжжя', label: 'Полтава • Суми • Запоріжжя' },
+  { id: 'Черкаси / Захід та Центри', label: 'Черкаси • Ужгород • Чернівці' },
 ];
 
-const SEGMENT_GROUPS: { id: MakerSegment; title: string; subtitle: string }[] = [
+const SEGMENT_GROUPS: { id: MakerSegment; title: string; subtitle: string; gradient: string }[] = [
   {
     id: 'bean-to-bar',
     title: '1. Bean-to-Bar (Від какао-боба до плитки)',
     subtitle:
       'Виробники самі закуповують фермерські какао-боби (Fino de Aroma, Criollo, Trinitario), обсмажують і перетирають їх у меланжерах.',
+    gradient: 'linear-gradient(135deg, #7a4a2b 0%, #3a2113 100%)',
   },
   {
     id: 'chocolatier-bonbons',
     title: '2. Шоколатьє: плитки, цукерки ручної роботи та шоколадні квіти',
     subtitle:
       'Авторські плитки, корпусні цукерки з художнім розписом, шоколадні букети, трюфелі, сирні цукерки та фадж.',
+    gradient: 'linear-gradient(135deg, #8b4d27 0%, #462b1f 100%)',
   },
   {
     id: 'healthy-vegan',
     title: '3. Healthy / Vegan / Raw солодощі (Без білого цукру, для дітей)',
     subtitle:
       'Шоколад, пастила та цукерки на керобі, кокосовому нектарі, меду або еритритолі — без білого цукру, лактози та глютену.',
+    gradient: 'linear-gradient(135deg, #3c7a47 0%, #1f4728 100%)',
   },
   {
     id: 'flowers-berries-nuts',
-    title: '4. Шоколадні квіти, ягоди та горіхи в шоколаді',
+    title: '4. Шоколадні квіти, букети, ягоди та горіхи в шоколаді',
     subtitle:
       'Букети з бельгійського шоколаду, свіжа й сублімована полуниця та малина в шоколаді, чорнослив і горіхове драже.',
+    gradient: 'linear-gradient(135deg, #b53f61 0%, #6b1d35 100%)',
   },
   {
     id: 'craft-zefir-pastila',
     title: '5. Крафтовий зефір ручної роботи, зефірні букети та пастила',
     subtitle:
       'Натуральний зефір на агар-агарі з живого ягідного пюре, зефірна флористика (букети з зефірних півоній і троянд) та пастила без цукру.',
+    gradient: 'linear-gradient(135deg, #e0a866 0%, #b06a1e 100%)',
   },
   {
     id: 'custom-cakes-pastry',
     title: '6. Авторські торти на замовлення, бенто-торти та кондитерські ательє',
     subtitle:
       'Святкові, весільні, дитячі та корпоративні торти, мусові десерти в шоколадному велюрі, бенто-торти та французькі макарони.',
+    gradient: 'linear-gradient(135deg, #c75b7a 0%, #8e2f4a 100%)',
   },
 ];
 
@@ -104,7 +114,6 @@ const LIVE_BUYER_REQUESTS = [
     categoryLabel: '🍫 Корпоративні шоколадні та зефірні бокси',
     budget: '42 000 грн (60 наборів)',
     timeAgo: '18 хв тому',
-    status: 'Активний тендер (3 пропозиції)',
   },
   {
     id: 'req-2',
@@ -112,7 +121,6 @@ const LIVE_BUYER_REQUESTS = [
     categoryLabel: '🎂 Авторський торт + букет шоколадних квітів на ювілей',
     budget: '3 800 грн',
     timeAgo: '45 хв тому',
-    status: 'Чекає пропозицій майстерень',
   },
   {
     id: 'req-3',
@@ -120,24 +128,29 @@ const LIVE_BUYER_REQUESTS = [
     categoryLabel: '🌸 Зефірні букети та цукерки ручної роботи (до свята)',
     budget: '14 500 грн (15 букетів)',
     timeAgo: '1 год тому',
-    status: 'Активний тендер (4 пропозиції)',
   },
 ];
 
 export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarAppProps) {
+  // Theme state (Warm Saturated Light or Rich Dark Espresso)
+  const [isDark, setIsDark] = useState(false);
+
   // Primary Step-by-Step Consumer Filters
   const [selectedCategory, setSelectedCategory] = useState<CategorySlug>(initialCategory);
   const [selectedCity, setSelectedCity] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedMakerId, setSelectedMakerId] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'popular' | 'price100_asc' | 'price_asc'>('popular');
+  const [visibleMakersLimit, setVisibleMakersLimit] = useState<number>(24);
 
   // Quick Purpose / Dietary Filter Pills
   const [onlySugarFree, setOnlySugarFree] = useState(false);
   const [onlyBeanToBar, setOnlyBeanToBar] = useState(false);
-  const [advisorGoal, setAdvisorGoal] = useState<'all' | 'gift-her' | 'gift-boss' | 'kids' | 'gourmet-self' | 'corporate'>('all');
+  const [advisorGoal, setAdvisorGoal] = useState<
+    'all' | 'gift-her' | 'gift-boss' | 'kids' | 'gourmet-self' | 'corporate'
+  >('all');
 
-  // Progressive Disclosure (Expandable Drawers — closed by default so page is ultra-clean)
+  // Progressive Disclosure
   const [expandedProductIds, setExpandedProductIds] = useState<string[]>([]);
   const [expandedMakerIds, setExpandedMakerIds] = useState<string[]>([]);
   const [groupBySegment, setGroupBySegment] = useState<boolean>(false);
@@ -158,6 +171,27 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
   const currentCategoryInfo = useMemo(
     () => CATEGORIES.find((c) => c.slug === selectedCategory) || CATEGORIES[0],
     [selectedCategory]
+  );
+
+  // Macro Pillar counts (like on reference site: Chocolate, Cakes, Zephyr)
+  const chocolateMakersCount = useMemo(
+    () =>
+      MAKERS.filter(
+        (m) =>
+          m.segment === 'bean-to-bar' ||
+          m.segment === 'chocolatier-bonbons' ||
+          m.segment === 'healthy-vegan' ||
+          m.segment === 'flowers-berries-nuts'
+      ).length,
+    []
+  );
+  const cakeMakersCount = useMemo(
+    () => MAKERS.filter((m) => m.categories.includes('avtorski-torty-ta-deserty')).length,
+    []
+  );
+  const zefirMakersCount = useMemo(
+    () => MAKERS.filter((m) => m.categories.includes('kraftovyi-zefir-ta-bukety')).length,
+    []
   );
 
   const toggleProductExpand = (id: string) => {
@@ -185,7 +219,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
       if (
         selectedCity !== 'all' &&
         m.regionCity !== selectedCity &&
-        !m.city.toLowerCase().includes(selectedCity.toLowerCase())
+        !m.city.toLowerCase().includes(selectedCity.split('•')[0].trim().toLowerCase())
       ) {
         return false;
       }
@@ -199,7 +233,8 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
           m.city.toLowerCase().includes(q) ||
           m.specialty.toLowerCase().includes(q) ||
           m.description.toLowerCase().includes(q) ||
-          m.websiteUrl.toLowerCase().includes(q);
+          m.websiteUrl.toLowerCase().includes(q) ||
+          (m.instagramHandle && m.instagramHandle.toLowerCase().includes(q));
         if (!match) return false;
       }
       return true;
@@ -219,7 +254,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
         const maker = MAKERS.find((m) => m.id === product.makerId);
         const cityMatch =
           (maker && maker.regionCity === selectedCity) ||
-          product.makerCity.toLowerCase().includes(selectedCity.toLowerCase());
+          product.makerCity.toLowerCase().includes(selectedCity.split('•')[0].trim().toLowerCase());
         if (!cityMatch) return false;
       }
 
@@ -242,7 +277,16 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
       }
       return b.rating * b.reviewsCount - a.rating * a.reviewsCount;
     });
-  }, [selectedCategory, selectedCity, selectedMakerId, onlySugarFree, onlyBeanToBar, advisorGoal, searchQuery, sortBy]);
+  }, [
+    selectedCategory,
+    selectedCity,
+    selectedMakerId,
+    onlySugarFree,
+    onlyBeanToBar,
+    advisorGoal,
+    searchQuery,
+    sortBy,
+  ]);
 
   const comparedProducts = useMemo(
     () => PRODUCTS.filter((p) => compareIds.includes(p.id)),
@@ -257,6 +301,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
     setOnlySugarFree(false);
     setOnlyBeanToBar(false);
     setAdvisorGoal('all');
+    setVisibleMakersLimit(24);
   };
 
   const hasActiveFilters =
@@ -268,44 +313,129 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
     onlyBeanToBar ||
     advisorGoal !== 'all';
 
-  // Helper to render a single Warm Cocoa-Cream Maker Card
+  // Helper to get rich gradient banner for maker card based on segment
+  const getMakerHeaderStyle = (maker: CraftMaker) => {
+    if (maker.segment === 'custom-cakes-pastry') {
+      return {
+        gradient: 'linear-gradient(135deg, #c75b7a 0%, #8e2f4a 100%)',
+        emoji: '🎂',
+        pill: 'Торти та десерти',
+      };
+    }
+    if (maker.segment === 'craft-zefir-pastila') {
+      return {
+        gradient: 'linear-gradient(135deg, #e0a866 0%, #b06a1e 100%)',
+        emoji: '🌸',
+        pill: 'Крафтовий зефір',
+      };
+    }
+    if (maker.segment === 'flowers-berries-nuts') {
+      return {
+        gradient: 'linear-gradient(135deg, #b53f61 0%, #5a182c 100%)',
+        emoji: '🌹',
+        pill: 'Квіти та ягоди в шоколаді',
+      };
+    }
+    if (maker.segment === 'healthy-vegan') {
+      return {
+        gradient: 'linear-gradient(135deg, #3c7a47 0%, #1d3f24 100%)',
+        emoji: '🌿',
+        pill: 'Без цукру / Vegan',
+      };
+    }
+    return {
+      gradient: 'linear-gradient(135deg, #7a4a2b 0%, #3a2113 100%)',
+      emoji: '🍫',
+      pill: maker.isBeanToBar ? 'Bean-to-Bar Шоколад' : 'Крафтовий шоколад',
+    };
+  };
+
+  // Render a single Rich Saturated Maker Card (matching reference site style)
   const renderMakerCard = (maker: CraftMaker) => {
     const isExpanded = expandedMakerIds.includes(maker.id);
+    const headerMeta = getMakerHeaderStyle(maker);
     const cleanDomain = maker.websiteUrl
       .replace('https://www.', '')
       .replace('https://', '')
       .replace(/\/$/, '');
 
     return (
-      <div
+      <article
         key={maker.id}
-        className="bg-white border border-[#E6DCD2] rounded-3xl p-5 sm:p-6 flex flex-col justify-between shadow-sm hover:shadow-md hover:border-[#B86B35]/60 transition"
+        className={`group relative flex flex-col overflow-hidden rounded-2xl transition-all duration-200 hover:-translate-y-1 hover:shadow-xl border ${
+          isDark
+            ? 'bg-[#261b16] border-white/15 hover:border-[#f0a556]'
+            : 'bg-[#fefbf7] border-[#e1d5c8] hover:border-[#b06a1e] shadow-sm'
+        }`}
       >
-        <div className="space-y-3">
-          {/* Top Row: Name, Verified Icon, City & Rating */}
-          <div className="flex items-start justify-between gap-2">
-            <div>
-              <h3 className="font-bold text-base sm:text-lg text-[#2C1810] leading-snug flex items-center gap-1.5">
-                <span>{maker.name}</span>
-                {maker.isVerified && (
-                  <span title="Перевірений український виробник">
-                    <CheckCircle2 className="w-4 h-4 text-[#B86B35] shrink-0" />
-                  </span>
-                )}
-              </h3>
-              <p className="text-xs text-[#6E5648] flex items-center gap-1 mt-1 font-medium">
-                <MapPin className="w-3.5 h-3.5 text-[#B86B35] shrink-0" />
-                <span>{maker.city}</span>
-              </p>
-            </div>
-            <div className="bg-[#FAF6F0] border border-[#E6DCD2] px-2.5 py-1 rounded-full text-xs font-semibold text-[#2C1810] flex items-center gap-1 shrink-0">
-              <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
-              <span>{maker.rating}</span>
-            </div>
+        {/* Rich Saturated Top Banner (Image or Vibrant Gradient like reference site) */}
+        <div
+          className="relative h-36 overflow-hidden cursor-pointer"
+          style={{ background: headerMeta.gradient }}
+          onClick={() => setActiveMakerModal(maker)}
+        >
+          {maker.imageUrl ? (
+            <>
+              <img
+                src={maker.imageUrl}
+                alt={maker.name}
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/30" />
+            </>
+          ) : (
+            <span className="absolute -right-3 -top-4 select-none text-7xl opacity-30 transition-transform duration-300 group-hover:scale-110">
+              {headerMeta.emoji}
+            </span>
+          )}
+
+          {/* Top Left Pills */}
+          <div className="absolute left-4 top-3.5 z-10 flex items-center gap-2">
+            <span className="rounded-full bg-black/35 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-md border border-white/20">
+              {headerMeta.pill}
+            </span>
+            {maker.rating >= 4.96 && (
+              <span className="rounded-full bg-[#fff8ef] px-2.5 py-0.5 text-[11px] font-bold text-[#302016] shadow-sm">
+                ★ {maker.rating}
+              </span>
+            )}
           </div>
 
-          {/* What they produce: Clean Multi-Category Pills */}
-          <div className="flex flex-wrap gap-1.5 pt-0.5">
+          {/* Bottom Left Verified Badge */}
+          <div className="absolute bottom-3 left-4 z-10 flex items-center gap-2">
+            {maker.isVerified && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-0.5 text-[11px] font-bold text-[#302016] shadow-sm">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Верифіковано</span>
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Card Body */}
+        <div className="flex flex-1 flex-col gap-3 p-5">
+          <div>
+            <h3
+              onClick={() => setActiveMakerModal(maker)}
+              className={`font-serif text-lg font-bold leading-snug cursor-pointer hover:text-[#b06a1e] transition ${
+                isDark ? 'text-[#eee7dd]' : 'text-[#302016]'
+              }`}
+            >
+              {maker.name}
+            </h3>
+            <p
+              className={`mt-1 flex items-center gap-1 text-xs font-medium ${
+                isDark ? 'text-[#a79d91]' : 'text-[#715f53]'
+              }`}
+            >
+              <MapPin className="w-3.5 h-3.5 text-[#b06a1e] shrink-0" />
+              <span>{maker.city}</span>
+            </p>
+          </div>
+
+          {/* Multi-Category Pills */}
+          <div className="flex flex-wrap gap-1.5">
             {maker.categories.map((catSlug) => {
               const info = CATEGORY_SHORT_LABELS[catSlug];
               if (!info) return null;
@@ -314,10 +444,12 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 <button
                   key={catSlug}
                   onClick={() => setSelectedCategory(catSlug)}
-                  className={`text-[11px] font-medium px-2.5 py-1 rounded-full transition flex items-center gap-1 ${
+                  className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold transition ${
                     isSelectedCat
-                      ? 'bg-[#B86B35] text-white font-semibold shadow-sm'
-                      : 'bg-[#FAF6F0] text-[#3A2318] border border-[#E6DCD2]/80 hover:bg-[#F3ECE3]'
+                      ? 'bg-[#462b1f] text-[#faf4eb] shadow-sm'
+                      : isDark
+                      ? 'bg-[#362820] text-[#eee7dd] hover:bg-[#462b1f]'
+                      : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e5d5c3]'
                   }`}
                 >
                   <span>{info.emoji}</span>
@@ -327,411 +459,652 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
             })}
           </div>
 
-          {/* 1-Sentence Specialty */}
-          <p className="text-xs sm:text-sm text-[#5C4438] leading-relaxed">
-            {maker.specialty}
+          {/* 2-line Description */}
+          <p
+            className={`line-clamp-2 text-xs sm:text-sm leading-relaxed ${
+              isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'
+            }`}
+          >
+            {maker.description || maker.specialty}
           </p>
 
-          {/* Direct Contact Summary Always Visible */}
-          <div className="pt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[#2C1810]">
-            {maker.phone && (
-              <span className="flex items-center gap-1.5 font-semibold">
-                <Phone className="w-3.5 h-3.5 text-[#B86B35] shrink-0" />
-                <span>{maker.phone.split(',')[0]}</span>
+          {/* Price Range & Phone Row */}
+          <div className="flex flex-wrap items-center justify-between gap-2 pt-0.5 text-xs font-bold">
+            <div className="flex items-center gap-1.5 text-[#b06a1e]">
+              <Tag className="w-3.5 h-3.5 shrink-0" />
+              <span>
+                {maker.priceMin || 250}–{maker.priceMax || 790} грн {maker.priceUnit || 'за кг'}
               </span>
+            </div>
+            {maker.phone && !maker.phone.startsWith('Замовлення') && (
+              <div className={`flex items-center gap-1 ${isDark ? 'text-[#eee7dd]' : 'text-[#302016]'}`}>
+                <Phone className="w-3 h-3 text-[#b06a1e]" />
+                <span>{maker.phone.split(',')[0]}</span>
+              </div>
             )}
           </div>
 
-          {/* Expandable Full Details (Progressive Disclosure) */}
+          {/* Expandable Full Details */}
           {isExpanded && (
-            <div className="pt-3 mt-2 border-t border-[#EFE6DD] space-y-2.5 text-xs text-[#5C4438]">
-              <p className="text-[#2C1810] leading-relaxed">{maker.description}</p>
-              <div className="bg-[#FAF6F0] border border-[#E6DCD2] rounded-2xl p-3.5 space-y-1.5 text-[#2C1810]">
+            <div
+              className={`pt-3 mt-1 border-t space-y-2 text-xs ${
+                isDark ? 'border-white/10 text-[#eee7dd]' : 'border-[#e1d5c8] text-[#302016]'
+              }`}
+            >
+              <p className="leading-relaxed">{maker.description}</p>
+              <div
+                className={`rounded-xl p-3 space-y-1 ${
+                  isDark ? 'bg-[#1a120e]' : 'bg-[#f1e6da]/70'
+                }`}
+              >
                 <div>
-                  <strong>Адреса / Локація:</strong> {maker.address}
+                  <strong>Контакт / Телефон:</strong> {maker.phone}
                 </div>
-                <div>
-                  <strong>Телефон:</strong> {maker.phone}
-                </div>
-                {maker.email && (
+                {maker.address && (
                   <div>
-                    <strong>Email:</strong> {maker.email}
+                    <strong>Локація:</strong> {maker.address}
+                  </div>
+                )}
+                {maker.instagramHandle && (
+                  <div>
+                    <strong>Instagram:</strong> {maker.instagramHandle}
                   </div>
                 )}
                 <div>
                   <strong>Доставка:</strong> {maker.shippingNote}
                 </div>
-                <div>
-                  <strong>Сировина / Основа:</strong> {maker.cacaoOrigin.join(', ')}
-                </div>
               </div>
             </div>
           )}
-        </div>
 
-        {/* Bottom Actions */}
-        <div className="pt-4 mt-4 border-t border-[#F3ECE3] flex items-center justify-between gap-2">
-          <button
-            onClick={() => toggleMakerExpand(maker.id)}
-            className="text-xs font-semibold text-[#B86B35] hover:underline flex items-center gap-1"
-          >
-            <span>{isExpanded ? 'Згорнути опис' : 'Адреса та опис'}</span>
-            {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-          </button>
+          {/* Action Buttons Footer */}
+          <div className="mt-auto flex items-center gap-1.5 pt-2">
+            <a
+              href={maker.websiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`inline-flex items-center justify-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition shadow-xs ${
+                isDark
+                  ? 'bg-[#f0a556] text-[#26160e] hover:bg-[#e39851]'
+                  : 'bg-[#462b1f] text-[#faf4eb] hover:bg-[#b06a1e]'
+              }`}
+            >
+              <span>{cleanDomain.includes('instagram.com') ? 'Instagram' : 'Сайт'}</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
 
-          <a
-            href={maker.websiteUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-[#3A2318] hover:bg-[#B86B35] text-white text-xs font-semibold px-4 py-2 rounded-full transition flex items-center gap-1.5 shadow-sm"
-          >
-            <span>{cleanDomain.length > 22 ? 'Перейти на сайт' : cleanDomain}</span>
-            <ArrowUpRight className="w-3.5 h-3.5" />
-          </a>
+            {maker.instagramUrl && !cleanDomain.includes('instagram.com') && (
+              <a
+                href={maker.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={maker.instagramHandle || 'Instagram'}
+                className={`inline-flex items-center justify-center rounded-full p-2 text-xs font-semibold border transition ${
+                  isDark
+                    ? 'border-white/15 text-[#eee7dd] hover:bg-white/10'
+                    : 'border-[#e1d5c8] bg-white text-[#302016] hover:bg-[#f1e6da]'
+                }`}
+              >
+                <Instagram className="w-3.5 h-3.5" />
+              </a>
+            )}
+
+            <button
+              onClick={() => toggleMakerExpand(maker.id)}
+              className={`ml-auto inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-bold transition ${
+                isDark
+                  ? 'text-[#f0a556] hover:bg-white/10'
+                  : 'text-[#7a4a2b] hover:bg-[#f1e6da]'
+              }`}
+            >
+              <span>{isExpanded ? 'Згорнути' : 'Докладніше'}</span>
+              {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+            </button>
+          </div>
         </div>
-      </div>
+      </article>
     );
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF6F0] text-[#2C1810]">
-      {/* Warm Chocolate-Cream Frosted Glass Top Navigation */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#FAF6F0]/90 border-b border-[#E6DCD2]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+    <div
+      className={`min-h-screen flex flex-col transition-colors duration-200 ${
+        isDark ? 'bg-[#1a120e] text-[#eee7dd]' : 'bg-[#fbf6ee] text-[#302016]'
+      }`}
+    >
+      {/* Top Sticky Header (Matching reference site's rich chocolate-caramel header) */}
+      <header
+        className={`sticky top-0 z-40 w-full border-b backdrop-blur-xl ${
+          isDark
+            ? 'border-white/15 bg-[#1a120e]/85'
+            : 'border-[#e1d5c8] bg-[#fbf6ee]/90'
+        }`}
+      >
+        <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:px-6 lg:px-8">
           <button
             onClick={resetAllFilters}
-            className="flex items-center gap-2.5 text-left group"
+            className="flex items-center gap-2.5 text-left outline-none"
           >
-            <div className="w-9 h-9 rounded-xl bg-[#3A2318] text-[#FAF6F0] flex items-center justify-center font-bold text-sm tracking-tight shadow-sm">
-              CR
-            </div>
-            <div>
-              <div className="font-bold text-base tracking-tight text-[#2C1810]">
-                ChocoRadar <span className="text-[#8C705F] font-normal">Україна</span>
-              </div>
-              <div className="text-[11px] text-[#6E5648] hidden sm:block">
-                Шоколад • Цукерки • Букети • Зефір • Авторські торти ({MAKERS.length} майстерень)
-              </div>
-            </div>
+            <span className="grid w-10 h-10 place-items-center rounded-xl bg-gradient-to-br from-[#7a4a2b] to-[#3a2113] text-white shadow-md text-lg">
+              🍫
+            </span>
+            <span className="flex flex-col items-start leading-none">
+              <span className="font-serif text-lg font-bold tracking-tight">
+                ChocoRadar <span className="text-[#b06a1e]">Крафти</span>
+              </span>
+              <span className={`text-[11px] font-medium ${isDark ? 'text-[#a79d91]' : 'text-[#715f53]'}`}>
+                Дошка солодощів України • {MAKERS.length} майстрів
+              </span>
+            </span>
           </button>
 
-          <nav className="hidden md:flex items-center gap-5 text-xs font-semibold text-[#5C4438]">
-            <a href="#step-1-choose" className="hover:text-[#B86B35] transition">
-              1. Категорії
-            </a>
-            <a href="#makers-section" className="hover:text-[#B86B35] transition">
-              2. Виробники ({filteredMakers.length})
-            </a>
-            <a href="#products-section" className="hover:text-[#B86B35] transition">
-              3. Порівняти ціни ({filteredProducts.length})
-            </a>
-            <a href="#b2b-partner-section" className="text-[#B86B35] hover:underline flex items-center gap-1">
-              <Crown className="w-3.5 h-3.5" />
-              <span>Виробникам (PRO)</span>
-            </a>
+          {/* Top Quick Macro Navigation */}
+          <nav className="ml-3 hidden items-center gap-1.5 lg:flex">
             <button
-              onClick={() => setIsCompareModalOpen(true)}
-              className="hover:text-[#B86B35] transition flex items-center gap-1"
+              onClick={() => setSelectedCategory('all')}
+              className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+                selectedCategory === 'all'
+                  ? 'bg-[#462b1f] text-[#faf4eb] shadow-sm'
+                  : isDark
+                  ? 'bg-[#362820] text-[#eee7dd] hover:bg-[#462b1f]'
+                  : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e5d5c3]'
+              }`}
             >
-              <span>Порівняння</span>
-              <span className="bg-[#EFE6DD] text-[#2C1810] px-1.5 py-0.5 rounded-full text-[10px] font-bold">
-                {compareIds.length}
-              </span>
+              Усі ({MAKERS.length})
+            </button>
+            <button
+              onClick={() => setSelectedCategory('plytky-shokoladu')}
+              className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+                selectedCategory === 'plytky-shokoladu'
+                  ? 'bg-[#462b1f] text-[#faf4eb] shadow-sm'
+                  : isDark
+                  ? 'bg-[#362820] text-[#eee7dd] hover:bg-[#462b1f]'
+                  : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e5d5c3]'
+              }`}
+            >
+              🍫 Шоколад
+            </button>
+            <button
+              onClick={() => setSelectedCategory('avtorski-torty-ta-deserty')}
+              className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+                selectedCategory === 'avtorski-torty-ta-deserty'
+                  ? 'bg-[#8e2f4a] text-white shadow-sm'
+                  : isDark
+                  ? 'bg-[#362820] text-[#eee7dd] hover:bg-[#8e2f4a]'
+                  : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e5d5c3]'
+              }`}
+            >
+              🎂 Торти ({cakeMakersCount})
+            </button>
+            <button
+              onClick={() => setSelectedCategory('kraftovyi-zefir-ta-bukety')}
+              className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+                selectedCategory === 'kraftovyi-zefir-ta-bukety'
+                  ? 'bg-[#b06a1e] text-white shadow-sm'
+                  : isDark
+                  ? 'bg-[#362820] text-[#eee7dd] hover:bg-[#b06a1e]'
+                  : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e5d5c3]'
+              }`}
+            >
+              🌸 Зефір ({zefirMakersCount})
+            </button>
+            <button
+              onClick={() => setSelectedCategory('shokoladni-kvity-ta-bukety')}
+              className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+                selectedCategory === 'shokoladni-kvity-ta-bukety'
+                  ? 'bg-[#b53f61] text-white shadow-sm'
+                  : isDark
+                  ? 'bg-[#362820] text-[#eee7dd]'
+                  : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e5d5c3]'
+              }`}
+            >
+              🌹 Букети
             </button>
           </nav>
 
-          <div className="flex items-center gap-2">
+          {/* Right Actions */}
+          <div className="ml-auto flex items-center gap-2">
+            <button
+              onClick={() => setIsDark(!isDark)}
+              aria-label="Перемкнути тему"
+              className={`w-9 h-9 rounded-full flex items-center justify-center border transition ${
+                isDark
+                  ? 'border-white/20 bg-[#362820] text-[#f0a556]'
+                  : 'border-[#e1d5c8] bg-[#f1e6da] text-[#462b1f]'
+              }`}
+            >
+              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+
+            <button
+              onClick={() => setIsTenderModalOpen(true)}
+              className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-[#b06a1e] hover:bg-[#965715] px-4 py-2 text-xs font-bold text-white shadow-sm transition"
+            >
+              <Gift className="w-3.5 h-3.5" />
+              <span>Замовити підбір</span>
+            </button>
+
             <button
               onClick={() => {
                 setSelectedPlanForModal('Безкоштовний або PRO');
                 setIsAddMakerModalOpen(true);
               }}
-              className="text-xs font-semibold text-[#2C1810] bg-[#EFE6DD] hover:bg-[#E6DCD2] px-3.5 py-2 rounded-full transition"
+              className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#462b1f] to-[#3a2113] hover:from-[#5c3929] hover:to-[#462b1f] px-4 py-2 text-xs font-bold text-[#faf4eb] shadow-sm transition"
             >
-              + Додати майстерню
-            </button>
-            <button
-              onClick={() => setIsTenderModalOpen(true)}
-              className="text-xs font-semibold text-white bg-[#B86B35] hover:bg-[#9E5827] px-4 py-2 rounded-full transition shadow-sm"
-            >
-              Замовити торт / подарунок
+              <Sparkles className="w-3.5 h-3.5 text-[#e39851]" />
+              <span>Заявити про себе</span>
             </button>
           </div>
         </div>
       </header>
 
-      {/* Main Content Container */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-10 space-y-12">
-        {/* STEP 1: WARM APPLE-STYLE VISUAL PRODUCT CATEGORY SELECTOR (9 Cards including Zefir & Cakes) */}
-        <section id="step-1-choose" className="space-y-6">
-          <div className="text-center max-w-3xl mx-auto space-y-3">
-            <div className="inline-flex items-center gap-2 bg-[#F3ECE3] border border-[#E6DCD2] px-3.5 py-1 rounded-full text-xs font-semibold text-[#6E5648]">
-              <span>Всеукраїнський навігатор крафтового шоколаду, зефіру та авторських тортів • {MAKERS.length} перевірених майстерень</span>
-            </div>
-            <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#2C1810] leading-[1.12]">
-              {currentCategoryInfo.seoH1}
-            </h1>
-            <p className="text-sm sm:text-base text-[#5C4438] max-w-2xl mx-auto">
-              Крок 1: Оберіть категорію солодощів — система миттєво покаже всіх реальних виробників України з телефонами та порівняє ціни.
-            </p>
-          </div>
+      <main className="flex-1">
+        {/* HERO SECTION (Rich Gradients, Floating Icons & 3 Big Pillar Cards like https://e11za873zg41-d.space-z.ai) */}
+        <section
+          className={`relative overflow-hidden border-b ${
+            isDark
+              ? 'border-white/10 bg-gradient-to-b from-[#2f2018] via-[#1a120e] to-[#1a120e]'
+              : 'border-[#e1d5c8] bg-gradient-to-b from-[#f1e6da]/80 via-[#fbf6ee] to-[#fbf6ee]'
+          }`}
+        >
+          {/* Ambient radial glow blobs */}
+          <div
+            className="pointer-events-none absolute -left-24 top-0 h-80 w-80 rounded-full opacity-35 blur-3xl"
+            style={{ background: 'radial-gradient(circle, #b06a1e, transparent 70%)' }}
+          />
+          <div
+            className="pointer-events-none absolute -right-20 top-10 h-80 w-80 rounded-full opacity-25 blur-3xl"
+            style={{ background: 'radial-gradient(circle, #c75b7a, transparent 70%)' }}
+          />
 
-          {/* Visual Category Grid (9 Categories: All + 6 Chocolate + Zefir + Cakes) */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-9 gap-2.5">
-            {CATEGORIES.map((cat) => {
-              const active = selectedCategory === cat.slug;
-              const slug = cat.slug;
-              const count =
-                slug === 'all'
-                  ? MAKERS.length
-                  : MAKERS.filter((m) => m.categories.includes(slug)).length;
+          <div className="relative mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+            <div className="mx-auto max-w-3xl text-center">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#b06a1e]/40 bg-[#e39851]/20 px-4 py-1.5 text-xs font-bold text-[#8c4f12] dark:text-[#f0a556] mb-4">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Крафтові солодощі України • {MAKERS.length} перевірених виробників</span>
+              </span>
 
-              return (
-                <button
-                  key={cat.slug}
-                  onClick={() => setSelectedCategory(cat.slug)}
-                  className={`p-3.5 rounded-2xl border text-left transition flex flex-col justify-between gap-2 ${
-                    active
-                      ? 'bg-[#3A2318] text-[#FAF6F0] border-[#3A2318] shadow-md'
-                      : 'bg-white text-[#2C1810] border-[#E6DCD2] hover:border-[#B86B35] hover:shadow-sm'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl">{cat.emoji}</span>
-                    <span
-                      className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                        active ? 'bg-white/20 text-white' : 'bg-[#FAF6F0] text-[#6E5648]'
-                      }`}
+              <h1 className="font-serif text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
+                Знайди свого{' '}
+                <span className="bg-gradient-to-r from-[#7a4a2b] via-[#b06a1e] to-[#c75b7a] bg-clip-text text-transparent">
+                  крафтового майстра
+                </span>{' '}
+                солодощів
+              </h1>
+
+              <p
+                className={`mx-auto mt-4 max-w-2xl text-sm sm:text-base leading-relaxed ${
+                  isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'
+                }`}
+              >
+                Всеукраїнська платформа, де покупці знаходять найкращий крафтовий шоколад, шоколадні й зефірні букети та авторські торти напряму у виробників, а майстри отримують замовлення.
+              </p>
+
+              {/* Big Search Bar */}
+              <div className="mx-auto mt-7 flex max-w-xl items-center gap-2">
+                <div className="relative flex-1">
+                  <Search className="pointer-events-none absolute left-4 top-1/2 w-5 h-5 -translate-y-1/2 text-[#715f53]" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Шоколад, торт, зефір, букет, малина, Харків, Київ..."
+                    className={`w-full h-13 rounded-full border pl-12 pr-10 text-sm sm:text-base shadow-sm focus:outline-none focus:ring-2 focus:ring-[#b06a1e] ${
+                      isDark
+                        ? 'bg-[#261b16] border-white/20 text-[#eee7dd] placeholder:text-[#a79d91]'
+                        : 'bg-[#fefbf7] border-[#d4c3b3] text-[#302016] placeholder:text-[#715f53]'
+                    }`}
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#715f53] hover:text-[#302016]"
                     >
-                      {count}
-                    </span>
-                  </div>
-                  <div className="font-semibold text-xs leading-tight">
-                    {cat.shortTitle}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* STEP 2: CITY + SEARCH + QUICK FILTERS IN ONE WARM BAR */}
-          <div className="bg-white border border-[#E6DCD2] rounded-3xl p-4 sm:p-5 shadow-sm space-y-4">
-            <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
-              {/* Search Input */}
-              <div className="relative flex-1 flex items-center">
-                <Search className="w-4 h-4 text-[#8C705F] absolute left-4" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Пошук: crafo, sweets, зефірний букет, торт на замовлення, Харків, малина, без цукру..."
-                  className="w-full bg-[#FAF6F0] border border-[#E6DCD2] focus:bg-white focus:border-[#B86B35] rounded-2xl pl-10 pr-9 py-2.5 text-xs sm:text-sm text-[#2C1810] placeholder:text-[#8C705F] focus:outline-none transition"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-3 text-[#8C705F] hover:text-[#2C1810]"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                )}
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+                <a
+                  href="#makers-section"
+                  className="h-13 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#462b1f] to-[#3a2113] hover:from-[#5c3929] hover:to-[#462b1f] px-6 text-sm font-bold text-[#faf4eb] shadow-md transition"
+                >
+                  Знайти
+                </a>
               </div>
 
-              {/* Quick Purpose Pills */}
-              <div className="flex flex-wrap items-center gap-1.5">
+              {/* 3 Macro Pillar Cards (Chocolate / Cakes / Zephyr — with Rich Gradients) */}
+              <div className="mt-8 grid grid-cols-3 gap-3 sm:gap-4">
                 <button
-                  onClick={() => setOnlyBeanToBar(!onlyBeanToBar)}
-                  className={`px-3 py-2 rounded-xl text-xs font-semibold transition ${
-                    onlyBeanToBar
-                      ? 'bg-[#B86B35] text-white'
-                      : 'bg-[#FAF6F0] text-[#2C1810] border border-[#E6DCD2] hover:bg-[#F3ECE3]'
+                  onClick={() => setSelectedCategory('plytky-shokoladu')}
+                  className={`group rounded-2xl border p-4 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md sm:p-5 ${
+                    selectedCategory === 'plytky-shokoladu' || selectedCategory === 'korpusni-ta-rozmalovani-tsukerky'
+                      ? 'border-[#7a4a2b] ring-2 ring-[#7a4a2b]/30 bg-[#f1e6da]'
+                      : isDark
+                      ? 'border-white/15 bg-[#261b16]/90'
+                      : 'border-[#e1d5c8] bg-[#fefbf7]/95'
                   }`}
                 >
-                  Bean-to-Bar
+                  <div
+                    className="mx-auto grid w-12 h-12 place-items-center rounded-xl text-2xl text-white shadow-sm"
+                    style={{ background: 'linear-gradient(135deg, #7a4a2b 0%, #3a2113 100%)' }}
+                  >
+                    🍫
+                  </div>
+                  <div className="mt-2.5 font-serif text-2xl font-bold sm:text-3xl">
+                    {chocolateMakersCount}
+                  </div>
+                  <div className={`text-xs font-bold sm:text-sm ${isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'}`}>
+                    Шоколад і цукерки
+                  </div>
                 </button>
+
                 <button
-                  onClick={() => setOnlySugarFree(!onlySugarFree)}
-                  className={`px-3 py-2 rounded-xl text-xs font-semibold transition ${
-                    onlySugarFree
-                      ? 'bg-[#B86B35] text-white'
-                      : 'bg-[#FAF6F0] text-[#2C1810] border border-[#E6DCD2] hover:bg-[#F3ECE3]'
+                  onClick={() => setSelectedCategory('avtorski-torty-ta-deserty')}
+                  className={`group rounded-2xl border p-4 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md sm:p-5 ${
+                    selectedCategory === 'avtorski-torty-ta-deserty'
+                      ? 'border-[#c75b7a] ring-2 ring-[#c75b7a]/30 bg-[#f1e6da]'
+                      : isDark
+                      ? 'border-white/15 bg-[#261b16]/90'
+                      : 'border-[#e1d5c8] bg-[#fefbf7]/95'
                   }`}
                 >
-                  🌿 Без цукру
+                  <div
+                    className="mx-auto grid w-12 h-12 place-items-center rounded-xl text-2xl text-white shadow-sm"
+                    style={{ background: 'linear-gradient(135deg, #c75b7a 0%, #8e2f4a 100%)' }}
+                  >
+                    🎂
+                  </div>
+                  <div className="mt-2.5 font-serif text-2xl font-bold sm:text-3xl">
+                    {cakeMakersCount}
+                  </div>
+                  <div className={`text-xs font-bold sm:text-sm ${isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'}`}>
+                    Авторські торти
+                  </div>
                 </button>
+
                 <button
-                  onClick={() => setAdvisorGoal(advisorGoal === 'gift-her' ? 'all' : 'gift-her')}
-                  className={`px-3 py-2 rounded-xl text-xs font-semibold transition ${
-                    advisorGoal === 'gift-her'
-                      ? 'bg-[#B86B35] text-white'
-                      : 'bg-[#FAF6F0] text-[#2C1810] border border-[#E6DCD2] hover:bg-[#F3ECE3]'
+                  onClick={() => setSelectedCategory('kraftovyi-zefir-ta-bukety')}
+                  className={`group rounded-2xl border p-4 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md sm:p-5 ${
+                    selectedCategory === 'kraftovyi-zefir-ta-bukety'
+                      ? 'border-[#b06a1e] ring-2 ring-[#b06a1e]/30 bg-[#f1e6da]'
+                      : isDark
+                      ? 'border-white/15 bg-[#261b16]/90'
+                      : 'border-[#e1d5c8] bg-[#fefbf7]/95'
                   }`}
                 >
-                  💝 На подарунок
+                  <div
+                    className="mx-auto grid w-12 h-12 place-items-center rounded-xl text-2xl text-white shadow-sm"
+                    style={{ background: 'linear-gradient(135deg, #e0a866 0%, #b06a1e 100%)' }}
+                  >
+                    🌸
+                  </div>
+                  <div className="mt-2.5 font-serif text-2xl font-bold sm:text-3xl">
+                    {zefirMakersCount}
+                  </div>
+                  <div className={`text-xs font-bold sm:text-sm ${isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'}`}>
+                    Зефір і букети
+                  </div>
                 </button>
-                <button
-                  onClick={() => setAdvisorGoal(advisorGoal === 'kids' ? 'all' : 'kids')}
-                  className={`px-3 py-2 rounded-xl text-xs font-semibold transition ${
-                    advisorGoal === 'kids'
-                      ? 'bg-[#B86B35] text-white'
-                      : 'bg-[#FAF6F0] text-[#2C1810] border border-[#E6DCD2] hover:bg-[#F3ECE3]'
-                  }`}
-                >
-                  🧸 Дітям
-                </button>
+              </div>
+            </div>
+
+            {/* Detailed 9 Sub-Category Filter Buttons */}
+            <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-9 gap-2">
+              {CATEGORIES.map((cat) => {
+                const active = selectedCategory === cat.slug;
+                const slug = cat.slug;
+                const count =
+                  slug === 'all'
+                    ? MAKERS.length
+                    : MAKERS.filter((m) => m.categories.includes(slug)).length;
+
+                return (
+                  <button
+                    key={cat.slug}
+                    onClick={() => setSelectedCategory(cat.slug)}
+                    className={`p-3 rounded-2xl border text-left transition flex flex-col justify-between gap-1.5 ${
+                      active
+                        ? 'bg-gradient-to-br from-[#462b1f] to-[#3a2113] text-[#faf4eb] border-[#3a2113] shadow-md'
+                        : isDark
+                        ? 'bg-[#261b16] text-[#eee7dd] border-white/15 hover:border-[#f0a556]'
+                        : 'bg-[#fefbf7] text-[#302016] border-[#d9c8b8] hover:border-[#b06a1e] hover:bg-[#f1e6da]/60'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-xl">{cat.emoji}</span>
+                      <span
+                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                          active
+                            ? 'bg-[#e39851] text-[#2e190d]'
+                            : isDark
+                            ? 'bg-[#362820] text-[#eee7dd]'
+                            : 'bg-[#f1e6da] text-[#3e281b]'
+                        }`}
+                      >
+                        {count}
+                      </span>
+                    </div>
+                    <div className="font-bold text-xs leading-tight">{cat.shortTitle}</div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* City & Dietary Filter Bar */}
+            <div
+              className={`mt-4 rounded-2xl border p-4 shadow-sm space-y-3 ${
+                isDark ? 'bg-[#261b16] border-white/15' : 'bg-[#fefbf7] border-[#d9c8b8]'
+              }`}
+            >
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+                <span className="text-xs font-bold text-[#b06a1e] shrink-0 flex items-center gap-1 mr-1">
+                  <MapPin className="w-3.5 h-3.5" />
+                  Місто:
+                </span>
+                {CITY_FILTERS.map((city) => {
+                  const active = selectedCity === city.id;
+                  return (
+                    <button
+                      key={city.id}
+                      onClick={() => setSelectedCity(city.id)}
+                      className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition ${
+                        active
+                          ? 'bg-[#462b1f] text-[#faf4eb] shadow-sm'
+                          : isDark
+                          ? 'bg-[#362820] text-[#eee7dd] hover:bg-[#462b1f]'
+                          : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e3d2c0]'
+                      }`}
+                    >
+                      {city.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-[#e1d5c8]/60">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <button
+                    onClick={() => setOnlyBeanToBar(!onlyBeanToBar)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-bold transition ${
+                      onlyBeanToBar
+                        ? 'bg-[#b06a1e] text-white'
+                        : isDark
+                        ? 'bg-[#362820] text-[#eee7dd]'
+                        : 'bg-[#f1e6da] text-[#3e281b]'
+                    }`}
+                  >
+                    🍫 Bean-to-Bar
+                  </button>
+                  <button
+                    onClick={() => setOnlySugarFree(!onlySugarFree)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-bold transition ${
+                      onlySugarFree
+                        ? 'bg-[#b06a1e] text-white'
+                        : isDark
+                        ? 'bg-[#362820] text-[#eee7dd]'
+                        : 'bg-[#f1e6da] text-[#3e281b]'
+                    }`}
+                  >
+                    🌿 Без білого цукру / Vegan
+                  </button>
+                  <button
+                    onClick={() => setAdvisorGoal(advisorGoal === 'gift-her' ? 'all' : 'gift-her')}
+                    className={`px-3 py-1.5 rounded-full text-xs font-bold transition ${
+                      advisorGoal === 'gift-her'
+                        ? 'bg-[#c75b7a] text-white'
+                        : isDark
+                        ? 'bg-[#362820] text-[#eee7dd]'
+                        : 'bg-[#f1e6da] text-[#3e281b]'
+                    }`}
+                  >
+                    💝 На подарунок
+                  </button>
+                  <button
+                    onClick={() => setAdvisorGoal(advisorGoal === 'kids' ? 'all' : 'kids')}
+                    className={`px-3 py-1.5 rounded-full text-xs font-bold transition ${
+                      advisorGoal === 'kids'
+                        ? 'bg-[#b06a1e] text-white'
+                        : isDark
+                        ? 'bg-[#362820] text-[#eee7dd]'
+                        : 'bg-[#f1e6da] text-[#3e281b]'
+                    }`}
+                  >
+                    🧸 Дітям
+                  </button>
+                </div>
+
                 {hasActiveFilters && (
                   <button
                     onClick={resetAllFilters}
-                    className="px-3 py-2 rounded-xl text-xs font-bold text-[#B86B35] hover:underline"
+                    className="text-xs font-bold text-[#c75b7a] hover:underline"
                   >
-                    Скинути все
+                    Скинути всі фільтри ✕
                   </button>
                 )}
               </div>
             </div>
-
-            {/* City Filter Bar */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pt-1 pb-0.5">
-              <span className="text-xs font-bold text-[#8C705F] shrink-0 flex items-center gap-1 mr-1">
-                <MapPin className="w-3.5 h-3.5 text-[#B86B35]" />
-                Місто:
-              </span>
-              {CITY_FILTERS.map((city) => {
-                const active = selectedCity === city.id;
-                return (
-                  <button
-                    key={city.id}
-                    onClick={() => setSelectedCity(city.id)}
-                    className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition ${
-                      active
-                        ? 'bg-[#3A2318] text-white shadow-sm'
-                        : 'bg-[#FAF6F0] text-[#5C4438] border border-[#E6DCD2]/70 hover:bg-[#F3ECE3] hover:text-[#2C1810]'
-                    }`}
-                  >
-                    {city.label}
-                  </button>
-                );
-              })}
-            </div>
           </div>
         </section>
 
-        {/* SECTION 1: MATCHING UKRAINIAN CRAFT MAKERS */}
-        <section id="makers-section" className="space-y-5">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-[#E6DCD2] pb-4">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[#B86B35]">
-                Крок 2 • Перевірені виробники України (Шоколад • Зефір • Торти)
-              </p>
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#2C1810] mt-0.5">
-                {selectedCategory === 'all'
-                  ? `Всі крафтові виробники та кондитерські (${filteredMakers.length})`
-                  : `Виробники у категорії «${currentCategoryInfo.shortTitle}» (${filteredMakers.length})`}
-                {selectedCity !== 'all' ? ` — ${selectedCity}` : ''}
-              </h2>
-            </div>
+        {/* MAIN CONTENT CONTAINER */}
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 space-y-14">
+          {/* SECTION 1: ALL 274 UKRAINIAN CRAFT MAKERS */}
+          <section id="makers-section" className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#e1d5c8] pb-4">
+              <div>
+                <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#b06a1e]">
+                  <Sparkles className="w-4 h-4" />
+                  <span>Каталог перевірених виробників України</span>
+                </p>
+                <h2 className="mt-1 font-serif text-2xl font-bold sm:text-3xl">
+                  {selectedCategory === 'all'
+                    ? `Усі крафтові майстри та виробництва (${filteredMakers.length})`
+                    : `${currentCategoryInfo.shortTitle} — виробники (${filteredMakers.length})`}
+                  {selectedCity !== 'all' ? ` • ${selectedCity}` : ''}
+                </h2>
+              </div>
 
-            <div className="flex items-center gap-2">
               <button
                 onClick={() => setGroupBySegment(!groupBySegment)}
-                className="text-xs font-semibold bg-white border border-[#E6DCD2] hover:border-[#3A2318] px-3.5 py-2 rounded-full transition flex items-center gap-1.5 text-[#2C1810]"
+                className={`text-xs font-bold px-4 py-2 rounded-full border transition flex items-center gap-1.5 self-start sm:self-auto ${
+                  isDark
+                    ? 'bg-[#261b16] border-white/20 text-[#eee7dd]'
+                    : 'bg-[#f1e6da] border-[#d4c3b3] text-[#302016] hover:bg-[#e5d5c3]'
+                }`}
               >
-                <Filter className="w-3.5 h-3.5 text-[#B86B35]" />
-                <span>{groupBySegment ? 'Показати єдиним списком' : 'Згрупувати за 6 напрямками'}</span>
+                <Filter className="w-3.5 h-3.5 text-[#b06a1e]" />
+                <span>{groupBySegment ? 'Показати єдиною сіткою' : 'Згрупувати за 6 напрямками'}</span>
               </button>
             </div>
-          </div>
 
-          {filteredMakers.length === 0 ? (
-            <div className="bg-white border border-[#E6DCD2] rounded-3xl p-8 text-center space-y-3">
-              <p className="text-base font-bold text-[#2C1810]">
-                За обраними фільтрами майстерень не знайдено
-              </p>
-              <button
-                onClick={resetAllFilters}
-                className="bg-[#B86B35] text-white text-xs font-semibold px-4 py-2.5 rounded-full"
-              >
-                Показати всі {MAKERS.length} майстерень України
-              </button>
-            </div>
-          ) : groupBySegment ? (
-            <div className="space-y-8">
-              {SEGMENT_GROUPS.map((group) => {
-                const segMakers = filteredMakers.filter((m) => m.segment === group.id);
-                if (segMakers.length === 0) return null;
-                return (
-                  <div key={group.id} className="space-y-3">
-                    <div className="bg-white border border-[#E6DCD2] rounded-2xl px-5 py-3.5">
-                      <h3 className="font-bold text-base text-[#2C1810]">
-                        {group.title} ({segMakers.length})
-                      </h3>
-                      <p className="text-xs text-[#6E5648] mt-0.5">{group.subtitle}</p>
+            {filteredMakers.length === 0 ? (
+              <div className="rounded-3xl border border-[#e1d5c8] bg-[#fefbf7] p-10 text-center space-y-3">
+                <p className="text-lg font-bold text-[#302016]">
+                  За обраними фільтрами майстерень не знайдено
+                </p>
+                <button
+                  onClick={resetAllFilters}
+                  className="rounded-full bg-[#462b1f] px-5 py-2.5 text-xs font-bold text-white"
+                >
+                  Показати всі {MAKERS.length} майстерень України
+                </button>
+              </div>
+            ) : groupBySegment ? (
+              <div className="space-y-10">
+                {SEGMENT_GROUPS.map((group) => {
+                  const segMakers = filteredMakers.filter((m) => m.segment === group.id);
+                  if (segMakers.length === 0) return null;
+                  return (
+                    <div key={group.id} className="space-y-4">
+                      <div
+                        className="rounded-2xl p-5 text-white shadow-sm"
+                        style={{ background: group.gradient }}
+                      >
+                        <h3 className="font-serif text-lg sm:text-xl font-bold">
+                          {group.title} ({segMakers.length})
+                        </h3>
+                        <p className="text-xs sm:text-sm text-white/90 mt-1">{group.subtitle}</p>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        {segMakers.map((maker) => renderMakerCard(maker))}
+                      </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {segMakers.map((maker) => renderMakerCard(maker))}
-                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {filteredMakers.slice(0, visibleMakersLimit).map((maker) => renderMakerCard(maker))}
+                </div>
+
+                {filteredMakers.length > visibleMakersLimit && (
+                  <div className="pt-4 text-center">
+                    <button
+                      onClick={() => setVisibleMakersLimit((prev) => prev + 36)}
+                      className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#462b1f] to-[#3a2113] hover:from-[#5c3929] hover:to-[#462b1f] px-7 py-3.5 text-sm font-bold text-[#faf4eb] shadow-md transition"
+                    >
+                      <span>
+                        Показати ще виробників (залишилось {filteredMakers.length - visibleMakersLimit} із{' '}
+                        {filteredMakers.length})
+                      </span>
+                      <ChevronDown className="w-4 h-4" />
+                    </button>
                   </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredMakers.map((maker) => renderMakerCard(maker))}
-            </div>
-          )}
-        </section>
+                )}
+              </>
+            )}
+          </section>
 
-        {/* SECTION 2: PRODUCT CATALOG & PRICE PER 100G COMPARISON */}
-        <section id="products-section" className="space-y-5 pt-2">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#E6DCD2] pb-4">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[#B86B35]">
-                Крок 3 • Порівняння виробів та ціни за 100 грамів
-              </p>
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#2C1810] mt-0.5">
-                Популярні вироби для порівняння ({filteredProducts.length})
-              </h2>
+          {/* SECTION 2: PRODUCT CATALOG & PRICE PER 100G COMPARISON */}
+          <section id="products-section" className="space-y-6 pt-4">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#e1d5c8] pb-4">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-[#b06a1e]">
+                  Порівняння цін за 100 грамів та чистоти складу
+                </p>
+                <h2 className="mt-1 font-serif text-2xl font-bold sm:text-3xl">
+                  Флагманські вироби для порівняння ({filteredProducts.length})
+                </h2>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+                  className={`rounded-full border px-4 py-2 text-xs font-bold ${
+                    isDark
+                      ? 'bg-[#261b16] border-white/20 text-[#eee7dd]'
+                      : 'bg-[#fefbf7] border-[#d4c3b3] text-[#302016]'
+                  }`}
+                >
+                  <option value="popular">Сортування: За популярністю</option>
+                  <option value="price100_asc">Найвигідніша ціна за 100 г</option>
+                  <option value="price_asc">Від дешевших за упаковку</option>
+                </select>
+              </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2">
-              <select
-                value={selectedMakerId}
-                onChange={(e) => setSelectedMakerId(e.target.value)}
-                className="bg-white border border-[#E6DCD2] rounded-full px-3.5 py-2 text-xs font-semibold text-[#2C1810]"
-              >
-                <option value="all">Всі виробники ({MAKERS.length})</option>
-                {MAKERS.map((m) => (
-                  <option key={m.id} value={m.id}>
-                    {m.name} ({m.city})
-                  </option>
-                ))}
-              </select>
-
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-                className="bg-white border border-[#E6DCD2] rounded-full px-3.5 py-2 text-xs font-semibold text-[#2C1810] focus:outline-none focus:border-[#B86B35]"
-              >
-                <option value="popular">Сортування: За популярністю</option>
-                <option value="price100_asc">Найвигідніша ціна за 100 г</option>
-                <option value="price_asc">Від дешевших за упаковку</option>
-              </select>
-            </div>
-          </div>
-
-          {filteredProducts.length === 0 ? (
-            <div className="bg-white border border-[#E6DCD2] rounded-3xl p-8 text-center space-y-3">
-              <p className="text-sm text-[#5C4438]">
-                У цій комбінації фільтрів показані картки виробників вище — перейдіть на їхній сайт або скиньте фільтр.
-              </p>
-              <button
-                onClick={resetAllFilters}
-                className="bg-[#3A2318] text-white text-xs font-semibold px-4 py-2 rounded-full"
-              >
-                Показати всі вироби
-              </button>
-            </div>
-          ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredProducts.map((product) => {
                 const pricePer100 = getPricePer100g(product.priceUah, product.weightGrams);
@@ -742,63 +1115,62 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 return (
                   <article
                     key={product.id}
-                    className="bg-white border border-[#E6DCD2] rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between"
+                    className={`rounded-2xl border overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col justify-between ${
+                      isDark ? 'bg-[#261b16] border-white/15' : 'bg-[#fefbf7] border-[#e1d5c8]'
+                    }`}
                   >
                     <div>
-                      <div className="relative h-48 bg-[#F3ECE3] overflow-hidden">
+                      <div className="relative h-48 bg-[#f1e6da] overflow-hidden">
                         <img
                           src={product.imageUrl}
                           alt={product.title}
                           className="w-full h-full object-cover"
                           loading="lazy"
                         />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20" />
                         <div className="absolute top-3 left-3">
-                          <span className="bg-[#FAF6F0]/95 backdrop-blur-md text-[#2C1810] text-[11px] font-bold px-3 py-1 rounded-full shadow-sm border border-[#E6DCD2]">
+                          <span className="bg-[#462b1f]/90 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">
                             {product.subType}
                           </span>
                         </div>
-                        <div className="absolute top-3 right-3 bg-[#FAF6F0]/95 backdrop-blur-md text-emerald-800 text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1 border border-[#E6DCD2]">
+                        <div className="absolute top-3 right-3 bg-white/95 text-emerald-800 text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
                           <ShieldCheck className="w-3.5 h-3.5" />
                           <span>Склад {product.cleanLabelScore}/100</span>
                         </div>
                       </div>
 
-                      <div className="p-5 sm:p-6 space-y-3">
-                        <div className="flex items-center justify-between text-xs text-[#6E5648]">
+                      <div className="p-5 space-y-3">
+                        <div className="flex items-center justify-between text-xs">
                           <button
                             onClick={() => maker && setActiveMakerModal(maker)}
-                            className="font-bold text-[#B86B35] hover:underline text-left"
+                            className="font-bold text-[#b06a1e] hover:underline text-left"
                           >
                             {product.makerName} ({product.makerCity})
                           </button>
-                          <span className="flex items-center gap-1 font-bold text-[#2C1810] shrink-0">
+                          <span className="flex items-center gap-1 font-bold shrink-0">
                             <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
                             {product.rating}
                           </span>
                         </div>
 
-                        <h3 className="font-bold text-base sm:text-lg text-[#2C1810] leading-snug">
+                        <h3 className="font-serif font-bold text-base sm:text-lg leading-snug">
                           {product.title}
                         </h3>
 
                         <div className="pt-1 flex items-baseline justify-between">
                           <div>
-                            <span className="text-2xl font-bold text-[#2C1810]">
-                              {product.priceUah} грн
-                            </span>
-                            <span className="text-xs text-[#8C705F] ml-1.5">
-                              / {product.weightGrams} г
-                            </span>
+                            <span className="text-2xl font-bold">{product.priceUah} грн</span>
+                            <span className="text-xs opacity-70 ml-1.5">/ {product.weightGrams} г</span>
                           </div>
-                          <div className="bg-[#FAF6F0] border border-[#E6DCD2] px-3 py-1 rounded-full text-xs font-bold text-[#B86B35]">
+                          <div className="bg-[#f1e6da] text-[#3e281b] px-3 py-1 rounded-full text-xs font-bold">
                             {pricePer100} грн за 100 г
                           </div>
                         </div>
 
-                        <div className="pt-1">
+                        <div>
                           <button
                             onClick={() => toggleProductExpand(product.id)}
-                            className="text-xs font-semibold text-[#B86B35] hover:underline flex items-center gap-1"
+                            className="text-xs font-bold text-[#b06a1e] hover:underline flex items-center gap-1"
                           >
                             <span>
                               {isExpanded ? 'Сховати склад і смак' : 'Розгорнути склад та опис'}
@@ -811,11 +1183,11 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                           </button>
 
                           {isExpanded && (
-                            <div className="mt-3 pt-3 border-t border-[#EFE6DD] space-y-2.5 text-xs text-[#5C4438]">
-                              <p className="text-[#2C1810] leading-relaxed">{product.expertVerdict}</p>
-                              <div className="bg-[#FAF6F0] border border-[#E6DCD2] rounded-2xl p-3 space-y-1 text-[#2C1810]">
+                            <div className="mt-3 pt-3 border-t border-[#e1d5c8] space-y-2 text-xs">
+                              <p className="leading-relaxed">{product.expertVerdict}</p>
+                              <div className="bg-[#f1e6da]/60 rounded-xl p-3 space-y-1 text-[#302016]">
                                 <div>
-                                  <strong>Основа / Сировина:</strong>{' '}
+                                  <strong>Основа:</strong>{' '}
                                   {product.cacaoPercent > 0
                                     ? `${product.cacaoPercent}% (${product.cacaoType})`
                                     : product.cacaoType}
@@ -833,382 +1205,247 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                       </div>
                     </div>
 
-                    <div className="px-5 sm:px-6 pb-5 pt-3 border-t border-[#F3ECE3] flex items-center gap-2">
+                    <div className="px-5 pb-5 pt-3 border-t border-[#e1d5c8]/60 flex items-center gap-2">
                       <button
                         onClick={() => toggleCompare(product.id)}
-                        className={`px-3.5 py-2.5 rounded-full text-xs font-semibold border transition flex items-center gap-1.5 ${
+                        className={`px-3.5 py-2 rounded-full text-xs font-bold border transition flex items-center gap-1.5 ${
                           isCompared
-                            ? 'bg-[#3A2318] text-white border-[#3A2318]'
-                            : 'bg-[#FAF6F0] text-[#2C1810] border-[#E6DCD2] hover:bg-[#F3ECE3]'
+                            ? 'bg-[#462b1f] text-white border-[#462b1f]'
+                            : 'bg-[#f1e6da] text-[#3e281b] border-transparent hover:bg-[#e5d5c3]'
                         }`}
                       >
                         <Scale className="w-3.5 h-3.5" />
                         <span>{isCompared ? 'У порівнянні' : 'Порівняти'}</span>
                       </button>
 
-                      {maker ? (
+                      {maker && (
                         <a
                           href={maker.websiteUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex-1 bg-[#B86B35] hover:bg-[#9E5827] text-white font-semibold py-2.5 px-4 rounded-full text-xs transition flex items-center justify-center gap-1.5"
+                          className="flex-1 bg-[#b06a1e] hover:bg-[#965715] text-white font-bold py-2 px-4 rounded-full text-xs transition flex items-center justify-center gap-1.5"
                         >
-                          <span>Купити на сайті</span>
+                          <span>Купити</span>
                           <ArrowUpRight className="w-4 h-4" />
                         </a>
-                      ) : (
-                        <button
-                          onClick={() => maker && setActiveMakerModal(maker)}
-                          className="flex-1 bg-[#B86B35] text-white font-semibold py-2.5 px-4 rounded-full text-xs"
-                        >
-                          Контакти
-                        </button>
                       )}
                     </div>
                   </article>
                 );
               })}
             </div>
-          )}
-        </section>
+          </section>
 
-        {/* SECTION 3: LIVE BUYER TENDER BOARD & B2B MONETIZATION HUB (Why Producers Beg to Join & Pay) */}
-        <section
-          id="b2b-partner-section"
-          className="bg-gradient-to-br from-[#3A2318] to-[#24140D] text-[#FAF6F0] rounded-3xl p-6 sm:p-8 shadow-lg space-y-6"
-        >
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-            <div className="space-y-2 max-w-2xl">
-              <div className="inline-flex items-center gap-1.5 bg-[#B86B35]/30 border border-[#D49B6A]/40 text-[#F5D0A9] text-xs font-bold px-3 py-1 rounded-full">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Біржа замовлень на торти, подарункові набори та корпоративні бокси</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
-                Шукаєте торт на свято, зефірний букет або 100 корпоративних подарунків?
-              </h2>
-              <p className="text-xs sm:text-sm text-[#E6DCD2] leading-relaxed">
-                Залиште 1 заявку за 30 секунд — перевірені шоколатьє, зефірні майстри та кондитерські вашого міста самі надішлють вам варіанти з цінами та фото у Telegram або Viber.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-3 shrink-0">
-              <button
-                onClick={() => setIsTenderModalOpen(true)}
-                className="bg-[#B86B35] hover:bg-[#C97B42] text-white font-bold text-xs sm:text-sm px-5 py-3 rounded-full transition shadow-md flex items-center gap-2"
-              >
-                <Gift className="w-4 h-4" />
-                <span>Розмістити замовлення (Безкоштовно)</span>
-              </button>
-              <button
-                onClick={() => setIsB2BOpen(!isB2BOpen)}
-                className="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-xs sm:text-sm px-4 py-3 rounded-full transition flex items-center gap-1.5"
-              >
-                <Crown className="w-4 h-4 text-[#F5D0A9]" />
-                <span>{isB2BOpen ? 'Сховати тарифи для виробників' : 'Для виробників: Як отримувати клієнтів'}</span>
-                {isB2BOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-              </button>
-            </div>
-          </div>
-
-          {/* Live Orders Ticker (Creates FOMO for makers visiting the site) */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
-            {LIVE_BUYER_REQUESTS.map((req) => (
-              <div
-                key={req.id}
-                className="bg-white/10 border border-white/15 rounded-2xl p-4 flex flex-col justify-between gap-2"
-              >
-                <div className="flex items-center justify-between text-[11px] text-[#F5D0A9]">
-                  <span className="font-semibold">{req.city}</span>
-                  <span>{req.timeAgo}</span>
-                </div>
-                <div className="font-bold text-xs sm:text-sm text-white leading-snug">
-                  {req.categoryLabel}
-                </div>
-                <div className="flex items-center justify-between pt-1 border-t border-white/10 text-xs">
-                  <span className="font-bold text-[#F5D0A9]">Бюджет: {req.budget}</span>
-                  <button
-                    onClick={() => {
-                      setSelectedPlanForModal('PRO Виробник (Доступ до замовлень)');
-                      setIsAddMakerModalOpen(true);
-                    }}
-                    className="text-[11px] underline text-white hover:text-[#F5D0A9]"
-                  >
-                    Взяти замовлення →
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Collapsible B2B Tariffs Drawer for Makers */}
-          {isB2BOpen && (
-            <div className="pt-4 border-t border-white/15 space-y-5">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                  <Building2 className="w-5 h-5 text-[#F5D0A9]" />
-                  <span>Умови підключення для виробників шоколаду, зефіру та кондитерських</span>
-                </h3>
-                <span className="text-xs text-[#E6DCD2]">
-                  Обирайте тариф та отримуйте прямі роздрібні й корпоративні замовлення
+          {/* SECTION 3: LIVE BUYER TENDER BOARD & PRODUCER MONETIZATION BANNER */}
+          <section
+            id="b2b-partner-section"
+            className="rounded-3xl bg-gradient-to-br from-[#462b1f] via-[#3a2113] to-[#26140b] text-[#faf4eb] p-6 sm:p-10 shadow-xl space-y-6"
+          >
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+              <div className="space-y-2 max-w-2xl">
+                <span className="inline-flex items-center gap-1.5 bg-[#e39851]/25 border border-[#e39851]/40 text-[#f5c492] text-xs font-bold px-3.5 py-1 rounded-full">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Біржа замовлень на торти, зефірні букети та шоколадні набори</span>
                 </span>
+                <h2 className="font-serif text-2xl sm:text-4xl font-bold tracking-tight">
+                  Замовте торт, букет чи корпоративні подарунки напряму у майстрів
+                </h2>
+                <p className="text-xs sm:text-sm text-[#e1d5c8] leading-relaxed">
+                  Опишіть, що вам потрібно, за 30 секунд — перевірені кондитерські, зефірні флористи та шоколатьє вашого міста самі надішлють вам пропозиції з цінами у Telegram або Viber.
+                </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="flex flex-wrap gap-3 shrink-0">
+                <button
+                  onClick={() => setIsTenderModalOpen(true)}
+                  className="bg-[#e39851] hover:bg-[#f0a556] text-[#2e190d] font-bold text-xs sm:text-sm px-6 py-3.5 rounded-full transition shadow-md flex items-center gap-2"
+                >
+                  <Gift className="w-4 h-4" />
+                  <span>Залишити заявку на підбір</span>
+                </button>
+                <button
+                  onClick={() => setIsB2BOpen(!isB2BOpen)}
+                  className="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs sm:text-sm px-5 py-3.5 rounded-full transition flex items-center gap-1.5"
+                >
+                  <Crown className="w-4 h-4 text-[#e39851]" />
+                  <span>{isB2BOpen ? 'Сховати тарифи PRO' : 'Виробникам: Підключити PRO'}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Live Buyer Requests Ticker */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+              {LIVE_BUYER_REQUESTS.map((req) => (
+                <div
+                  key={req.id}
+                  className="bg-white/10 border border-white/15 rounded-2xl p-4 flex flex-col justify-between gap-2"
+                >
+                  <div className="flex items-center justify-between text-[11px] text-[#f5c492]">
+                    <span className="font-bold">{req.city}</span>
+                    <span>{req.timeAgo}</span>
+                  </div>
+                  <div className="font-bold text-sm text-white leading-snug">
+                    {req.categoryLabel}
+                  </div>
+                  <div className="flex items-center justify-between pt-2 border-t border-white/10 text-xs">
+                    <span className="font-bold text-[#e39851]">Бюджет: {req.budget}</span>
+                    <button
+                      onClick={() => {
+                        setSelectedPlanForModal('PRO Майстерня (990 грн/міс)');
+                        setIsAddMakerModalOpen(true);
+                      }}
+                      className="text-[11px] font-bold underline text-white hover:text-[#e39851]"
+                    >
+                      Взяти замовлення →
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Expandable Tariffs for Producers */}
+            {isB2BOpen && (
+              <div className="pt-6 border-t border-white/15 grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-white/5 border border-white/15 rounded-2xl p-5 flex flex-col justify-between space-y-4">
                   <div className="space-y-2">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#E6DCD2]">
-                      Базовий профіль
-                    </span>
-                    <div className="text-xl font-bold text-white">0 грн / міс</div>
-                    <ul className="text-xs text-[#E6DCD2] space-y-1.5 pt-2">
-                      <li>• Картка компанії у загальному списку</li>
-                      <li>• Посилання на сайт та телефон</li>
-                      <li>• Присутність у фільтрі за містом</li>
-                    </ul>
+                    <span className="text-xs font-bold uppercase text-[#e1d5c8]">Базовий старт</span>
+                    <div className="text-2xl font-bold">0 грн / міс</div>
+                    <p className="text-xs text-[#e1d5c8]">
+                      Розміщення у каталозі, пряме посилання на сайт та Instagram.
+                    </p>
                   </div>
                   <button
                     onClick={() => {
                       setSelectedPlanForModal('Базовий (Безкоштовно)');
                       setIsAddMakerModalOpen(true);
                     }}
-                    className="w-full bg-white/15 hover:bg-white/25 text-white text-xs font-bold py-2.5 rounded-full transition"
+                    className="w-full bg-white/15 hover:bg-white/25 text-white text-xs font-bold py-2.5 rounded-full"
                   >
                     Додати безкоштовно
                   </button>
                 </div>
 
-                <div className="bg-[#B86B35]/25 border-2 border-[#F5D0A9] rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                <div className="bg-[#e39851]/20 border-2 border-[#e39851] rounded-2xl p-5 flex flex-col justify-between space-y-4">
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#F5D0A9]">
-                        PRO Майстерня • Хіт
-                      </span>
-                      <span className="bg-[#F5D0A9] text-[#2C1810] text-[10px] font-bold px-2 py-0.5 rounded-full">
-                        Окупається з 1 замовлення
-                      </span>
-                    </div>
-                    <div className="text-xl font-bold text-white">990 грн / міс</div>
-                    <ul className="text-xs text-white space-y-1.5 pt-2">
-                      <li>• <strong>Закріплення у ТОП-3</strong> вашого міста та категорії</li>
-                      <li>• <strong>Миттєві контакти замовників</strong> із біржі тортів і подарунків у Telegram</li>
-                      <li>• Розміщення до 10 товарів у порівнянні цін</li>
-                      <li>• Значок «Перевірений виробник Clean Label»</li>
-                    </ul>
+                    <span className="text-xs font-bold uppercase text-[#f5c492]">
+                      ★ Рекомендуємо • PRO Майстер
+                    </span>
+                    <div className="text-2xl font-bold">990 грн / міс</div>
+                    <p className="text-xs text-white">
+                      Закріплення у ТОП-3 вашого міста, бейдж «★ Рекомендуємо» та миттєві контакти замовників тортів і букетів у Telegram.
+                    </p>
                   </div>
                   <button
                     onClick={() => {
                       setSelectedPlanForModal('PRO Майстерня (990 грн/міс)');
                       setIsAddMakerModalOpen(true);
                     }}
-                    className="w-full bg-[#F5D0A9] hover:bg-white text-[#2C1810] text-xs font-bold py-2.5 rounded-full transition"
+                    className="w-full bg-[#e39851] hover:bg-[#f0a556] text-[#2e190d] text-xs font-bold py-2.5 rounded-full"
                   >
-                    Підключити PRO-статус
+                    Підключити PRO
                   </button>
                 </div>
 
                 <div className="bg-white/5 border border-white/15 rounded-2xl p-5 flex flex-col justify-between space-y-4">
                   <div className="space-y-2">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#F5D0A9]">
-                      B2B Корпоративний Партнер
+                    <span className="text-xs font-bold uppercase text-[#f5c492]">
+                      B2B Корпоративний
                     </span>
-                    <div className="text-xl font-bold text-white">2 490 грн / міс</div>
-                    <ul className="text-xs text-[#E6DCD2] space-y-1.5 pt-2">
-                      <li>• Пріоритетний доступ до корпоративних тендерів (від 20 до 500 боксів)</li>
-                      <li>• Спецрозміщення перед святами (Миколая, Новий рік, 14 лютого, 8 березня)</li>
-                      <li>• Персональний менеджер замовлень</li>
-                    </ul>
+                    <div className="text-2xl font-bold">2 490 грн / міс</div>
+                    <p className="text-xs text-[#e1d5c8]">
+                      Пріоритетний доступ до оптових та корпоративних замовлень (від 30 до 500 подарункових наборів).
+                    </p>
                   </div>
                   <button
                     onClick={() => {
                       setSelectedPlanForModal('B2B Корпоративний (2490 грн/міс)');
                       setIsAddMakerModalOpen(true);
                     }}
-                    className="w-full bg-white/15 hover:bg-white/25 text-white text-xs font-bold py-2.5 rounded-full transition"
+                    className="w-full bg-white/15 hover:bg-white/25 text-white text-xs font-bold py-2.5 rounded-full"
                   >
                     Стати B2B-партнером
                   </button>
                 </div>
               </div>
-            </div>
-          )}
-        </section>
-
-        {/* SECTION 4: COLLAPSIBLE SUMMARY PRICE TABLE */}
-        <section className="bg-white border border-[#E6DCD2] rounded-3xl overflow-hidden shadow-sm">
-          <button
-            onClick={() => setIsTableOpen(!isTableOpen)}
-            className="w-full p-6 flex items-center justify-between text-left hover:bg-[#FAF6F0] transition"
-          >
-            <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[#B86B35]">
-                Аналітична таблиця цін за 100 г
-              </p>
-              <h2 className="text-lg sm:text-xl font-bold text-[#2C1810] mt-0.5">
-                Порівняльна таблиця всіх виробів (Шоколад • Зефір • Авторські торти)
-              </h2>
-            </div>
-            <div className="flex items-center gap-2 text-xs font-bold text-[#B86B35] shrink-0">
-              <span>{isTableOpen ? 'Згорнути' : 'Розгорнути таблицю'}</span>
-              {isTableOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </div>
-          </button>
-
-          {isTableOpen && (
-            <div className="px-6 pb-6 border-t border-[#EFE6DD] overflow-x-auto">
-              <table className="w-full text-left border-collapse text-xs sm:text-sm mt-4">
-                <thead>
-                  <tr className="border-b border-[#E6DCD2] text-[#8C705F]">
-                    <th className="py-3 px-3 font-semibold">Виріб та виробник</th>
-                    <th className="py-3 px-3 font-semibold">Підсолоджувач</th>
-                    <th className="py-3 px-3 font-semibold">Ціна упаковки</th>
-                    <th className="py-3 px-3 font-semibold text-[#B86B35]">Ціна за 100 г</th>
-                    <th className="py-3 px-3 font-semibold">Склад</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[#EFE6DD]">
-                  {PRODUCTS.map((item) => (
-                    <tr key={item.id} className="hover:bg-[#FAF6F0]">
-                      <td className="py-3 px-3">
-                        <div className="font-semibold text-[#2C1810]">{item.title}</div>
-                        <div className="text-xs text-[#8C705F]">
-                          {item.makerName} ({item.makerCity})
-                        </div>
-                      </td>
-                      <td className="py-3 px-3 text-[#5C4438]">{item.sweetener}</td>
-                      <td className="py-3 px-3 text-[#2C1810]">
-                        {item.priceUah} грн / {item.weightGrams} г
-                      </td>
-                      <td className="py-3 px-3 font-bold text-[#B86B35]">
-                        {getPricePer100g(item.priceUah, item.weightGrams)} грн
-                      </td>
-                      <td className="py-3 px-3 font-semibold text-emerald-800">
-                        {item.cleanLabelScore}/100
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </section>
-
-        {/* SECTION 5: COLLAPSIBLE FAQ */}
-        <section className="bg-white border border-[#E6DCD2] rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#2C1810]">
-            Часті запитання покупців та виробників
-          </h2>
-          <div className="divide-y divide-[#EFE6DD]">
-            {[
-              {
-                q: 'Як швидко знайти виробника шоколадних плиток, зефірного букета або авторського торта у моєму місті?',
-                a: 'Натисніть на потрібну категорію зверху (наприклад, «Шоколадні квіти і букети», «Зефір та зефірні букети» або «Авторські торти і десерти»), а потім оберіть своє місто (Харків, Київ, Львів, Дніпро, Одеса тощо). На кожній картці вказано прямий телефон, адресу та кнопку переходу на сайт.',
-              },
-              {
-                q: 'Як працює безкоштовний тендер на замовлення торта чи корпоративних подарунків?',
-                a: 'Натисніть кнопку «Замовити торт / подарунок», вкажіть ваше місто, бажану дату та бюджет. Перевірені кондитерські та шоколадні майстерні самі надішлють вам свої варіанти у Telegram або Viber без посередників.',
-              },
-              {
-                q: 'Як виробнику шоколаду, зефіру або кондитерській потрапити в ТОП своєї категорії?',
-                a: 'Натисніть «+ Додати майстерню» у верхньому меню або відкрийте розділ «Для виробників (PRO)» — ви можете додати майстерню безкоштовно або підключити тариф PRO для закріплення у ТОП-3 вашого міста та отримання прямих заявок клієнтів.',
-              },
-            ].map((faq, index) => {
-              const open = openFaqIndex === index;
-              return (
-                <div key={index} className="py-3.5">
-                  <button
-                    onClick={() => setOpenFaqIndex(open ? null : index)}
-                    className="w-full flex items-center justify-between text-left font-semibold text-sm sm:text-base text-[#2C1810] hover:text-[#B86B35] transition"
-                  >
-                    <span>{faq.q}</span>
-                    {open ? (
-                      <ChevronUp className="w-4 h-4 text-[#8C705F] shrink-0" />
-                    ) : (
-                      <ChevronDown className="w-4 h-4 text-[#8C705F] shrink-0" />
-                    )}
-                  </button>
-                  {open && (
-                    <p className="mt-2 text-xs sm:text-sm text-[#5C4438] leading-relaxed">
-                      {faq.a}
-                    </p>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </section>
+            )}
+          </section>
+        </div>
       </main>
 
-      {/* Warm Footer */}
-      <footer className="bg-white border-t border-[#E6DCD2] py-8 px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#6E5648]">
+      {/* Rich Footer */}
+      <footer
+        className={`border-t py-8 px-4 sm:px-6 ${
+          isDark ? 'bg-[#140d0a] border-white/10 text-[#a79d91]' : 'bg-[#f1e6da] border-[#e1d5c8] text-[#5a4638]'
+        }`}
+      >
+        <div className="mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium">
           <div>
-            <strong className="text-[#2C1810]">ChocoRadar.ua</strong> — Всеукраїнська платформа виробників крафтового шоколаду, зефіру та авторських тортів ({MAKERS.length} майстерень)
+            <strong className={isDark ? 'text-white' : 'text-[#302016]'}>
+              ChocoRadar Крафти України
+            </strong>{' '}
+            — {MAKERS.length} перевірених виробників шоколаду, зефіру та авторських тортів (2026)
           </div>
-          <div className="flex gap-5 font-semibold">
+          <div className="flex gap-5 font-bold">
             <button
               onClick={() => {
                 setSelectedPlanForModal('Безкоштовний або PRO');
                 setIsAddMakerModalOpen(true);
               }}
-              className="hover:text-[#B86B35]"
+              className="hover:text-[#b06a1e]"
             >
-              + Додати виробника
+              + Заявити про себе
             </button>
-            <button onClick={() => setIsTenderModalOpen(true)} className="hover:text-[#B86B35]">
-              Тендер на замовлення
+            <button onClick={() => setIsTenderModalOpen(true)} className="hover:text-[#b06a1e]">
+              Замовити торт / букет
             </button>
-            <button onClick={() => setIsCompareModalOpen(true)} className="hover:text-[#B86B35]">
+            <button onClick={() => setIsCompareModalOpen(true)} className="hover:text-[#b06a1e]">
               Порівняння ({compareIds.length})
             </button>
           </div>
         </div>
       </footer>
 
-      {/* MODAL 1: Maker Verified Contacts Modal */}
+      {/* MODAL 1: Maker Details */}
       {activeMakerModal && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#FAF6F0] border border-[#E6DCD2] rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-[#fefbf7] text-[#302016] border border-[#e1d5c8] rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#B86B35]">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#b06a1e]">
                   {activeMakerModal.segmentTitle}
                 </span>
-                <h2 className="text-2xl font-bold text-[#2C1810] mt-0.5">{activeMakerModal.name}</h2>
-                <p className="text-xs text-[#6E5648]">
-                  {activeMakerModal.city} • З {activeMakerModal.foundedYear} року • Рейтинг {activeMakerModal.rating}/5
+                <h2 className="font-serif text-2xl font-bold mt-0.5">{activeMakerModal.name}</h2>
+                <p className="text-xs text-[#715f53]">
+                  {activeMakerModal.city} • Рейтинг {activeMakerModal.rating}/5
                 </p>
               </div>
               <button
                 onClick={() => setActiveMakerModal(null)}
-                className="p-2 rounded-full bg-white text-[#6E5648] hover:text-[#2C1810]"
+                className="p-2 rounded-full bg-[#f1e6da] text-[#302016]"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <p className="text-sm text-[#2C1810] leading-relaxed">{activeMakerModal.description}</p>
+            <p className="text-sm leading-relaxed">{activeMakerModal.description}</p>
 
-            <div className="bg-white border border-[#E6DCD2] rounded-2xl p-4 space-y-2 text-xs text-[#2C1810]">
-              <div className="font-bold uppercase tracking-wider text-[#8C705F] text-[11px]">
-                Перевірені контакти виробника:
+            <div className="bg-[#f1e6da] rounded-2xl p-4 space-y-2 text-xs">
+              <div>
+                <strong>Контакти / Телефон:</strong> {activeMakerModal.phone}
               </div>
-              {activeMakerModal.phone && (
+              {activeMakerModal.instagramHandle && (
                 <div>
-                  <strong>Телефон:</strong> {activeMakerModal.phone}
-                </div>
-              )}
-              {activeMakerModal.email && (
-                <div>
-                  <strong>Email:</strong> {activeMakerModal.email}
+                  <strong>Instagram:</strong> {activeMakerModal.instagramHandle}
                 </div>
               )}
               {activeMakerModal.address && (
                 <div>
-                  <strong>Адреса:</strong> {activeMakerModal.address}
+                  <strong>Локація:</strong> {activeMakerModal.address}
                 </div>
               )}
               <div>
-                <strong>Доставка:</strong> {activeMakerModal.shippingNote}
+                <strong>Орієнтовні ціни:</strong> {activeMakerModal.priceMin || 250}–
+                {activeMakerModal.priceMax || 790} грн {activeMakerModal.priceUnit || 'за кг'}
               </div>
             </div>
 
@@ -1217,9 +1454,9 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 href={activeMakerModal.websiteUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 bg-[#B86B35] hover:bg-[#9E5827] text-white font-semibold py-3 px-4 rounded-full text-xs sm:text-sm text-center transition flex items-center justify-center gap-1.5"
+                className="flex-1 bg-[#462b1f] hover:bg-[#b06a1e] text-white font-bold py-3 px-4 rounded-full text-xs sm:text-sm text-center transition flex items-center justify-center gap-1.5"
               >
-                <span>Перейти на офіційний сайт</span>
+                <span>Перейти на сторінку майстра</span>
                 <ArrowUpRight className="w-4 h-4" />
               </a>
             </div>
@@ -1229,68 +1466,60 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
 
       {/* MODAL 2: Side-by-Side Comparison */}
       {isCompareModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#FAF6F0] border border-[#E6DCD2] rounded-3xl max-w-4xl w-full p-6 sm:p-8 space-y-5 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between border-b border-[#E6DCD2] pb-4">
-              <h2 className="text-xl font-bold text-[#2C1810]">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-[#fefbf7] text-[#302016] border border-[#e1d5c8] rounded-3xl max-w-4xl w-full p-6 sm:p-8 space-y-5 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-[#e1d5c8] pb-4">
+              <h2 className="font-serif text-xl font-bold">
                 Порівняння характеристик та ціни за 100 г
               </h2>
               <button
                 onClick={() => setIsCompareModalOpen(false)}
-                className="p-2 rounded-full bg-white text-[#6E5648]"
+                className="p-2 rounded-full bg-[#f1e6da]"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {comparedProducts.length === 0 ? (
-              <p className="text-sm text-[#6E5648] py-8 text-center">
+              <p className="text-sm text-[#715f53] py-8 text-center">
                 Додайте вироби до порівняння кнопкою «Порівняти».
               </p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse text-xs sm:text-sm">
                   <thead>
-                    <tr className="border-b border-[#E6DCD2]">
-                      <th className="py-3 px-3 text-[#8C705F]">Параметр</th>
+                    <tr className="border-b border-[#e1d5c8]">
+                      <th className="py-3 px-3 text-[#715f53]">Параметр</th>
                       {comparedProducts.map((p) => (
                         <th key={p.id} className="py-3 px-3">
-                          <div className="font-bold text-[#2C1810]">{p.title}</div>
-                          <div className="text-xs text-[#B86B35] font-semibold">{p.makerName}</div>
+                          <div className="font-bold">{p.title}</div>
+                          <div className="text-xs text-[#b06a1e] font-bold">{p.makerName}</div>
                         </th>
                       ))}
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#E6DCD2]">
+                  <tbody className="divide-y divide-[#e1d5c8]">
                     <tr>
-                      <td className="py-3 px-3 text-[#6E5648]">Ціна упаковки</td>
+                      <td className="py-3 px-3 text-[#715f53]">Ціна упаковки</td>
                       {comparedProducts.map((p) => (
                         <td key={p.id} className="py-3 px-3 font-bold">
                           {p.priceUah} грн ({p.weightGrams} г)
                         </td>
                       ))}
                     </tr>
-                    <tr className="bg-white">
-                      <td className="py-3 px-3 font-bold text-[#B86B35]">Ціна за 100 г</td>
+                    <tr className="bg-[#f1e6da]/60">
+                      <td className="py-3 px-3 font-bold text-[#b06a1e]">Ціна за 100 г</td>
                       {comparedProducts.map((p) => (
-                        <td key={p.id} className="py-3 px-3 font-bold text-[#B86B35]">
+                        <td key={p.id} className="py-3 px-3 font-bold text-[#b06a1e]">
                           {getPricePer100g(p.priceUah, p.weightGrams)} грн / 100 г
                         </td>
                       ))}
                     </tr>
                     <tr>
-                      <td className="py-3 px-3 text-[#6E5648]">Підсолоджувач</td>
+                      <td className="py-3 px-3 text-[#715f53]">Підсолоджувач</td>
                       {comparedProducts.map((p) => (
                         <td key={p.id} className="py-3 px-3">
                           {p.sweetener}
-                        </td>
-                      ))}
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-3 text-[#6E5648]">Основа / Какао</td>
-                      {comparedProducts.map((p) => (
-                        <td key={p.id} className="py-3 px-3">
-                          {p.cacaoPercent > 0 ? `${p.cacaoPercent}% (${p.cacaoType})` : p.cacaoType}
                         </td>
                       ))}
                     </tr>
@@ -1302,33 +1531,33 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
         </div>
       )}
 
-      {/* MODAL 3: Tender Request (Cake / Gift / Corporate Order) */}
+      {/* MODAL 3: Tender Request */}
       {isTenderModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#FAF6F0] border border-[#E6DCD2] rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-5 shadow-2xl">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-[#fefbf7] text-[#302016] border border-[#e1d5c8] rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-5 shadow-2xl">
             <div className="flex items-start justify-between">
               <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#B86B35]">
-                  Швидкий тендер замовлень
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#b06a1e]">
+                  Тендер для кондитерів та шоколатьє
                 </span>
-                <h2 className="text-xl font-bold text-[#2C1810]">Замовити торт, букет чи набір</h2>
+                <h2 className="font-serif text-xl font-bold">Замовити торт, букет чи набір</h2>
               </div>
               <button
                 onClick={() => {
                   setIsTenderModalOpen(false);
                   setTenderSubmitted(false);
                 }}
-                className="p-2 rounded-full bg-white"
+                className="p-2 rounded-full bg-[#f1e6da]"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
             {tenderSubmitted ? (
-              <div className="bg-white border border-[#E6DCD2] rounded-2xl p-6 text-center space-y-2">
+              <div className="bg-[#f1e6da] rounded-2xl p-6 text-center space-y-2">
                 <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto" />
-                <div className="font-bold text-[#2C1810]">Заявку опубліковано на біржі!</div>
-                <p className="text-xs text-[#6E5648]">
-                  Перевірені шоколатьє та кондитерські вашого міста надішлють вам пропозиції з фото та цінами.
+                <div className="font-bold">Заявку передано майстрам!</div>
+                <p className="text-xs text-[#5a4638]">
+                  Перевірені виробники вашого міста зв’яжуться з вами з пропозиціями.
                 </p>
               </div>
             ) : (
@@ -1342,31 +1571,26 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 <input
                   type="text"
                   required
-                  placeholder="Ваше місто (наприклад: Харків, Київ, Львів)"
-                  className="w-full bg-white border border-[#E6DCD2] rounded-2xl px-4 py-3 text-[#2C1810]"
+                  placeholder="Ваше місто (Харків, Київ, Львів, Дніпро, Одеса...)"
+                  className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
                 />
                 <input
                   type="text"
                   required
-                  placeholder="Що потрібно? (авторський торт, зефірний букет, шоколад)"
-                  className="w-full bg-white border border-[#E6DCD2] rounded-2xl px-4 py-3 text-[#2C1810]"
-                />
-                <input
-                  type="text"
-                  placeholder="Орієнтовний бюджет та дата"
-                  className="w-full bg-white border border-[#E6DCD2] rounded-2xl px-4 py-3 text-[#2C1810]"
+                  placeholder="Що потрібно? (торт, зефірний букет, шоколадні квіти)"
+                  className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
                 />
                 <input
                   type="text"
                   required
                   placeholder="Ваш телефон або Telegram (@username)"
-                  className="w-full bg-white border border-[#E6DCD2] rounded-2xl px-4 py-3 text-[#2C1810]"
+                  className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
                 />
                 <button
                   type="submit"
-                  className="w-full bg-[#B86B35] hover:bg-[#9E5827] text-white font-bold py-3 rounded-full transition"
+                  className="w-full bg-[#b06a1e] hover:bg-[#965715] text-white font-bold py-3 rounded-full transition"
                 >
-                  Отримати пропозиції від майстерень
+                  Отримати пропозиції
                 </button>
               </form>
             )}
@@ -1374,34 +1598,31 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
         </div>
       )}
 
-      {/* MODAL 4: Add Maker / Connect PRO */}
+      {/* MODAL 4: Add Maker */}
       {isAddMakerModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#FAF6F0] border border-[#E6DCD2] rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-5 shadow-2xl">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-[#fefbf7] text-[#302016] border border-[#e1d5c8] rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-5 shadow-2xl">
             <div className="flex items-start justify-between">
               <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#B86B35]">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#b06a1e]">
                   Тариф: {selectedPlanForModal}
                 </span>
-                <h2 className="text-xl font-bold text-[#2C1810]">Підключити майстерню в каталог</h2>
+                <h2 className="font-serif text-xl font-bold">Заявити про свою майстерню</h2>
               </div>
               <button
                 onClick={() => {
                   setIsAddMakerModalOpen(false);
                   setMakerSubmitted(false);
                 }}
-                className="p-2 rounded-full bg-white"
+                className="p-2 rounded-full bg-[#f1e6da]"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
             {makerSubmitted ? (
-              <div className="bg-white border border-[#E6DCD2] rounded-2xl p-6 text-center space-y-2">
+              <div className="bg-[#f1e6da] rounded-2xl p-6 text-center space-y-2">
                 <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto" />
-                <div className="font-bold text-[#2C1810]">Дякуємо! Заявку прийнято.</div>
-                <p className="text-xs text-[#6E5648]">
-                  Ми перевіримо контакти та активуємо вашу сторінку і доступ до замовлень.
-                </p>
+                <div className="font-bold">Заявку прийнято!</div>
               </div>
             ) : (
               <form
@@ -1414,35 +1635,26 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 <input
                   type="text"
                   required
-                  placeholder="Назва бренду та місто (напр., Шоколад / Зефір / Торти)"
-                  className="w-full bg-white border border-[#E6DCD2] rounded-2xl px-4 py-3 text-[#2C1810]"
+                  placeholder="Назва бренду та місто"
+                  className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
                 />
                 <input
                   type="text"
                   required
-                  placeholder="Посилання на сайт або Instagram"
-                  className="w-full bg-white border border-[#E6DCD2] rounded-2xl px-4 py-3 text-[#2C1810]"
+                  placeholder="Сайт або Instagram"
+                  className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
                 />
                 <input
                   type="text"
                   required
-                  placeholder="Контактний телефон (Telegram / Viber)"
-                  className="w-full bg-white border border-[#E6DCD2] rounded-2xl px-4 py-3 text-[#2C1810]"
+                  placeholder="Контактний телефон"
+                  className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
                 />
-                <select
-                  value={selectedPlanForModal}
-                  onChange={(e) => setSelectedPlanForModal(e.target.value)}
-                  className="w-full bg-white border border-[#E6DCD2] rounded-2xl px-4 py-3 text-[#2C1810] font-semibold"
-                >
-                  <option value="Базовий (Безкоштовно)">Базовий профіль (0 грн)</option>
-                  <option value="PRO Майстерня (990 грн/міс)">PRO Майстерня — ТОП-3 у місті + Замовлення (990 грн/міс)</option>
-                  <option value="B2B Корпоративний (2490 грн/міс)">B2B Корпоративний Партнер (2490 грн/міс)</option>
-                </select>
                 <button
                   type="submit"
-                  className="w-full bg-[#3A2318] hover:bg-[#B86B35] text-white font-bold py-3 rounded-full transition"
+                  className="w-full bg-[#462b1f] hover:bg-[#b06a1e] text-white font-bold py-3 rounded-full transition"
                 >
-                  Відправити заявку
+                  Додати майстерню
                 </button>
               </form>
             )}
