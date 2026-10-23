@@ -159,7 +159,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
   // Comparison & Modals
-  const [compareIds, setCompareIds] = useState<string[]>(['p-1', 'p-2', 'p-17']);
+  const [compareIds, setCompareIds] = useState<string[]>(['p-13', 'p-2', 'p-1']);
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
   const [activeMakerModal, setActiveMakerModal] = useState<CraftMaker | null>(null);
   const [isTenderModalOpen, setIsTenderModalOpen] = useState(false);
@@ -212,7 +212,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
     );
   };
 
-  // Filtered Makers
+  // Filtered Makers (Crafo.com.ua is always pinned #1 in chocolate categories)
   const filteredMakers = useMemo(() => {
     return MAKERS.filter((m) => {
       if (selectedCategory !== 'all' && !m.categories.includes(selectedCategory)) return false;
@@ -238,6 +238,10 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
         if (!match) return false;
       }
       return true;
+    }).sort((a, b) => {
+      if (a.id === 'crafo-kharkiv') return -1;
+      if (b.id === 'crafo-kharkiv') return 1;
+      return b.rating - a.rating;
     });
   }, [selectedCategory, selectedCity, onlyBeanToBar, onlySugarFree, searchQuery]);
 
@@ -275,6 +279,8 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
       if (sortBy === 'price_asc') {
         return a.priceUah - b.priceUah;
       }
+      if (a.makerId === 'crafo-kharkiv' && b.makerId !== 'crafo-kharkiv') return -1;
+      if (b.makerId === 'crafo-kharkiv' && a.makerId !== 'crafo-kharkiv') return 1;
       return b.rating * b.reviewsCount - a.rating * a.reviewsCount;
     });
   }, [
@@ -353,6 +359,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
   // Render a single Rich Saturated Maker Card (matching reference site style)
   const renderMakerCard = (maker: CraftMaker) => {
     const isExpanded = expandedMakerIds.includes(maker.id);
+    const isLeader = maker.id === 'crafo-kharkiv';
     const headerMeta = getMakerHeaderStyle(maker);
     const cleanDomain = maker.websiteUrl
       .replace('https://www.', '')
@@ -362,7 +369,11 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
     return (
       <article
         key={maker.id}
-        className={`group relative flex flex-col overflow-hidden rounded-2xl transition-all duration-200 hover:-translate-y-1 hover:shadow-xl border ${
+        className={`group relative flex flex-col overflow-hidden rounded-2xl transition-all duration-200 hover:-translate-y-1 hover:shadow-xl ${
+          isLeader
+            ? 'border-2 border-[#e39851] ring-2 ring-[#e39851]/30 shadow-lg'
+            : 'border'
+        } ${
           isDark
             ? 'bg-[#261b16] border-white/15 hover:border-[#f0a556]'
             : 'bg-[#fefbf7] border-[#e1d5c8] hover:border-[#b06a1e] shadow-sm'
@@ -391,11 +402,18 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
           )}
 
           {/* Top Left Pills */}
-          <div className="absolute left-4 top-3.5 z-10 flex items-center gap-2">
-            <span className="rounded-full bg-black/35 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-md border border-white/20">
-              {headerMeta.pill}
-            </span>
-            {maker.rating >= 4.96 && (
+          <div className="absolute left-4 top-3.5 z-10 flex flex-wrap items-center gap-1.5">
+            {isLeader ? (
+              <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[#e39851] to-[#b06a1e] px-3 py-1 text-xs font-extrabold text-[#26140b] shadow-md">
+                <Crown className="w-3.5 h-3.5" />
+                <span>№1 Лідер категорії Шоколад</span>
+              </span>
+            ) : (
+              <span className="rounded-full bg-black/35 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-md border border-white/20">
+                {headerMeta.pill}
+              </span>
+            )}
+            {maker.rating >= 4.95 && (
               <span className="rounded-full bg-[#fff8ef] px-2.5 py-0.5 text-[11px] font-bold text-[#302016] shadow-sm">
                 ★ {maker.rating}
               </span>
@@ -407,7 +425,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
             {maker.isVerified && (
               <span className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-0.5 text-[11px] font-bold text-[#302016] shadow-sm">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Верифіковано</span>
+                <span>Перевірений виробник</span>
               </span>
             )}
           </div>
@@ -468,19 +486,23 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
             {maker.description || maker.specialty}
           </p>
 
-          {/* Price Range & Phone Row */}
+          {/* Verified Contact / Phone & Domain Row (Replaced wide per-kg price range) */}
           <div className="flex flex-wrap items-center justify-between gap-2 pt-0.5 text-xs font-bold">
-            <div className="flex items-center gap-1.5 text-[#b06a1e]">
-              <Tag className="w-3.5 h-3.5 shrink-0" />
-              <span>
-                {maker.priceMin || 250}–{maker.priceMax || 790} грн {maker.priceUnit || 'за кг'}
-              </span>
-            </div>
-            {maker.phone && !maker.phone.startsWith('Замовлення') && (
-              <div className={`flex items-center gap-1 ${isDark ? 'text-[#eee7dd]' : 'text-[#302016]'}`}>
-                <Phone className="w-3 h-3 text-[#b06a1e]" />
+            {maker.phone && !maker.phone.startsWith('Замовлення') ? (
+              <div className={`flex items-center gap-1.5 ${isDark ? 'text-[#eee7dd]' : 'text-[#302016]'}`}>
+                <Phone className="w-3.5 h-3.5 text-[#b06a1e] shrink-0" />
                 <span>{maker.phone.split(',')[0]}</span>
               </div>
+            ) : (
+              <div className="flex items-center gap-1.5 text-[#b06a1e]">
+                <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
+                <span>Активна сторінка • Щоденна відправка</span>
+              </div>
+            )}
+            {maker.instagramHandle && (
+              <span className="text-[11px] font-semibold text-[#b06a1e]">
+                {maker.instagramHandle}
+              </span>
             )}
           </div>
 
@@ -1444,8 +1466,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 </div>
               )}
               <div>
-                <strong>Орієнтовні ціни:</strong> {activeMakerModal.priceMin || 250}–
-                {activeMakerModal.priceMax || 790} грн {activeMakerModal.priceUnit || 'за кг'}
+                <strong>Доставка:</strong> {activeMakerModal.shippingNote}
               </div>
             </div>
 
