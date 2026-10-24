@@ -330,10 +330,9 @@ export const MAKERS: CraftMaker[] = [
     "city": "Харків",
     "regionCity": "Харків",
     "foundedYear": 2016,
-    "specialty": "Преміальні авторські торти на замовлення, весільні й дитячі торти, макарони, еклери та шоколадні десерти",
+    "specialty": "Преміальні авторські торти на замовлення, весільні й дитячі торти, бенто-торти, макарони та еклери",
     "categories": [
-      "avtorski-torty-ta-deserty",
-      "korpusni-ta-rozmalovani-tsukerky"
+      "avtorski-torty-ta-deserty"
     ],
     "mainCategory": "avtorski-torty-ta-deserty",
     "isBeanToBar": false,
@@ -1424,8 +1423,7 @@ export const MAKERS: CraftMaker[] = [
     "foundedYear": 2017,
     "specialty": "Авторські мусові та бісквітні торти, бенто-торти, шоколадні десерти та макарони",
     "categories": [
-      "avtorski-torty-ta-deserty",
-      "korpusni-ta-rozmalovani-tsukerky"
+      "avtorski-torty-ta-deserty"
     ],
     "mainCategory": "avtorski-torty-ta-deserty",
     "isBeanToBar": false,
