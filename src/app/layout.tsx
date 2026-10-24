@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
 
@@ -14,44 +14,63 @@ const playfair = Playfair_Display({
   display: 'swap',
 });
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#462b1f',
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://choco-radar-ua.vercel.app'),
   title: {
-    default: 'ChocoRadar UA — Умный навигатор крафтового шоколада, конфет и ягод в шоколаде Украины',
-    template: '%s | ChocoRadar UA — Рейтинг та порівняння крафтового шоколаду',
+    default: 'CraftHub — Всі крафтові виробники шоколаду, зефіру та тортів України (2027)',
+    template: '%s | CraftHub — Платформа крафтових солодощів України',
   },
   description:
-    'Перша експертна платформа порівняння крафтового шоколаду в Україні (2026–2027). Плитки Bean-to-Bar, розмальовані корпусні цукерки, шоколадні квіти та букети, горіхи, сухофрукти, малина та полуниця в шоколаді. Чесний розрахунок ціни за 100 г, індекс чистоти складу та прямі контакти виробників.',
+    'CraftHub — №1 сервіс крафтових солодощів України. Плитка шоколаду та батончик, цукерки ручної роботи, шоколадні квіти і букети, малина в шоколаді, вироби без цукру, солодощі для дітей, крафтовий зефір та авторські торти. 104 перевірені майстерні, чесна ціна за 100 г та тендерна біржа замовлень.',
   keywords: [
+    'CraftHub Україна',
     'крафтовий шоколад Україна',
-    'bean to bar шоколад купити',
+    'плитка шоколаду батончик купити',
     'шоколадні квіти купити',
     'букети з шоколаду Україна',
-    'шоколадні півонії троянди',
     'корпусні цукерки ручної роботи',
-    'розмальовані цукерки',
     'малина в шоколаді купити',
     'полуниця в шоколаді',
-    'горіхи в шоколаді драже',
-    'сухофрукти в шоколаді',
     'шоколад без цукру Україна',
-    'виробники крафтового шоколаду',
+    'солодощі для дітей без цукру',
+    'крафтовий зефір букети',
+    'авторські торти на замовлення',
+    'crafo.com.ua',
   ],
   openGraph: {
-    title: 'ChocoRadar UA — Всі крафтові виробники шоколаду України на одній платформі',
+    title: 'CraftHub — Всі крафтові виробники шоколаду, зефіру та тортів України',
     description:
-      'Підбір за смаковим профілем, порівняння ціни за 100 г, чистоти складу та умов доставки. Від Bean-to-Bar плиток до розписних цукерок і малини в шоколаді.',
+      'Інтерактивний підбір подарунків за 30 секунд, порівняння ціни за 100 г, чистоти складу та прямі контакти 104 перевірених майстерень України.',
     url: 'https://choco-radar-ua.vercel.app',
-    siteName: 'ChocoRadar UA',
+    siteName: 'CraftHub',
     locale: 'uk_UA',
+    alternateLocale: ['ru_UA'],
     type: 'website',
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
   alternates: {
     canonical: 'https://choco-radar-ua.vercel.app',
+    languages: {
+      'uk-UA': 'https://choco-radar-ua.vercel.app',
+      'ru-UA': 'https://choco-radar-ua.vercel.app/?lang=ru',
+    },
   },
 };
 
@@ -62,7 +81,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="uk" className={`${inter.variable} ${playfair.variable} scroll-smooth`}>
-      <body className="min-h-screen bg-[#FAF6F0] text-[#2C1810] antialiased selection:bg-[#B86B35] selection:text-white font-sans">
+      <body className="min-h-screen bg-[#fbf6ee] text-[#302016] antialiased selection:bg-[#b06a1e] selection:text-white font-sans">
         {children}
       </body>
     </html>

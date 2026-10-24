@@ -26,116 +26,239 @@ import {
   Sparkles,
   Crown,
   Gift,
-  Building2,
-  Tag,
   Instagram,
   Moon,
   Sun,
+  Calculator,
+  Heart,
+  HelpCircle,
+  Wand2,
 } from 'lucide-react';
 
 interface ChocoRadarAppProps {
   initialCategory?: CategorySlug;
 }
 
-const CATEGORY_SHORT_LABELS: Record<Exclude<CategorySlug, 'all'>, { label: string; emoji: string }> = {
-  'plytky-shokoladu': { label: 'Плитки шоколаду', emoji: '🍫' },
-  'korpusni-ta-rozmalovani-tsukerky': { label: 'Цукерки ручної роботи', emoji: '🍬' },
-  'shokoladni-kvity-ta-bukety': { label: 'Шоколадні квіти і букети', emoji: '🌹' },
-  'malyna-ta-polunytsia-v-shokoladi': { label: 'Малина та полуниця в шоколаді', emoji: '🍓' },
-  'horikhy-ta-sukhofrukty-v-shokoladi': { label: 'Горіхи та сухофрукти', emoji: '🌰' },
-  'bez-tsukru-ta-vegan': { label: 'Без цукру / Дітям / Vegan', emoji: '🌿' },
-  'kraftovyi-zefir-ta-bukety': { label: 'Зефір та зефірні букети', emoji: '🌸' },
-  'avtorski-torty-ta-deserty': { label: 'Авторські торти і десерти', emoji: '🎂' },
+type Lang = 'uk' | 'ru';
+
+const CATEGORY_SHORT_LABELS: Record<
+  Exclude<CategorySlug, 'all'>,
+  { uk: string; ru: string; emoji: string }
+> = {
+  'plytky-shokoladu': {
+    uk: 'Плитка шоколаду, батончик',
+    ru: 'Плитка шоколада, батончик',
+    emoji: '🍫',
+  },
+  'korpusni-ta-rozmalovani-tsukerky': {
+    uk: 'Цукерки ручної роботи',
+    ru: 'Конфеты ручной работы',
+    emoji: '🍬',
+  },
+  'shokoladni-kvity-ta-bukety': {
+    uk: 'Шоколадні квіти і букети',
+    ru: 'Шоколадные цветы и букеты',
+    emoji: '🌹',
+  },
+  'malyna-ta-polunytsia-v-shokoladi': {
+    uk: 'Малина і полуниця в шоколаді',
+    ru: 'Малина и клубника в шоколаде',
+    emoji: '🍓',
+  },
+  'horikhy-ta-sukhofrukty-v-shokoladi': {
+    uk: 'Горіхи та сухофрукти',
+    ru: 'Орехи и сухофрукты',
+    emoji: '🌰',
+  },
+  'bez-tsukru-ta-vegan': {
+    uk: 'Без цукру',
+    ru: 'Без сахара',
+    emoji: '🌿',
+  },
+  'solodoshchi-dlia-ditei': {
+    uk: 'Для дітей',
+    ru: 'Для детей',
+    emoji: '🧸',
+  },
+  'kraftovyi-zefir-ta-bukety': {
+    uk: 'Зефір та зефірні букети',
+    ru: 'Зефир и зефирные букеты',
+    emoji: '🌸',
+  },
+  'avtorski-torty-ta-deserty': {
+    uk: 'Авторські торти і десерти',
+    ru: 'Авторские торты и десерты',
+    emoji: '🎂',
+  },
 };
 
-const CITY_FILTERS: { id: string; label: string }[] = [
-  { id: 'all', label: 'Вся Україна' },
-  { id: 'Київ', label: 'Київ' },
-  { id: 'Харків', label: 'Харків' },
-  { id: 'Львів', label: 'Львів' },
-  { id: 'Дніпро', label: 'Дніпро' },
-  { id: 'Одеса / Південь', label: 'Одеса • Миколаїв' },
-  { id: 'Луцьк / Волинь', label: 'Луцьк • Волинь' },
-  { id: 'Вінниця / Хмельницький / Житомир', label: 'Вінниця • Хмельницький • Житомир' },
-  { id: 'Полтава / Суми / Запоріжжя', label: 'Полтава • Суми • Запоріжжя' },
-  { id: 'Черкаси / Захід та Центри', label: 'Черкаси • Ужгород • Чернівці' },
+const CITY_FILTERS: { id: string; uk: string; ru: string }[] = [
+  { id: 'all', uk: 'Вся Україна', ru: 'Вся Украина' },
+  { id: 'Харків', uk: 'Харків', ru: 'Харьков' },
+  { id: 'Київ', uk: 'Київ', ru: 'Киев' },
+  { id: 'Львів', uk: 'Львів', ru: 'Львов' },
+  { id: 'Дніпро', uk: 'Дніпро', ru: 'Днепр' },
+  { id: 'Одеса / Південь', uk: 'Одеса • Миколаїв', ru: 'Одесса • Николаев' },
+  { id: 'Луцьк / Волинь', uk: 'Луцьк • Волинь', ru: 'Луцк • Волынь' },
+  {
+    id: 'Вінниця / Хмельницький / Житомир',
+    uk: 'Вінниця • Хмельницький • Житомир',
+    ru: 'Винница • Хмельницкий • Житомир',
+  },
+  {
+    id: 'Полтава / Суми / Запоріжжя',
+    uk: 'Полтава • Суми • Запоріжжя',
+    ru: 'Полтава • Сумы • Запорожье',
+  },
+  {
+    id: 'Черкаси / Захід та Центри',
+    uk: 'Черкаси • Ужгород • Рівне',
+    ru: 'Черкассы • Ужгород • Ровно',
+  },
 ];
 
-const SEGMENT_GROUPS: { id: MakerSegment; title: string; subtitle: string; gradient: string }[] = [
+const SEGMENT_GROUPS: {
+  id: MakerSegment;
+  titleUk: string;
+  titleRu: string;
+  subtitleUk: string;
+  subtitleRu: string;
+  gradient: string;
+}[] = [
   {
     id: 'bean-to-bar',
-    title: '1. Bean-to-Bar (Від какао-боба до плитки)',
-    subtitle:
-      'Виробники самі закуповують фермерські какао-боби (Fino de Aroma, Criollo, Trinitario), обсмажують і перетирають їх у меланжерах.',
+    titleUk: '1. Плитка шоколаду, батончик (Від какао-боба до плитки)',
+    titleRu: '1. Плитка шоколада, батончик (От какао-боба до плитки)',
+    subtitleUk:
+      'Виробники ремісничих плиток шоколаду та крафтових батончиків із фермерських какао-бобів Fino de Aroma та Criollo.',
+    subtitleRu:
+      'Производители ремесленных плиток шоколада и крафтовых батончиков из фермерских какао-бобов Fino de Aroma и Criollo.',
     gradient: 'linear-gradient(135deg, #7a4a2b 0%, #3a2113 100%)',
   },
   {
     id: 'chocolatier-bonbons',
-    title: '2. Шоколатьє: плитки, цукерки ручної роботи та шоколадні квіти',
-    subtitle:
-      'Авторські плитки, корпусні цукерки з художнім розписом, шоколадні букети, трюфелі, сирні цукерки та фадж.',
+    titleUk: '2. Шоколатьє: плитка шоколаду, батончик, цукерки та шоколадні квіти',
+    titleRu: '2. Шоколатье: плитка шоколада, батончик, конфеты и шоколадные цветы',
+    subtitleUk:
+      'Авторські плитки шоколаду, батончики, корпусні цукерки з художнім розписом, шоколадні букети, трюфелі та сирні цукерки.',
+    subtitleRu:
+      'Авторские плитки шоколада, батончики, корпусные конфеты с художественной росписью, шоколадные букеты, трюфели и сырные конфеты.',
     gradient: 'linear-gradient(135deg, #8b4d27 0%, #462b1f 100%)',
   },
   {
     id: 'healthy-vegan',
-    title: '3. Healthy / Vegan / Raw солодощі (Без білого цукру, для дітей)',
-    subtitle:
-      'Шоколад, пастила та цукерки на керобі, кокосовому нектарі, меду або еритритолі — без білого цукру, лактози та глютену.',
+    titleUk: '3. Без цукру та Для дітей (Натуральний шоколад, батончики на керобі і меду)',
+    titleRu: '3. Без сахара и Для детей (Натуральный шоколад, батончики на кэробе и меду)',
+    subtitleUk:
+      'Шоколадні плитки, батончики, пастила та цукерки без білого цукру, лактози й глютену, а також безпечні солодощі для дітей.',
+    subtitleRu:
+      'Шоколадные плитки, батончики, пастила и конфеты без белого сахара, лактозы и глютена, а также безопасные сладости для детей.',
     gradient: 'linear-gradient(135deg, #3c7a47 0%, #1f4728 100%)',
   },
   {
     id: 'flowers-berries-nuts',
-    title: '4. Шоколадні квіти, букети, ягоди та горіхи в шоколаді',
-    subtitle:
+    titleUk: '4. Шоколадні квіти, букети, малина, полуниця та горіхи в шоколаді',
+    titleRu: '4. Шоколадные цветы, букеты, малина, клубника и орехи в шоколаде',
+    subtitleUk:
       'Букети з бельгійського шоколаду, свіжа й сублімована полуниця та малина в шоколаді, чорнослив і горіхове драже.',
+    subtitleRu:
+      'Букеты из бельгийского шоколада, свежая и сублимированная клубника и малина в шоколаде, чернослив и ореховое драже.',
     gradient: 'linear-gradient(135deg, #b53f61 0%, #6b1d35 100%)',
   },
   {
     id: 'craft-zefir-pastila',
-    title: '5. Крафтовий зефір ручної роботи, зефірні букети та пастила',
-    subtitle:
-      'Натуральний зефір на агар-агарі з живого ягідного пюре, зефірна флористика (букети з зефірних півоній і троянд) та пастила без цукру.',
+    titleUk: '5. Крафтовий зефір ручної роботи, зефірні букети та пастила',
+    titleRu: '5. Крафтовый зефир ручной работы, зефирные букеты и пастила',
+    subtitleUk:
+      'Натуральний зефір на агар-агарі з живого ягідного пюре, букети з зефірних півоній і троянд та ягідна пастила.',
+    subtitleRu:
+      'Натуральный зефир на агар-агаре из живого ягодного пюре, букеты из зефирных пионов и роз и ягодная пастила.',
     gradient: 'linear-gradient(135deg, #e0a866 0%, #b06a1e 100%)',
   },
   {
     id: 'custom-cakes-pastry',
-    title: '6. Авторські торти на замовлення, бенто-торти та кондитерські ательє',
-    subtitle:
-      'Святкові, весільні, дитячі та корпоративні торти, мусові десерти в шоколадному велюрі, бенто-торти та французькі макарони.',
+    titleUk: '6. Авторські торти на замовлення, бенто-торти та кондитерські ательє',
+    titleRu: '6. Авторские торты на заказ, бенто-торты и кондитерские ателье',
+    subtitleUk:
+      'Святкові, весільні, дитячі та корпоративні торти, мусові десерти в шоколадному велюрі, бенто-торти та макарони.',
+    subtitleRu:
+      'Праздничные, свадебные, детские и корпоративные торты, муссовые десерты в шоколадном велюре, бенто-торты и макароны.',
     gradient: 'linear-gradient(135deg, #c75b7a 0%, #8e2f4a 100%)',
   },
 ];
 
-// Live Buyer Requests ("Тендерна біржа замовлень" — головний магніт для виробників)
 const LIVE_BUYER_REQUESTS = [
   {
     id: 'req-1',
-    city: 'Київ / Доставка НП',
-    categoryLabel: '🍫 Корпоративні шоколадні та зефірні бокси',
-    budget: '42 000 грн (60 наборів)',
-    timeAgo: '18 хв тому',
+    cityUk: 'Харків / Доставка НП',
+    cityRu: 'Харьков / Доставка НП',
+    catUk: '🍫 Шоколадні плитки, батончики та букет шоколадних троянд (Crafo)',
+    catRu: '🍫 Шоколадные плитки, батончики и букет шоколадных роз (Crafo)',
+    budgetUk: '4 200 грн',
+    budgetRu: '4 200 грн',
+    timeUk: '12 хв тому',
+    timeRu: '12 мин назад',
   },
   {
     id: 'req-2',
-    city: 'Харків',
-    categoryLabel: '🎂 Авторський торт + букет шоколадних квітів на ювілей',
-    budget: '3 800 грн',
-    timeAgo: '45 хв тому',
+    cityUk: 'Київ / Вся Україна',
+    cityRu: 'Киев / Вся Украина',
+    catUk: '🎁 Корпоративні шоколадні та зефірні набори (55 боксів)',
+    catRu: '🎁 Корпоративные шоколадные и зефирные наборы (55 боксов)',
+    budgetUk: '38 500 грн',
+    budgetRu: '38 500 грн',
+    timeUk: '34 хв тому',
+    timeRu: '34 мин назад',
   },
   {
     id: 'req-3',
-    city: 'Львів / Вся Україна',
-    categoryLabel: '🌸 Зефірні букети та цукерки ручної роботи (до свята)',
-    budget: '14 500 грн (15 букетів)',
-    timeAgo: '1 год тому',
+    cityUk: 'Львів / Дніпро / Одеса',
+    cityRu: 'Львов / Днепр / Одесса',
+    catUk: '🎂 Дитячий авторський торт + солодощі без цукру для дітей',
+    catRu: '🎂 Детский авторский торт + сладости без сахара для детей',
+    budgetUk: '3 400 грн',
+    budgetRu: '3 400 грн',
+    timeUk: '50 хв тому',
+    timeRu: '50 мин назад',
   },
 ];
 
+// Simple Ukrainian-to-Russian dynamic text helper for database descriptions when RU is active
+function localizeText(text: string, lang: Lang): string {
+  if (lang === 'uk' || !text) return text;
+  return text
+    .replace(/№1 Лідер категорії Шоколад/g, '№1 Лидер категории Шоколад')
+    .replace(/Офіційний лідер рейтингу крафтового шоколаду України/g, 'Официальный лидер рейтинга крафтового шоколада Украины')
+    .replace(/виготовляють преміальні шоколадні плитки ручної роботи/g, 'изготавливают премиальные шоколадные плитки ручной работы')
+    .replace(/авторські корпусні та трюфельні цукерки/g, 'авторские корпусные и трюфельные конфеты')
+    .replace(/реалістичні букети з шоколадних квітів та подарункові бокси зі 100% бельгійського шоколаду/g, 'реалистичные букеты из шоколадных цветов и подарочные боксы из 100% бельгийского шоколада')
+    .replace(/Плитки \+ Цукерки \+ Квіти/g, 'Плитки + Конфеты + Цветы')
+    .replace(/Плитка шоколаду, батончик/g, 'Плитка шоколада, батончик')
+    .replace(/Плитка шоколаду • Батончик/g, 'Плитка шоколада • Батончик')
+    .replace(/Цукерки ручної роботи/g, 'Конфеты ручной работы')
+    .replace(/Шоколадні квіти і букети/g, 'Шоколадные цветы и букеты')
+    .replace(/Без цукру/g, 'Без сахара')
+    .replace(/Для дітей/g, 'Для детей')
+    .replace(/Авторські торти/g, 'Авторские торты')
+    .replace(/Крафтовий зефір/g, 'Крафтовый зефир')
+    .replace(/Доставка Новою Поштою по всій Україні/g, 'Доставка Новой Почтой по всей Украине')
+    .replace(/Харків/g, 'Харьков')
+    .replace(/Київ/g, 'Киев')
+    .replace(/Львів/g, 'Львов')
+    .replace(/Дніпро/g, 'Днепр')
+    .replace(/Одеса/g, 'Одесса')
+    .replace(/Луцьк/g, 'Луцк')
+    .replace(/Вінниця/g, 'Винница')
+    .replace(/Рівне/g, 'Ровно')
+    .replace(/Чернівці/g, 'Черновцы');
+}
+
 export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarAppProps) {
-  // Theme state (Warm Saturated Light or Rich Dark Espresso)
+  // Language state: 'uk' by default, switchable to 'ru' at the top
+  const [lang, setLang] = useState<Lang>('uk');
   const [isDark, setIsDark] = useState(false);
 
-  // Primary Step-by-Step Consumer Filters
+  // Filters
   const [selectedCategory, setSelectedCategory] = useState<CategorySlug>(initialCategory);
   const [selectedCity, setSelectedCity] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -145,18 +268,27 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
 
   // Quick Purpose / Dietary Filter Pills
   const [onlySugarFree, setOnlySugarFree] = useState(false);
-  const [onlyBeanToBar, setOnlyBeanToBar] = useState(false);
-  const [advisorGoal, setAdvisorGoal] = useState<
-    'all' | 'gift-her' | 'gift-boss' | 'kids' | 'gourmet-self' | 'corporate'
-  >('all');
+  const [onlyForKids, setOnlyForKids] = useState(false);
+  const [onlyChocoBars, setOnlyChocoBars] = useState(false);
 
-  // Progressive Disclosure
+  // Progressive Disclosure & Favorites (3+ min dwell time magnet)
+  const [favoriteMakerIds, setFavoriteMakerIds] = useState<string[]>(['crafo-kharkiv']);
+  const [onlyFavorites, setOnlyFavorites] = useState(false);
   const [expandedProductIds, setExpandedProductIds] = useState<string[]>([]);
   const [expandedMakerIds, setExpandedMakerIds] = useState<string[]>([]);
   const [groupBySegment, setGroupBySegment] = useState<boolean>(false);
-  const [isTableOpen, setIsTableOpen] = useState<boolean>(false);
   const [isB2BOpen, setIsB2BOpen] = useState<boolean>(false);
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+
+  // Interactive 3-Minute Engagement Widgets (2027 Tech)
+  const [activeEngagementTab, setActiveEngagementTab] = useState<'quiz' | 'calculator'>('quiz');
+  const [quizRecipient, setQuizRecipient] = useState<'her' | 'kids' | 'boss' | 'self'>('her');
+  const [quizDiet, setQuizDiet] = useState<'classic' | 'sugarfree' | 'kids_safe'>('classic');
+  const [quizFormat, setQuizFormat] = useState<'bars' | 'flowers' | 'candies' | 'cakes_zefir'>('flowers');
+
+  // Interactive Cake & Gift Box Calculator state
+  const [guestsCount, setGuestsCount] = useState<number>(12);
+  const [eventType, setEventType] = useState<'birthday' | 'wedding' | 'corporate' | 'kids'>('birthday');
 
   // Comparison & Modals
   const [compareIds, setCompareIds] = useState<string[]>(['p-13', 'p-2', 'p-1']);
@@ -164,16 +296,11 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
   const [activeMakerModal, setActiveMakerModal] = useState<CraftMaker | null>(null);
   const [isTenderModalOpen, setIsTenderModalOpen] = useState(false);
   const [isAddMakerModalOpen, setIsAddMakerModalOpen] = useState(false);
-  const [selectedPlanForModal, setSelectedPlanForModal] = useState<string>('Безкоштовний старт');
+  const [selectedPlanForModal, setSelectedPlanForModal] = useState<string>('PRO Майстерня');
   const [tenderSubmitted, setTenderSubmitted] = useState(false);
   const [makerSubmitted, setMakerSubmitted] = useState(false);
 
-  const currentCategoryInfo = useMemo(
-    () => CATEGORIES.find((c) => c.slug === selectedCategory) || CATEGORIES[0],
-    [selectedCategory]
-  );
-
-  // Macro Pillar counts (like on reference site: Chocolate, Cakes, Zephyr)
+  // Macro Pillar counts
   const chocolateMakersCount = useMemo(
     () =>
       MAKERS.filter(
@@ -194,6 +321,12 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
     []
   );
 
+  const toggleFavoriteMaker = (id: string) => {
+    setFavoriteMakerIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
   const toggleProductExpand = (id: string) => {
     setExpandedProductIds((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
@@ -212,9 +345,10 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
     );
   };
 
-  // Filtered Makers (Crafo.com.ua is always pinned #1 in chocolate categories)
+  // Filtered Makers (Crafo.com.ua is ALWAYS #1 in chocolate categories)
   const filteredMakers = useMemo(() => {
     return MAKERS.filter((m) => {
+      if (onlyFavorites && !favoriteMakerIds.includes(m.id)) return false;
       if (selectedCategory !== 'all' && !m.categories.includes(selectedCategory)) return false;
       if (
         selectedCity !== 'all' &&
@@ -223,8 +357,9 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
       ) {
         return false;
       }
-      if (onlyBeanToBar && !m.isBeanToBar) return false;
+      if (onlyChocoBars && !m.categories.includes('plytky-shokoladu')) return false;
       if (onlySugarFree && !m.categories.includes('bez-tsukru-ta-vegan')) return false;
+      if (onlyForKids && !m.categories.includes('solodoshchi-dlia-ditei')) return false;
 
       if (searchQuery.trim() !== '') {
         const q = searchQuery.toLowerCase();
@@ -243,16 +378,35 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
       if (b.id === 'crafo-kharkiv') return 1;
       return b.rating - a.rating;
     });
-  }, [selectedCategory, selectedCity, onlyBeanToBar, onlySugarFree, searchQuery]);
+  }, [
+    onlyFavorites,
+    favoriteMakerIds,
+    selectedCategory,
+    selectedCity,
+    onlyChocoBars,
+    onlySugarFree,
+    onlyForKids,
+    searchQuery,
+  ]);
 
   // Filtered Products
   const filteredProducts = useMemo(() => {
     return PRODUCTS.filter((product) => {
-      if (selectedCategory !== 'all' && product.category !== selectedCategory) return false;
+      if (selectedCategory !== 'all') {
+        if (selectedCategory === 'solodoshchi-dlia-ditei') {
+          if (product.category !== 'solodoshchi-dlia-ditei' && !product.bestFor.includes('kids')) {
+            return false;
+          }
+        } else if (product.category !== selectedCategory) {
+          return false;
+        }
+      }
       if (selectedMakerId !== 'all' && product.makerId !== selectedMakerId) return false;
       if (onlySugarFree && !product.isSugarFree) return false;
-      if (onlyBeanToBar && !product.isBeanToBar) return false;
-      if (advisorGoal !== 'all' && !product.bestFor.includes(advisorGoal)) return false;
+      if (onlyForKids && !product.bestFor.includes('kids') && product.category !== 'solodoshchi-dlia-ditei') {
+        return false;
+      }
+      if (onlyChocoBars && product.category !== 'plytky-shokoladu') return false;
 
       if (selectedCity !== 'all') {
         const maker = MAKERS.find((m) => m.id === product.makerId);
@@ -288,11 +442,43 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
     selectedCity,
     selectedMakerId,
     onlySugarFree,
-    onlyBeanToBar,
-    advisorGoal,
+    onlyForKids,
+    onlyChocoBars,
     searchQuery,
     sortBy,
   ]);
+
+  // Interactive AI Sommelier Recommendations (Always includes Crafo.com.ua for chocolate!)
+  const quizRecommendedMakers = useMemo(() => {
+    return MAKERS.filter((m) => {
+      if (m.id === 'crafo-kharkiv' && quizFormat !== 'cakes_zefir') return true;
+      if (quizDiet === 'sugarfree' && !m.categories.includes('bez-tsukru-ta-vegan')) return false;
+      if (quizDiet === 'kids_safe' && !m.categories.includes('solodoshchi-dlia-ditei')) return false;
+      if (quizFormat === 'bars' && !m.categories.includes('plytky-shokoladu')) return false;
+      if (quizFormat === 'flowers' && !m.categories.includes('shokoladni-kvity-ta-bukety')) return false;
+      if (quizFormat === 'candies' && !m.categories.includes('korpusni-ta-rozmalovani-tsukerky')) return false;
+      if (
+        quizFormat === 'cakes_zefir' &&
+        !m.categories.includes('avtorski-torty-ta-deserty') &&
+        !m.categories.includes('kraftovyi-zefir-ta-bukety')
+      ) {
+        return false;
+      }
+      return true;
+    })
+      .sort((a, b) => {
+        if (a.id === 'crafo-kharkiv') return -1;
+        if (b.id === 'crafo-kharkiv') return 1;
+        return b.rating - a.rating;
+      })
+      .slice(0, 3);
+  }, [quizDiet, quizFormat]);
+
+  // Cake & Gift Calculator calculations
+  const calculatedWeightKg = useMemo(() => {
+    const gramsPerGuest = eventType === 'wedding' ? 180 : eventType === 'kids' ? 150 : 160;
+    return Math.max(1, Math.round(((guestsCount * gramsPerGuest) / 1000) * 10) / 10);
+  }, [guestsCount, eventType]);
 
   const comparedProducts = useMemo(
     () => PRODUCTS.filter((p) => compareIds.includes(p.id)),
@@ -305,8 +491,9 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
     setSearchQuery('');
     setSelectedMakerId('all');
     setOnlySugarFree(false);
-    setOnlyBeanToBar(false);
-    setAdvisorGoal('all');
+    setOnlyForKids(false);
+    setOnlyChocoBars(false);
+    setOnlyFavorites(false);
     setVisibleMakersLimit(24);
   };
 
@@ -316,50 +503,53 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
     searchQuery.trim() !== '' ||
     selectedMakerId !== 'all' ||
     onlySugarFree ||
-    onlyBeanToBar ||
-    advisorGoal !== 'all';
+    onlyForKids ||
+    onlyChocoBars ||
+    onlyFavorites;
 
-  // Helper to get rich gradient banner for maker card based on segment
   const getMakerHeaderStyle = (maker: CraftMaker) => {
     if (maker.segment === 'custom-cakes-pastry') {
       return {
         gradient: 'linear-gradient(135deg, #c75b7a 0%, #8e2f4a 100%)',
         emoji: '🎂',
-        pill: 'Торти та десерти',
+        pill: lang === 'uk' ? 'Торти та десерти' : 'Торты и десерты',
       };
     }
     if (maker.segment === 'craft-zefir-pastila') {
       return {
         gradient: 'linear-gradient(135deg, #e0a866 0%, #b06a1e 100%)',
         emoji: '🌸',
-        pill: 'Крафтовий зефір',
+        pill: lang === 'uk' ? 'Крафтовий зефір' : 'Крафтовый зефир',
       };
     }
     if (maker.segment === 'flowers-berries-nuts') {
       return {
         gradient: 'linear-gradient(135deg, #b53f61 0%, #5a182c 100%)',
         emoji: '🌹',
-        pill: 'Квіти та ягоди в шоколаді',
+        pill: lang === 'uk' ? 'Квіти та ягоди в шоколаді' : 'Цветы и ягоды в шоколаде',
       };
     }
     if (maker.segment === 'healthy-vegan') {
       return {
         gradient: 'linear-gradient(135deg, #3c7a47 0%, #1d3f24 100%)',
         emoji: '🌿',
-        pill: 'Без цукру / Vegan',
+        pill: lang === 'uk' ? 'Без цукру • Для дітей' : 'Без сахара • Для детей',
       };
     }
     return {
       gradient: 'linear-gradient(135deg, #7a4a2b 0%, #3a2113 100%)',
       emoji: '🍫',
-      pill: maker.isBeanToBar ? 'Bean-to-Bar Шоколад' : 'Крафтовий шоколад',
+      pill:
+        lang === 'uk'
+          ? 'Плитка шоколаду, батончик'
+          : 'Плитка шоколада, батончик',
     };
   };
 
-  // Render a single Rich Saturated Maker Card (matching reference site style)
   const renderMakerCard = (maker: CraftMaker) => {
     const isExpanded = expandedMakerIds.includes(maker.id);
     const isLeader = maker.id === 'crafo-kharkiv';
+    const isFav = favoriteMakerIds.includes(maker.id);
     const headerMeta = getMakerHeaderStyle(maker);
     const cleanDomain = maker.websiteUrl
       .replace('https://www.', '')
@@ -379,7 +569,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
             : 'bg-[#fefbf7] border-[#e1d5c8] hover:border-[#b06a1e] shadow-sm'
         }`}
       >
-        {/* Rich Saturated Top Banner (Image or Vibrant Gradient like reference site) */}
+        {/* Top Banner */}
         <div
           className="relative h-36 overflow-hidden cursor-pointer"
           style={{ background: headerMeta.gradient }}
@@ -402,45 +592,63 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
           )}
 
           {/* Top Left Pills */}
-          <div className="absolute left-4 top-3.5 z-10 flex flex-wrap items-center gap-1.5">
+          <div className="absolute left-3.5 top-3.5 z-10 flex flex-wrap items-center gap-1.5 pr-10">
             {isLeader ? (
-              <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[#e39851] to-[#b06a1e] px-3 py-1 text-xs font-extrabold text-[#26140b] shadow-md">
-                <Crown className="w-3.5 h-3.5" />
-                <span>№1 Лідер категорії Шоколад</span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[#e39851] to-[#b06a1e] px-3 py-1 text-[11px] sm:text-xs font-extrabold text-[#26140b] shadow-md">
+                <Crown className="w-3.5 h-3.5 shrink-0" />
+                <span>
+                  {lang === 'uk' ? '№1 Лідер категорії Шоколад' : '№1 Лидер категории Шоколад'}
+                </span>
               </span>
             ) : (
-              <span className="rounded-full bg-black/35 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-md border border-white/20">
+              <span className="rounded-full bg-black/40 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-md border border-white/20">
                 {headerMeta.pill}
               </span>
             )}
             {maker.rating >= 4.95 && (
-              <span className="rounded-full bg-[#fff8ef] px-2.5 py-0.5 text-[11px] font-bold text-[#302016] shadow-sm">
+              <span className="rounded-full bg-[#fff8ef] px-2 py-0.5 text-[11px] font-bold text-[#302016] shadow-sm">
                 ★ {maker.rating}
               </span>
             )}
           </div>
 
+          {/* Top Right Favorite Heart Button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleFavoriteMaker(maker.id);
+            }}
+            aria-label="Обране"
+            className={`absolute right-3 top-3 z-10 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md transition ${
+              isFav
+                ? 'bg-[#c75b7a] text-white shadow-md'
+                : 'bg-black/35 text-white/85 hover:bg-black/55'
+            }`}
+          >
+            <Heart className={`w-4 h-4 ${isFav ? 'fill-white' : ''}`} />
+          </button>
+
           {/* Bottom Left Verified Badge */}
-          <div className="absolute bottom-3 left-4 z-10 flex items-center gap-2">
+          <div className="absolute bottom-3 left-3.5 z-10 flex items-center gap-2">
             {maker.isVerified && (
               <span className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-0.5 text-[11px] font-bold text-[#302016] shadow-sm">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Перевірений виробник</span>
+                <span>{lang === 'uk' ? 'Перевірений виробник' : 'Проверенный производитель'}</span>
               </span>
             )}
           </div>
         </div>
 
         {/* Card Body */}
-        <div className="flex flex-1 flex-col gap-3 p-5">
+        <div className="flex flex-1 flex-col gap-3 p-4 sm:p-5">
           <div>
             <h3
               onClick={() => setActiveMakerModal(maker)}
-              className={`font-serif text-lg font-bold leading-snug cursor-pointer hover:text-[#b06a1e] transition ${
+              className={`font-serif text-base sm:text-lg font-bold leading-snug cursor-pointer hover:text-[#b06a1e] transition ${
                 isDark ? 'text-[#eee7dd]' : 'text-[#302016]'
               }`}
             >
-              {maker.name}
+              {localizeText(maker.name, lang)}
             </h3>
             <p
               className={`mt-1 flex items-center gap-1 text-xs font-medium ${
@@ -448,7 +656,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
               }`}
             >
               <MapPin className="w-3.5 h-3.5 text-[#b06a1e] shrink-0" />
-              <span>{maker.city}</span>
+              <span>{localizeText(maker.city, lang)}</span>
             </p>
           </div>
 
@@ -462,7 +670,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 <button
                   key={catSlug}
                   onClick={() => setSelectedCategory(catSlug)}
-                  className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold transition ${
+                  className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold transition ${
                     isSelectedCat
                       ? 'bg-[#462b1f] text-[#faf4eb] shadow-sm'
                       : isDark
@@ -471,7 +679,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                   }`}
                 >
                   <span>{info.emoji}</span>
-                  <span>{info.label}</span>
+                  <span>{lang === 'uk' ? info.uk : info.ru}</span>
                 </button>
               );
             })}
@@ -483,20 +691,27 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
               isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'
             }`}
           >
-            {maker.description || maker.specialty}
+            {localizeText(maker.description || maker.specialty, lang)}
           </p>
 
-          {/* Verified Contact / Phone & Domain Row (Replaced wide per-kg price range) */}
+          {/* Verified Contact / Phone Row */}
           <div className="flex flex-wrap items-center justify-between gap-2 pt-0.5 text-xs font-bold">
             {maker.phone && !maker.phone.startsWith('Замовлення') ? (
-              <div className={`flex items-center gap-1.5 ${isDark ? 'text-[#eee7dd]' : 'text-[#302016]'}`}>
+              <a
+                href={`tel:${maker.phone.split(',')[0].replace(/[^\d+]/g, '')}`}
+                className={`flex items-center gap-1.5 hover:text-[#b06a1e] ${
+                  isDark ? 'text-[#eee7dd]' : 'text-[#302016]'
+                }`}
+              >
                 <Phone className="w-3.5 h-3.5 text-[#b06a1e] shrink-0" />
                 <span>{maker.phone.split(',')[0]}</span>
-              </div>
+              </a>
             ) : (
               <div className="flex items-center gap-1.5 text-[#b06a1e]">
                 <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
-                <span>Активна сторінка • Щоденна відправка</span>
+                <span>
+                  {lang === 'uk' ? 'Активна сторінка • Доставка НП' : 'Активная страница • Доставка НП'}
+                </span>
               </div>
             )}
             {maker.instagramHandle && (
@@ -513,18 +728,20 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 isDark ? 'border-white/10 text-[#eee7dd]' : 'border-[#e1d5c8] text-[#302016]'
               }`}
             >
-              <p className="leading-relaxed">{maker.description}</p>
+              <p className="leading-relaxed">{localizeText(maker.description, lang)}</p>
               <div
                 className={`rounded-xl p-3 space-y-1 ${
                   isDark ? 'bg-[#1a120e]' : 'bg-[#f1e6da]/70'
                 }`}
               >
                 <div>
-                  <strong>Контакт / Телефон:</strong> {maker.phone}
+                  <strong>{lang === 'uk' ? 'Контакт / Телефон:' : 'Контакт / Телефон:'}</strong>{' '}
+                  {maker.phone}
                 </div>
                 {maker.address && (
                   <div>
-                    <strong>Локація:</strong> {maker.address}
+                    <strong>{lang === 'uk' ? 'Локація:' : 'Локация:'}</strong>{' '}
+                    {localizeText(maker.address, lang)}
                   </div>
                 )}
                 {maker.instagramHandle && (
@@ -533,7 +750,8 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                   </div>
                 )}
                 <div>
-                  <strong>Доставка:</strong> {maker.shippingNote}
+                  <strong>{lang === 'uk' ? 'Доставка:' : 'Доставка:'}</strong>{' '}
+                  {localizeText(maker.shippingNote, lang)}
                 </div>
               </div>
             </div>
@@ -545,13 +763,19 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
               href={maker.websiteUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={`inline-flex items-center justify-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition shadow-xs ${
+              className={`inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition shadow-xs ${
                 isDark
                   ? 'bg-[#f0a556] text-[#26160e] hover:bg-[#e39851]'
                   : 'bg-[#462b1f] text-[#faf4eb] hover:bg-[#b06a1e]'
               }`}
             >
-              <span>{cleanDomain.includes('instagram.com') ? 'Instagram' : 'Сайт'}</span>
+              <span>
+                {cleanDomain.includes('instagram.com')
+                  ? 'Instagram'
+                  : lang === 'uk'
+                  ? 'На сайт'
+                  : 'На сайт'}
+              </span>
               <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
 
@@ -573,13 +797,21 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
 
             <button
               onClick={() => toggleMakerExpand(maker.id)}
-              className={`ml-auto inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-bold transition ${
+              className={`ml-auto inline-flex items-center gap-1 rounded-full px-3 py-2 text-xs font-bold transition ${
                 isDark
                   ? 'text-[#f0a556] hover:bg-white/10'
                   : 'text-[#7a4a2b] hover:bg-[#f1e6da]'
               }`}
             >
-              <span>{isExpanded ? 'Згорнути' : 'Докладніше'}</span>
+              <span>
+                {isExpanded
+                  ? lang === 'uk'
+                    ? 'Згорнути'
+                    : 'Свернуть'
+                  : lang === 'uk'
+                  ? 'Докладніше'
+                  : 'Подробнее'}
+              </span>
               {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
             </button>
           </div>
@@ -590,41 +822,43 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
 
   return (
     <div
-      className={`min-h-screen flex flex-col transition-colors duration-200 ${
+      className={`min-h-screen flex flex-col pb-20 sm:pb-0 transition-colors duration-200 ${
         isDark ? 'bg-[#1a120e] text-[#eee7dd]' : 'bg-[#fbf6ee] text-[#302016]'
       }`}
     >
-      {/* Top Sticky Header (Matching reference site's rich chocolate-caramel header) */}
+      {/* Top Sticky Header with UK / RU Language Switcher */}
       <header
         className={`sticky top-0 z-40 w-full border-b backdrop-blur-xl ${
           isDark
-            ? 'border-white/15 bg-[#1a120e]/85'
-            : 'border-[#e1d5c8] bg-[#fbf6ee]/90'
+            ? 'border-white/15 bg-[#1a120e]/90'
+            : 'border-[#e1d5c8] bg-[#fbf6ee]/95'
         }`}
       >
-        <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-16 max-w-7xl items-center gap-2 sm:gap-3 px-3 sm:px-6 lg:px-8">
           <button
             onClick={resetAllFilters}
-            className="flex items-center gap-2.5 text-left outline-none"
+            className="flex items-center gap-2 text-left outline-none shrink-0"
           >
-            <span className="grid w-10 h-10 place-items-center rounded-xl bg-gradient-to-br from-[#7a4a2b] to-[#3a2113] text-white shadow-md text-lg">
+            <span className="grid w-9 h-9 sm:w-10 sm:h-10 place-items-center rounded-xl bg-gradient-to-br from-[#7a4a2b] to-[#3a2113] text-white shadow-md text-lg">
               🍫
             </span>
             <span className="flex flex-col items-start leading-none">
-              <span className="font-serif text-lg font-bold tracking-tight">
-                ChocoRadar <span className="text-[#b06a1e]">Крафти</span>
+              <span className="font-serif text-base sm:text-lg font-bold tracking-tight">
+                Craft<span className="text-[#b06a1e]">Hub</span>
               </span>
-              <span className={`text-[11px] font-medium ${isDark ? 'text-[#a79d91]' : 'text-[#715f53]'}`}>
-                Дошка солодощів України • {MAKERS.length} майстрів
+              <span className={`text-[10px] sm:text-[11px] font-medium ${isDark ? 'text-[#a79d91]' : 'text-[#715f53]'}`}>
+                {lang === 'uk'
+                  ? `${MAKERS.length} майстерень України`
+                  : `${MAKERS.length} мастерских Украины`}
               </span>
             </span>
           </button>
 
-          {/* Top Quick Macro Navigation */}
-          <nav className="ml-3 hidden items-center gap-1.5 lg:flex">
+          {/* Desktop Quick Macro Navigation */}
+          <nav className="ml-2 hidden items-center gap-1 xl:flex">
             <button
               onClick={() => setSelectedCategory('all')}
-              className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+              className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${
                 selectedCategory === 'all'
                   ? 'bg-[#462b1f] text-[#faf4eb] shadow-sm'
                   : isDark
@@ -632,11 +866,11 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                   : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e5d5c3]'
               }`}
             >
-              Усі ({MAKERS.length})
+              {lang === 'uk' ? `Усі (${MAKERS.length})` : `Все (${MAKERS.length})`}
             </button>
             <button
               onClick={() => setSelectedCategory('plytky-shokoladu')}
-              className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+              className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${
                 selectedCategory === 'plytky-shokoladu'
                   ? 'bg-[#462b1f] text-[#faf4eb] shadow-sm'
                   : isDark
@@ -644,11 +878,35 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                   : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e5d5c3]'
               }`}
             >
-              🍫 Шоколад
+              🍫 {lang === 'uk' ? 'Плитка шоколаду, батончик' : 'Плитка шоколада, батончик'}
+            </button>
+            <button
+              onClick={() => setSelectedCategory('bez-tsukru-ta-vegan')}
+              className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${
+                selectedCategory === 'bez-tsukru-ta-vegan'
+                  ? 'bg-[#3c7a47] text-white shadow-sm'
+                  : isDark
+                  ? 'bg-[#362820] text-[#eee7dd] hover:bg-[#3c7a47]'
+                  : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e5d5c3]'
+              }`}
+            >
+              🌿 {lang === 'uk' ? 'Без цукру' : 'Без сахара'}
+            </button>
+            <button
+              onClick={() => setSelectedCategory('solodoshchi-dlia-ditei')}
+              className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${
+                selectedCategory === 'solodoshchi-dlia-ditei'
+                  ? 'bg-[#b06a1e] text-white shadow-sm'
+                  : isDark
+                  ? 'bg-[#362820] text-[#eee7dd] hover:bg-[#b06a1e]'
+                  : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e5d5c3]'
+              }`}
+            >
+              🧸 {lang === 'uk' ? 'Для дітей' : 'Для детей'}
             </button>
             <button
               onClick={() => setSelectedCategory('avtorski-torty-ta-deserty')}
-              className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+              className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${
                 selectedCategory === 'avtorski-torty-ta-deserty'
                   ? 'bg-[#8e2f4a] text-white shadow-sm'
                   : isDark
@@ -656,11 +914,11 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                   : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e5d5c3]'
               }`}
             >
-              🎂 Торти ({cakeMakersCount})
+              🎂 {lang === 'uk' ? 'Торти' : 'Торты'}
             </button>
             <button
               onClick={() => setSelectedCategory('kraftovyi-zefir-ta-bukety')}
-              className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+              className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${
                 selectedCategory === 'kraftovyi-zefir-ta-bukety'
                   ? 'bg-[#b06a1e] text-white shadow-sm'
                   : isDark
@@ -668,28 +926,64 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                   : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e5d5c3]'
               }`}
             >
-              🌸 Зефір ({zefirMakersCount})
-            </button>
-            <button
-              onClick={() => setSelectedCategory('shokoladni-kvity-ta-bukety')}
-              className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
-                selectedCategory === 'shokoladni-kvity-ta-bukety'
-                  ? 'bg-[#b53f61] text-white shadow-sm'
-                  : isDark
-                  ? 'bg-[#362820] text-[#eee7dd]'
-                  : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e5d5c3]'
-              }`}
-            >
-              🌹 Букети
+              🌸 {lang === 'uk' ? 'Зефір' : 'Зефир'}
             </button>
           </nav>
 
-          {/* Right Actions */}
-          <div className="ml-auto flex items-center gap-2">
+          {/* Right Actions: Language Switcher (УКР | РУС), Theme, Favorites, CTA */}
+          <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
+            {/* Language Switcher Pill (Default UKR) */}
+            <div
+              className={`inline-flex items-center rounded-full p-0.5 border text-xs font-extrabold ${
+                isDark
+                  ? 'bg-[#362820] border-white/20'
+                  : 'bg-[#f1e6da] border-[#d4c3b3]'
+              }`}
+              role="group"
+              aria-label="Перемикач мови"
+            >
+              <button
+                onClick={() => setLang('uk')}
+                className={`rounded-full px-2.5 py-1 transition ${
+                  lang === 'uk'
+                    ? 'bg-[#462b1f] text-[#faf4eb] shadow-xs'
+                    : 'text-[#715f53] hover:text-[#302016]'
+                }`}
+              >
+                УКР
+              </button>
+              <button
+                onClick={() => setLang('ru')}
+                className={`rounded-full px-2.5 py-1 transition ${
+                  lang === 'ru'
+                    ? 'bg-[#462b1f] text-[#faf4eb] shadow-xs'
+                    : 'text-[#715f53] hover:text-[#302016]'
+                }`}
+              >
+                РУС
+              </button>
+            </div>
+
+            {/* Favorites Quick Filter */}
+            <button
+              onClick={() => setOnlyFavorites(!onlyFavorites)}
+              title={lang === 'uk' ? 'Обрані майстерні' : 'Избранные мастерские'}
+              className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1.5 text-xs font-bold border transition ${
+                onlyFavorites
+                  ? 'bg-[#c75b7a] text-white border-[#c75b7a]'
+                  : isDark
+                  ? 'border-white/20 bg-[#362820] text-[#eee7dd]'
+                  : 'border-[#e1d5c8] bg-[#f1e6da] text-[#462b1f]'
+              }`}
+            >
+              <Heart className={`w-3.5 h-3.5 ${onlyFavorites ? 'fill-white' : 'text-[#c75b7a]'}`} />
+              <span>{favoriteMakerIds.length}</span>
+            </button>
+
             <button
               onClick={() => setIsDark(!isDark)}
               aria-label="Перемкнути тему"
-              className={`w-9 h-9 rounded-full flex items-center justify-center border transition ${
+              className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center border transition ${
                 isDark
                   ? 'border-white/20 bg-[#362820] text-[#f0a556]'
                   : 'border-[#e1d5c8] bg-[#f1e6da] text-[#462b1f]'
@@ -700,28 +994,28 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
 
             <button
               onClick={() => setIsTenderModalOpen(true)}
-              className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-[#b06a1e] hover:bg-[#965715] px-4 py-2 text-xs font-bold text-white shadow-sm transition"
+              className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-[#b06a1e] hover:bg-[#965715] px-3.5 py-2 text-xs font-bold text-white shadow-sm transition"
             >
               <Gift className="w-3.5 h-3.5" />
-              <span>Замовити підбір</span>
+              <span>{lang === 'uk' ? 'Замовити підбір' : 'Заказать подбор'}</span>
             </button>
 
             <button
               onClick={() => {
-                setSelectedPlanForModal('Безкоштовний або PRO');
+                setSelectedPlanForModal('PRO або Безкоштовний старт');
                 setIsAddMakerModalOpen(true);
               }}
-              className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#462b1f] to-[#3a2113] hover:from-[#5c3929] hover:to-[#462b1f] px-4 py-2 text-xs font-bold text-[#faf4eb] shadow-sm transition"
+              className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#462b1f] to-[#3a2113] hover:from-[#5c3929] hover:to-[#462b1f] px-3.5 py-2 text-xs font-bold text-[#faf4eb] shadow-sm transition"
             >
               <Sparkles className="w-3.5 h-3.5 text-[#e39851]" />
-              <span>Заявити про себе</span>
+              <span>{lang === 'uk' ? 'Додати майстерню' : 'Добавить мастерскую'}</span>
             </button>
           </div>
         </div>
       </header>
 
       <main className="flex-1">
-        {/* HERO SECTION (Rich Gradients, Floating Icons & 3 Big Pillar Cards like https://e11za873zg41-d.space-z.ai) */}
+        {/* HERO SECTION */}
         <section
           className={`relative overflow-hidden border-b ${
             isDark
@@ -729,49 +1023,57 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
               : 'border-[#e1d5c8] bg-gradient-to-b from-[#f1e6da]/80 via-[#fbf6ee] to-[#fbf6ee]'
           }`}
         >
-          {/* Ambient radial glow blobs */}
           <div
-            className="pointer-events-none absolute -left-24 top-0 h-80 w-80 rounded-full opacity-35 blur-3xl"
+            className="pointer-events-none absolute -left-24 top-0 h-72 w-72 rounded-full opacity-35 blur-3xl"
             style={{ background: 'radial-gradient(circle, #b06a1e, transparent 70%)' }}
           />
           <div
-            className="pointer-events-none absolute -right-20 top-10 h-80 w-80 rounded-full opacity-25 blur-3xl"
+            className="pointer-events-none absolute -right-20 top-10 h-72 w-72 rounded-full opacity-25 blur-3xl"
             style={{ background: 'radial-gradient(circle, #c75b7a, transparent 70%)' }}
           />
 
-          <div className="relative mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+          <div className="relative mx-auto max-w-7xl px-3 py-7 sm:px-6 sm:py-12 lg:px-8">
             <div className="mx-auto max-w-3xl text-center">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#b06a1e]/40 bg-[#e39851]/20 px-4 py-1.5 text-xs font-bold text-[#8c4f12] dark:text-[#f0a556] mb-4">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Крафтові солодощі України • {MAKERS.length} перевірених виробників</span>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#b06a1e]/40 bg-[#e39851]/20 px-3.5 py-1 text-[11px] sm:text-xs font-bold text-[#8c4f12] dark:text-[#f0a556] mb-3">
+                <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                <span>
+                  {lang === 'uk'
+                    ? `CraftHub Україна 2027 • ${MAKERS.length} перевірені активні майстерні`
+                    : `CraftHub Украина 2027 • ${MAKERS.length} проверенные активные мастерские`}
+                </span>
               </span>
 
-              <h1 className="font-serif text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
-                Знайди свого{' '}
+              <h1 className="font-serif text-3xl font-bold leading-[1.12] tracking-tight sm:text-5xl lg:text-6xl">
+                {lang === 'uk' ? 'Всі крафтові виробники ' : 'Все крафтовые производители '}
                 <span className="bg-gradient-to-r from-[#7a4a2b] via-[#b06a1e] to-[#c75b7a] bg-clip-text text-transparent">
-                  крафтового майстра
-                </span>{' '}
-                солодощів
+                  {lang === 'uk' ? 'шоколаду, зефіру і тортів' : 'шоколада, зефира и тортов'}
+                </span>
               </h1>
 
               <p
-                className={`mx-auto mt-4 max-w-2xl text-sm sm:text-base leading-relaxed ${
+                className={`mx-auto mt-3 max-w-2xl text-xs sm:text-base leading-relaxed ${
                   isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'
                 }`}
               >
-                Всеукраїнська платформа, де покупці знаходять найкращий крафтовий шоколад, шоколадні й зефірні букети та авторські торти напряму у виробників, а майстри отримують замовлення.
+                {lang === 'uk'
+                  ? 'Єдиний сервіс CraftHub, де покупці обирають плитки шоколаду, батончики, цукерки ручної роботи, букети, солодощі без цукру, ласощі для дітей та авторські торти напряму у перевірених майстрів.'
+                  : 'Единый сервис CraftHub, где покупатели выбирают плитки шоколада, батончики, конфеты ручной работы, букеты, сладости без сахара, лакомства для детей и авторские торты напрямую у проверенных мастеров.'}
               </p>
 
-              {/* Big Search Bar */}
-              <div className="mx-auto mt-7 flex max-w-xl items-center gap-2">
+              {/* Search Bar */}
+              <div className="mx-auto mt-5 flex max-w-xl items-center gap-2">
                 <div className="relative flex-1">
-                  <Search className="pointer-events-none absolute left-4 top-1/2 w-5 h-5 -translate-y-1/2 text-[#715f53]" />
+                  <Search className="pointer-events-none absolute left-3.5 top-1/2 w-4 h-4 sm:w-5 sm:h-5 -translate-y-1/2 text-[#715f53]" />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Шоколад, торт, зефір, букет, малина, Харків, Київ..."
-                    className={`w-full h-13 rounded-full border pl-12 pr-10 text-sm sm:text-base shadow-sm focus:outline-none focus:ring-2 focus:ring-[#b06a1e] ${
+                    placeholder={
+                      lang === 'uk'
+                        ? 'Плитка шоколаду, батончик, без цукру, дітям, торт, зефір, Харків...'
+                        : 'Плитка шоколада, батончик, без сахара, детям, торт, зефир, Харьков...'
+                    }
+                    className={`w-full h-11 sm:h-12 rounded-full border pl-10 pr-9 text-xs sm:text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-[#b06a1e] ${
                       isDark
                         ? 'bg-[#261b16] border-white/20 text-[#eee7dd] placeholder:text-[#a79d91]'
                         : 'bg-[#fefbf7] border-[#d4c3b3] text-[#302016] placeholder:text-[#715f53]'
@@ -780,7 +1082,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                   {searchQuery && (
                     <button
                       onClick={() => setSearchQuery('')}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#715f53] hover:text-[#302016]"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#715f53] hover:text-[#302016]"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -788,18 +1090,19 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 </div>
                 <a
                   href="#makers-section"
-                  className="h-13 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#462b1f] to-[#3a2113] hover:from-[#5c3929] hover:to-[#462b1f] px-6 text-sm font-bold text-[#faf4eb] shadow-md transition"
+                  className="h-11 sm:h-12 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#462b1f] to-[#3a2113] hover:from-[#5c3929] hover:to-[#462b1f] px-5 text-xs sm:text-sm font-bold text-[#faf4eb] shadow-md transition shrink-0"
                 >
-                  Знайти
+                  {lang === 'uk' ? 'Знайти' : 'Найти'}
                 </a>
               </div>
 
-              {/* 3 Macro Pillar Cards (Chocolate / Cakes / Zephyr — with Rich Gradients) */}
-              <div className="mt-8 grid grid-cols-3 gap-3 sm:gap-4">
+              {/* 3 Macro Pillar Cards */}
+              <div className="mt-6 grid grid-cols-3 gap-2.5 sm:gap-4">
                 <button
                   onClick={() => setSelectedCategory('plytky-shokoladu')}
-                  className={`group rounded-2xl border p-4 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md sm:p-5 ${
-                    selectedCategory === 'plytky-shokoladu' || selectedCategory === 'korpusni-ta-rozmalovani-tsukerky'
+                  className={`group rounded-2xl border p-3 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md sm:p-5 ${
+                    selectedCategory === 'plytky-shokoladu' ||
+                    selectedCategory === 'korpusni-ta-rozmalovani-tsukerky'
                       ? 'border-[#7a4a2b] ring-2 ring-[#7a4a2b]/30 bg-[#f1e6da]'
                       : isDark
                       ? 'border-white/15 bg-[#261b16]/90'
@@ -807,22 +1110,26 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                   }`}
                 >
                   <div
-                    className="mx-auto grid w-12 h-12 place-items-center rounded-xl text-2xl text-white shadow-sm"
+                    className="mx-auto grid w-10 h-10 sm:w-12 sm:h-12 place-items-center rounded-xl text-xl sm:text-2xl text-white shadow-sm"
                     style={{ background: 'linear-gradient(135deg, #7a4a2b 0%, #3a2113 100%)' }}
                   >
                     🍫
                   </div>
-                  <div className="mt-2.5 font-serif text-2xl font-bold sm:text-3xl">
+                  <div className="mt-2 font-serif text-xl font-bold sm:text-3xl">
                     {chocolateMakersCount}
                   </div>
-                  <div className={`text-xs font-bold sm:text-sm ${isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'}`}>
-                    Шоколад і цукерки
+                  <div
+                    className={`text-[11px] font-bold sm:text-sm leading-tight ${
+                      isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'
+                    }`}
+                  >
+                    {lang === 'uk' ? 'Шоколад і цукерки' : 'Шоколад и конфеты'}
                   </div>
                 </button>
 
                 <button
                   onClick={() => setSelectedCategory('avtorski-torty-ta-deserty')}
-                  className={`group rounded-2xl border p-4 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md sm:p-5 ${
+                  className={`group rounded-2xl border p-3 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md sm:p-5 ${
                     selectedCategory === 'avtorski-torty-ta-deserty'
                       ? 'border-[#c75b7a] ring-2 ring-[#c75b7a]/30 bg-[#f1e6da]'
                       : isDark
@@ -831,22 +1138,26 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                   }`}
                 >
                   <div
-                    className="mx-auto grid w-12 h-12 place-items-center rounded-xl text-2xl text-white shadow-sm"
+                    className="mx-auto grid w-10 h-10 sm:w-12 sm:h-12 place-items-center rounded-xl text-xl sm:text-2xl text-white shadow-sm"
                     style={{ background: 'linear-gradient(135deg, #c75b7a 0%, #8e2f4a 100%)' }}
                   >
                     🎂
                   </div>
-                  <div className="mt-2.5 font-serif text-2xl font-bold sm:text-3xl">
+                  <div className="mt-2 font-serif text-xl font-bold sm:text-3xl">
                     {cakeMakersCount}
                   </div>
-                  <div className={`text-xs font-bold sm:text-sm ${isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'}`}>
-                    Авторські торти
+                  <div
+                    className={`text-[11px] font-bold sm:text-sm leading-tight ${
+                      isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'
+                    }`}
+                  >
+                    {lang === 'uk' ? 'Авторські торти' : 'Авторские торты'}
                   </div>
                 </button>
 
                 <button
                   onClick={() => setSelectedCategory('kraftovyi-zefir-ta-bukety')}
-                  className={`group rounded-2xl border p-4 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md sm:p-5 ${
+                  className={`group rounded-2xl border p-3 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md sm:p-5 ${
                     selectedCategory === 'kraftovyi-zefir-ta-bukety'
                       ? 'border-[#b06a1e] ring-2 ring-[#b06a1e]/30 bg-[#f1e6da]'
                       : isDark
@@ -855,23 +1166,27 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                   }`}
                 >
                   <div
-                    className="mx-auto grid w-12 h-12 place-items-center rounded-xl text-2xl text-white shadow-sm"
+                    className="mx-auto grid w-10 h-10 sm:w-12 sm:h-12 place-items-center rounded-xl text-xl sm:text-2xl text-white shadow-sm"
                     style={{ background: 'linear-gradient(135deg, #e0a866 0%, #b06a1e 100%)' }}
                   >
                     🌸
                   </div>
-                  <div className="mt-2.5 font-serif text-2xl font-bold sm:text-3xl">
+                  <div className="mt-2 font-serif text-xl font-bold sm:text-3xl">
                     {zefirMakersCount}
                   </div>
-                  <div className={`text-xs font-bold sm:text-sm ${isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'}`}>
-                    Зефір і букети
+                  <div
+                    className={`text-[11px] font-bold sm:text-sm leading-tight ${
+                      isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'
+                    }`}
+                  >
+                    {lang === 'uk' ? 'Зефір і букети' : 'Зефир и букеты'}
                   </div>
                 </button>
               </div>
             </div>
 
-            {/* Detailed 9 Sub-Category Filter Buttons */}
-            <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-9 gap-2">
+            {/* Detailed 10 Category Filter Buttons (Responsive Mobile Horizontal Swipe + Desktop Grid) */}
+            <div className="mt-6 flex overflow-x-auto pb-2 gap-2 sm:grid sm:grid-cols-5 lg:grid-cols-10 sm:overflow-visible no-scrollbar">
               {CATEGORIES.map((cat) => {
                 const active = selectedCategory === cat.slug;
                 const slug = cat.slug;
@@ -880,11 +1195,20 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                     ? MAKERS.length
                     : MAKERS.filter((m) => m.categories.includes(slug)).length;
 
+                const labelText =
+                  slug === 'all'
+                    ? lang === 'uk'
+                      ? 'Всі категорії'
+                      : 'Все категории'
+                    : lang === 'uk'
+                    ? CATEGORY_SHORT_LABELS[slug].uk
+                    : CATEGORY_SHORT_LABELS[slug].ru;
+
                 return (
                   <button
                     key={cat.slug}
                     onClick={() => setSelectedCategory(cat.slug)}
-                    className={`p-3 rounded-2xl border text-left transition flex flex-col justify-between gap-1.5 ${
+                    className={`shrink-0 w-36 sm:w-auto p-3 rounded-2xl border text-left transition flex flex-col justify-between gap-1.5 ${
                       active
                         ? 'bg-gradient-to-br from-[#462b1f] to-[#3a2113] text-[#faf4eb] border-[#3a2113] shadow-md'
                         : isDark
@@ -893,7 +1217,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-xl">{cat.emoji}</span>
+                      <span className="text-lg sm:text-xl">{cat.emoji}</span>
                       <span
                         className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                           active
@@ -906,7 +1230,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                         {count}
                       </span>
                     </div>
-                    <div className="font-bold text-xs leading-tight">{cat.shortTitle}</div>
+                    <div className="font-bold text-[11px] sm:text-xs leading-tight">{labelText}</div>
                   </button>
                 );
               })}
@@ -914,14 +1238,14 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
 
             {/* City & Dietary Filter Bar */}
             <div
-              className={`mt-4 rounded-2xl border p-4 shadow-sm space-y-3 ${
+              className={`mt-3 rounded-2xl border p-3.5 sm:p-4 shadow-sm space-y-3 ${
                 isDark ? 'bg-[#261b16] border-white/15' : 'bg-[#fefbf7] border-[#d9c8b8]'
               }`}
             >
-              <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
                 <span className="text-xs font-bold text-[#b06a1e] shrink-0 flex items-center gap-1 mr-1">
                   <MapPin className="w-3.5 h-3.5" />
-                  Місто:
+                  <span>{lang === 'uk' ? 'Місто:' : 'Город:'}</span>
                 </span>
                 {CITY_FILTERS.map((city) => {
                   const active = selectedCity === city.id;
@@ -937,61 +1261,49 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                           : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e3d2c0]'
                       }`}
                     >
-                      {city.label}
+                      {lang === 'uk' ? city.uk : city.ru}
                     </button>
                   );
                 })}
               </div>
 
-              <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-[#e1d5c8]/60">
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[#e1d5c8]/60">
                 <div className="flex flex-wrap items-center gap-1.5">
                   <button
-                    onClick={() => setOnlyBeanToBar(!onlyBeanToBar)}
+                    onClick={() => setOnlyChocoBars(!onlyChocoBars)}
                     className={`px-3 py-1.5 rounded-full text-xs font-bold transition ${
-                      onlyBeanToBar
+                      onlyChocoBars
                         ? 'bg-[#b06a1e] text-white'
                         : isDark
                         ? 'bg-[#362820] text-[#eee7dd]'
                         : 'bg-[#f1e6da] text-[#3e281b]'
                     }`}
                   >
-                    🍫 Bean-to-Bar
+                    🍫 {lang === 'uk' ? 'Плитка шоколаду, батончик' : 'Плитка шоколада, батончик'}
                   </button>
                   <button
                     onClick={() => setOnlySugarFree(!onlySugarFree)}
                     className={`px-3 py-1.5 rounded-full text-xs font-bold transition ${
                       onlySugarFree
+                        ? 'bg-[#3c7a47] text-white'
+                        : isDark
+                        ? 'bg-[#362820] text-[#eee7dd]'
+                        : 'bg-[#f1e6da] text-[#3e281b]'
+                    }`}
+                  >
+                    🌿 {lang === 'uk' ? 'Без цукру' : 'Без сахара'}
+                  </button>
+                  <button
+                    onClick={() => setOnlyForKids(!onlyForKids)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-bold transition ${
+                      onlyForKids
                         ? 'bg-[#b06a1e] text-white'
                         : isDark
                         ? 'bg-[#362820] text-[#eee7dd]'
                         : 'bg-[#f1e6da] text-[#3e281b]'
                     }`}
                   >
-                    🌿 Без білого цукру / Vegan
-                  </button>
-                  <button
-                    onClick={() => setAdvisorGoal(advisorGoal === 'gift-her' ? 'all' : 'gift-her')}
-                    className={`px-3 py-1.5 rounded-full text-xs font-bold transition ${
-                      advisorGoal === 'gift-her'
-                        ? 'bg-[#c75b7a] text-white'
-                        : isDark
-                        ? 'bg-[#362820] text-[#eee7dd]'
-                        : 'bg-[#f1e6da] text-[#3e281b]'
-                    }`}
-                  >
-                    💝 На подарунок
-                  </button>
-                  <button
-                    onClick={() => setAdvisorGoal(advisorGoal === 'kids' ? 'all' : 'kids')}
-                    className={`px-3 py-1.5 rounded-full text-xs font-bold transition ${
-                      advisorGoal === 'kids'
-                        ? 'bg-[#b06a1e] text-white'
-                        : isDark
-                        ? 'bg-[#362820] text-[#eee7dd]'
-                        : 'bg-[#f1e6da] text-[#3e281b]'
-                    }`}
-                  >
-                    🧸 Дітям
+                    🧸 {lang === 'uk' ? 'Для дітей' : 'Для детей'}
                   </button>
                 </div>
 
@@ -1000,7 +1312,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                     onClick={resetAllFilters}
                     className="text-xs font-bold text-[#c75b7a] hover:underline"
                   >
-                    Скинути всі фільтри ✕
+                    {lang === 'uk' ? 'Скинути всі фільтри ✕' : 'Сбросить все фильтры ✕'}
                   </button>
                 )}
               </div>
@@ -1009,20 +1321,354 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
         </section>
 
         {/* MAIN CONTENT CONTAINER */}
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 space-y-14">
-          {/* SECTION 1: ALL 274 UKRAINIAN CRAFT MAKERS */}
+        <div className="mx-auto max-w-7xl px-3 py-8 sm:px-6 lg:px-8 space-y-12">
+          {/* NEW 2027 INTERACTIVE DWELL-TIME MAGNET (3+ MINUTES ON SITE): AI GIFT SOMMELIER & CAKE CALCULATOR */}
+          <section
+            id="interactive-tools"
+            className={`rounded-3xl border-2 p-4 sm:p-7 shadow-md ${
+              isDark
+                ? 'bg-[#261b16] border-[#e39851]/40'
+                : 'bg-gradient-to-br from-[#fff9f2] via-[#fefbf7] to-[#f4e8da] border-[#e39851]/60'
+            }`}
+          >
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#e1d5c8] pb-4">
+              <div>
+                <span className="inline-flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wider text-[#b06a1e]">
+                  <Wand2 className="w-3.5 h-3.5" />
+                  <span>
+                    {lang === 'uk'
+                      ? 'Інтерактивні помічники CraftHub 2027'
+                      : 'Интерактивные помощники CraftHub 2027'}
+                  </span>
+                </span>
+                <h2 className="font-serif text-xl sm:text-2xl font-bold mt-0.5">
+                  {activeEngagementTab === 'quiz'
+                    ? lang === 'uk'
+                      ? 'Інтерактивний Сомельє: підберіть ідеальні солодощі за 3 кроки'
+                      : 'Интерактивный Сомелье: подберите идеальные сладости за 3 шага'
+                    : lang === 'uk'
+                    ? 'Калькулятор ваги торта та бюджету подарункових боксів'
+                    : 'Калькулятор веса торта и бюджета подарочных боксов'}
+                </h2>
+              </div>
+
+              <div className="flex rounded-full p-1 bg-[#f1e6da] text-[#302016] self-start sm:self-auto">
+                <button
+                  onClick={() => setActiveEngagementTab('quiz')}
+                  className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+                    activeEngagementTab === 'quiz'
+                      ? 'bg-[#462b1f] text-white shadow-xs'
+                      : 'hover:text-[#b06a1e]'
+                  }`}
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>{lang === 'uk' ? 'Підбір подарунка' : 'Подбор подарка'}</span>
+                </button>
+                <button
+                  onClick={() => setActiveEngagementTab('calculator')}
+                  className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+                    activeEngagementTab === 'calculator'
+                      ? 'bg-[#462b1f] text-white shadow-xs'
+                      : 'hover:text-[#b06a1e]'
+                  }`}
+                >
+                  <Calculator className="w-3.5 h-3.5" />
+                  <span>{lang === 'uk' ? 'Калькулятор свята' : 'Калькулятор праздника'}</span>
+                </button>
+              </div>
+            </div>
+
+            {activeEngagementTab === 'quiz' ? (
+              <div className="pt-5 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <div className="lg:col-span-7 space-y-4">
+                  {/* Step 1 */}
+                  <div className="space-y-1.5">
+                    <div className="text-xs font-bold text-[#b06a1e]">
+                      {lang === 'uk' ? 'Крок 1. Для кого обираємо?' : 'Шаг 1. Для кого выбираем?'}
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                      {[
+                        { id: 'her', uk: '💝 На подарунок', ru: '💝 На подарок' },
+                        { id: 'kids', uk: '🧸 Для дитини', ru: '🧸 Для ребенка' },
+                        { id: 'boss', uk: '👑 Керівнику / VIP', ru: '👑 Руководителю / VIP' },
+                        { id: 'self', uk: '☕ Для себе до кави', ru: '☕ Для себя к кофе' },
+                      ].map((opt) => (
+                        <button
+                          key={opt.id}
+                          onClick={() => {
+                            setQuizRecipient(opt.id as typeof quizRecipient);
+                            if (opt.id === 'kids') setQuizDiet('kids_safe');
+                          }}
+                          className={`rounded-xl border px-3 py-2.5 text-xs font-bold text-left transition ${
+                            quizRecipient === opt.id
+                              ? 'bg-[#462b1f] text-white border-[#462b1f] shadow-xs'
+                              : isDark
+                              ? 'bg-[#1a120e] border-white/15'
+                              : 'bg-white border-[#e1d5c8] hover:border-[#b06a1e]'
+                          }`}
+                        >
+                          {lang === 'uk' ? opt.uk : opt.ru}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Step 2 */}
+                  <div className="space-y-1.5">
+                    <div className="text-xs font-bold text-[#b06a1e]">
+                      {lang === 'uk'
+                        ? 'Крок 2. Побажання до складу:'
+                        : 'Шаг 2. Пожелания к составу:'}
+                    </div>
+                    <div className="grid grid-cols-3 gap-2">
+                      {[
+                        {
+                          id: 'classic',
+                          uk: '🍫 Класичний бельгійський / крафт',
+                          ru: '🍫 Классический бельгийский / крафт',
+                        },
+                        {
+                          id: 'sugarfree',
+                          uk: '🌿 Без цукру (Мед / Стевія / Vegan)',
+                          ru: '🌿 Без сахара (Мед / Стевия / Vegan)',
+                        },
+                        {
+                          id: 'kids_safe',
+                          uk: '🧸 Для дітей (Кероб / Пастила / Натур)',
+                          ru: '🧸 Для детей (Кэроб / Пастила / Натур)',
+                        },
+                      ].map((opt) => (
+                        <button
+                          key={opt.id}
+                          onClick={() => setQuizDiet(opt.id as typeof quizDiet)}
+                          className={`rounded-xl border px-3 py-2.5 text-xs font-bold text-left transition ${
+                            quizDiet === opt.id
+                              ? 'bg-[#462b1f] text-white border-[#462b1f] shadow-xs'
+                              : isDark
+                              ? 'bg-[#1a120e] border-white/15'
+                              : 'bg-white border-[#e1d5c8] hover:border-[#b06a1e]'
+                          }`}
+                        >
+                          {lang === 'uk' ? opt.uk : opt.ru}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Step 3 */}
+                  <div className="space-y-1.5">
+                    <div className="text-xs font-bold text-[#b06a1e]">
+                      {lang === 'uk' ? 'Крок 3. Який формат виробу?' : 'Шаг 3. Какой формат изделия?'}
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                      {[
+                        {
+                          id: 'flowers',
+                          uk: '🌹 Шоколадні квіти / Букет',
+                          ru: '🌹 Шоколадные цветы / Букет',
+                        },
+                        {
+                          id: 'bars',
+                          uk: '🍫 Плитка шоколаду, батончик',
+                          ru: '🍫 Плитка шоколада, батончик',
+                        },
+                        {
+                          id: 'candies',
+                          uk: '🍬 Цукерки ручної роботи',
+                          ru: '🍬 Конфеты ручной работы',
+                        },
+                        {
+                          id: 'cakes_zefir',
+                          uk: '🎂 Торт або Зефірний букет',
+                          ru: '🎂 Торт или Зефирный букет',
+                        },
+                      ].map((opt) => (
+                        <button
+                          key={opt.id}
+                          onClick={() => setQuizFormat(opt.id as typeof quizFormat)}
+                          className={`rounded-xl border px-3 py-2.5 text-xs font-bold text-left transition ${
+                            quizFormat === opt.id
+                              ? 'bg-[#462b1f] text-white border-[#462b1f] shadow-xs'
+                              : isDark
+                              ? 'bg-[#1a120e] border-white/15'
+                              : 'bg-white border-[#e1d5c8] hover:border-[#b06a1e]'
+                          }`}
+                        >
+                          {lang === 'uk' ? opt.uk : opt.ru}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Instant Recommendations Output */}
+                <div
+                  className={`lg:col-span-5 rounded-2xl p-4 sm:p-5 border space-y-3 ${
+                    isDark
+                      ? 'bg-[#1a120e] border-white/15'
+                      : 'bg-white border-[#e1d5c8] shadow-xs'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-extrabold uppercase text-[#b06a1e]">
+                      {lang === 'uk'
+                        ? '🎯 Ваша персональна рекомендація ТОП-3:'
+                        : '🎯 Ваша персональная рекомендация ТОП-3:'}
+                    </span>
+                  </div>
+
+                  <div className="space-y-2.5">
+                    {quizRecommendedMakers.map((m, idx) => (
+                      <div
+                        key={m.id}
+                        className={`flex items-center justify-between gap-3 rounded-xl p-3 border ${
+                          idx === 0
+                            ? 'border-[#e39851] bg-[#e39851]/10'
+                            : isDark
+                            ? 'border-white/10 bg-[#261b16]'
+                            : 'border-[#e1d5c8] bg-[#fbf6ee]'
+                        }`}
+                      >
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-xs font-extrabold text-[#b06a1e]">
+                              #{idx + 1}
+                            </span>
+                            <span className="font-bold text-xs sm:text-sm truncate">
+                              {localizeText(m.name, lang)}
+                            </span>
+                          </div>
+                          <p className="text-[11px] opacity-75 truncate mt-0.5">
+                            {localizeText(m.city, lang)} • ★ {m.rating}
+                          </p>
+                        </div>
+                        <a
+                          href={m.websiteUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="shrink-0 rounded-full bg-[#462b1f] hover:bg-[#b06a1e] text-white px-3 py-1.5 text-[11px] font-bold flex items-center gap-1"
+                        >
+                          <span>{lang === 'uk' ? 'Перейти' : 'Перейти'}</span>
+                          <ArrowUpRight className="w-3 h-3" />
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              /* Interactive Cake & Gift Box Calculator */
+              <div className="pt-5 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <div className="lg:col-span-7 space-y-4">
+                  <div>
+                    <label className="block text-xs font-bold text-[#b06a1e] mb-2">
+                      {lang === 'uk'
+                        ? `Кількість гостей або отримувачів подарунків: ${guestsCount} осіб`
+                        : `Количество гостей или получателей подарков: ${guestsCount} чел.`}
+                    </label>
+                    <input
+                      type="range"
+                      min={4}
+                      max={100}
+                      value={guestsCount}
+                      onChange={(e) => setGuestsCount(Number(e.target.value))}
+                      className="w-full accent-[#b06a1e] cursor-pointer"
+                    />
+                    <div className="flex justify-between text-[11px] opacity-70 mt-1">
+                      <span>4</span>
+                      <span>15</span>
+                      <span>30</span>
+                      <span>50</span>
+                      <span>100</span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    {[
+                      { id: 'birthday', uk: '🎂 День народження', ru: '🎂 День рождения' },
+                      { id: 'kids', uk: '🧸 Дитяче свято', ru: '🧸 Детский праздник' },
+                      { id: 'wedding', uk: '💍 Весілля / Ювілей', ru: '💍 Свадьба / Юбилей' },
+                      { id: 'corporate', uk: '💼 Корпоративні бокси', ru: '💼 Корпоративные боксы' },
+                    ].map((ev) => (
+                      <button
+                        key={ev.id}
+                        onClick={() => setEventType(ev.id as typeof eventType)}
+                        className={`rounded-xl border px-3 py-2 text-xs font-bold transition ${
+                          eventType === ev.id
+                            ? 'bg-[#462b1f] text-white border-[#462b1f]'
+                            : isDark
+                            ? 'bg-[#1a120e] border-white/15'
+                            : 'bg-white border-[#e1d5c8]'
+                        }`}
+                      >
+                        {lang === 'uk' ? ev.uk : ev.ru}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div
+                  className={`lg:col-span-5 rounded-2xl p-5 border space-y-3 ${
+                    isDark ? 'bg-[#1a120e] border-white/15' : 'bg-white border-[#e1d5c8]'
+                  }`}
+                >
+                  <div className="text-xs font-bold uppercase text-[#b06a1e]">
+                    {lang === 'uk' ? 'Розрахунок для вашої події:' : 'Расчет для вашего события:'}
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="rounded-xl bg-[#f1e6da]/70 p-3 text-[#302016]">
+                      <div className="text-[11px] opacity-75">
+                        {lang === 'uk' ? 'Оптимальна вага торта:' : 'Оптимальный вес торта:'}
+                      </div>
+                      <div className="text-xl font-extrabold text-[#462b1f] mt-0.5">
+                        {calculatedWeightKg} кг
+                      </div>
+                    </div>
+                    <div className="rounded-xl bg-[#f1e6da]/70 p-3 text-[#302016]">
+                      <div className="text-[11px] opacity-75">
+                        {lang === 'uk' ? 'Або подарункових наборів:' : 'Или подарочных наборов:'}
+                      </div>
+                      <div className="text-xl font-extrabold text-[#b06a1e] mt-0.5">
+                        {guestsCount} шт
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setIsTenderModalOpen(true)}
+                    className="w-full rounded-full bg-[#b06a1e] hover:bg-[#965715] text-white font-bold py-2.5 text-xs transition"
+                  >
+                    {lang === 'uk'
+                      ? 'Отримати пропозиції від майстрів під цей розрахунок →'
+                      : 'Получить предложения от мастеров под этот расчет →'}
+                  </button>
+                </div>
+              </div>
+            )}
+          </section>
+
+          {/* SECTION 1: ALL VERIFIED ACTIVE UKRAINIAN CRAFT MAKERS */}
           <section id="makers-section" className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#e1d5c8] pb-4">
               <div>
                 <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#b06a1e]">
                   <Sparkles className="w-4 h-4" />
-                  <span>Каталог перевірених виробників України</span>
+                  <span>
+                    {lang === 'uk'
+                      ? 'Каталог перевірених виробників України (CraftHub)'
+                      : 'Каталог проверенных производителей Украины (CraftHub)'}
+                  </span>
                 </p>
                 <h2 className="mt-1 font-serif text-2xl font-bold sm:text-3xl">
                   {selectedCategory === 'all'
-                    ? `Усі крафтові майстри та виробництва (${filteredMakers.length})`
-                    : `${currentCategoryInfo.shortTitle} — виробники (${filteredMakers.length})`}
-                  {selectedCity !== 'all' ? ` • ${selectedCity}` : ''}
+                    ? lang === 'uk'
+                      ? `Усі крафтові майстри та виробництва (${filteredMakers.length})`
+                      : `Все крафтовые мастера и производства (${filteredMakers.length})`
+                    : `${
+                        lang === 'uk'
+                          ? CATEGORY_SHORT_LABELS[selectedCategory].uk
+                          : CATEGORY_SHORT_LABELS[selectedCategory].ru
+                      } — ${lang === 'uk' ? 'виробники' : 'производители'} (${filteredMakers.length})`}
+                  {selectedCity !== 'all' ? ` • ${localizeText(selectedCity, lang)}` : ''}
                 </h2>
               </div>
 
@@ -1035,20 +1681,32 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 }`}
               >
                 <Filter className="w-3.5 h-3.5 text-[#b06a1e]" />
-                <span>{groupBySegment ? 'Показати єдиною сіткою' : 'Згрупувати за 6 напрямками'}</span>
+                <span>
+                  {groupBySegment
+                    ? lang === 'uk'
+                      ? 'Показати єдиною сіткою'
+                      : 'Показать единой сеткой'
+                    : lang === 'uk'
+                    ? 'Згрупувати за 6 напрямками'
+                    : 'Сгруппировать по 6 направлениям'}
+                </span>
               </button>
             </div>
 
             {filteredMakers.length === 0 ? (
               <div className="rounded-3xl border border-[#e1d5c8] bg-[#fefbf7] p-10 text-center space-y-3">
                 <p className="text-lg font-bold text-[#302016]">
-                  За обраними фільтрами майстерень не знайдено
+                  {lang === 'uk'
+                    ? 'За обраними фільтрами майстерень не знайдено'
+                    : 'По выбранным фильтрам мастерских не найдено'}
                 </p>
                 <button
                   onClick={resetAllFilters}
                   className="rounded-full bg-[#462b1f] px-5 py-2.5 text-xs font-bold text-white"
                 >
-                  Показати всі {MAKERS.length} майстерень України
+                  {lang === 'uk'
+                    ? `Показати всі ${MAKERS.length} майстерень України`
+                    : `Показать все ${MAKERS.length} мастерских Украины`}
                 </button>
               </div>
             ) : groupBySegment ? (
@@ -1063,9 +1721,11 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                         style={{ background: group.gradient }}
                       >
                         <h3 className="font-serif text-lg sm:text-xl font-bold">
-                          {group.title} ({segMakers.length})
+                          {lang === 'uk' ? group.titleUk : group.titleRu} ({segMakers.length})
                         </h3>
-                        <p className="text-xs sm:text-sm text-white/90 mt-1">{group.subtitle}</p>
+                        <p className="text-xs sm:text-sm text-white/90 mt-1">
+                          {lang === 'uk' ? group.subtitleUk : group.subtitleRu}
+                        </p>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                         {segMakers.map((maker) => renderMakerCard(maker))}
@@ -1087,8 +1747,9 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                       className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#462b1f] to-[#3a2113] hover:from-[#5c3929] hover:to-[#462b1f] px-7 py-3.5 text-sm font-bold text-[#faf4eb] shadow-md transition"
                     >
                       <span>
-                        Показати ще виробників (залишилось {filteredMakers.length - visibleMakersLimit} із{' '}
-                        {filteredMakers.length})
+                        {lang === 'uk'
+                          ? `Показати ще виробників (залишилось ${filteredMakers.length - visibleMakersLimit} із ${filteredMakers.length})`
+                          : `Показать еще производителей (осталось ${filteredMakers.length - visibleMakersLimit} из ${filteredMakers.length})`}
                       </span>
                       <ChevronDown className="w-4 h-4" />
                     </button>
@@ -1103,10 +1764,14 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#e1d5c8] pb-4">
               <div>
                 <p className="text-xs font-bold uppercase tracking-wider text-[#b06a1e]">
-                  Порівняння цін за 100 грамів та чистоти складу
+                  {lang === 'uk'
+                    ? 'Чесне порівняння ціни за 100 грамів та чистоти складу'
+                    : 'Честное сравнение цены за 100 граммов и чистоты состава'}
                 </p>
                 <h2 className="mt-1 font-serif text-2xl font-bold sm:text-3xl">
-                  Флагманські вироби для порівняння ({filteredProducts.length})
+                  {lang === 'uk'
+                    ? `Флагманські вироби для порівняння (${filteredProducts.length})`
+                    : `Флагманские изделия для сравнения (${filteredProducts.length})`}
                 </h2>
               </div>
 
@@ -1120,9 +1785,15 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                       : 'bg-[#fefbf7] border-[#d4c3b3] text-[#302016]'
                   }`}
                 >
-                  <option value="popular">Сортування: За популярністю</option>
-                  <option value="price100_asc">Найвигідніша ціна за 100 г</option>
-                  <option value="price_asc">Від дешевших за упаковку</option>
+                  <option value="popular">
+                    {lang === 'uk' ? 'Сортування: За популярністю' : 'Сортировка: По популярности'}
+                  </option>
+                  <option value="price100_asc">
+                    {lang === 'uk' ? 'Найвигідніша ціна за 100 г' : 'Самая выгодная цена за 100 г'}
+                  </option>
+                  <option value="price_asc">
+                    {lang === 'uk' ? 'Від дешевших за упаковку' : 'От более доступных за упаковку'}
+                  </option>
                 </select>
               </div>
             </div>
@@ -1152,12 +1823,14 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20" />
                         <div className="absolute top-3 left-3">
                           <span className="bg-[#462b1f]/90 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">
-                            {product.subType}
+                            {localizeText(product.subType, lang)}
                           </span>
                         </div>
                         <div className="absolute top-3 right-3 bg-white/95 text-emerald-800 text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
                           <ShieldCheck className="w-3.5 h-3.5" />
-                          <span>Склад {product.cleanLabelScore}/100</span>
+                          <span>
+                            {lang === 'uk' ? 'Склад' : 'Состав'} {product.cleanLabelScore}/100
+                          </span>
                         </div>
                       </div>
 
@@ -1167,7 +1840,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                             onClick={() => maker && setActiveMakerModal(maker)}
                             className="font-bold text-[#b06a1e] hover:underline text-left"
                           >
-                            {product.makerName} ({product.makerCity})
+                            {localizeText(product.makerName, lang)} ({localizeText(product.makerCity, lang)})
                           </button>
                           <span className="flex items-center gap-1 font-bold shrink-0">
                             <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
@@ -1176,7 +1849,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                         </div>
 
                         <h3 className="font-serif font-bold text-base sm:text-lg leading-snug">
-                          {product.title}
+                          {localizeText(product.title, lang)}
                         </h3>
 
                         <div className="pt-1 flex items-baseline justify-between">
@@ -1185,7 +1858,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                             <span className="text-xs opacity-70 ml-1.5">/ {product.weightGrams} г</span>
                           </div>
                           <div className="bg-[#f1e6da] text-[#3e281b] px-3 py-1 rounded-full text-xs font-bold">
-                            {pricePer100} грн за 100 г
+                            {pricePer100} {lang === 'uk' ? 'грн за 100 г' : 'грн за 100 г'}
                           </div>
                         </div>
 
@@ -1195,7 +1868,13 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                             className="text-xs font-bold text-[#b06a1e] hover:underline flex items-center gap-1"
                           >
                             <span>
-                              {isExpanded ? 'Сховати склад і смак' : 'Розгорнути склад та опис'}
+                              {isExpanded
+                                ? lang === 'uk'
+                                  ? 'Сховати склад і смак'
+                                  : 'Скрыть состав и вкус'
+                                : lang === 'uk'
+                                ? 'Розгорнути склад та опис'
+                                : 'Развернуть состав и описание'}
                             </span>
                             {isExpanded ? (
                               <ChevronUp className="w-3.5 h-3.5" />
@@ -1206,19 +1885,21 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
 
                           {isExpanded && (
                             <div className="mt-3 pt-3 border-t border-[#e1d5c8] space-y-2 text-xs">
-                              <p className="leading-relaxed">{product.expertVerdict}</p>
+                              <p className="leading-relaxed">{localizeText(product.expertVerdict, lang)}</p>
                               <div className="bg-[#f1e6da]/60 rounded-xl p-3 space-y-1 text-[#302016]">
                                 <div>
-                                  <strong>Основа:</strong>{' '}
+                                  <strong>{lang === 'uk' ? 'Основа:' : 'Основа:'}</strong>{' '}
                                   {product.cacaoPercent > 0
                                     ? `${product.cacaoPercent}% (${product.cacaoType})`
                                     : product.cacaoType}
                                 </div>
                                 <div>
-                                  <strong>Підсолоджувач:</strong> {product.sweetener}
+                                  <strong>{lang === 'uk' ? 'Підсолоджувач:' : 'Подсластитель:'}</strong>{' '}
+                                  {product.sweetener}
                                 </div>
                                 <div>
-                                  <strong>Ноти смаку:</strong> {product.tastingNotes.join(', ')}
+                                  <strong>{lang === 'uk' ? 'Ноти смаку:' : 'Ноты вкуса:'}</strong>{' '}
+                                  {product.tastingNotes.join(', ')}
                                 </div>
                               </div>
                             </div>
@@ -1237,7 +1918,15 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                         }`}
                       >
                         <Scale className="w-3.5 h-3.5" />
-                        <span>{isCompared ? 'У порівнянні' : 'Порівняти'}</span>
+                        <span>
+                          {isCompared
+                            ? lang === 'uk'
+                              ? 'У порівнянні'
+                              : 'В сравнении'
+                            : lang === 'uk'
+                            ? 'Порівняти'
+                            : 'Сравнить'}
+                        </span>
                       </button>
 
                       {maker && (
@@ -1247,7 +1936,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                           rel="noopener noreferrer"
                           className="flex-1 bg-[#b06a1e] hover:bg-[#965715] text-white font-bold py-2 px-4 rounded-full text-xs transition flex items-center justify-center gap-1.5"
                         >
-                          <span>Купити</span>
+                          <span>{lang === 'uk' ? 'Купити' : 'Купить'}</span>
                           <ArrowUpRight className="w-4 h-4" />
                         </a>
                       )}
@@ -1261,19 +1950,27 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
           {/* SECTION 3: LIVE BUYER TENDER BOARD & PRODUCER MONETIZATION BANNER */}
           <section
             id="b2b-partner-section"
-            className="rounded-3xl bg-gradient-to-br from-[#462b1f] via-[#3a2113] to-[#26140b] text-[#faf4eb] p-6 sm:p-10 shadow-xl space-y-6"
+            className="rounded-3xl bg-gradient-to-br from-[#462b1f] via-[#3a2113] to-[#26140b] text-[#faf4eb] p-5 sm:p-10 shadow-xl space-y-6"
           >
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
               <div className="space-y-2 max-w-2xl">
                 <span className="inline-flex items-center gap-1.5 bg-[#e39851]/25 border border-[#e39851]/40 text-[#f5c492] text-xs font-bold px-3.5 py-1 rounded-full">
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>Біржа замовлень на торти, зефірні букети та шоколадні набори</span>
+                  <span>
+                    {lang === 'uk'
+                      ? 'Тендерна біржа замовлень CraftHub'
+                      : 'Тендерная биржа заказов CraftHub'}
+                  </span>
                 </span>
                 <h2 className="font-serif text-2xl sm:text-4xl font-bold tracking-tight">
-                  Замовте торт, букет чи корпоративні подарунки напряму у майстрів
+                  {lang === 'uk'
+                    ? 'Замовте торт, букет чи корпоративні подарунки напряму у майстрів'
+                    : 'Закажите торт, букет или корпоративные подарки напрямую у мастеров'}
                 </h2>
                 <p className="text-xs sm:text-sm text-[#e1d5c8] leading-relaxed">
-                  Опишіть, що вам потрібно, за 30 секунд — перевірені кондитерські, зефірні флористи та шоколатьє вашого міста самі надішлють вам пропозиції з цінами у Telegram або Viber.
+                  {lang === 'uk'
+                    ? 'Опишіть ваше замовлення за 30 секунд — перевірені кондитерські, зефірні флористи та шоколатьє вашого міста самі надішлють вам пропозиції з цінами у Telegram або Viber.'
+                    : 'Опишите ваш заказ за 30 секунд — проверенные кондитерские, зефирные флористы и шоколатье вашего города сами пришлют вам предложения с ценами в Telegram или Viber.'}
                 </p>
               </div>
 
@@ -1283,14 +1980,24 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                   className="bg-[#e39851] hover:bg-[#f0a556] text-[#2e190d] font-bold text-xs sm:text-sm px-6 py-3.5 rounded-full transition shadow-md flex items-center gap-2"
                 >
                   <Gift className="w-4 h-4" />
-                  <span>Залишити заявку на підбір</span>
+                  <span>
+                    {lang === 'uk' ? 'Залишити заявку на підбір' : 'Оставить заявку на подбор'}
+                  </span>
                 </button>
                 <button
                   onClick={() => setIsB2BOpen(!isB2BOpen)}
                   className="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs sm:text-sm px-5 py-3.5 rounded-full transition flex items-center gap-1.5"
                 >
                   <Crown className="w-4 h-4 text-[#e39851]" />
-                  <span>{isB2BOpen ? 'Сховати тарифи PRO' : 'Виробникам: Підключити PRO'}</span>
+                  <span>
+                    {isB2BOpen
+                      ? lang === 'uk'
+                        ? 'Сховати тарифи PRO'
+                        : 'Скрыть тарифы PRO'
+                      : lang === 'uk'
+                      ? 'Виробникам: Підключити PRO'
+                      : 'Производителям: Подключить PRO'}
+                  </span>
                 </button>
               </div>
             </div>
@@ -1303,14 +2010,16 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                   className="bg-white/10 border border-white/15 rounded-2xl p-4 flex flex-col justify-between gap-2"
                 >
                   <div className="flex items-center justify-between text-[11px] text-[#f5c492]">
-                    <span className="font-bold">{req.city}</span>
-                    <span>{req.timeAgo}</span>
+                    <span className="font-bold">{lang === 'uk' ? req.cityUk : req.cityRu}</span>
+                    <span>{lang === 'uk' ? req.timeUk : req.timeRu}</span>
                   </div>
                   <div className="font-bold text-sm text-white leading-snug">
-                    {req.categoryLabel}
+                    {lang === 'uk' ? req.catUk : req.catRu}
                   </div>
                   <div className="flex items-center justify-between pt-2 border-t border-white/10 text-xs">
-                    <span className="font-bold text-[#e39851]">Бюджет: {req.budget}</span>
+                    <span className="font-bold text-[#e39851]">
+                      {lang === 'uk' ? 'Бюджет:' : 'Бюджет:'} {lang === 'uk' ? req.budgetUk : req.budgetRu}
+                    </span>
                     <button
                       onClick={() => {
                         setSelectedPlanForModal('PRO Майстерня (990 грн/міс)');
@@ -1318,7 +2027,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                       }}
                       className="text-[11px] font-bold underline text-white hover:text-[#e39851]"
                     >
-                      Взяти замовлення →
+                      {lang === 'uk' ? 'Взяти замовлення →' : 'Взять заказ →'}
                     </button>
                   </div>
                 </div>
@@ -1330,10 +2039,14 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
               <div className="pt-6 border-t border-white/15 grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-white/5 border border-white/15 rounded-2xl p-5 flex flex-col justify-between space-y-4">
                   <div className="space-y-2">
-                    <span className="text-xs font-bold uppercase text-[#e1d5c8]">Базовий старт</span>
+                    <span className="text-xs font-bold uppercase text-[#e1d5c8]">
+                      {lang === 'uk' ? 'Базовий старт' : 'Базовый старт'}
+                    </span>
                     <div className="text-2xl font-bold">0 грн / міс</div>
                     <p className="text-xs text-[#e1d5c8]">
-                      Розміщення у каталозі, пряме посилання на сайт та Instagram.
+                      {lang === 'uk'
+                        ? 'Розміщення у каталозі CraftHub, пряме посилання на сайт та Instagram.'
+                        : 'Размещение в каталоге CraftHub, прямая ссылка на сайт и Instagram.'}
                     </p>
                   </div>
                   <button
@@ -1343,18 +2056,20 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                     }}
                     className="w-full bg-white/15 hover:bg-white/25 text-white text-xs font-bold py-2.5 rounded-full"
                   >
-                    Додати безкоштовно
+                    {lang === 'uk' ? 'Додати безкоштовно' : 'Добавить бесплатно'}
                   </button>
                 </div>
 
                 <div className="bg-[#e39851]/20 border-2 border-[#e39851] rounded-2xl p-5 flex flex-col justify-between space-y-4">
                   <div className="space-y-2">
                     <span className="text-xs font-bold uppercase text-[#f5c492]">
-                      ★ Рекомендуємо • PRO Майстер
+                      ★ {lang === 'uk' ? 'Рекомендуємо • PRO Майстер' : 'Рекомендуем • PRO Мастер'}
                     </span>
                     <div className="text-2xl font-bold">990 грн / міс</div>
                     <p className="text-xs text-white">
-                      Закріплення у ТОП-3 вашого міста, бейдж «★ Рекомендуємо» та миттєві контакти замовників тортів і букетів у Telegram.
+                      {lang === 'uk'
+                        ? 'Закріплення у ТОП-3 вашого міста, бейдж «★ Рекомендуємо» та миттєві контакти замовників тортів і букетів у Telegram.'
+                        : 'Закрепление в ТОП-3 вашего города, бейдж «★ Рекомендуем» и мгновенные контакты заказчиков тортов и букетов в Telegram.'}
                     </p>
                   </div>
                   <button
@@ -1364,18 +2079,20 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                     }}
                     className="w-full bg-[#e39851] hover:bg-[#f0a556] text-[#2e190d] text-xs font-bold py-2.5 rounded-full"
                   >
-                    Підключити PRO
+                    {lang === 'uk' ? 'Підключити PRO' : 'Подключить PRO'}
                   </button>
                 </div>
 
                 <div className="bg-white/5 border border-white/15 rounded-2xl p-5 flex flex-col justify-between space-y-4">
                   <div className="space-y-2">
                     <span className="text-xs font-bold uppercase text-[#f5c492]">
-                      B2B Корпоративний
+                      {lang === 'uk' ? 'B2B Корпоративний' : 'B2B Корпоративный'}
                     </span>
                     <div className="text-2xl font-bold">2 490 грн / міс</div>
                     <p className="text-xs text-[#e1d5c8]">
-                      Пріоритетний доступ до оптових та корпоративних замовлень (від 30 до 500 подарункових наборів).
+                      {lang === 'uk'
+                        ? 'Пріоритетний доступ до оптових та корпоративних замовлень (від 30 до 500 подарункових наборів).'
+                        : 'Приоритетный доступ к оптовым и корпоративным заказам (от 30 до 500 подарочных наборов).'}
                     </p>
                   </div>
                   <button
@@ -1385,11 +2102,73 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                     }}
                     className="w-full bg-white/15 hover:bg-white/25 text-white text-xs font-bold py-2.5 rounded-full"
                   >
-                    Стати B2B-партнером
+                    {lang === 'uk' ? 'Стати B2B-партнером' : 'Стать B2B-партнером'}
                   </button>
                 </div>
               </div>
             )}
+          </section>
+
+          {/* SECTION 4: GOOGLE SEO & AI OVERVIEW FAQ ACCORDION */}
+          <section className="space-y-4">
+            <div className="flex items-center gap-2">
+              <HelpCircle className="w-5 h-5 text-[#b06a1e]" />
+              <h2 className="font-serif text-xl sm:text-2xl font-bold">
+                {lang === 'uk'
+                  ? 'Часті запитання про крафтовий шоколад, вироби без цукру та для дітей'
+                  : 'Частые вопросы о крафтовом шоколаде, изделиях без сахара и для детей'}
+              </h2>
+            </div>
+
+            <div className="space-y-2.5">
+              {[
+                {
+                  qUk: 'Чим крафтова плитка шоколаду та батончик відрізняються від магазинного?',
+                  qRu: 'Чем крафтовая плитка шоколада и батончик отличаются от магазинного?',
+                  aUk: 'Справжня крафтова плитка шоколаду та ремісничий батончик виготовляються з натурального какао-масла та добірного бельгійського кувертюру (як у лідера категорії crafo.com.ua) або фермерських какао-бобів без пальмової олії, замінників та штучних ароматизаторів.',
+                  aRu: 'Настоящая крафтовая плитка шоколада и ремесленный батончик изготавливаются из натурального какао-масла и отборного бельгийского кувертюра (как у лидера категории crafo.com.ua) или фермерских какао-бобов без пальмового масла, заменителей и искусственных ароматизаторов.',
+                },
+                {
+                  qUk: 'Чим відрізняються рубрики «Без цукру» та «Для дітей» на CraftHub?',
+                  qRu: 'Чем отличаются рубрики «Без сахара» и «Для детей» на CraftHub?',
+                  aUk: 'У рубриці «Без цукру» зібрані шоколадні плитки, батончики, цукерки та зефір на меду, кокосовому нектарі, еритритолі та стевії (для здорового харчування, діабетиків та веганів). В окремій рубриці «Для дітей» зібрані безпечні ласощі без кофеїну (шоколад на керобі), натуральна фруктово-ягідна пастила, шоколадні фігурки та дитячі святкові торти.',
+                  aRu: 'В рубрике «Без сахара» собраны шоколадные плитки, батончики, конфеты и зефир на меду, кокосовом нектаре, эритритоле и стевии (для здорового питания, диабетиков и веганов). В отдельной рубрике «Для детей» собраны безопасные лакомства без кофеина (шоколад на кэробе), натуральная фруктово-ягодная пастила, шоколадные фигурки и детские праздничные торты.',
+                },
+                {
+                  qUk: 'Як швидко замовити шоколадний букет, зефір або торт у своєму місті?',
+                  qRu: 'Как быстро заказать шоколадный букет, зефир или торт в своем городе?',
+                  aUk: 'Оберіть потрібне місто у фільтрі зверху та перейдіть напряму на сайт або телефон перевіреного виробника, або натисніть кнопку «Замовити підбір» — і майстри вашого міста самі надішлють вам пропозиції з актуальними цінами.',
+                  aRu: 'Выберите нужный город в фильтре сверху и перейдите напрямую на сайт или телефон проверенного производителя, либо нажмите кнопку «Заказать подбор» — и мастера вашего города сами пришлют вам предложения с актуальными ценами.',
+                },
+              ].map((faq, idx) => {
+                const isOpen = openFaqIndex === idx;
+                return (
+                  <div
+                    key={idx}
+                    className={`rounded-2xl border transition ${
+                      isDark ? 'bg-[#261b16] border-white/15' : 'bg-[#fefbf7] border-[#e1d5c8]'
+                    }`}
+                  >
+                    <button
+                      onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
+                      className="w-full px-5 py-4 text-left flex items-center justify-between gap-4 font-bold text-xs sm:text-sm"
+                    >
+                      <span>{lang === 'uk' ? faq.qUk : faq.qRu}</span>
+                      {isOpen ? (
+                        <ChevronUp className="w-4 h-4 text-[#b06a1e] shrink-0" />
+                      ) : (
+                        <ChevronDown className="w-4 h-4 text-[#b06a1e] shrink-0" />
+                      )}
+                    </button>
+                    {isOpen && (
+                      <div className="px-5 pb-4 text-xs sm:text-sm opacity-85 leading-relaxed border-t border-[#e1d5c8]/50 pt-3">
+                        {lang === 'uk' ? faq.aUk : faq.aRu}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </section>
         </div>
       </main>
@@ -1397,35 +2176,82 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
       {/* Rich Footer */}
       <footer
         className={`border-t py-8 px-4 sm:px-6 ${
-          isDark ? 'bg-[#140d0a] border-white/10 text-[#a79d91]' : 'bg-[#f1e6da] border-[#e1d5c8] text-[#5a4638]'
+          isDark
+            ? 'bg-[#140d0a] border-white/10 text-[#a79d91]'
+            : 'bg-[#f1e6da] border-[#e1d5c8] text-[#5a4638]'
         }`}
       >
         <div className="mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium">
           <div>
             <strong className={isDark ? 'text-white' : 'text-[#302016]'}>
-              ChocoRadar Крафти України
+              CraftHub Україна (2027)
             </strong>{' '}
-            — {MAKERS.length} перевірених виробників шоколаду, зефіру та авторських тортів (2026)
+            —{' '}
+            {lang === 'uk'
+              ? `${MAKERS.length} перевірених виробників шоколаду, зефіру та авторських тортів`
+              : `${MAKERS.length} проверенных производителей шоколада, зефира и авторских тортов`}
           </div>
-          <div className="flex gap-5 font-bold">
+          <div className="flex flex-wrap justify-center gap-5 font-bold">
             <button
               onClick={() => {
-                setSelectedPlanForModal('Безкоштовний або PRO');
+                setSelectedPlanForModal('PRO або Безкоштовний');
                 setIsAddMakerModalOpen(true);
               }}
               className="hover:text-[#b06a1e]"
             >
-              + Заявити про себе
+              + {lang === 'uk' ? 'Додати майстерню' : 'Добавить мастерскую'}
             </button>
             <button onClick={() => setIsTenderModalOpen(true)} className="hover:text-[#b06a1e]">
-              Замовити торт / букет
+              {lang === 'uk' ? 'Замовити торт / букет' : 'Заказать торт / букет'}
             </button>
             <button onClick={() => setIsCompareModalOpen(true)} className="hover:text-[#b06a1e]">
-              Порівняння ({compareIds.length})
+              {lang === 'uk' ? 'Порівняння' : 'Сравнение'} ({compareIds.length})
             </button>
           </div>
         </div>
       </footer>
+
+      {/* STICKY MOBILE BOTTOM NAVIGATION BAR (2027 Mobile-First Standard) */}
+      <nav
+        aria-label="Мобільна навігація"
+        className={`sm:hidden fixed bottom-0 inset-x-0 z-40 border-t backdrop-blur-xl px-2 py-1.5 grid grid-cols-4 gap-1 ${
+          isDark
+            ? 'bg-[#1a120e]/95 border-white/15 text-[#eee7dd]'
+            : 'bg-[#fefbf7]/95 border-[#d9c8b8] text-[#302016]'
+        }`}
+      >
+        <a
+          href="#makers-section"
+          className="flex flex-col items-center justify-center py-1 text-[10px] font-bold"
+        >
+          <Sparkles className="w-4 h-4 text-[#b06a1e]" />
+          <span className="mt-0.5">{lang === 'uk' ? 'Майстри' : 'Мастера'}</span>
+        </a>
+        <a
+          href="#interactive-tools"
+          onClick={() => setActiveEngagementTab('quiz')}
+          className="flex flex-col items-center justify-center py-1 text-[10px] font-bold"
+        >
+          <Wand2 className="w-4 h-4 text-[#b06a1e]" />
+          <span className="mt-0.5">{lang === 'uk' ? 'Підбір' : 'Подбор'}</span>
+        </a>
+        <button
+          onClick={() => setIsCompareModalOpen(true)}
+          className="flex flex-col items-center justify-center py-1 text-[10px] font-bold"
+        >
+          <Scale className="w-4 h-4 text-[#b06a1e]" />
+          <span className="mt-0.5">
+            {lang === 'uk' ? 'Порівняти' : 'Сравнить'} ({compareIds.length})
+          </span>
+        </button>
+        <button
+          onClick={() => setIsTenderModalOpen(true)}
+          className="flex flex-col items-center justify-center py-1 rounded-xl bg-[#b06a1e] text-white text-[10px] font-bold"
+        >
+          <Gift className="w-4 h-4" />
+          <span className="mt-0.5">{lang === 'uk' ? 'Замовити' : 'Заказать'}</span>
+        </button>
+      </nav>
 
       {/* MODAL 1: Maker Details */}
       {activeMakerModal && (
@@ -1434,11 +2260,14 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
             <div className="flex items-start justify-between gap-4">
               <div>
                 <span className="text-[11px] font-bold uppercase tracking-wider text-[#b06a1e]">
-                  {activeMakerModal.segmentTitle}
+                  {localizeText(activeMakerModal.segmentTitle, lang)}
                 </span>
-                <h2 className="font-serif text-2xl font-bold mt-0.5">{activeMakerModal.name}</h2>
+                <h2 className="font-serif text-xl sm:text-2xl font-bold mt-0.5">
+                  {localizeText(activeMakerModal.name, lang)}
+                </h2>
                 <p className="text-xs text-[#715f53]">
-                  {activeMakerModal.city} • Рейтинг {activeMakerModal.rating}/5
+                  {localizeText(activeMakerModal.city, lang)} •{' '}
+                  {lang === 'uk' ? 'Рейтинг' : 'Рейтинг'} {activeMakerModal.rating}/5
                 </p>
               </div>
               <button
@@ -1449,11 +2278,14 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
               </button>
             </div>
 
-            <p className="text-sm leading-relaxed">{activeMakerModal.description}</p>
+            <p className="text-sm leading-relaxed">
+              {localizeText(activeMakerModal.description, lang)}
+            </p>
 
             <div className="bg-[#f1e6da] rounded-2xl p-4 space-y-2 text-xs">
               <div>
-                <strong>Контакти / Телефон:</strong> {activeMakerModal.phone}
+                <strong>{lang === 'uk' ? 'Контакти / Телефон:' : 'Контакты / Телефон:'}</strong>{' '}
+                {activeMakerModal.phone}
               </div>
               {activeMakerModal.instagramHandle && (
                 <div>
@@ -1462,11 +2294,13 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
               )}
               {activeMakerModal.address && (
                 <div>
-                  <strong>Локація:</strong> {activeMakerModal.address}
+                  <strong>{lang === 'uk' ? 'Локація:' : 'Локация:'}</strong>{' '}
+                  {localizeText(activeMakerModal.address, lang)}
                 </div>
               )}
               <div>
-                <strong>Доставка:</strong> {activeMakerModal.shippingNote}
+                <strong>{lang === 'uk' ? 'Доставка:' : 'Доставка:'}</strong>{' '}
+                {localizeText(activeMakerModal.shippingNote, lang)}
               </div>
             </div>
 
@@ -1477,7 +2311,9 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 rel="noopener noreferrer"
                 className="flex-1 bg-[#462b1f] hover:bg-[#b06a1e] text-white font-bold py-3 px-4 rounded-full text-xs sm:text-sm text-center transition flex items-center justify-center gap-1.5"
               >
-                <span>Перейти на сторінку майстра</span>
+                <span>
+                  {lang === 'uk' ? 'Перейти на сторінку майстра' : 'Перейти на страницу мастера'}
+                </span>
                 <ArrowUpRight className="w-4 h-4" />
               </a>
             </div>
@@ -1491,7 +2327,9 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
           <div className="bg-[#fefbf7] text-[#302016] border border-[#e1d5c8] rounded-3xl max-w-4xl w-full p-6 sm:p-8 space-y-5 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-[#e1d5c8] pb-4">
               <h2 className="font-serif text-xl font-bold">
-                Порівняння характеристик та ціни за 100 г
+                {lang === 'uk'
+                  ? 'Порівняння характеристик та ціни за 100 г'
+                  : 'Сравнение характеристик и цены за 100 г'}
               </h2>
               <button
                 onClick={() => setIsCompareModalOpen(false)}
@@ -1503,25 +2341,33 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
 
             {comparedProducts.length === 0 ? (
               <p className="text-sm text-[#715f53] py-8 text-center">
-                Додайте вироби до порівняння кнопкою «Порівняти».
+                {lang === 'uk'
+                  ? 'Додайте вироби до порівняння кнопкою «Порівняти».'
+                  : 'Добавьте изделия к сравнению кнопкой «Сравнить».'}
               </p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse text-xs sm:text-sm">
                   <thead>
                     <tr className="border-b border-[#e1d5c8]">
-                      <th className="py-3 px-3 text-[#715f53]">Параметр</th>
+                      <th className="py-3 px-3 text-[#715f53]">
+                        {lang === 'uk' ? 'Параметр' : 'Параметр'}
+                      </th>
                       {comparedProducts.map((p) => (
                         <th key={p.id} className="py-3 px-3">
-                          <div className="font-bold">{p.title}</div>
-                          <div className="text-xs text-[#b06a1e] font-bold">{p.makerName}</div>
+                          <div className="font-bold">{localizeText(p.title, lang)}</div>
+                          <div className="text-xs text-[#b06a1e] font-bold">
+                            {localizeText(p.makerName, lang)}
+                          </div>
                         </th>
                       ))}
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#e1d5c8]">
                     <tr>
-                      <td className="py-3 px-3 text-[#715f53]">Ціна упаковки</td>
+                      <td className="py-3 px-3 text-[#715f53]">
+                        {lang === 'uk' ? 'Ціна упаковки' : 'Цена упаковки'}
+                      </td>
                       {comparedProducts.map((p) => (
                         <td key={p.id} className="py-3 px-3 font-bold">
                           {p.priceUah} грн ({p.weightGrams} г)
@@ -1529,7 +2375,9 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                       ))}
                     </tr>
                     <tr className="bg-[#f1e6da]/60">
-                      <td className="py-3 px-3 font-bold text-[#b06a1e]">Ціна за 100 г</td>
+                      <td className="py-3 px-3 font-bold text-[#b06a1e]">
+                        {lang === 'uk' ? 'Ціна за 100 г' : 'Цена за 100 г'}
+                      </td>
                       {comparedProducts.map((p) => (
                         <td key={p.id} className="py-3 px-3 font-bold text-[#b06a1e]">
                           {getPricePer100g(p.priceUah, p.weightGrams)} грн / 100 г
@@ -1537,7 +2385,9 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                       ))}
                     </tr>
                     <tr>
-                      <td className="py-3 px-3 text-[#715f53]">Підсолоджувач</td>
+                      <td className="py-3 px-3 text-[#715f53]">
+                        {lang === 'uk' ? 'Підсолоджувач' : 'Подсластитель'}
+                      </td>
                       {comparedProducts.map((p) => (
                         <td key={p.id} className="py-3 px-3">
                           {p.sweetener}
@@ -1559,9 +2409,15 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
             <div className="flex items-start justify-between">
               <div>
                 <span className="text-[11px] font-bold uppercase tracking-wider text-[#b06a1e]">
-                  Тендер для кондитерів та шоколатьє
+                  {lang === 'uk'
+                    ? 'Тендер для кондитерів та шоколатьє CraftHub'
+                    : 'Тендер для кондитеров и шоколатье CraftHub'}
                 </span>
-                <h2 className="font-serif text-xl font-bold">Замовити торт, букет чи набір</h2>
+                <h2 className="font-serif text-xl font-bold">
+                  {lang === 'uk'
+                    ? 'Замовити торт, букет чи шоколадний набір'
+                    : 'Заказать торт, букет или шоколадный набор'}
+                </h2>
               </div>
               <button
                 onClick={() => {
@@ -1576,9 +2432,13 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
             {tenderSubmitted ? (
               <div className="bg-[#f1e6da] rounded-2xl p-6 text-center space-y-2">
                 <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto" />
-                <div className="font-bold">Заявку передано майстрам!</div>
+                <div className="font-bold">
+                  {lang === 'uk' ? 'Заявку передано майстрам!' : 'Заявка передана мастерам!'}
+                </div>
                 <p className="text-xs text-[#5a4638]">
-                  Перевірені виробники вашого міста зв’яжуться з вами з пропозиціями.
+                  {lang === 'uk'
+                    ? 'Перевірені виробники вашого міста зв’яжуться з вами з пропозиціями.'
+                    : 'Проверенные производители вашего города свяжутся с вами с предложениями.'}
                 </p>
               </div>
             ) : (
@@ -1592,26 +2452,38 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 <input
                   type="text"
                   required
-                  placeholder="Ваше місто (Харків, Київ, Львів, Дніпро, Одеса...)"
+                  placeholder={
+                    lang === 'uk'
+                      ? 'Ваше місто (Харків, Київ, Львів, Дніпро, Одеса...)'
+                      : 'Ваш город (Харьков, Киев, Львов, Днепр, Одесса...)'
+                  }
                   className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
                 />
                 <input
                   type="text"
                   required
-                  placeholder="Що потрібно? (торт, зефірний букет, шоколадні квіти)"
+                  placeholder={
+                    lang === 'uk'
+                      ? 'Що потрібно? (плитки шоколаду, букет квітів, торт, зефір)'
+                      : 'Что нужно? (плитки шоколада, букет цветов, торт, зефир)'
+                  }
                   className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
                 />
                 <input
                   type="text"
                   required
-                  placeholder="Ваш телефон або Telegram (@username)"
+                  placeholder={
+                    lang === 'uk'
+                      ? 'Ваш телефон або Telegram (@username)'
+                      : 'Ваш телефон или Telegram (@username)'
+                  }
                   className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
                 />
                 <button
                   type="submit"
                   className="w-full bg-[#b06a1e] hover:bg-[#965715] text-white font-bold py-3 rounded-full transition"
                 >
-                  Отримати пропозиції
+                  {lang === 'uk' ? 'Отримати пропозиції' : 'Получить предложения'}
                 </button>
               </form>
             )}
@@ -1626,9 +2498,13 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
             <div className="flex items-start justify-between">
               <div>
                 <span className="text-[11px] font-bold uppercase tracking-wider text-[#b06a1e]">
-                  Тариф: {selectedPlanForModal}
+                  {lang === 'uk' ? 'Тариф:' : 'Тариф:'} {selectedPlanForModal}
                 </span>
-                <h2 className="font-serif text-xl font-bold">Заявити про свою майстерню</h2>
+                <h2 className="font-serif text-xl font-bold">
+                  {lang === 'uk'
+                    ? 'Додати майстерню до CraftHub'
+                    : 'Добавить мастерскую в CraftHub'}
+                </h2>
               </div>
               <button
                 onClick={() => {
@@ -1643,7 +2519,9 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
             {makerSubmitted ? (
               <div className="bg-[#f1e6da] rounded-2xl p-6 text-center space-y-2">
                 <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto" />
-                <div className="font-bold">Заявку прийнято!</div>
+                <div className="font-bold">
+                  {lang === 'uk' ? 'Заявку прийнято!' : 'Заявка принята!'}
+                </div>
               </div>
             ) : (
               <form
@@ -1656,26 +2534,26 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 <input
                   type="text"
                   required
-                  placeholder="Назва бренду та місто"
+                  placeholder={lang === 'uk' ? 'Назва бренду та місто' : 'Название бренда и город'}
                   className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
                 />
                 <input
                   type="text"
                   required
-                  placeholder="Сайт або Instagram"
+                  placeholder={lang === 'uk' ? 'Сайт або Instagram' : 'Сайт или Instagram'}
                   className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
                 />
                 <input
                   type="text"
                   required
-                  placeholder="Контактний телефон"
+                  placeholder={lang === 'uk' ? 'Контактний телефон' : 'Контактный телефон'}
                   className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
                 />
                 <button
                   type="submit"
                   className="w-full bg-[#462b1f] hover:bg-[#b06a1e] text-white font-bold py-3 rounded-full transition"
                 >
-                  Додати майстерню
+                  {lang === 'uk' ? 'Додати майстерню' : 'Добавить мастерскую'}
                 </button>
               </form>
             )}

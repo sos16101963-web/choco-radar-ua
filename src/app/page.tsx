@@ -1,24 +1,82 @@
 import React from 'react';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
-import { PRODUCTS, MAKERS, getPricePer100g } from '@/data/chocolateData';
+import { PRODUCTS, MAKERS, CATEGORIES, getPricePer100g } from '@/data/chocolateData';
 
 export default function HomePage() {
-  // Structured Data (Schema.org JSON-LD) for Google Rich Results & AI Search (GEO 2026-2027)
+  // Google 2027 & AI Overview (GEO) Multi-Entity Schema.org JSON-LD Graph
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
       {
+        '@type': 'Organization',
+        '@id': 'https://choco-radar-ua.vercel.app/#organization',
+        name: 'CraftHub Україна',
+        alternateName: 'CraftHub — Платформа крафтових солодощів України',
+        url: 'https://choco-radar-ua.vercel.app',
+        description:
+          'Всеукраїнська сервісна платформа крафтових виробників шоколаду, цукерок, зефіру та авторських тортів.',
+        areaServed: 'UA',
+      },
+      {
         '@type': 'WebSite',
         '@id': 'https://choco-radar-ua.vercel.app/#website',
         url: 'https://choco-radar-ua.vercel.app',
-        name: 'ChocoRadar UA — Навігатор крафтового шоколаду України',
-        description:
-          'Порівняння цін за 100 г, чистоти складу та смакових профілів крафтового шоколаду, корпусних розмальованих цукерок, горіхів та малини в шоколаді від українських виробників.',
-        inLanguage: 'uk-UA',
+        name: 'CraftHub — Навігатор крафтового шоколаду, зефіру та тортів України',
+        publisher: {
+          '@id': 'https://choco-radar-ua.vercel.app/#organization',
+        },
+        inLanguage: ['uk-UA', 'ru-UA'],
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': 'https://choco-radar-ua.vercel.app/#breadcrumbs',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'CraftHub Україна',
+            item: 'https://choco-radar-ua.vercel.app',
+          },
+          ...CATEGORIES.filter((c) => c.slug !== 'all').map((cat, idx) => ({
+            '@type': 'ListItem',
+            position: idx + 2,
+            name: cat.shortTitle,
+            item: `https://choco-radar-ua.vercel.app/katalog/${cat.slug}`,
+          })),
+        ],
       },
       {
         '@type': 'ItemList',
-        name: 'Рейтинг крафтових шоколадних виробів України 2026',
+        name: 'Рейтинг крафтових виробників шоколаду, зефіру та тортів України 2027 (CraftHub)',
+        itemListOrder: 'https://schema.org/ItemListOrderDescending',
+        numberOfItems: Math.min(MAKERS.length, 30),
+        itemListElement: MAKERS.slice(0, 30).map((maker, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          item: {
+            '@type': 'FoodEstablishment',
+            name: maker.name,
+            description: maker.description,
+            url: maker.websiteUrl,
+            telephone: maker.phone,
+            address: {
+              '@type': 'PostalAddress',
+              addressLocality: maker.city,
+              addressCountry: 'UA',
+            },
+            aggregateRating: {
+              '@type': 'AggregateRating',
+              ratingValue: maker.rating,
+              reviewCount: maker.reviewsCount,
+              bestRating: '5',
+              worstRating: '1',
+            },
+          },
+        })),
+      },
+      {
+        '@type': 'ItemList',
+        name: 'Порівняння крафтових виробів за ціною за 100 г (CraftHub)',
         itemListOrder: 'https://schema.org/ItemListOrderDescending',
         numberOfItems: PRODUCTS.length,
         itemListElement: PRODUCTS.map((product, index) => ({
@@ -54,26 +112,26 @@ export default function HomePage() {
         mainEntity: [
           {
             '@type': 'Question',
-            name: 'Чим крафтовий шоколад Bean-to-Bar відрізняється від магазинного?',
+            name: 'Чим крафтова плитка шоколаду та батончик відрізняються від мас-маркету?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Крафтовий шоколад Bean-to-Bar («від какао-боба до плитки») виготовляється з фермерських какао-бобів Fino de Aroma або Criollo, натурального какао-масла та тростинного або кокосового цукру без пальмової олії, замінників та штучних ароматизаторів.',
+              text: 'Крафтова плитка шоколаду та ремісничий батончик виготовляються з натурального какао-масла та добірних какао-бобів (зокрема бельгійського кувертюру Barry Callebaut у лідера рейтингу crafo.com.ua або фермерських бобів Fino de Aroma) без пальмової олії, замінників та штучних ароматизаторів.',
             },
           },
           {
             '@type': 'Question',
-            name: 'Як об’єктивно порівняти ціни на крафтовий шоколад та цукерки в Україні?',
+            name: 'Які солодощі обрати в рубриках «Без цукру» та «Для дітей»?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Оскільки плитки та набори мають різну вагу (від 50 г до 480 г), платформа ChocoRadar UA автоматично розраховує ціну за 100 грамів чистого продукту та оцінює індекс чистоти складу (Clean Label Score).',
+              text: 'На платформі CraftHub рубрики розділені для зручності: у розділі «Без цукру» представлені вироби на меду, кокосовому нектарі, еритритолі та стевії для веганів і діабетиків, а в окремій рубриці «Для дітей» — безпечний дитячий шоколад і батончики на керобі без кофеїну, натуральна ягідна пастила та шоколадні фігурки.',
             },
           },
           {
             '@type': 'Question',
-            name: 'Яку малину або полуницю в шоколаді можна замовити Новою Поштою по Україні?',
+            name: 'Як працює Тендерна біржа замовлень на торти, зефірні та шоколадні букети?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Для доставки по всій Україні оптимально підходить цільна сублімована малина та полуниця в подвійному шарі бельгійського шоколаду (зберігається до 6 місяців). Свіжа полуниця в шоколаді доставляється кур’єром або в термобоксах із холодоагентом.',
+              text: 'Покупець залишає одну заявку із зазначенням міста, дати та бюджету, а перевірені майстерні свого міста самі надсилають персональні пропозиції з фото та цінами напряму у Telegram або Viber.',
             },
           },
         ],

@@ -6,6 +6,7 @@ export type CategorySlug =
   | 'malyna-ta-polunytsia-v-shokoladi'
   | 'horikhy-ta-sukhofrukty-v-shokoladi'
   | 'bez-tsukru-ta-vegan'
+  | 'solodoshchi-dlia-ditei'
   | 'kraftovyi-zefir-ta-bukety'
   | 'avtorski-torty-ta-deserty';
 
@@ -109,40 +110,40 @@ export const CATEGORIES: CategoryInfo[] = [
     titleUk: 'Всі вироби та виробники шоколаду, зефіру і тортів України',
     shortTitle: 'Всі категорії',
     emoji: '✨',
-    seoH1: 'Оберіть крафтовий шоколад, зефір та авторські торти України',
+    seoH1: 'CraftHub — Всі крафтові виробники шоколаду, зефіру та авторських тортів України',
     seoDescription:
-      'Всеукраїнська платформа крафтових кондитерів: 104 перевірені активні майстерні з прямими телефонами, адресами та сайтами. Плитки, цукерки, шоколадні та зефірні букети, малина в шоколаді, зефір і торти на замовлення.',
+      'Всеукраїнська платформа CraftHub: 104 перевірені активні майстерні з прямими телефонами, адресами та сайтами. Плитки шоколаду і батончики, цукерки ручної роботи, шоколадні та зефірні букети, малина в шоколаді, вироби без цукру, солодощі для дітей та торти на замовлення.',
     expertGuide:
-      'Оберіть потрібну категорію зверху: система миттєво покаже і кращі вироби з ціною за 100 г, і всіх реальних українських виробників у вашому місті.',
+      'Оберіть потрібну рубрику зверху або скористайтеся Інтерактивним Сомельє Подарунків: платформа миттєво підбере кращі вироби та перевірених майстрів вашого міста.',
   },
   {
     slug: 'plytky-shokoladu',
-    titleUk: 'Плитки крафтового шоколаду (Bean-to-Bar та Авторські)',
-    shortTitle: 'Плитки шоколаду',
+    titleUk: 'Плитка шоколаду, батончик (Авторський та Ремісничий шоколад)',
+    shortTitle: 'Плитка шоколаду, батончик',
     emoji: '🍫',
-    seoH1: 'Плитки крафтового шоколаду України',
+    seoH1: 'Плитка шоколаду та крафтові батончики України — CraftHub',
     seoDescription:
-      'Моносортовий шоколад Bean-to-Bar, гречаний шоколад, дубайський шоколад з фісташкою та авторські плитки з ягодами й горіхами.',
+      'Крафтові плитки шоколаду, шоколадні батончики з горіхами, карамеллю, ягодами та дубайський шоколад від найкращих майстерень України.',
     expertGuide:
-      'Звертайте увагу на ціну за 100 г та % какао. Справжній крафтовий шоколад виготовляється на чистому какао-маслі без пальмової олії.',
+      'Звертайте увагу на ціну за 100 г та % какао. Справжня крафтова плитка шоколаду або батончик виготовляється на чистому какао-маслі без пальмової олії.',
   },
   {
     slug: 'korpusni-ta-rozmalovani-tsukerky',
     titleUk: 'Корпусні, розмальовані цукерки, сирні трюфелі та фадж',
     shortTitle: 'Цукерки ручної роботи',
     emoji: '🍬',
-    seoH1: 'Цукерки ручної роботи та трюфелі України',
+    seoH1: 'Цукерки ручної роботи та трюфелі України — CraftHub',
     seoDescription:
-      'Дизайнерські розписні корпусні цукерки, сирні трюфелі з дорблю та пармезаном, праліне й американський фадж від українських майстерень.',
+      'Дизайнерські розписні корпусні цукерки, сирні трюфелі з дорблю та пармезаном, праліне й американський фадж від українських шоколатьє.',
     expertGuide:
-      'Авторські цукерки створюються з бельгійського, французького або італійського кувертюру з натуральними фруктовими пюре, горіховим праліне або витриманими сирами.',
+      'Авторські цукерки створюються з бельгійського, французького або італійського шоколаду з натуральними ягідними пюре, горіховим праліне або витриманими сирами.',
   },
   {
     slug: 'shokoladni-kvity-ta-bukety',
     titleUk: 'Шоколадні квіти, півонії, троянди та подарункові букети',
     shortTitle: 'Шоколадні квіти і букети',
     emoji: '🌹',
-    seoH1: 'Шоколадні квіти та букети ручної роботи в Україні',
+    seoH1: 'Шоколадні квіти та букети ручної роботи в Україні — CraftHub',
     seoDescription:
       'Реалістичні букети з шоколадних троянд, півоній і тюльпанів зі справжнього бельгійського шоколаду Callebaut та Veliche з доставкою Новою Поштою.',
     expertGuide:
@@ -153,7 +154,7 @@ export const CATEGORIES: CategoryInfo[] = [
     titleUk: 'Малина та полуниця в шоколаді (Сублімована та Свіжа)',
     shortTitle: 'Малина і полуниця в шоколаді',
     emoji: '🍓',
-    seoH1: 'Малина та полуниця в шоколаді — Виробники України',
+    seoH1: 'Малина та полуниця в шоколаді — Виробники України | CraftHub',
     seoDescription:
       'Цільна хрумка сублімована малина в шоколаді з доставкою по всій Україні та подарункові бокси свіжої полуниці в бельгійському шоколаді.',
     expertGuide:
@@ -164,7 +165,7 @@ export const CATEGORIES: CategoryInfo[] = [
     titleUk: 'Горіхи, драже, чорнослив та сухофрукти в шоколаді',
     shortTitle: 'Горіхи та сухофрукти',
     emoji: '🌰',
-    seoH1: 'Горіхи та сухофрукти в шоколаді — Виробники України',
+    seoH1: 'Горіхи та сухофрукти в шоколаді — Виробники України | CraftHub',
     seoDescription:
       'Карамелізований фундук, мигдаль, фісташка, чорнослив з волоським горіхом, курага, інжир та фініки в справжньому шоколаді.',
     expertGuide:
@@ -172,23 +173,34 @@ export const CATEGORIES: CategoryInfo[] = [
   },
   {
     slug: 'bez-tsukru-ta-vegan',
-    titleUk: 'Шоколад і зефір без цукру, на меду, керобі та для дітей',
-    shortTitle: 'Без цукру / Дітям / Vegan',
+    titleUk: 'Без цукру / Vegan / На меду та стевії',
+    shortTitle: 'Без цукру',
     emoji: '🌿',
-    seoH1: 'Шоколад та зефір без білого цукру, на меду та керобі в Україні',
+    seoH1: 'Шоколад, батончики та зефір без цукру в Україні — CraftHub',
     seoDescription:
-      'Корисний крафтовий шоколад, пастила, зефір і цукерки без білого цукру, лактози та глютену: на меду, кокосовому нектарі, стевії та керобі для дітей і дорослих.',
+      'Корисний крафтовий шоколад, батончики, пастила, зефір і цукерки без білого цукру, лактози та глютену: на меду, кокосовому нектарі, еритритолі та стевії.',
     expertGuide:
-      'Для дітей найкраще підходить шоколад на керобі (без кофеїну і цукру), ягідна пастила або натуральний зефір на агар-агарі без цукру.',
+      'Вироби з цієї рубрики не містять рафінованого білого цукру — ідеально для тих, хто дотримується здорового харчування, кето або веган-раціону.',
+  },
+  {
+    slug: 'solodoshchi-dlia-ditei',
+    titleUk: 'Для дітей (Натуральні ласощі, шоколад на керобі, пастила, фігурки)',
+    shortTitle: 'Для дітей',
+    emoji: '🧸',
+    seoH1: 'Крафтові солодощі та шоколад для дітей в Україні — CraftHub',
+    seoDescription:
+      'Безпечні натуральні солодощі для дітей: дитячий шоколад на керобі без кофеїну, ягідна пастила без цукру, шоколадні фігурки, льодяники та дитячі святкові торти.',
+    expertGuide:
+      'Для дітей найкраще підходить шоколад на керобі (без кофеїну і білого цукру), натуральна фруктово-ягідна пастила, зефір на агар-агарі та фігурки зі справжнього бельгійського шоколаду.',
   },
   {
     slug: 'kraftovyi-zefir-ta-bukety',
     titleUk: 'Крафтовий зефір ручної роботи, зефірні букети та пастила',
     shortTitle: 'Зефір та зефірні букети',
     emoji: '🌸',
-    seoH1: 'Крафтовий зефір, зефірні букети та пастила ручної роботи в Україні',
+    seoH1: 'Крафтовий зефір, зефірні букети та пастила ручної роботи — CraftHub',
     seoDescription:
-      'Натуральний ягідно-фруктовий зефір на агар-агарі, розкішні букети з зефірних квітів (півонії, троянди, тюльпани), зефір у бельгійському шоколаді та пастила без цукру.',
+      'Натуральний ягідно-фруктовий зефір на агар-агарі, розкішні букети з зефірних квітів (півонії, троянди, тюльпани), зефір у бельгійському шоколаді та пастила.',
     expertGuide:
       'Крафтовий зефір готується виключно зі свіжого ягідного та яблучного пюре на морському агар-агарі без консервантів і відправляється Новою Поштою по всій Україні.',
   },
@@ -197,11 +209,11 @@ export const CATEGORIES: CategoryInfo[] = [
     titleUk: 'Авторські торти на замовлення, бенто-торти, макарони та десерти',
     shortTitle: 'Авторські торти і десерти',
     emoji: '🎂',
-    seoH1: 'Авторські торти на замовлення та крафтові кондитерські України',
+    seoH1: 'Авторські торти на замовлення та крафтові кондитерські України — CraftHub',
     seoDescription:
-      'Перевірені кондитерські ательє Харкова, Києва, Львова, Дніпра та Одеси: весільні, дитячі та корпоративні торти, мусові десерти, бенто-торти та макарони з натуральних вершків і бельгійського шоколаду.',
+      'Перевірені кондитерські ательє Харкова, Києва, Львова, Дніпра та Одеси: весільні, дитячі та корпоративні торти, мусові десерти, бенто-торти та макарони.',
     expertGuide:
-      'Обирайте кондитерську у своєму місті за допомогою фільтра міста або залиште заявку у «Тендері на торт та солодкий стіл» — майстерні самі запропонують вам варіанти начинок і декору.',
+      'Обирайте кондитерську у своєму місті за допомогою фільтра міста або скористайтеся Калькулятором Торта та Біржею Замовлень.',
   },
 ];
 
@@ -222,7 +234,8 @@ export const MAKERS: CraftMaker[] = [
       "korpusni-ta-rozmalovani-tsukerky",
       "shokoladni-kvity-ta-bukety",
       "horikhy-ta-sukhofrukty-v-shokoladi",
-      "malyna-ta-polunytsia-v-shokoladi"
+      "malyna-ta-polunytsia-v-shokoladi",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "plytky-shokoladu",
     "isBeanToBar": false,
@@ -252,7 +265,7 @@ export const MAKERS: CraftMaker[] = [
     "name": "Sisters A. Chocolate (sisterschocolate.com)",
     "slug": "sisters-a-chocolate",
     "segment": "bean-to-bar",
-    "segmentTitle": "1. Bean-to-Bar (Від какао-боба до плитки)",
+    "segmentTitle": "1. Плитка шоколаду та крафтові батончики",
     "city": "Луцьк",
     "regionCity": "Луцьк / Волинь",
     "foundedYear": 2018,
@@ -282,7 +295,7 @@ export const MAKERS: CraftMaker[] = [
     "shippingNote": "Доставка Новою Поштою по всій Україні",
     "badges": [
       "Academy of Chocolate London",
-      "Bean-to-Bar 72 год",
+      "Плитка шоколаду • Батончик 72 год",
       "Fino de Aroma"
     ],
     "imageUrl": "https://sisterschocolate.com/wp-content/uploads/2021/02/Sur-del-Lago-5.jpg"
@@ -332,7 +345,8 @@ export const MAKERS: CraftMaker[] = [
     "foundedYear": 2016,
     "specialty": "Преміальні авторські торти на замовлення, весільні й дитячі торти, бенто-торти, макарони та еклери",
     "categories": [
-      "avtorski-torty-ta-deserty"
+      "avtorski-torty-ta-deserty",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "avtorski-torty-ta-deserty",
     "isBeanToBar": false,
@@ -360,7 +374,7 @@ export const MAKERS: CraftMaker[] = [
     "name": "YandMi (yandmi.com)",
     "slug": "yandmi-craft",
     "segment": "bean-to-bar",
-    "segmentTitle": "1. Bean-to-Bar (Від какао-боба до плитки)",
+    "segmentTitle": "1. Плитка шоколаду та крафтові батончики",
     "city": "Житомир / Харків",
     "regionCity": "Харків",
     "foundedYear": 2019,
@@ -390,7 +404,7 @@ export const MAKERS: CraftMaker[] = [
     "badges": [
       "Fino de Aroma",
       "Горіхи та сухофрукти в шоколаді",
-      "Bean-to-Bar"
+      "Плитка шоколаду • Батончик"
     ]
   },
   {
@@ -442,7 +456,8 @@ export const MAKERS: CraftMaker[] = [
     "categories": [
       "kraftovyi-zefir-ta-bukety",
       "shokoladni-kvity-ta-bukety",
-      "bez-tsukru-ta-vegan"
+      "bez-tsukru-ta-vegan",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "kraftovyi-zefir-ta-bukety",
     "isBeanToBar": false,
@@ -479,7 +494,8 @@ export const MAKERS: CraftMaker[] = [
     "specialty": "Преміальні дизайнерські торти на замовлення, мусові торти в шоколадному велюрі, макарони та зефір",
     "categories": [
       "avtorski-torty-ta-deserty",
-      "kraftovyi-zefir-ta-bukety"
+      "kraftovyi-zefir-ta-bukety",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "avtorski-torty-ta-deserty",
     "isBeanToBar": false,
@@ -506,7 +522,7 @@ export const MAKERS: CraftMaker[] = [
     "name": "Stranger Craft Chocolate (stranger.org.ua)",
     "slug": "stranger-craft-chocolate",
     "segment": "bean-to-bar",
-    "segmentTitle": "1. Bean-to-Bar (Від какао-боба до плитки)",
+    "segmentTitle": "1. Плитка шоколаду та крафтові батончики",
     "city": "Полтава / Київ",
     "regionCity": "Київ",
     "foundedYear": 2016,
@@ -536,7 +552,7 @@ export const MAKERS: CraftMaker[] = [
     "badges": [
       "Теруарний шоколад",
       "З 2016 року",
-      "Bean-to-Bar"
+      "Плитка шоколаду • Батончик"
     ],
     "imageUrl": "https://static.wixstatic.com/media/93c538_5923c9898ce74187900833e45b954574%7Emv2.jpg/v1/fit/w_2500,h_1330,al_c/93c538_5923c9898ce74187900833e45b954574%7Emv2.jpg"
   },
@@ -545,7 +561,7 @@ export const MAKERS: CraftMaker[] = [
     "name": "Bogi Cacao (bogicacao.com.ua)",
     "slug": "bogi-cacao",
     "segment": "bean-to-bar",
-    "segmentTitle": "1. Bean-to-Bar (Від какао-боба до плитки)",
+    "segmentTitle": "1. Плитка шоколаду та крафтові батончики",
     "city": "Обухів / Київ",
     "regionCity": "Київ",
     "foundedYear": 2020,
@@ -564,7 +580,7 @@ export const MAKERS: CraftMaker[] = [
       "Перу (Criollo)",
       "Еквадор"
     ],
-    "description": "Виробник крафтового шоколаду та корисних цукерок методом bean-to-bar з елітних какао-бобів Criollo без білого цукру та консервантів.",
+    "description": "Виробник крафтового шоколаду та корисних цукерок у форматі крафтових плиток та батончиків з елітних какао-бобів Criollo без білого цукру та консервантів.",
     "websiteUrl": "https://bogicacao.com.ua",
     "instagramHandle": "@bogi.cacao",
     "instagramUrl": "https://www.instagram.com/bogi.cacao/",
@@ -574,7 +590,7 @@ export const MAKERS: CraftMaker[] = [
     "shippingNote": "Без вихідних 09:00–21:00, доставка Новою Поштою",
     "badges": [
       "Боби Criollo",
-      "Bean-to-Bar",
+      "Плитка шоколаду • Батончик",
       "Без цукру"
     ],
     "imageUrl": "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/8d99bc0547b9.jpg"
@@ -584,11 +600,11 @@ export const MAKERS: CraftMaker[] = [
     "name": "Meetty Chocolate (meettychocolate.com)",
     "slug": "meetty-chocolate",
     "segment": "bean-to-bar",
-    "segmentTitle": "1. Bean-to-Bar (Від какао-боба до плитки)",
+    "segmentTitle": "1. Плитка шоколаду та крафтові батончики",
     "city": "Кременчук",
     "regionCity": "Полтава / Суми / Запоріжжя",
     "foundedYear": 2017,
-    "specialty": "Крафтовий Bean-to-Bar шоколад із локальними смаками (білі гриби, гречка, шовковиця, троянда)",
+    "specialty": "Крафтовий плитка шоколаду та батончик шоколад із локальними смаками (білі гриби, гречка, шовковиця, троянда)",
     "categories": [
       "plytky-shokoladu",
       "korpusni-ta-rozmalovani-tsukerky"
@@ -603,7 +619,7 @@ export const MAKERS: CraftMaker[] = [
       "Колумбія",
       "Еквадор"
     ],
-    "description": "Лауреат міжнародної премії Academy of Chocolate Awards у Лондоні (срібло за шоколад із пелюстками троянди та виноградом). Повний цикл виробництва bean-to-bar у Кременчуці.",
+    "description": "Лауреат міжнародної премії Academy of Chocolate Awards у Лондоні (срібло за шоколад із пелюстками троянди та виноградом). Повний цикл виробництва крафтова плитка шоколаду у Кременчуці.",
     "websiteUrl": "https://meettychocolate.com",
     "instagramHandle": "@meetty_chocolate",
     "instagramUrl": "https://www.instagram.com/meetty_chocolate/",
@@ -614,7 +630,7 @@ export const MAKERS: CraftMaker[] = [
     "badges": [
       "Призер Academy of Chocolate",
       "Локальні смаки України",
-      "Bean-to-Bar"
+      "Плитка шоколаду • Батончик"
     ]
   },
   {
@@ -703,7 +719,8 @@ export const MAKERS: CraftMaker[] = [
     "specialty": "Крафтовий зефір і фруктово-ягідна пастила ручної роботи (зокрема лінійка без доданого цукру)",
     "categories": [
       "kraftovyi-zefir-ta-bukety",
-      "bez-tsukru-ta-vegan"
+      "bez-tsukru-ta-vegan",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "kraftovyi-zefir-ta-bukety",
     "isBeanToBar": false,
@@ -738,7 +755,8 @@ export const MAKERS: CraftMaker[] = [
     "categories": [
       "kraftovyi-zefir-ta-bukety",
       "bez-tsukru-ta-vegan",
-      "horikhy-ta-sukhofrukty-v-shokoladi"
+      "horikhy-ta-sukhofrukty-v-shokoladi",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "kraftovyi-zefir-ta-bukety",
     "isBeanToBar": false,
@@ -912,14 +930,15 @@ export const MAKERS: CraftMaker[] = [
     "name": "MYZO Chocolate (myzo.com.ua)",
     "slug": "myzo-chocolate",
     "segment": "bean-to-bar",
-    "segmentTitle": "1. Bean-to-Bar (Від какао-боба до плитки)",
+    "segmentTitle": "1. Плитка шоколаду та крафтові батончики",
     "city": "Луцький р-н (с. Зміїнець)",
     "regionCity": "Луцьк / Волинь",
     "foundedYear": 2021,
     "specialty": "Прямий імпорт какао-бобів з ферм Коста-Рики: темний, молочний та веганський на вівсяному молоці",
     "categories": [
       "plytky-shokoladu",
-      "bez-tsukru-ta-vegan"
+      "bez-tsukru-ta-vegan",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "plytky-shokoladu",
     "isBeanToBar": true,
@@ -939,7 +958,7 @@ export const MAKERS: CraftMaker[] = [
     "badges": [
       "Direct Trade Коста-Рика",
       "На вівсяному молоці",
-      "Bean-to-Bar"
+      "Плитка шоколаду • Батончик"
     ],
     "imageUrl": "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/d1091410c08e.jpg"
   },
@@ -1104,7 +1123,8 @@ export const MAKERS: CraftMaker[] = [
     "specialty": "Дитячий та крафтовий шоколад, пасти й батончики на основі какао-бобів та обсмаженого керобу",
     "categories": [
       "bez-tsukru-ta-vegan",
-      "plytky-shokoladu"
+      "plytky-shokoladu",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "bez-tsukru-ta-vegan",
     "isBeanToBar": true,
@@ -1138,7 +1158,7 @@ export const MAKERS: CraftMaker[] = [
     "city": "Одеса",
     "regionCity": "Одеса / Південь",
     "foundedYear": 2019,
-    "specialty": "Преміальний корисний шоколад Bean-to-Bar з бобів Criollo на кокосовому нектарі та горіхові пасти",
+    "specialty": "Преміальний корисний шоколад плитка шоколаду та батончик з бобів Criollo на кокосовому нектарі та горіхові пасти",
     "categories": [
       "bez-tsukru-ta-vegan",
       "plytky-shokoladu",
@@ -1153,7 +1173,7 @@ export const MAKERS: CraftMaker[] = [
       "Перу Organic (Criollo)",
       "Еквадор"
     ],
-    "description": "Одеська компанія, що виробляє преміальний крафтовий шоколад повного циклу (bean-to-bar) із какао-бобів Кріолло на кокосовому нектарі без рафінованого цукру.",
+    "description": "Одеська компанія, що виробляє преміальний крафтовий шоколад повного циклу (крафтова плитка шоколаду) із какао-бобів Кріолло на кокосовому нектарі без рафінованого цукру.",
     "websiteUrl": "https://healthychoice.ua",
     "instagramHandle": "@healthy_choice.ua",
     "instagramUrl": "https://www.instagram.com/healthy_choice.ua/",
@@ -1162,7 +1182,7 @@ export const MAKERS: CraftMaker[] = [
     "address": "м. Одеса, вул. Новосельського, 100",
     "shippingNote": "Доставка Новою Поштою по всій Україні",
     "badges": [
-      "Bean-to-Bar Одеса",
+      "Плитка шоколаду • Батончик Одеса",
       "Какао Criollo",
       "Кокосовий цукор"
     ],
@@ -1215,7 +1235,8 @@ export const MAKERS: CraftMaker[] = [
     "categories": [
       "malyna-ta-polunytsia-v-shokoladi",
       "horikhy-ta-sukhofrukty-v-shokoladi",
-      "bez-tsukru-ta-vegan"
+      "bez-tsukru-ta-vegan",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "malyna-ta-polunytsia-v-shokoladi",
     "isBeanToBar": false,
@@ -1250,7 +1271,8 @@ export const MAKERS: CraftMaker[] = [
     "specialty": "Цукерки ручної роботи з сухофруктів (чорнослив, курага, інжир, диня) з горіхами в шоколаді, грильяж",
     "categories": [
       "horikhy-ta-sukhofrukty-v-shokoladi",
-      "korpusni-ta-rozmalovani-tsukerky"
+      "korpusni-ta-rozmalovani-tsukerky",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "horikhy-ta-sukhofrukty-v-shokoladi",
     "isBeanToBar": false,
@@ -1287,7 +1309,8 @@ export const MAKERS: CraftMaker[] = [
     "specialty": "Крафтовий зефір ручної роботи, великі зефірні букети, пташине молоко та горішки зі згущеним молоком",
     "categories": [
       "kraftovyi-zefir-ta-bukety",
-      "avtorski-torty-ta-deserty"
+      "avtorski-torty-ta-deserty",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "kraftovyi-zefir-ta-bukety",
     "isBeanToBar": false,
@@ -1356,7 +1379,8 @@ export const MAKERS: CraftMaker[] = [
     "foundedYear": 2014,
     "specialty": "Святкові, дитячі, весільні та корпоративні торти на замовлення, бенто-торти та тістечка в Харкові",
     "categories": [
-      "avtorski-torty-ta-deserty"
+      "avtorski-torty-ta-deserty",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "avtorski-torty-ta-deserty",
     "isBeanToBar": false,
@@ -1390,7 +1414,8 @@ export const MAKERS: CraftMaker[] = [
     "specialty": "Домашні авторські торти з натуральних інгредієнтів, бенто-торти, крафтовий зефір та пряники",
     "categories": [
       "avtorski-torty-ta-deserty",
-      "kraftovyi-zefir-ta-bukety"
+      "kraftovyi-zefir-ta-bukety",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "avtorski-torty-ta-deserty",
     "isBeanToBar": false,
@@ -1641,7 +1666,8 @@ export const MAKERS: CraftMaker[] = [
     "categories": [
       "bez-tsukru-ta-vegan",
       "korpusni-ta-rozmalovani-tsukerky",
-      "plytky-shokoladu"
+      "plytky-shokoladu",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "bez-tsukru-ta-vegan",
     "isBeanToBar": true,
@@ -1678,7 +1704,8 @@ export const MAKERS: CraftMaker[] = [
     "categories": [
       "bez-tsukru-ta-vegan",
       "plytky-shokoladu",
-      "korpusni-ta-rozmalovani-tsukerky"
+      "korpusni-ta-rozmalovani-tsukerky",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "bez-tsukru-ta-vegan",
     "isBeanToBar": true,
@@ -1747,7 +1774,8 @@ export const MAKERS: CraftMaker[] = [
     "foundedYear": 2019,
     "specialty": "Власне сублімування ягід: цільна малина, полуниця, вишня та лохина в бельгійському шоколаді",
     "categories": [
-      "malyna-ta-polunytsia-v-shokoladi"
+      "malyna-ta-polunytsia-v-shokoladi",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "malyna-ta-polunytsia-v-shokoladi",
     "isBeanToBar": false,
@@ -1884,7 +1912,8 @@ export const MAKERS: CraftMaker[] = [
     "categories": [
       "korpusni-ta-rozmalovani-tsukerky",
       "plytky-shokoladu",
-      "horikhy-ta-sukhofrukty-v-shokoladi"
+      "horikhy-ta-sukhofrukty-v-shokoladi",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "korpusni-ta-rozmalovani-tsukerky",
     "isBeanToBar": false,
@@ -1913,11 +1942,11 @@ export const MAKERS: CraftMaker[] = [
     "name": "Limar Chocolate",
     "slug": "limar-chocolate",
     "segment": "bean-to-bar",
-    "segmentTitle": "1. Bean-to-Bar (Від какао-боба до плитки)",
+    "segmentTitle": "1. Плитка шоколаду та крафтові батончики",
     "city": "Харків",
     "regionCity": "Харків",
     "foundedYear": 2018,
-    "specialty": "Ремісничий шоколад Bean-to-Bar із бобів Criollo з локальними інгредієнтами та горіхами",
+    "specialty": "Ремісничий шоколад плитка шоколаду та батончик із бобів Criollo з локальними інгредієнтами та горіхами",
     "categories": [
       "plytky-shokoladu",
       "horikhy-ta-sukhofrukty-v-shokoladi"
@@ -1940,7 +1969,7 @@ export const MAKERS: CraftMaker[] = [
     "address": "м. Харків",
     "shippingNote": "Відправка з Харкова Новою Поштою",
     "badges": [
-      "Bean-to-Bar Харків",
+      "Плитка шоколаду • Батончик Харків",
       "Боби Criollo",
       "Натуральний склад"
     ]
@@ -1950,7 +1979,7 @@ export const MAKERS: CraftMaker[] = [
     "name": "Igor's Craft Chocolate",
     "slug": "igors-craft-chocolate",
     "segment": "bean-to-bar",
-    "segmentTitle": "1. Bean-to-Bar (Від какао-боба до плитки)",
+    "segmentTitle": "1. Плитка шоколаду та крафтові батончики",
     "city": "Київ",
     "regionCity": "Київ",
     "foundedYear": 2020,
@@ -1977,7 +2006,7 @@ export const MAKERS: CraftMaker[] = [
     "badges": [
       "Боби Criollo",
       "З шафраном та тахіні",
-      "Bean-to-Bar"
+      "Плитка шоколаду • Батончик"
     ],
     "imageUrl": "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/f2d09fb58802.jpg"
   },
@@ -1994,7 +2023,8 @@ export const MAKERS: CraftMaker[] = [
     "categories": [
       "korpusni-ta-rozmalovani-tsukerky",
       "plytky-shokoladu",
-      "shokoladni-kvity-ta-bukety"
+      "shokoladni-kvity-ta-bukety",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "korpusni-ta-rozmalovani-tsukerky",
     "isBeanToBar": false,
@@ -2135,7 +2165,8 @@ export const MAKERS: CraftMaker[] = [
       "plytky-shokoladu",
       "korpusni-ta-rozmalovani-tsukerky",
       "horikhy-ta-sukhofrukty-v-shokoladi",
-      "malyna-ta-polunytsia-v-shokoladi"
+      "malyna-ta-polunytsia-v-shokoladi",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "plytky-shokoladu",
     "isBeanToBar": false,
@@ -2247,7 +2278,8 @@ export const MAKERS: CraftMaker[] = [
     "categories": [
       "shokoladni-kvity-ta-bukety",
       "korpusni-ta-rozmalovani-tsukerky",
-      "plytky-shokoladu"
+      "plytky-shokoladu",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "shokoladni-kvity-ta-bukety",
     "isBeanToBar": false,
@@ -2384,7 +2416,8 @@ export const MAKERS: CraftMaker[] = [
     "categories": [
       "korpusni-ta-rozmalovani-tsukerky",
       "plytky-shokoladu",
-      "horikhy-ta-sukhofrukty-v-shokoladi"
+      "horikhy-ta-sukhofrukty-v-shokoladi",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "korpusni-ta-rozmalovani-tsukerky",
     "isBeanToBar": false,
@@ -2423,7 +2456,8 @@ export const MAKERS: CraftMaker[] = [
     "specialty": "Виробники корисних солодощів, raw-шоколаду на керобі та цукерок без цукру і глютену",
     "categories": [
       "bez-tsukru-ta-vegan",
-      "korpusni-ta-rozmalovani-tsukerky"
+      "korpusni-ta-rozmalovani-tsukerky",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "bez-tsukru-ta-vegan",
     "isBeanToBar": false,
@@ -2753,7 +2787,8 @@ export const MAKERS: CraftMaker[] = [
     "specialty": "Італійська шоколадна глазур, фігурки, торти, Харків",
     "categories": [
       "korpusni-ta-rozmalovani-tsukerky",
-      "avtorski-torty-ta-deserty"
+      "avtorski-torty-ta-deserty",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "korpusni-ta-rozmalovani-tsukerky",
     "isBeanToBar": false,
@@ -2862,11 +2897,11 @@ export const MAKERS: CraftMaker[] = [
     "name": "FINO Chocolate Bar",
     "slug": "fino-chocolate-bar",
     "segment": "bean-to-bar",
-    "segmentTitle": "1. Bean-to-Bar (Від какао-боба до плитки)",
+    "segmentTitle": "1. Плитка шоколаду та крафтові батончики",
     "city": "Львів, Львівська область",
     "regionCity": "Львів",
     "foundedYear": 2020,
-    "specialty": "Bean-to-bar, кав'ярня третьої хвилі, власне виробництво, Львів",
+    "specialty": "плитка шоколаду та батончик, кав'ярня третьої хвилі, власне виробництво, Львів",
     "categories": [
       "plytky-shokoladu"
     ],
@@ -2881,7 +2916,7 @@ export const MAKERS: CraftMaker[] = [
       "власне виробництво",
       "Львів"
     ],
-    "description": "Кав'ярня третьої хвилі з власним виробництвом bean-to-bar шоколаду за склом. Графік 8:00-21:00. Унікальне поєднання кави та крафтового шоколаду власного виробництва.",
+    "description": "Кав'ярня третьої хвилі з власним виробництвом крафтова плитка шоколаду шоколаду за склом. Графік 8:00-21:00. Унікальне поєднання кави та крафтового шоколаду власного виробництва.",
     "websiteUrl": "https://www.instagram.com/fino.chocolate.bar",
     "instagramHandle": "@fino.chocolate.bar",
     "instagramUrl": "https://www.instagram.com/fino.chocolate.bar",
@@ -2889,7 +2924,7 @@ export const MAKERS: CraftMaker[] = [
     "address": "м. Львів, Львівська область",
     "shippingNote": "Доставка по місту та Новою Поштою по Україні",
     "badges": [
-      "bean-to-bar",
+      "Плитка шоколаду • Батончик",
       "кав'ярня третьої хвилі",
       "власне виробництво",
       "Львів"
@@ -3351,11 +3386,11 @@ export const MAKERS: CraftMaker[] = [
     "name": "Pure Taste",
     "slug": "pure-taste",
     "segment": "bean-to-bar",
-    "segmentTitle": "1. Bean-to-Bar (Від какао-боба до плитки)",
+    "segmentTitle": "1. Плитка шоколаду та крафтові батончики",
     "city": "Київ, Київська область",
     "regionCity": "Київ",
     "foundedYear": 2020,
-    "specialty": "Bean-to-bar, одиночне походження, темний шоколад",
+    "specialty": "плитка шоколаду та батончик, одиночне походження, темний шоколад",
     "categories": [
       "plytky-shokoladu"
     ],
@@ -3369,13 +3404,13 @@ export const MAKERS: CraftMaker[] = [
       "одиночне походження",
       "темний шоколад"
     ],
-    "description": "Шоколад за технологією bean-to-bar, що відображає смак і аромат конкретних какао-бобів. Як і вино чи кава, какао має різноманітні смаки, які Pure Taste розкриває в кожній плитці.",
+    "description": "Шоколад за технологією крафтова плитка шоколаду, що відображає смак і аромат конкретних какао-бобів. Як і вино чи кава, какао має різноманітні смаки, які Pure Taste розкриває в кожній плитці.",
     "websiteUrl": "https://pure-taste.com.ua",
     "phone": "Замовлення онлайн на сайті",
     "address": "м. Київ, Київська область",
     "shippingNote": "Доставка по місту та Новою Поштою по Україні",
     "badges": [
-      "bean-to-bar",
+      "Плитка шоколаду • Батончик",
       "одиночне походження",
       "темний шоколад"
     ],
@@ -3659,7 +3694,8 @@ export const MAKERS: CraftMaker[] = [
     "foundedYear": 2020,
     "specialty": "3D торти, дитячі торти, ексклюзивні, Дніпро",
     "categories": [
-      "avtorski-torty-ta-deserty"
+      "avtorski-torty-ta-deserty",
+      "solodoshchi-dlia-ditei"
     ],
     "mainCategory": "avtorski-torty-ta-deserty",
     "isBeanToBar": false,
@@ -4102,13 +4138,13 @@ export const PRODUCTS: ChocolateProduct[] = [
   },
   {
     id: 'p-1',
-    title: 'Моносортова плитка Tanzania Kokoa Kamili 72% (Bean-to-Bar)',
+    title: 'Моносортова плитка Tanzania Kokoa Kamili 72% (Плитка шоколаду)',
     slug: 'tanzania-kokoa-kamili-72-sisters-a',
     makerId: 'sisters-a',
     makerName: 'Sisters A. Chocolate',
     makerCity: 'Луцьк',
     category: 'plytky-shokoladu',
-    subType: 'Bean-to-Bar 72 год витримки',
+    subType: 'Плитка шоколаду • 72 год витримки',
     priceUah: 245,
     weightGrams: 75,
     cacaoPercent: 72,
@@ -4441,8 +4477,8 @@ export const PRODUCTS: ChocolateProduct[] = [
     makerId: 'leopol',
     makerName: "Leopol' (Львів)",
     makerCity: 'Львів',
-    category: 'bez-tsukru-ta-vegan',
-    subType: 'Дитячий шоколад на керобі',
+    category: 'solodoshchi-dlia-ditei',
+    subType: 'Дитяча плитка шоколаду та батончик на керобі',
     priceUah: 185,
     weightGrams: 85,
     cacaoPercent: 55,
@@ -4548,13 +4584,13 @@ export const PRODUCTS: ChocolateProduct[] = [
   },
   {
     id: 'p-15',
-    title: 'Веганський молочний шоколад на вівсяному молоці з какао-бобів Коста-Ріки (Bean-to-Bar)',
+    title: 'Веганський молочний шоколад на вівсяному молоці з какао-бобів Коста-Ріки (Плитка шоколаду)',
     slug: 'myzo-oat-milk-vegan-costa-rica-bar',
     makerId: 'myzo',
     makerName: 'MYZO Chocolate (myzochocolate.com)',
     makerCity: 'Волинська обл. / Луцьк',
     category: 'bez-tsukru-ta-vegan',
-    subType: 'Bean-to-Bar Веган на вівсяному молоці',
+    subType: 'Плитка шоколаду • Веган на вівсяному молоці',
     priceUah: 220,
     weightGrams: 80,
     cacaoPercent: 52,
@@ -4585,13 +4621,13 @@ export const PRODUCTS: ChocolateProduct[] = [
   },
   {
     id: 'p-16',
-    title: 'Авторська плитка з білими грибами або гречихою та шовковицею (Bean-to-Bar Черкаси)',
+    title: 'Авторська плитка з білими грибами або гречихою та шовковицею (Плитка шоколаду, Черкаси)',
     slug: 'meetty-porcini-buckwheat-craft-chocolate-bar',
     makerId: 'meetty',
     makerName: 'Meetty Chocolate (meetty.com.ua)',
     makerCity: 'Черкаси',
     category: 'plytky-shokoladu',
-    subType: 'Гастрономічний Bean-to-Bar',
+    subType: 'Гастрономічна плитка шоколаду',
     priceUah: 230,
     weightGrams: 85,
     cacaoPercent: 65,
