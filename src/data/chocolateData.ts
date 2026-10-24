@@ -258,7 +258,7 @@ export const MAKERS: CraftMaker[] = [
       "Callebaut 100%",
       "Свіжий Instagram та Сайт"
     ],
-    "imageUrl": "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/2a5f606c8bb3.jpg"
+    "imageUrl": "/images/crafo-hero.jpg"
   },
   {
     "id": "sisters-a",
@@ -4133,7 +4133,7 @@ export const PRODUCTS: ChocolateProduct[] = [
     expertVerdict:
       'Виготовляється у провідній харківській майстерні Crafo (crafo.com.ua, вул. Лебединська, 1) зі 100% бельгійського шоколаду Callebaut. Доступні плитки, авторські цукерки та розкішні шоколадні квіти.',
     bestFor: ['gift-her', 'gift-boss', 'corporate', 'kids'],
-    imageUrl: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/images/crafo-hero.jpg',
     offersCount: 5,
   },
   {

@@ -753,6 +753,24 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                   <strong>{lang === 'uk' ? 'Доставка:' : 'Доставка:'}</strong>{' '}
                   {localizeText(maker.shippingNote, lang)}
                 </div>
+                <div className="pt-2 mt-1 border-t border-black/10">
+                  <button
+                    onClick={() => {
+                      setSelectedPlanForModal(
+                        `${lang === 'uk' ? 'Оновлення фото та вітрини:' : 'Обновление фото и витрины:'} ${maker.name}`
+                      );
+                      setIsAddMakerModalOpen(true);
+                    }}
+                    className="text-[11px] font-bold text-[#b06a1e] hover:underline flex items-center gap-1 text-left"
+                  >
+                    <Sparkles className="w-3 h-3 shrink-0" />
+                    <span>
+                      {lang === 'uk'
+                        ? 'Ви власник цієї майстерні? Оновити фото / підключити PRO →'
+                        : 'Вы владелец этой мастерской? Обновить фото / подключить PRO →'}
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           )}
@@ -2304,7 +2322,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
               </div>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-2.5">
               <a
                 href={activeMakerModal.websiteUrl}
                 target="_blank"
@@ -2316,6 +2334,20 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 </span>
                 <ArrowUpRight className="w-4 h-4" />
               </a>
+              <button
+                onClick={() => {
+                  const name = activeMakerModal.name;
+                  setActiveMakerModal(null);
+                  setSelectedPlanForModal(
+                    `${lang === 'uk' ? 'Оновлення фото/вітрини:' : 'Обновление фото/витрины:'} ${name}`
+                  );
+                  setIsAddMakerModalOpen(true);
+                }}
+                className="bg-[#f1e6da] hover:bg-[#e5d5c3] text-[#462b1f] font-bold py-3 px-4 rounded-full text-xs transition flex items-center justify-center gap-1.5"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-[#b06a1e]" />
+                <span>{lang === 'uk' ? 'Змінити фото картки' : 'Изменить фото карточки'}</span>
+              </button>
             </div>
           </div>
         </div>
@@ -2545,6 +2577,15 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 />
                 <input
                   type="text"
+                  placeholder={
+                    lang === 'uk'
+                      ? 'Посилання на ваше нове фото вітрини (або надішліть у Telegram)'
+                      : 'Ссылка на ваше новое фото витрины (или пришлите в Telegram)'
+                  }
+                  className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
+                />
+                <input
+                  type="text"
                   required
                   placeholder={lang === 'uk' ? 'Контактний телефон' : 'Контактный телефон'}
                   className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
@@ -2553,7 +2594,7 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                   type="submit"
                   className="w-full bg-[#462b1f] hover:bg-[#b06a1e] text-white font-bold py-3 rounded-full transition"
                 >
-                  {lang === 'uk' ? 'Додати майстерню' : 'Добавить мастерскую'}
+                  {lang === 'uk' ? 'Надіслати дані / Оновити фото' : 'Отправить данные / Обновить фото'}
                 </button>
               </form>
             )}
