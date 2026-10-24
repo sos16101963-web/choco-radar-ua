@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import Link from 'next/link';
 import {
   CATEGORIES,
   MAKERS,
@@ -10,6 +11,7 @@ import {
   MakerSegment,
   getPricePer100g,
 } from '@/data/chocolateData';
+import { BLOG_ARTICLES, CITY_SEO_HUBS } from '@/data/blogData';
 import {
   Search,
   CheckCircle2,
@@ -33,10 +35,12 @@ import {
   Heart,
   HelpCircle,
   Wand2,
+  BookOpen,
 } from 'lucide-react';
 
 interface ChocoRadarAppProps {
   initialCategory?: CategorySlug;
+  initialCity?: string;
 }
 
 type Lang = 'uk' | 'ru';
@@ -253,14 +257,17 @@ function localizeText(text: string, lang: Lang): string {
     .replace(/Чернівці/g, 'Черновцы');
 }
 
-export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarAppProps) {
+export default function ChocoRadarApp({
+  initialCategory = 'all',
+  initialCity = 'all',
+}: ChocoRadarAppProps) {
   // Language state: 'uk' by default, switchable to 'ru' at the top
   const [lang, setLang] = useState<Lang>('uk');
   const [isDark, setIsDark] = useState(false);
 
   // Filters
   const [selectedCategory, setSelectedCategory] = useState<CategorySlug>(initialCategory);
-  const [selectedCity, setSelectedCity] = useState<string>('all');
+  const [selectedCity, setSelectedCity] = useState<string>(initialCity);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedMakerId, setSelectedMakerId] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'popular' | 'price100_asc' | 'price_asc'>('popular');
@@ -569,9 +576,9 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
             : 'bg-[#fefbf7] border-[#e1d5c8] hover:border-[#b06a1e] shadow-sm'
         }`}
       >
-        {/* Top Banner */}
+        {/* Top Banner — 2x Larger, Bright & Clear without dark overlay */}
         <div
-          className="relative h-36 overflow-hidden cursor-pointer"
+          className="relative h-64 sm:h-72 overflow-hidden cursor-pointer"
           style={{ background: headerMeta.gradient }}
           onClick={() => setActiveMakerModal(maker)}
         >
@@ -581,12 +588,12 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 src={maker.imageUrl}
                 alt={maker.name}
                 loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                className="absolute inset-0 w-full h-full object-cover object-center brightness-105 contrast-105 transition-transform duration-300 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/30" />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/45 to-transparent" />
             </>
           ) : (
-            <span className="absolute -right-3 -top-4 select-none text-7xl opacity-30 transition-transform duration-300 group-hover:scale-110">
+            <span className="absolute -right-3 -top-4 select-none text-8xl opacity-30 transition-transform duration-300 group-hover:scale-110">
               {headerMeta.emoji}
             </span>
           )}
@@ -946,6 +953,17 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
             >
               🌸 {lang === 'uk' ? 'Зефір' : 'Зефир'}
             </button>
+            <Link
+              href="/blog"
+              className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-bold border transition ${
+                isDark
+                  ? 'border-[#b06a1e]/50 bg-[#362820] text-[#f0a556] hover:bg-[#b06a1e] hover:text-white'
+                  : 'border-[#b06a1e]/40 bg-[#f1e6da] text-[#8c4f12] hover:bg-[#b06a1e] hover:text-white'
+              }`}
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>{lang === 'uk' ? 'Блог' : 'Блог'}</span>
+            </Link>
           </nav>
 
           {/* Right Actions: Language Switcher (УКР | РУС), Theme, Favorites, CTA */}
@@ -1831,14 +1849,14 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                     }`}
                   >
                     <div>
-                      <div className="relative h-48 bg-[#f1e6da] overflow-hidden">
+                      <div className="relative h-64 sm:h-72 bg-[#f1e6da] overflow-hidden">
                         <img
                           src={product.imageUrl}
                           alt={product.title}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover object-center brightness-105 contrast-105 transition-transform duration-300 hover:scale-105"
                           loading="lazy"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20" />
+                        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-black/40 to-transparent" />
                         <div className="absolute top-3 left-3">
                           <span className="bg-[#462b1f]/90 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">
                             {localizeText(product.subType, lang)}
@@ -2127,6 +2145,147 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
             )}
           </section>
 
+          {/* SECTION 3.5: EXPERT BLOG & SEO LANDING PAGES HUB */}
+          <section
+            id="blog-seo-section"
+            className={`rounded-3xl border p-5 sm:p-8 shadow-sm ${
+              isDark
+                ? 'bg-gradient-to-br from-[#261b16] to-[#1a120e] border-white/15'
+                : 'bg-gradient-to-br from-[#fefbf7] to-[#f1e6da]/60 border-[#d9c8b8]'
+            }`}
+          >
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+              <div>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#b06a1e]/15 px-3 py-1 text-[11px] font-extrabold text-[#b06a1e] mb-2">
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>
+                    {lang === 'uk'
+                      ? 'Експертний Блог CraftHub • SEO Гід покупця'
+                      : 'Экспертный Блог CraftHub • SEO Гид покупателя'}
+                  </span>
+                </span>
+                <h2 className="font-serif text-xl sm:text-3xl font-bold">
+                  {lang === 'uk'
+                    ? 'Статті та огляди: як обрати найкращий крафтовий шоколад, букет або торт'
+                    : 'Статьи и обзоры: как выбрать лучший крафтовый шоколад, букет или торт'}
+                </h2>
+              </div>
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-1.5 rounded-full bg-[#462b1f] hover:bg-[#5c3929] px-5 py-2.5 text-xs font-extrabold text-[#faf4eb] shadow-sm transition shrink-0"
+              >
+                <span>{lang === 'uk' ? 'Перейти у Блог (всі статті)' : 'Перейти в Блог (все статьи)'}</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            {/* 4 Blog Article Cards with 2x Large Bright Photo Windows */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+              {BLOG_ARTICLES.map((article) => (
+                <article
+                  key={article.slug}
+                  className={`group rounded-2xl border overflow-hidden flex flex-col transition-all hover:-translate-y-0.5 hover:shadow-lg ${
+                    isDark ? 'bg-[#211713] border-white/15' : 'bg-white border-[#e1d5c8]'
+                  }`}
+                >
+                  <Link
+                    href={`/blog/${article.slug}`}
+                    className="relative h-64 sm:h-72 w-full overflow-hidden block bg-[#f3e9dc]"
+                  >
+                    <img
+                      src={article.heroImage}
+                      alt={lang === 'uk' ? article.titleUk : article.titleRu}
+                      className="w-full h-full object-cover object-center brightness-105 contrast-105 transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/45 to-transparent" />
+                    <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
+                      <span className="rounded-full bg-[#462b1f]/90 backdrop-blur-md px-3 py-1 text-[11px] font-extrabold text-[#faf4eb] shadow-md">
+                        {lang === 'uk' ? article.categoryLabelUk : article.categoryLabelRu}
+                      </span>
+                      <span className="rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold text-[#302016] shadow-md">
+                        ⏱ {article.readTimeMinutes} {lang === 'uk' ? 'хв' : 'мин'}
+                      </span>
+                    </div>
+                  </Link>
+
+                  <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
+                    <div className="space-y-2">
+                      <Link href={`/blog/${article.slug}`}>
+                        <h3 className="font-serif text-lg sm:text-xl font-bold leading-snug group-hover:text-[#b06a1e] transition">
+                          {lang === 'uk' ? article.titleUk : article.titleRu}
+                        </h3>
+                      </Link>
+                      <p className="text-xs sm:text-sm opacity-85 line-clamp-2 leading-relaxed">
+                        {lang === 'uk' ? article.excerptUk : article.excerptRu}
+                      </p>
+                    </div>
+                    <div className="pt-2 flex items-center justify-between border-t border-[#e1d5c8]/60">
+                      <span className="text-[11px] font-bold text-[#715f53]">
+                        {article.publishedAt}
+                      </span>
+                      <Link
+                        href={`/blog/${article.slug}`}
+                        className="inline-flex items-center gap-1 text-xs font-extrabold text-[#b06a1e] hover:underline"
+                      >
+                        <span>{lang === 'uk' ? 'Читати статтю' : 'Читать статью'}</span>
+                        <ArrowUpRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            {/* SEO Hub Links: Categories & Cities for Google Indexing & Fast User Navigation */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-4 border-t border-[#d9c8b8]">
+              <div>
+                <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#b06a1e] mb-2.5">
+                  {lang === 'uk'
+                    ? '📂 SEO-сторінки рубрик (прямі посилання для Google)'
+                    : '📂 SEO-страницы рубрик (прямые ссылки для Google)'}
+                </h3>
+                <div className="flex flex-wrap gap-1.5">
+                  {CATEGORIES.filter((c) => c.slug !== 'all').map((cat) => (
+                    <Link
+                      key={cat.slug}
+                      href={`/katalog/${cat.slug}`}
+                      className={`rounded-full px-3 py-1.5 text-xs font-bold border transition ${
+                        isDark
+                          ? 'bg-[#362820] border-white/15 text-[#eee7dd] hover:border-[#b06a1e]'
+                          : 'bg-[#f1e6da] border-[#d4c3b3] text-[#302016] hover:bg-[#b06a1e] hover:text-white'
+                      }`}
+                    >
+                      {cat.emoji} {localizeText(cat.shortTitle, lang)}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#b06a1e] mb-2.5">
+                  {lang === 'uk'
+                    ? '📍 Регіональні SEO-сторінки міст України'
+                    : '📍 Региональные SEO-страницы городов Украины'}
+                </h3>
+                <div className="flex flex-wrap gap-1.5">
+                  {CITY_SEO_HUBS.map((city) => (
+                    <Link
+                      key={city.slug}
+                      href={`/misto/${city.slug}`}
+                      className={`rounded-full px-3 py-1.5 text-xs font-bold border transition ${
+                        isDark
+                          ? 'bg-[#362820] border-white/15 text-[#eee7dd] hover:border-[#b06a1e]'
+                          : 'bg-[#fefbf7] border-[#d4c3b3] text-[#302016] hover:bg-[#462b1f] hover:text-white'
+                      }`}
+                    >
+                      📍 {lang === 'uk' ? city.cityNameUk : city.cityNameRu}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* SECTION 4: GOOGLE SEO & AI OVERVIEW FAQ ACCORDION */}
           <section className="space-y-4">
             <div className="flex items-center gap-2">
@@ -2295,6 +2454,16 @@ export default function ChocoRadarApp({ initialCategory = 'all' }: ChocoRadarApp
                 <X className="w-4 h-4" />
               </button>
             </div>
+
+            {activeMakerModal.imageUrl && (
+              <div className="rounded-2xl overflow-hidden h-56 sm:h-64 border border-[#e1d5c8] bg-[#f1e6da]">
+                <img
+                  src={activeMakerModal.imageUrl}
+                  alt={activeMakerModal.name}
+                  className="w-full h-full object-cover object-center brightness-105 contrast-105"
+                />
+              </div>
+            )}
 
             <p className="text-sm leading-relaxed">
               {localizeText(activeMakerModal.description, lang)}
