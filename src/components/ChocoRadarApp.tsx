@@ -2747,37 +2747,48 @@ export default function ChocoRadarApp({
         </div>
       )}
 
-      {/* MODAL 4: Add Maker */}
+      {/* MODAL 4: Add Maker / PRO Upgrade / Direct Links Update */}
       {isAddMakerModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#fefbf7] text-[#302016] border border-[#e1d5c8] rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-5 shadow-2xl">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-[#fefbf7] text-[#302016] border border-[#e1d5c8] rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl my-8 max-h-[90vh] overflow-y-auto">
             <div className="flex items-start justify-between">
               <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#b06a1e]">
-                  {lang === 'uk' ? 'Тариф:' : 'Тариф:'} {selectedPlanForModal}
+                <span className="inline-flex items-center gap-1 text-[11px] font-extrabold uppercase tracking-wider text-[#b06a1e] bg-[#b06a1e]/10 px-2.5 py-0.5 rounded-full mb-1">
+                  <Sparkles className="w-3 h-3 text-[#b06a1e]" />
+                  <span>{lang === 'uk' ? 'Кабінет майстра / PRO' : 'Кабинет мастера / PRO'}</span>
                 </span>
-                <h2 className="font-serif text-xl font-bold">
+                <h2 className="font-serif text-xl sm:text-2xl font-bold">
                   {lang === 'uk'
-                    ? 'Додати майстерню до CraftHub'
-                    : 'Добавить мастерскую в CraftHub'}
+                    ? 'Оновити прямі посилання, вітрину або додати майстерню'
+                    : 'Обновить прямые ссылки, витрину или добавить мастерскую'}
                 </h2>
+                <p className="text-xs text-[#715f53] mt-1">
+                  {lang === 'uk'
+                    ? 'Клієнти переходитимуть одразу в потрібний розділ вашого інтернет-магазину чи Instagram!'
+                    : 'Клиенты будут переходить сразу в нужный раздел вашего интернет-магазина или Instagram!'}
+                </p>
               </div>
               <button
                 onClick={() => {
                   setIsAddMakerModalOpen(false);
                   setMakerSubmitted(false);
                 }}
-                className="p-2 rounded-full bg-[#f1e6da]"
+                className="p-2 rounded-full bg-[#f1e6da] hover:bg-[#e5d5c3] text-[#302016] transition shrink-0 ml-2"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
             {makerSubmitted ? (
               <div className="bg-[#f1e6da] rounded-2xl p-6 text-center space-y-2">
-                <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto" />
-                <div className="font-bold">
-                  {lang === 'uk' ? 'Заявку прийнято!' : 'Заявка принята!'}
+                <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto" />
+                <div className="font-bold text-base">
+                  {lang === 'uk' ? 'Дані успішно прийнято в обробку!' : 'Данные успешно приняты в обработку!'}
                 </div>
+                <p className="text-xs text-[#715f53]">
+                  {lang === 'uk'
+                    ? 'Ми перевіримо та підключимо ваші прямі посилання на розділи та оновимо фотографію вітрини протягом кількох годин.'
+                    : 'Мы проверим и подключим ваши прямые ссылки на разделы и обновим фотографию витрины в течение нескольких часов.'}
+                </p>
               </div>
             ) : (
               <form
@@ -2785,40 +2796,124 @@ export default function ChocoRadarApp({
                   e.preventDefault();
                   setMakerSubmitted(true);
                 }}
-                className="space-y-3 text-xs sm:text-sm"
+                className="space-y-3.5 text-xs sm:text-sm"
               >
-                <input
-                  type="text"
-                  required
-                  placeholder={lang === 'uk' ? 'Назва бренду та місто' : 'Название бренда и город'}
-                  className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
-                />
-                <input
-                  type="text"
-                  required
-                  placeholder={lang === 'uk' ? 'Сайт або Instagram' : 'Сайт или Instagram'}
-                  className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
-                />
-                <input
-                  type="text"
-                  placeholder={
-                    lang === 'uk'
-                      ? 'Посилання на ваше нове фото вітрини (або надішліть у Telegram)'
-                      : 'Ссылка на ваше новое фото витрины (или пришлите в Telegram)'
-                  }
-                  className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
-                />
-                <input
-                  type="text"
-                  required
-                  placeholder={lang === 'uk' ? 'Контактний телефон' : 'Контактный телефон'}
-                  className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
-                />
+                <div>
+                  <label className="block text-[11px] font-bold text-[#715f53] mb-1">
+                    {lang === 'uk' ? 'Бренд, назва майстерні та місто *' : 'Бренд, название мастерской и город *'}
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    defaultValue={selectedPlanForModal.includes(':') ? selectedPlanForModal.split(':').pop()?.trim() : ''}
+                    placeholder={lang === 'uk' ? 'Наприклад: CraftChoco, Харків' : 'Например: CraftChoco, Харьков'}
+                    className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#b06a1e]"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <div>
+                    <label className="block text-[11px] font-bold text-[#715f53] mb-1">
+                      {lang === 'uk' ? 'Головний сайт або магазин *' : 'Главный сайт или магазин *'}
+                    </label>
+                    <input
+                      type="url"
+                      required
+                      placeholder="https://mysite.com.ua"
+                      className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#b06a1e]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold text-[#715f53] mb-1">
+                      {lang === 'uk' ? 'Instagram або Telegram' : 'Instagram или Telegram'}
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="@my_brand_chocolate"
+                      className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#b06a1e]"
+                    />
+                  </div>
+                </div>
+
+                {/* Section for direct category deep links */}
+                <div className="bg-[#f1e6da]/70 border border-[#e1d5c8] rounded-2xl p-3.5 space-y-2.5">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-[#b06a1e]">
+                    <ArrowUpRight className="w-4 h-4 shrink-0" />
+                    <span>
+                      {lang === 'uk'
+                        ? '🎯 Прямі посилання на ваші рубрики (для миттєвого переходу клієнта):'
+                        : '🎯 Прямые ссылки на ваши рубрики (для мгновенного перехода клиента):'}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-[#715f53] leading-tight">
+                    {lang === 'uk'
+                      ? 'Вкажіть прямі URL сторінок вашого магазину, щоб покупець в 1 клік потрапляв у потрібну категорію:'
+                      : 'Укажите прямые URL страниц вашего магазина, чтобы покупатель в 1 клик попадал в нужную категорию:'}
+                  </p>
+
+                  <div className="space-y-2">
+                    <input
+                      type="url"
+                      placeholder={lang === 'uk' ? '🍫 Посилання на розділ «Плитки та батончики»' : '🍫 Ссылка на раздел «Плитки и батончики»'}
+                      className="w-full bg-white border border-[#d4c3b3] rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#b06a1e]"
+                    />
+                    <input
+                      type="url"
+                      placeholder={lang === 'uk' ? '🍬 Посилання на розділ «Цукерки ручної роботи»' : '🍬 Ссылка на раздел «Конфеты ручной работы»'}
+                      className="w-full bg-white border border-[#d4c3b3] rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#b06a1e]"
+                    />
+                    <input
+                      type="url"
+                      placeholder={lang === 'uk' ? '🌹 Посилання на розділ «Шоколадні квіти / Букети»' : '🌹 Ссылка на раздел «Шоколадные цветы / Букеты»'}
+                      className="w-full bg-white border border-[#d4c3b3] rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#b06a1e]"
+                    />
+                    <input
+                      type="url"
+                      placeholder={lang === 'uk' ? '🎂 Посилання на розділ «Торти» / 🌸 «Зефір» / 🌿 «Без цукру»' : '🎂 Ссылка на раздел «Торты» / 🌸 «Зефир» / 🌿 «Без сахара»'}
+                      className="w-full bg-white border border-[#d4c3b3] rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#b06a1e]"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-[#715f53] mb-1">
+                    {lang === 'uk'
+                      ? 'Фото вітрини (посилання на фото або вкажіть, що надішлете в Telegram)'
+                      : 'Фото витрины (ссылка на фото или укажите, что пришлете в Telegram)'}
+                  </label>
+                  <input
+                    type="text"
+                    placeholder={
+                      lang === 'uk'
+                        ? 'Посилання на фото (Google Drive, сайт) або телефон/Telegram'
+                        : 'Ссылка на фото (Google Drive, сайт) или телефон/Telegram'
+                    }
+                    className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#b06a1e]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-[#715f53] mb-1">
+                    {lang === 'uk' ? 'Контактний телефон власника / менеджера *' : 'Контактный телефон владельца / менеджера *'}
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="+38 (0XX) XXX-XX-XX"
+                    className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#b06a1e]"
+                  />
+                </div>
+
                 <button
                   type="submit"
-                  className="w-full bg-[#462b1f] hover:bg-[#b06a1e] text-white font-bold py-3 rounded-full transition"
+                  className="w-full bg-gradient-to-r from-[#462b1f] to-[#b06a1e] hover:from-[#5a3828] hover:to-[#965715] text-white font-bold py-3.5 rounded-full transition shadow-md flex items-center justify-center gap-2"
                 >
-                  {lang === 'uk' ? 'Надіслати дані / Оновити фото' : 'Отправить данные / Обновить фото'}
+                  <Sparkles className="w-4 h-4 text-[#f0a556]" />
+                  <span>
+                    {lang === 'uk'
+                      ? 'Зберегти прямі посилання та оновити вітрину'
+                      : 'Сохранить прямые ссылки и обновить витрину'}
+                  </span>
                 </button>
               </form>
             )}
