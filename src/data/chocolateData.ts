@@ -47,6 +47,7 @@ export interface CraftMaker {
   cacaoOrigin: string[];
   description: string;
   websiteUrl: string;
+  categoryUrls?: Partial<Record<Exclude<CategorySlug, 'all'>, string>>;
   instagramHandle?: string;
   instagramUrl?: string;
   phone: string;
@@ -102,6 +103,7 @@ export interface ChocolateProduct {
   bestFor: ('gift-her' | 'gift-boss' | 'kids' | 'gourmet-self' | 'corporate')[];
   imageUrl: string;
   offersCount: number;
+  productUrl?: string;
 }
 
 export const CATEGORIES: CategoryInfo[] = [
@@ -247,6 +249,14 @@ export const MAKERS: CraftMaker[] = [
     ],
     "description": "Офіційний лідер рейтингу крафтового шоколаду України (crafo.com.ua): виготовляють преміальні шоколадні плитки ручної роботи, авторські корпусні та трюфельні цукерки, реалістичні букети з шоколадних квітів та подарункові бокси зі 100% бельгійського шоколаду Barry Callebaut.",
     "websiteUrl": "https://crafo.com.ua",
+    "categoryUrls": {
+      "plytky-shokoladu": "https://crafo.com.ua/#catalog",
+      "korpusni-ta-rozmalovani-tsukerky": "https://crafo.com.ua/#catalog",
+      "shokoladni-kvity-ta-bukety": "https://crafo.com.ua/podarunky/buket-iakyi-ne-ziviane",
+      "horikhy-ta-sukhofrukty-v-shokoladi": "https://crafo.com.ua/#catalog",
+      "malyna-ta-polunytsia-v-shokoladi": "https://crafo.com.ua/#catalog",
+      "solodoshchi-dlia-ditei": "https://crafo.com.ua/podarunky/malenki-druzi"
+    },
     "instagramHandle": "@craftchoco_kharkiv",
     "instagramUrl": "https://crafo.com.ua",
     "phone": "+38 (096) 253-56-10 (Viber, Telegram, WhatsApp)",
@@ -311,8 +321,7 @@ export const MAKERS: CraftMaker[] = [
     "foundedYear": 2019,
     "specialty": "Ексклюзивні букети з зефірних квітів (півонії, троянди, гортензії, тюльпани) та подарункові капелюшні бокси",
     "categories": [
-      "kraftovyi-zefir-ta-bukety",
-      "shokoladni-kvity-ta-bukety"
+      "kraftovyi-zefir-ta-bukety"
     ],
     "mainCategory": "kraftovyi-zefir-ta-bukety",
     "isBeanToBar": false,
@@ -324,7 +333,10 @@ export const MAKERS: CraftMaker[] = [
       "Агар-агар"
     ],
     "description": "Спеціалізована студія зефірної флористики в центрі Києва. Кожна квітка створюється вручну з натурального ягідно-фруктового зефіру з пониженим вмістом цукру.",
-    "websiteUrl": "https://piolli.com.ua",
+    "websiteUrl": "https://piolli.com.ua/shop/cat/zefirni-buketi-ta-koshiki",
+    "categoryUrls": {
+      "kraftovyi-zefir-ta-bukety": "https://piolli.com.ua/shop/cat/zefirni-buketi-ta-koshiki"
+    },
     "phone": "+38 (093) 515-57-94",
     "address": "м. Київ, вул. Назарівська, 19",
     "shippingNote": "Доставка по Києву та відправка Новою Поштою по Україні",
@@ -359,7 +371,11 @@ export const MAKERS: CraftMaker[] = [
       "Натуральні вершки 33%"
     ],
     "description": "Провідна авторська кондитерська Харкова Олени Чечендаєвої: дизайнерські святкові, дитячі та весільні торти, бенто-торти, макарони та корпусні десерти з топових європейських інгредієнтів.",
-    "websiteUrl": "https://chebakery.com.ua",
+    "websiteUrl": "https://chebakery.com.ua/cake-gallery",
+    "categoryUrls": {
+      "avtorski-torty-ta-deserty": "https://chebakery.com.ua/cake-gallery",
+      "solodoshchi-dlia-ditei": "https://chebakery.com.ua/cake-gallery"
+    },
     "phone": "+38 (050) 033-50-00, +38 (093) 207-20-00 (Telegram)",
     "address": "м. Харків",
     "shippingNote": "Дбайлива адресна доставка тортів по Харкову та самовивіз",
@@ -430,7 +446,11 @@ export const MAKERS: CraftMaker[] = [
       "Бельгія (Veliche Gourmet & Callebaut)"
     ],
     "description": "Провідна українська майстерня шоколадної флористики. Створюють реалістичні букети з шоколадних півоній, троянд та тюльпанів зі справжнього бельгійського шоколаду Veliche.",
-    "websiteUrl": "https://ecojoy.com.ua",
+    "websiteUrl": "https://ecojoy.com.ua/ua/shokoladni-buketi/",
+    "categoryUrls": {
+      "shokoladni-kvity-ta-bukety": "https://ecojoy.com.ua/ua/shokoladni-buketi/",
+      "korpusni-ta-rozmalovani-tsukerky": "https://ecojoy.com.ua/ua/shokoladni-kviti/"
+    },
     "instagramHandle": "@ecojoy.ua",
     "instagramUrl": "https://www.instagram.com/ecojoy.ua/",
     "phone": "+38 (098) 645-49-86, +38 (067) 366-87-65",
@@ -507,7 +527,12 @@ export const MAKERS: CraftMaker[] = [
       "Франція"
     ],
     "description": "Одна з найбільших крафтових кондитерських студій Києва: створюють дизайнерські торти з фігурками з бельгійського шоколаду, бенто-торти, кенді-бари, зефір та макарони.",
-    "websiteUrl": "https://bakerstreet.ua",
+    "websiteUrl": "https://bakerstreet.ua/catalog/torty",
+    "categoryUrls": {
+      "avtorski-torty-ta-deserty": "https://bakerstreet.ua/catalog/torty",
+      "solodoshchi-dlia-ditei": "https://bakerstreet.ua/catalog/dityachi-torti",
+      "kraftovyi-zefir-ta-bukety": "https://bakerstreet.ua/catalog/deserty"
+    },
     "phone": "+38 (067) 409-72-77",
     "address": "м. Київ",
     "shippingNote": "Власна спеціалізована доставка у рефрижераторах по Києву та області",
@@ -541,7 +566,11 @@ export const MAKERS: CraftMaker[] = [
       "Французький кувертюр"
     ],
     "description": "Одеська майстерня елітного авторського шоколаду ручної роботи. Кожна цукерка створюється за авторською рецептурою з витонченим ручним художнім розписом, натуральними ганашами та праліне.",
-    "websiteUrl": "https://chocoblues.com.ua",
+    "websiteUrl": "https://chocoblues.com.ua/shop/",
+    "categoryUrls": {
+      "korpusni-ta-rozmalovani-tsukerky": "https://chocoblues.com.ua/shop/",
+      "plytky-shokoladu": "https://chocoblues.com.ua/shop/"
+    },
     "instagramHandle": "@ChocoBlues",
     "instagramUrl": "https://www.instagram.com/ChocoBlues",
     "phone": "+38 (073) 803-83-46",
@@ -1383,8 +1412,7 @@ export const MAKERS: CraftMaker[] = [
     "foundedYear": 2019,
     "specialty": "Дизайнерські зефірні букети та бокси ручної роботи з натурального фруктового пюре та агар-агару",
     "categories": [
-      "kraftovyi-zefir-ta-bukety",
-      "shokoladni-kvity-ta-bukety"
+      "kraftovyi-zefir-ta-bukety"
     ],
     "mainCategory": "kraftovyi-zefir-ta-bukety",
     "isBeanToBar": false,
@@ -1963,7 +1991,13 @@ export const MAKERS: CraftMaker[] = [
       "Європа"
     ],
     "description": "Харківська студія та магазин оригінальних шоколадних і солодких подарунків у ТРЦ «Французький бульвар». Формують ексклюзивні подарункові бокси, шоколадні набори, цукерки та горіхове драже з доставкою по всій Україні.",
-    "websiteUrl": "https://sweets.net.ua",
+    "websiteUrl": "https://sweets.net.ua/ua/g83328965-shokolad-ruchnoj-raboty",
+    "categoryUrls": {
+      "korpusni-ta-rozmalovani-tsukerky": "https://sweets.net.ua/ua/g17002299-shokoladnye-nabory",
+      "plytky-shokoladu": "https://sweets.net.ua/ua/g83328965-shokolad-ruchnoj-raboty",
+      "horikhy-ta-sukhofrukty-v-shokoladi": "https://sweets.net.ua/ua/g86589895-orehi-suhofrukty-shokolade",
+      "solodoshchi-dlia-ditei": "https://sweets.net.ua/ua/g17002072-vkusnaya-pomosch"
+    },
     "instagramHandle": "@sweets_kharkiv",
     "instagramUrl": "https://sweets.net.ua",
     "phone": "+38 (093) 370-00-00",
@@ -3130,8 +3164,7 @@ export const MAKERS: CraftMaker[] = [
     "foundedYear": 2020,
     "specialty": "Зефірні квіти, букети, Черкаси",
     "categories": [
-      "kraftovyi-zefir-ta-bukety",
-      "shokoladni-kvity-ta-bukety"
+      "kraftovyi-zefir-ta-bukety"
     ],
     "mainCategory": "kraftovyi-zefir-ta-bukety",
     "isBeanToBar": false,
@@ -3465,8 +3498,7 @@ export const MAKERS: CraftMaker[] = [
     "foundedYear": 2020,
     "specialty": "Зефірні букети, зефірна флористика, Черкаси",
     "categories": [
-      "kraftovyi-zefir-ta-bukety",
-      "shokoladni-kvity-ta-bukety"
+      "kraftovyi-zefir-ta-bukety"
     ],
     "mainCategory": "kraftovyi-zefir-ta-bukety",
     "isBeanToBar": false,
@@ -3540,8 +3572,7 @@ export const MAKERS: CraftMaker[] = [
     "foundedYear": 2020,
     "specialty": "Зефірні квіти, солодкі букети, Хмельницький",
     "categories": [
-      "kraftovyi-zefir-ta-bukety",
-      "shokoladni-kvity-ta-bukety"
+      "kraftovyi-zefir-ta-bukety"
     ],
     "mainCategory": "kraftovyi-zefir-ta-bukety",
     "isBeanToBar": false,
@@ -3577,8 +3608,7 @@ export const MAKERS: CraftMaker[] = [
     "foundedYear": 2020,
     "specialty": "Зефірні букети, їстівні букети, відправка НП, Суми",
     "categories": [
-      "kraftovyi-zefir-ta-bukety",
-      "shokoladni-kvity-ta-bukety"
+      "kraftovyi-zefir-ta-bukety"
     ],
     "mainCategory": "kraftovyi-zefir-ta-bukety",
     "isBeanToBar": false,
@@ -3616,8 +3646,7 @@ export const MAKERS: CraftMaker[] = [
     "foundedYear": 2020,
     "specialty": "Зефірні букети, доставка, Черкаси, 5 років досвіду",
     "categories": [
-      "kraftovyi-zefir-ta-bukety",
-      "shokoladni-kvity-ta-bukety"
+      "kraftovyi-zefir-ta-bukety"
     ],
     "mainCategory": "kraftovyi-zefir-ta-bukety",
     "isBeanToBar": false,

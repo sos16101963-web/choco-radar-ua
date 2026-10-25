@@ -558,7 +558,15 @@ export default function ChocoRadarApp({
     const isLeader = maker.id === 'crafo-kharkiv';
     const isFav = favoriteMakerIds.includes(maker.id);
     const headerMeta = getMakerHeaderStyle(maker);
-    const cleanDomain = maker.websiteUrl
+    
+    // Direct destination URL: if user selected a category filter (e.g. flowers, bonbons, bars),
+    // and maker has a direct landing link for that category, use it directly!
+    const effectiveCategory = selectedCategory !== 'all' ? selectedCategory : maker.mainCategory;
+    const directDestinationUrl =
+      (maker.categoryUrls && maker.categoryUrls[effectiveCategory]) ||
+      maker.websiteUrl;
+
+    const cleanDomain = directDestinationUrl
       .replace('https://www.', '')
       .replace('https://', '')
       .replace(/\/$/, '');
@@ -656,7 +664,7 @@ export default function ChocoRadarApp({
               }`}
             >
               <a
-                href={maker.websiteUrl}
+                href={directDestinationUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
@@ -681,21 +689,35 @@ export default function ChocoRadarApp({
               const info = CATEGORY_SHORT_LABELS[catSlug];
               if (!info) return null;
               const isSelectedCat = selectedCategory === catSlug;
+              const catTargetUrl = maker.categoryUrls?.[catSlug];
               return (
-                <button
-                  key={catSlug}
-                  onClick={() => setSelectedCategory(catSlug)}
-                  className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold transition ${
-                    isSelectedCat
-                      ? 'bg-[#462b1f] text-[#faf4eb] shadow-sm'
-                      : isDark
-                      ? 'bg-[#362820] text-[#eee7dd] hover:bg-[#462b1f]'
-                      : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e5d5c3]'
-                  }`}
-                >
-                  <span>{info.emoji}</span>
-                  <span>{lang === 'uk' ? info.uk : info.ru}</span>
-                </button>
+                <div key={catSlug} className="inline-flex items-center">
+                  <button
+                    onClick={() => setSelectedCategory(catSlug)}
+                    className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold transition ${
+                      isSelectedCat
+                        ? 'bg-[#462b1f] text-[#faf4eb] shadow-sm'
+                        : isDark
+                        ? 'bg-[#362820] text-[#eee7dd] hover:bg-[#462b1f]'
+                        : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e5d5c3]'
+                    }`}
+                  >
+                    <span>{info.emoji}</span>
+                    <span>{lang === 'uk' ? info.uk : info.ru}</span>
+                    {catTargetUrl && (
+                      <a
+                        href={catTargetUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        title={lang === 'uk' ? `Пряме посилання у розділ ${info.uk}` : `Прямая ссылка в раздел ${info.ru}`}
+                        className="ml-0.5 hover:text-[#e39851]"
+                      >
+                        <ArrowUpRight className="w-3 h-3" />
+                      </a>
+                    )}
+                  </button>
+                </div>
               );
             })}
           </div>
@@ -793,7 +815,7 @@ export default function ChocoRadarApp({
           {/* Action Buttons Footer */}
           <div className="mt-auto flex items-center gap-1.5 pt-2">
             <a
-              href={maker.websiteUrl}
+              href={directDestinationUrl}
               target="_blank"
               rel="noopener noreferrer"
               className={`inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition shadow-xs ${
@@ -805,9 +827,13 @@ export default function ChocoRadarApp({
               <span>
                 {cleanDomain.includes('instagram.com')
                   ? 'Instagram'
+                  : selectedCategory !== 'all'
+                  ? lang === 'uk'
+                    ? `У розділ «${CATEGORY_SHORT_LABELS[selectedCategory]?.uk || 'Каталог'}»`
+                    : `В раздел «${CATEGORY_SHORT_LABELS[selectedCategory]?.ru || 'Каталог'}»`
                   : lang === 'uk'
-                  ? 'На сайт'
-                  : 'На сайт'}
+                  ? 'В каталог'
+                  : 'В каталог'}
               </span>
               <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
