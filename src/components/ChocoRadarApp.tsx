@@ -923,7 +923,7 @@ export default function ChocoRadarApp({
             </span>
             <span className="flex flex-col items-start leading-none">
               <span className="font-serif text-base sm:text-lg font-bold tracking-tight">
-                Craft<span className="text-[#b06a1e]">Sweets</span>
+                Crafo<span className="text-[#b06a1e]">Hub</span>
               </span>
               <span className={`text-[10px] sm:text-[11px] font-medium ${isDark ? 'text-[#a79d91]' : 'text-[#715f53]'}`}>
                 {lang === 'uk'
@@ -1146,8 +1146,8 @@ export default function ChocoRadarApp({
                 }`}
               >
                 {lang === 'uk'
-                  ? 'Єдиний сервіс CraftSweets, де покупці обирають очима: авторські плитки шоколаду, батончики, розкішні букети, цукерки ручного розпису та дизайнерські торти напряму у перевірених майстрів.'
-                  : 'Единый сервис CraftSweets, где покупатели выбирают глазами: авторские плитки шоколада, батончики, роскошные букеты, конфеты ручной росписи и дизайнерские торты напрямую у проверенных мастеров.'}
+                  ? 'Єдиний сервіс CrafoHub (crafohub.com.ua), де покупці обирають очима: авторські плитки шоколаду, батончики, розкішні букети, цукерки ручного розпису та дизайнерські торти напряму у перевірених майстрів.'
+                  : 'Единый сервис CrafoHub (crafohub.com.ua), где покупатели выбирают глазами: авторские плитки шоколада, батончики, роскошные букеты, конфеты ручной росписи и дизайнерские торты напрямую у проверенных мастеров.'}
               </p>
 
               {/* Search Bar */}

@@ -465,7 +465,7 @@ export const MAKERS: CraftMaker[] = [
       "Шоколадні букети №1",
       "Гарантія цілісності НП"
     ],
-    "imageUrl": "/images/crafo-large-flowers.jpg"
+    "imageUrl": "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "charivnyi-zefir",
@@ -2419,7 +2419,7 @@ export const MAKERS: CraftMaker[] = [
       "Подарункові бокси",
       "Доставка по Україні"
     ],
-    "imageUrl": "/images/crafo-hero.jpg"
+    "imageUrl": "https://images.unsplash.com/photo-1575372587186-50020fa3a815?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "asal-ukraine",

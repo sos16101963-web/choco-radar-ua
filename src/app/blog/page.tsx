@@ -50,7 +50,7 @@ export default function BlogIndexPage() {
               🍫
             </span>
             <span className="font-serif text-lg font-bold">
-              Craft<span className="text-[#b06a1e]">Sweets</span> Блог
+              Crafo<span className="text-[#b06a1e]">Hub</span> Блог
             </span>
           </Link>
 
