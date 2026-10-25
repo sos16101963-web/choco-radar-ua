@@ -88,7 +88,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
       <header className="sticky top-0 z-40 border-b border-[#e1d5c8] bg-[#fbf6ee]/95 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
           <Link href="/blog" className="text-xs sm:text-sm font-bold text-[#b06a1e] hover:underline">
-            ← Усі статті Блогу CraftHub
+            ← Усі статті Блогу CraftSweets
           </Link>
           <Link
             href="/"

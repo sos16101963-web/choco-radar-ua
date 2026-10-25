@@ -4109,7 +4109,7 @@ export const PRODUCTS: ChocolateProduct[] = [
     makerCity: 'Харків',
     category: 'plytky-shokoladu',
     subType: '🏆 Лідер продажів • Авторська плитка',
-    priceUah: 210,
+    priceUah: 110,
     weightGrams: 100,
     cacaoPercent: 54,
     sweetener: 'Класичний буряковий',

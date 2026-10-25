@@ -655,7 +655,15 @@ export default function ChocoRadarApp({
                 isDark ? 'text-[#eee7dd]' : 'text-[#302016]'
               }`}
             >
-              {localizeText(maker.name, lang)}
+              <a
+                href={maker.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="hover:underline hover:text-[#b06a1e]"
+              >
+                {localizeText(maker.name, lang)}
+              </a>
             </h3>
             <p
               className={`mt-1 flex items-center gap-1 text-xs font-medium ${
@@ -869,7 +877,7 @@ export default function ChocoRadarApp({
             </span>
             <span className="flex flex-col items-start leading-none">
               <span className="font-serif text-base sm:text-lg font-bold tracking-tight">
-                Craft<span className="text-[#b06a1e]">Hub</span>
+                Craft<span className="text-[#b06a1e]">Sweets</span>
               </span>
               <span className={`text-[10px] sm:text-[11px] font-medium ${isDark ? 'text-[#a79d91]' : 'text-[#715f53]'}`}>
                 {lang === 'uk'
