@@ -344,7 +344,8 @@ export const MAKERS: CraftMaker[] = [
       "Зефірна флористика №1",
       "Ручна робота",
       "Натуральний склад"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "chebakery-kharkiv",
@@ -383,7 +384,8 @@ export const MAKERS: CraftMaker[] = [
       "Топ кондитерська Харкова",
       "Авторські торти",
       "Бельгійський шоколад"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "yandmi",
@@ -421,7 +423,8 @@ export const MAKERS: CraftMaker[] = [
       "Fino de Aroma",
       "Горіхи та сухофрукти в шоколаді",
       "Плитка шоколаду • Батончик"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1587132137056-bfbf0166836e?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "ecojoy",
@@ -461,7 +464,8 @@ export const MAKERS: CraftMaker[] = [
       "Бельгійський шоколад Veliche",
       "Шоколадні букети №1",
       "Гарантія цілісності НП"
-    ]
+    ],
+    "imageUrl": "/images/crafo-large-flowers.jpg"
   },
   {
     "id": "charivnyi-zefir",
@@ -500,7 +504,8 @@ export const MAKERS: CraftMaker[] = [
       "Зефірні букети"
     ],
     "instagramUrl": "https://www.instagram.com/charivnyi_zefir",
-    "instagramHandle": "@charivnyi_zefir"
+    "instagramHandle": "@charivnyi_zefir",
+    "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "bakerstreet-kyiv",
@@ -540,7 +545,8 @@ export const MAKERS: CraftMaker[] = [
       "Преміум торти Києва",
       "Шоколадний велюр та фігурки",
       "Кенді-бари"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "chocoblues-odesa",
@@ -698,7 +704,8 @@ export const MAKERS: CraftMaker[] = [
       "Призер Academy of Chocolate",
       "Локальні смаки України",
       "Плитка шоколаду • Батончик"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1548907040-4baa42d10919?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "candy-coupe-buffet",
@@ -735,7 +742,8 @@ export const MAKERS: CraftMaker[] = [
       "Ручний художній розпис",
       "Valrhona & Cacao Barry",
       "Київська шоколатерія"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "honey-zavertailo",
@@ -772,7 +780,8 @@ export const MAKERS: CraftMaker[] = [
       "Дика малина-матча",
       "Французький Valrhona",
       "Преміум сегмент"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "zefiroly-dnipro",
@@ -807,7 +816,8 @@ export const MAKERS: CraftMaker[] = [
       "Зефір без цукру",
       "Натуральна пастила",
       "Для дітей та веганів"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1526081347589-7fa3cb41b4b2?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "ginger-pastila-lviv",
@@ -844,7 +854,8 @@ export const MAKERS: CraftMaker[] = [
       "0% Цукру",
       "Ідеально дітям",
       "Львівський крафт"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "manzhosova-patisserie",
@@ -880,7 +891,8 @@ export const MAKERS: CraftMaker[] = [
       "французькі десерти",
       "весільні торти",
       "корпоративні замовлення"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "vatsak",
@@ -990,7 +1002,8 @@ export const MAKERS: CraftMaker[] = [
       "ягідне пюре",
       "фруктовий зефір",
       "класична технологія"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "myzo",
@@ -1102,7 +1115,8 @@ export const MAKERS: CraftMaker[] = [
       "20+ видів сиру",
       "Ідеально до вина",
       "Авторський крафт"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1575372587186-50020fa3a815?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "shoco-lviv",
@@ -1139,7 +1153,8 @@ export const MAKERS: CraftMaker[] = [
       "Львівське шоколатьє",
       "Дизайнерські тубуси",
       "Cacao Barry"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1526081347589-7fa3cb41b4b2?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "shtefanyo",
@@ -1176,7 +1191,8 @@ export const MAKERS: CraftMaker[] = [
       "Легенда Закарпаття",
       "Шоколатьє міжнародного класу",
       "Авторські цукерки"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1582293041079-7814c2f12063?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "leopol",
@@ -1287,7 +1303,8 @@ export const MAKERS: CraftMaker[] = [
       "Полуниця в шоколаді",
       "Бельгійський Callebaut",
       "Букети та бокси"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1587132137056-bfbf0166836e?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "maslotom",
@@ -1324,7 +1341,8 @@ export const MAKERS: CraftMaker[] = [
       "Малина в шоколаді",
       "Вінницьке виробництво",
       "Хіт продажів"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1606312619070-d48b4c652a52?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "cukorka-volyn",
@@ -1362,7 +1380,8 @@ export const MAKERS: CraftMaker[] = [
       "Власне виробництво"
     ],
     "instagramUrl": "https://www.instagram.com/volyn_sweets",
-    "instagramHandle": "@volyn_sweets"
+    "instagramHandle": "@volyn_sweets",
+    "imageUrl": "https://images.unsplash.com/photo-1548907040-4baa42d10919?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "glam-zefyr",
@@ -1399,7 +1418,8 @@ export const MAKERS: CraftMaker[] = [
       "Зефірні букети",
       "Пташине молоко",
       "Доставка по Україні"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1526081347589-7fa3cb41b4b2?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "artzefir-ua",
@@ -1432,7 +1452,8 @@ export const MAKERS: CraftMaker[] = [
       "Зефірна флористика",
       "Ручна робота",
       "Натуральне пюре"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "tortiya-kharkiv",
@@ -1466,7 +1487,8 @@ export const MAKERS: CraftMaker[] = [
       "Харківська кондитерська",
       "Весільні та дитячі торти",
       "Кенді-бар"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "mamulin-tortyk-kyiv",
@@ -1501,7 +1523,8 @@ export const MAKERS: CraftMaker[] = [
       "Дитячі та весільні торти",
       "Натуральний склад",
       "Торти + Зефір"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "torts-ua-dnipro",
@@ -1534,7 +1557,8 @@ export const MAKERS: CraftMaker[] = [
       "Бенто-торти та мусові торти",
       "Мережа у Дніпрі",
       "Свіжі десерти"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "spell",
@@ -1617,7 +1641,8 @@ export const MAKERS: CraftMaker[] = [
       "Дубайський шоколад",
       "Серія з гречаним чаєм",
       "Власна мануфактура"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1587132137056-bfbf0166836e?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "nptruffles",
@@ -1649,7 +1674,8 @@ export const MAKERS: CraftMaker[] = [
       "Сирні трюфелі",
       "Ручна робота",
       "Бельгійський шоколад"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "nomer-doma",
@@ -1686,7 +1712,8 @@ export const MAKERS: CraftMaker[] = [
       "Американський Фадж №1",
       "З 2016 року",
       "Авторські смаки"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1575372587186-50020fa3a815?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "una-luna",
@@ -1761,7 +1788,8 @@ export const MAKERS: CraftMaker[] = [
       "Без білого цукру",
       "Без лактози та глютену",
       "Активовані горіхи"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1606312619070-d48b4c652a52?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "zhuzhu-shop",
@@ -1800,7 +1828,8 @@ export const MAKERS: CraftMaker[] = [
       "Шоколад на меду",
       "Сімейне виробництво",
       "0% Рафінованого цукру"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1548907040-4baa42d10919?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "frutado",
@@ -1833,7 +1862,8 @@ export const MAKERS: CraftMaker[] = [
       "Бокси полуниці в шоколаді",
       "Ручна робота",
       "Свіжа ягода"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "panfruit",
@@ -1868,7 +1898,8 @@ export const MAKERS: CraftMaker[] = [
       "Власна сублімація ягід",
       "Малина та полуниця в шоколаді",
       "Callebaut"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1587132137056-bfbf0166836e?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "golden-fruit-zakarpattia",
@@ -1901,7 +1932,8 @@ export const MAKERS: CraftMaker[] = [
       "Еко-продукт Закарпаття",
       "Чорнослив з горіхом",
       "Ручна робота"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1511381939415-e44015466834?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "eclat-yumberry",
@@ -1936,7 +1968,8 @@ export const MAKERS: CraftMaker[] = [
       "Фініки в шоколаді",
       "Бельгійський Callebaut",
       "Подарункові бокси"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1587132137056-bfbf0166836e?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "syndykat-smaku-kharkiv",
@@ -1969,7 +2002,8 @@ export const MAKERS: CraftMaker[] = [
       "18+ авторських начинок",
       "Термінові замовлення",
       "Шоколадний декор"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "sweets-kharkiv",
@@ -2013,7 +2047,8 @@ export const MAKERS: CraftMaker[] = [
       "Подарункові бокси Харків",
       "ТРЦ Французький бульвар",
       "Доставка по Україні"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1526081347589-7fa3cb41b4b2?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "limar-kharkiv",
@@ -2050,7 +2085,8 @@ export const MAKERS: CraftMaker[] = [
       "Плитка шоколаду • Батончик Харків",
       "Боби Criollo",
       "Натуральний склад"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1606312619070-d48b4c652a52?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "igors-craft",
@@ -2122,7 +2158,8 @@ export const MAKERS: CraftMaker[] = [
       "Луцьке шоколадне ательє",
       "Цукерки та плитки",
       "Ручна робота"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1582293041079-7814c2f12063?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "berry-bar-zt",
@@ -2192,7 +2229,8 @@ export const MAKERS: CraftMaker[] = [
       "Полуниця в шоколаді",
       "Київ • Харків • Одеса",
       "Ягідні букети"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1606312619070-d48b4c652a52?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "choconut-lviv",
@@ -2227,7 +2265,8 @@ export const MAKERS: CraftMaker[] = [
       "Львівська фабрика",
       "Горіхи в шоколаді",
       "Подарункові серії"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1548907040-4baa42d10919?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "shoude-kharkiv",
@@ -2266,7 +2305,8 @@ export const MAKERS: CraftMaker[] = [
       "Харківська фабрика",
       "Стандарт ISO 22000",
       "Плитки та цукерки"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1511381939415-e44015466834?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "aimant",
@@ -2378,7 +2418,8 @@ export const MAKERS: CraftMaker[] = [
       "Шоколадні троянди й букети",
       "Подарункові бокси",
       "Доставка по Україні"
-    ]
+    ],
+    "imageUrl": "/images/crafo-hero.jpg"
   },
   {
     "id": "asal-ukraine",
@@ -2410,7 +2451,8 @@ export const MAKERS: CraftMaker[] = [
       "Фрукти з горіхом у шоколаді",
       "Від виробника",
       "Роздріб та Опт"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1511381939415-e44015466834?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "khorek-kharkiv",
@@ -2479,7 +2521,8 @@ export const MAKERS: CraftMaker[] = [
       "Авторське праліне",
       "Свіжий відлив",
       "Ручна робота"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "lviv-workshop",
@@ -2558,7 +2601,8 @@ export const MAKERS: CraftMaker[] = [
       "100% Plant-Based",
       "Raw шоколад і цукерки",
       "Без цукру і глютену"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1606312619070-d48b4c652a52?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "amelia-dnipro",
@@ -2592,7 +2636,8 @@ export const MAKERS: CraftMaker[] = [
       "Чорнослив у шоколаді",
       "Виробництво Дніпро",
       "Натуральні сухофрукти"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1587132137056-bfbf0166836e?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "craftchocolate-ua",
@@ -3082,7 +3127,8 @@ export const MAKERS: CraftMaker[] = [
       "домашня випічка",
       "солодощі",
       "Хмельницький"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "its-craft",
@@ -3306,7 +3352,8 @@ export const MAKERS: CraftMaker[] = [
       "кенді-бари",
       "десерти",
       "Вінниця"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "mon-plaisir-mykolaiv",
@@ -3344,7 +3391,8 @@ export const MAKERS: CraftMaker[] = [
       "моті",
       "чізкейки",
       "торти"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "my-taste-lviv",
@@ -3382,7 +3430,8 @@ export const MAKERS: CraftMaker[] = [
       "бельгійський шоколад",
       "корпоративні замовлення",
       "Львів"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1575372587186-50020fa3a815?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "np-kharkiv",
@@ -3420,7 +3469,8 @@ export const MAKERS: CraftMaker[] = [
       "авторські",
       "Харків",
       "досвід 7+ років"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "nata-chocolate-mk-mykolaiv",
@@ -3456,7 +3506,8 @@ export const MAKERS: CraftMaker[] = [
       "шоколад ручної роботи",
       "авторські дизайни",
       "Миколаїв"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1526081347589-7fa3cb41b4b2?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "pure-taste",
@@ -3527,7 +3578,8 @@ export const MAKERS: CraftMaker[] = [
       "зефірні букети",
       "зефірна флористика",
       "Черкаси"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1526081347589-7fa3cb41b4b2?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "sweetmarket-cherkasy",
@@ -3565,7 +3617,8 @@ export const MAKERS: CraftMaker[] = [
       "бельгійський",
       "італійський",
       "Черкаси"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1582293041079-7814c2f12063?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "zefir-irinka-khm",
@@ -3601,7 +3654,8 @@ export const MAKERS: CraftMaker[] = [
       "зефірні квіти",
       "солодкі букети",
       "Хмельницький"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "zefiriya-bouquet-sumy",
@@ -3639,7 +3693,8 @@ export const MAKERS: CraftMaker[] = [
       "їстівні букети",
       "відправка НП",
       "Суми"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "zefirka-gift-cherkasy",
@@ -3677,7 +3732,8 @@ export const MAKERS: CraftMaker[] = [
       "доставка",
       "Черкаси",
       "5 років досвіду"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1526081347589-7fa3cb41b4b2?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "ineo-chocolate",
@@ -3754,7 +3810,8 @@ export const MAKERS: CraftMaker[] = [
       "торти",
       "майстер-класи",
       "Черкаси"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "dimanikiforenko-dnipro",
@@ -3793,7 +3850,8 @@ export const MAKERS: CraftMaker[] = [
       "дитячі торти",
       "ексклюзивні",
       "Дніпро"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "dobroizh-sumy",
@@ -3832,7 +3890,8 @@ export const MAKERS: CraftMaker[] = [
       "батончики",
       "жива халва",
       "корисні"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1548907040-4baa42d10919?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "vash-conditer-timoshenko-mykolaiv",
@@ -3870,7 +3929,8 @@ export const MAKERS: CraftMaker[] = [
       "десерти",
       "натуральні інгредієнти",
       "Миколаїв"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "korytsia-mykolaiv",
@@ -3908,7 +3968,8 @@ export const MAKERS: CraftMaker[] = [
       "капкейки",
       "чізкейки",
       "домашня випічка"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "larisa-bilovol-sumy",
@@ -3942,7 +4003,8 @@ export const MAKERS: CraftMaker[] = [
     "badges": [
       "авторські торти на замовлення",
       "Суми"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "lviv-chocolate-sumy",
@@ -3980,7 +4042,8 @@ export const MAKERS: CraftMaker[] = [
       "цукерки",
       "гарячий шоколад",
       "Суми"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "lviv-chocolate-cherkasy",
@@ -4019,7 +4082,8 @@ export const MAKERS: CraftMaker[] = [
       "цукерки",
       "гарячий шоколад",
       "майстер-класи"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1575372587186-50020fa3a815?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "natasha-shtofa-odesa",
@@ -4057,7 +4121,8 @@ export const MAKERS: CraftMaker[] = [
       "макаруни",
       "авторський дизайн",
       "Одесa"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "alexandrova-odesa",
@@ -4095,7 +4160,8 @@ export const MAKERS: CraftMaker[] = [
       "індивідуальний дизайн",
       "Одесa",
       "з 2014"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "shokoladno-kharkiv",
@@ -4130,7 +4196,8 @@ export const MAKERS: CraftMaker[] = [
       "Сухофрукти в шоколаді",
       "Харківський виробник",
       "Опт і роздріб"
-    ]
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1548907040-4baa42d10919?auto=format&fit=crop&w=1000&q=85"
   }
 ];
 

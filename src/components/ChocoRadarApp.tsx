@@ -43,6 +43,8 @@ import {
   HelpCircle,
   Wand2,
   BookOpen,
+  Eye,
+  Maximize2,
 } from 'lucide-react';
 
 interface ChocoRadarAppProps {
@@ -591,9 +593,9 @@ export default function ChocoRadarApp({
             : 'bg-[#fefbf7] border-[#e1d5c8] hover:border-[#b06a1e] shadow-sm'
         }`}
       >
-        {/* Top Banner — 2x Larger, Bright & Clear without dark overlay */}
+        {/* Top Banner — 2x Larger, Bright & Clear with 2027 visual zoom badge */}
         <div
-          className="relative h-64 sm:h-72 overflow-hidden cursor-pointer"
+          className="relative h-64 sm:h-72 overflow-hidden cursor-pointer group/img"
           style={{ background: headerMeta.gradient }}
           onClick={() => setActiveMakerModal(maker)}
         >
@@ -603,9 +605,16 @@ export default function ChocoRadarApp({
                 src={maker.imageUrl}
                 alt={maker.name}
                 loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover object-center brightness-105 contrast-105 transition-transform duration-300 group-hover:scale-105"
+                className="absolute inset-0 w-full h-full object-cover object-center brightness-105 contrast-105 transition-all duration-500 group-hover:scale-110"
               />
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/45 to-transparent" />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+              {/* 2027 Visual Zoom Cue on hover */}
+              <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/65 backdrop-blur-md text-white text-xs font-bold shadow-lg border border-white/20 transform -translate-y-2 group-hover:translate-y-0 transition-transform">
+                  <Maximize2 className="w-3.5 h-3.5 text-[#f0a556]" />
+                  <span>{lang === 'uk' ? 'Роздивитися вітрину' : 'Рассмотреть витрину'}</span>
+                </span>
+              </div>
             </>
           ) : (
             <span className="absolute -right-3 -top-4 select-none text-8xl opacity-30 transition-transform duration-300 group-hover:scale-110">
@@ -1137,8 +1146,8 @@ export default function ChocoRadarApp({
                 }`}
               >
                 {lang === 'uk'
-                  ? 'Єдиний сервіс CraftHub, де покупці обирають плитки шоколаду, батончики, цукерки ручної роботи, букети, солодощі без цукру, ласощі для дітей та авторські торти напряму у перевірених майстрів.'
-                  : 'Единый сервис CraftHub, где покупатели выбирают плитки шоколада, батончики, конфеты ручной работы, букеты, сладости без сахара, лакомства для детей и авторские торты напрямую у проверенных мастеров.'}
+                  ? 'Єдиний сервіс CraftSweets, де покупці обирають очима: авторські плитки шоколаду, батончики, розкішні букети, цукерки ручного розпису та дизайнерські торти напряму у перевірених майстрів.'
+                  : 'Единый сервис CraftSweets, где покупатели выбирают глазами: авторские плитки шоколада, батончики, роскошные букеты, конфеты ручной росписи и дизайнерские торты напрямую у проверенных мастеров.'}
               </p>
 
               {/* Search Bar */}
@@ -2501,12 +2510,16 @@ export default function ChocoRadarApp({
             </div>
 
             {activeMakerModal.imageUrl && (
-              <div className="rounded-2xl overflow-hidden h-56 sm:h-64 border border-[#e1d5c8] bg-[#f1e6da]">
+              <div className="rounded-2xl overflow-hidden h-64 sm:h-80 border border-[#e1d5c8] bg-[#f1e6da] relative shadow-inner group">
                 <img
                   src={activeMakerModal.imageUrl}
                   alt={activeMakerModal.name}
-                  className="w-full h-full object-cover object-center brightness-105 contrast-105"
+                  className="w-full h-full object-cover object-center brightness-105 contrast-105 transition-transform duration-500 group-hover:scale-105"
                 />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/50 to-transparent" />
+                <span className="absolute bottom-3 left-3 text-white text-[11px] font-bold px-3 py-1 rounded-full bg-black/60 backdrop-blur-md">
+                  🔍 {lang === 'uk' ? 'Фірмова вітрина майстерні' : 'Фирменная витрина мастерской'}
+                </span>
               </div>
             )}
 
