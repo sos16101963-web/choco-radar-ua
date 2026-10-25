@@ -2001,7 +2001,7 @@ export default function ChocoRadarApp({
 
                       {maker && (
                         <a
-                          href={maker.websiteUrl}
+                          href={product.productUrl || (maker.categoryUrls && maker.categoryUrls[product.category]) || maker.websiteUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex-1 bg-[#b06a1e] hover:bg-[#965715] text-white font-bold py-2 px-4 rounded-full text-xs transition flex items-center justify-center gap-1.5"
@@ -2527,13 +2527,23 @@ export default function ChocoRadarApp({
 
             <div className="flex flex-col sm:flex-row gap-2.5">
               <a
-                href={activeMakerModal.websiteUrl}
+                href={
+                  (selectedCategory !== 'all' && activeMakerModal.categoryUrls?.[selectedCategory]) ||
+                  activeMakerModal.categoryUrls?.[activeMakerModal.mainCategory] ||
+                  activeMakerModal.websiteUrl
+                }
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 bg-[#462b1f] hover:bg-[#b06a1e] text-white font-bold py-3 px-4 rounded-full text-xs sm:text-sm text-center transition flex items-center justify-center gap-1.5"
               >
                 <span>
-                  {lang === 'uk' ? 'Перейти на сторінку майстра' : 'Перейти на страницу мастера'}
+                  {selectedCategory !== 'all'
+                    ? lang === 'uk'
+                      ? `Перейти у розділ «${CATEGORY_SHORT_LABELS[selectedCategory]?.uk || 'Каталог'}»`
+                      : `Перейти в раздел «${CATEGORY_SHORT_LABELS[selectedCategory]?.ru || 'Каталог'}»`
+                    : lang === 'uk'
+                    ? 'Перейти до каталогу майстра'
+                    : 'Перейти в каталог мастера'}
                 </span>
                 <ArrowUpRight className="w-4 h-4" />
               </a>

@@ -4171,6 +4171,7 @@ export const PRODUCTS: ChocolateProduct[] = [
     bestFor: ['gift-her', 'gourmet-self', 'kids', 'corporate', 'gift-boss'],
     imageUrl: 'https://images.unsplash.com/photo-1587132137056-bfbf0166836e?auto=format&fit=crop&w=800&q=80',
     offersCount: 5,
+    productUrl: 'https://crafo.com.ua/podarunky/mystetstvo-u-ploti',
   },
   {
     id: 'p-2',
@@ -4208,6 +4209,7 @@ export const PRODUCTS: ChocolateProduct[] = [
     bestFor: ['gift-her', 'gift-boss', 'corporate', 'kids'],
     imageUrl: '/images/crafo-hero.jpg',
     offersCount: 5,
+    productUrl: 'https://crafo.com.ua/podarunky/buket-iakyi-ne-ziviane',
   },
   {
     id: 'p-1',
