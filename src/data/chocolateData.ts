@@ -518,6 +518,44 @@ export const MAKERS: CraftMaker[] = [
     ]
   },
   {
+    "id": "chocoblues-odesa",
+    "name": "Chocoblues — Майстерня авторського шоколаду (chocoblues.com.ua)",
+    "slug": "chocoblues-odesa",
+    "segment": "chocolatier-bonbons",
+    "segmentTitle": "2. Цукерки ручної роботи, шоколатьє та авторські набори",
+    "city": "Одеса / Вся Україна",
+    "regionCity": "Одеса / Південь",
+    "foundedYear": 2018,
+    "specialty": "Ексклюзивні авторські цукерки з художнім розписом, трюфелі, тематичні подарункові колекції та преміальні плитки",
+    "categories": [
+      "korpusni-ta-rozmalovani-tsukerky",
+      "plytky-shokoladu"
+    ],
+    "mainCategory": "korpusni-ta-rozmalovani-tsukerky",
+    "isBeanToBar": false,
+    "isVerified": true,
+    "rating": 4.97,
+    "reviewsCount": 268,
+    "cacaoOrigin": [
+      "Преміальний бельгійський шоколад",
+      "Французький кувертюр"
+    ],
+    "description": "Одеська майстерня елітного авторського шоколаду ручної роботи. Кожна цукерка створюється за авторською рецептурою з витонченим ручним художнім розписом, натуральними ганашами та праліне.",
+    "websiteUrl": "https://chocoblues.com.ua",
+    "instagramHandle": "@ChocoBlues",
+    "instagramUrl": "https://www.instagram.com/ChocoBlues",
+    "phone": "+38 (073) 803-83-46",
+    "address": "м. Одеса",
+    "shippingNote": "Фірмове подарункове пакування, термобокси для літа, доставка Новою Поштою по всій Україні",
+    "badges": [
+      "Ручний розпис",
+      "Бельгійський кувертюр",
+      "Одеса",
+      "Корпоративні набори"
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=800&q=80"
+  },
+  {
     "id": "stranger",
     "name": "Stranger Craft Chocolate (stranger.org.ua)",
     "slug": "stranger-craft-chocolate",
@@ -4803,6 +4841,43 @@ export const PRODUCTS: ChocolateProduct[] = [
     bestFor: ['gift-her', 'kids', 'corporate', 'gift-boss'],
     imageUrl: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=800&q=80',
     offersCount: 5,
+  },
+  {
+    id: 'p-21',
+    title: 'Ексклюзивна подарункова колекція авторських корпусних цукерок ручного розпису «Chocoblues Exclusive»',
+    slug: 'chocoblues-exclusive-handpainted-bonbons-box',
+    makerId: 'chocoblues-odesa',
+    makerName: 'Chocoblues — Майстерня авторського шоколаду (chocoblues.com.ua)',
+    makerCity: 'Одеса / Вся Україна',
+    category: 'korpusni-ta-rozmalovani-tsukerky',
+    subType: 'Колекційні цукерки ручного розпису',
+    priceUah: 620,
+    weightGrams: 220,
+    cacaoPercent: 60,
+    sweetener: 'Тростинний цукор',
+    cacaoType: 'Добірний бельгійський кувертюр',
+    isSugarFree: false,
+    isVegan: false,
+    isBeanToBar: false,
+    isHandPainted: true,
+    isGiftReady: true,
+    thermoBoxIncluded: true,
+    rating: 4.98,
+    reviewsCount: 184,
+    cleanLabelScore: 98,
+    flavorProfile: {
+      sweetness: 3,
+      acidity: 3,
+      bitterness: 3,
+      fruityNotes: 5,
+      nuttyNotes: 4,
+    },
+    tastingNotes: ['Маракуя та солона карамель', 'Фісташковий ганаш', 'Лавандовий трюфель'],
+    expertVerdict:
+      'Один із найвиразніших одеських зразків авторських цукерок: тонкий корпус із бельгійського шоколаду, неперевершений ручний живопис та свіжі ніжні ганаші.',
+    bestFor: ['gift-her', 'gift-boss', 'corporate'],
+    imageUrl: 'https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=800&q=80',
+    offersCount: 3,
   },
 ];
 
