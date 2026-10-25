@@ -248,13 +248,13 @@ export const MAKERS: CraftMaker[] = [
       "Бельгія (Barry Callebaut)"
     ],
     "description": "Офіційний лідер рейтингу крафтового шоколаду України (crafo.com.ua): виготовляють преміальні шоколадні плитки ручної роботи, авторські корпусні та трюфельні цукерки, реалістичні букети з шоколадних квітів та подарункові бокси зі 100% бельгійського шоколаду Barry Callebaut.",
-    "websiteUrl": "https://crafo.com.ua",
+    "websiteUrl": "https://crafo.com.ua/katalog",
     "categoryUrls": {
-      "plytky-shokoladu": "https://crafo.com.ua/#catalog",
-      "korpusni-ta-rozmalovani-tsukerky": "https://crafo.com.ua/#catalog",
+      "plytky-shokoladu": "https://crafo.com.ua/podarunky/mystetstvo-u-ploti",
+      "korpusni-ta-rozmalovani-tsukerky": "https://crafo.com.ua/podarunky/sviato-bez-povodu",
       "shokoladni-kvity-ta-bukety": "https://crafo.com.ua/podarunky/buket-iakyi-ne-ziviane",
-      "horikhy-ta-sukhofrukty-v-shokoladi": "https://crafo.com.ua/#catalog",
-      "malyna-ta-polunytsia-v-shokoladi": "https://crafo.com.ua/#catalog",
+      "horikhy-ta-sukhofrukty-v-shokoladi": "https://crafo.com.ua/podarunky/vse-shcho-tobi-pobazhaiu",
+      "malyna-ta-polunytsia-v-shokoladi": "https://crafo.com.ua/podarunky/rozmova-po-dushakh",
       "solodoshchi-dlia-ditei": "https://crafo.com.ua/podarunky/malenki-druzi"
     },
     "instagramHandle": "@craftchoco_kharkiv",
@@ -1561,7 +1561,13 @@ export const MAKERS: CraftMaker[] = [
       "Колумбія"
     ],
     "description": "Провідний український виробник авторського шоколаду, цукерок ручної роботи, солоної карамелі та корпоративних подарункових боксів.",
-    "websiteUrl": "https://spellchocolate.com",
+    "websiteUrl": "https://spellchocolate.com/our-productions/plitki-shokoladu/",
+    "categoryUrls": {
+      "plytky-shokoladu": "https://spellchocolate.com/our-productions/plitki-shokoladu/",
+      "korpusni-ta-rozmalovani-tsukerky": "https://spellchocolate.com/our-productions/seti-cukerok/",
+      "horikhy-ta-sukhofrukty-v-shokoladi": "https://spellchocolate.com/our-productions/plitki-shokoladu/z-gorihami",
+      "malyna-ta-polunytsia-v-shokoladi": "https://spellchocolate.com/our-productions/plitki-shokoladu/bars-with-berries"
+    },
     "instagramHandle": "@spellchocolate",
     "instagramUrl": "https://www.instagram.com/spellchocolate/",
     "phone": "0 800 319 233, +38 (073) 049-02-95, +38 (096) 520-60-99",
