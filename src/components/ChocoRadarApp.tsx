@@ -12,6 +12,13 @@ import {
   getPricePer100g,
 } from '@/data/chocolateData';
 import { BLOG_ARTICLES, CITY_SEO_HUBS } from '@/data/blogData';
+import { DISCOVERED_CATEGORY_URLS } from '@/data/categoryLinks';
+
+// Direct link to a category page on the maker's site (manual > auto-discovered). null = no verified link.
+function getMakerCategoryUrl(maker: CraftMaker, cat: CategorySlug): string | null {
+  if (cat === 'all') return null;
+  return maker.categoryUrls?.[cat] || DISCOVERED_CATEGORY_URLS[maker.id]?.[cat] || null;
+}
 import {
   Search,
   CheckCircle2,
@@ -562,9 +569,9 @@ export default function ChocoRadarApp({
     // Direct destination URL: if user selected a category filter (e.g. flowers, bonbons, bars),
     // and maker has a direct landing link for that category, use it directly!
     const effectiveCategory = selectedCategory !== 'all' ? selectedCategory : maker.mainCategory;
-    const directDestinationUrl =
-      (maker.categoryUrls && maker.categoryUrls[effectiveCategory]) ||
-      maker.websiteUrl;
+    const categoryDirectUrl = getMakerCategoryUrl(maker, effectiveCategory);
+    const hasDirectCategoryLink = selectedCategory !== 'all' && !!getMakerCategoryUrl(maker, selectedCategory);
+    const directDestinationUrl = categoryDirectUrl || maker.websiteUrl;
 
     const cleanDomain = directDestinationUrl
       .replace('https://www.', '')
@@ -689,7 +696,7 @@ export default function ChocoRadarApp({
               const info = CATEGORY_SHORT_LABELS[catSlug];
               if (!info) return null;
               const isSelectedCat = selectedCategory === catSlug;
-              const catTargetUrl = maker.categoryUrls?.[catSlug];
+              const catTargetUrl = getMakerCategoryUrl(maker, catSlug);
               return (
                 <div key={catSlug} className="inline-flex items-center">
                   <button
@@ -827,13 +834,17 @@ export default function ChocoRadarApp({
               <span>
                 {cleanDomain.includes('instagram.com')
                   ? 'Instagram'
-                  : selectedCategory !== 'all'
+                  : hasDirectCategoryLink
                   ? lang === 'uk'
                     ? `У розділ «${CATEGORY_SHORT_LABELS[selectedCategory]?.uk || 'Каталог'}»`
                     : `В раздел «${CATEGORY_SHORT_LABELS[selectedCategory]?.ru || 'Каталог'}»`
+                  : categoryDirectUrl
+                  ? lang === 'uk'
+                    ? 'В каталог'
+                    : 'В каталог'
                   : lang === 'uk'
-                  ? 'В каталог'
-                  : 'В каталог'}
+                  ? 'На сайт'
+                  : 'На сайт'}
               </span>
               <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
@@ -2001,7 +2012,7 @@ export default function ChocoRadarApp({
 
                       {maker && (
                         <a
-                          href={product.productUrl || (maker.categoryUrls && maker.categoryUrls[product.category]) || maker.websiteUrl}
+                          href={product.productUrl || getMakerCategoryUrl(maker, product.category) || maker.websiteUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex-1 bg-[#b06a1e] hover:bg-[#965715] text-white font-bold py-2 px-4 rounded-full text-xs transition flex items-center justify-center gap-1.5"
@@ -2528,8 +2539,8 @@ export default function ChocoRadarApp({
             <div className="flex flex-col sm:flex-row gap-2.5">
               <a
                 href={
-                  (selectedCategory !== 'all' && activeMakerModal.categoryUrls?.[selectedCategory]) ||
-                  activeMakerModal.categoryUrls?.[activeMakerModal.mainCategory] ||
+                  getMakerCategoryUrl(activeMakerModal, selectedCategory) ||
+                  getMakerCategoryUrl(activeMakerModal, activeMakerModal.mainCategory) ||
                   activeMakerModal.websiteUrl
                 }
                 target="_blank"
@@ -2537,7 +2548,7 @@ export default function ChocoRadarApp({
                 className="flex-1 bg-[#462b1f] hover:bg-[#b06a1e] text-white font-bold py-3 px-4 rounded-full text-xs sm:text-sm text-center transition flex items-center justify-center gap-1.5"
               >
                 <span>
-                  {selectedCategory !== 'all'
+                  {selectedCategory !== 'all' && getMakerCategoryUrl(activeMakerModal, selectedCategory)
                     ? lang === 'uk'
                       ? `Перейти у розділ «${CATEGORY_SHORT_LABELS[selectedCategory]?.uk || 'Каталог'}»`
                       : `Перейти в раздел «${CATEGORY_SHORT_LABELS[selectedCategory]?.ru || 'Каталог'}»`
