@@ -297,6 +297,7 @@ export default function ChocoRadarApp({
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   // Interactive 3-Minute Engagement Widgets (2027 Tech)
+  const [isToolsOpen, setIsToolsOpen] = useState<boolean>(true);
   const [activeEngagementTab, setActiveEngagementTab] = useState<'quiz' | 'calculator'>('quiz');
   const [quizRecipient, setQuizRecipient] = useState<'her' | 'kids' | 'boss' | 'self'>('her');
   const [quizDiet, setQuizDiet] = useState<'classic' | 'sugarfree' | 'kids_safe'>('classic');
@@ -1415,61 +1416,102 @@ export default function ChocoRadarApp({
           {/* NEW 2027 INTERACTIVE DWELL-TIME MAGNET (3+ MINUTES ON SITE): AI GIFT SOMMELIER & CAKE CALCULATOR */}
           <section
             id="interactive-tools"
-            className={`rounded-3xl border-2 p-4 sm:p-7 shadow-md ${
+            className={`rounded-3xl border-2 p-4 sm:p-7 shadow-md transition-all duration-300 ${
               isDark
                 ? 'bg-[#261b16] border-[#e39851]/40'
                 : 'bg-gradient-to-br from-[#fff9f2] via-[#fefbf7] to-[#f4e8da] border-[#e39851]/60'
             }`}
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#e1d5c8] pb-4">
-              <div>
-                <span className="inline-flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wider text-[#b06a1e]">
-                  <Wand2 className="w-3.5 h-3.5" />
-                  <span>
-                    {lang === 'uk'
-                      ? 'Інтерактивні помічники CraftHub 2027'
-                      : 'Интерактивные помощники CraftHub 2027'}
+              <div
+                onClick={() => setIsToolsOpen(!isToolsOpen)}
+                className="cursor-pointer group flex items-start gap-3 select-none flex-1"
+                title={lang === 'uk' ? 'Натисніть, щоб розгорнути або згорнути помічник' : 'Нажмите, чтобы развернуть или свернуть помощник'}
+              >
+                <div className="mt-1 w-8 h-8 rounded-full bg-[#e39851]/20 flex items-center justify-center text-[#b06a1e] group-hover:bg-[#b06a1e] group-hover:text-white transition-colors shrink-0">
+                  {isToolsOpen ? (
+                    <ChevronUp className="w-5 h-5 transition-transform" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 transition-transform" />
+                  )}
+                </div>
+                <div>
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wider text-[#b06a1e]">
+                    <Wand2 className="w-3.5 h-3.5" />
+                    <span>
+                      {lang === 'uk'
+                        ? 'Інтерактивні помічники CrafoHub 2027'
+                        : 'Интерактивные помощники CrafoHub 2027'}
+                    </span>
+                    <span className="ml-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#b06a1e]/15 text-[#8c4f12] dark:text-[#f0a556]">
+                      {isToolsOpen
+                        ? lang === 'uk'
+                          ? 'Згорнути блок'
+                          : 'Свернуть блок'
+                        : lang === 'uk'
+                        ? 'Розгорнути помічник'
+                        : 'Развернуть помощник'}
+                    </span>
                   </span>
-                </span>
-                <h2 className="font-serif text-xl sm:text-2xl font-bold mt-0.5">
-                  {activeEngagementTab === 'quiz'
-                    ? lang === 'uk'
-                      ? 'Інтерактивний Сомельє: підберіть ідеальні солодощі за 3 кроки'
-                      : 'Интерактивный Сомелье: подберите идеальные сладости за 3 шага'
-                    : lang === 'uk'
-                    ? 'Калькулятор ваги торта та бюджету подарункових боксів'
-                    : 'Калькулятор веса торта и бюджета подарочных боксов'}
-                </h2>
+                  <h2 className="font-serif text-xl sm:text-2xl font-bold mt-0.5 group-hover:text-[#b06a1e] transition-colors">
+                    {activeEngagementTab === 'quiz'
+                      ? lang === 'uk'
+                        ? 'Інтерактивний Сомельє: підберіть ідеальні солодощі за 3 кроки'
+                        : 'Интерактивный Сомелье: подберите идеальные сладости за 3 шага'
+                      : lang === 'uk'
+                      ? 'Калькулятор ваги торта та бюджету подарункових боксів'
+                      : 'Калькулятор веса торта и бюджета подарочных боксов'}
+                  </h2>
+                </div>
               </div>
 
-              <div className="flex rounded-full p-1 bg-[#f1e6da] text-[#302016] self-start sm:self-auto">
+              <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
+                <div className="flex rounded-full p-1 bg-[#f1e6da] text-[#302016]">
+                  <button
+                    onClick={() => {
+                      setIsToolsOpen(true);
+                      setActiveEngagementTab('quiz');
+                    }}
+                    className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+                      activeEngagementTab === 'quiz' && isToolsOpen
+                        ? 'bg-[#462b1f] text-white shadow-xs'
+                        : 'hover:text-[#b06a1e]'
+                    }`}
+                  >
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>{lang === 'uk' ? 'Підбір подарунка' : 'Подбор подарка'}</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsToolsOpen(true);
+                      setActiveEngagementTab('calculator');
+                    }}
+                    className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+                      activeEngagementTab === 'calculator' && isToolsOpen
+                        ? 'bg-[#462b1f] text-white shadow-xs'
+                        : 'hover:text-[#b06a1e]'
+                    }`}
+                  >
+                    <Calculator className="w-3.5 h-3.5" />
+                    <span>{lang === 'uk' ? 'Калькулятор свята' : 'Калькулятор праздника'}</span>
+                  </button>
+                </div>
+
                 <button
-                  onClick={() => setActiveEngagementTab('quiz')}
-                  className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
-                    activeEngagementTab === 'quiz'
-                      ? 'bg-[#462b1f] text-white shadow-xs'
-                      : 'hover:text-[#b06a1e]'
-                  }`}
+                  onClick={() => setIsToolsOpen(!isToolsOpen)}
+                  aria-label={isToolsOpen ? 'Згорнути блок' : 'Розгорнути блок'}
+                  className="w-8 h-8 rounded-full border border-[#d4c3b3] bg-white flex items-center justify-center text-[#715f53] hover:text-[#302016] hover:bg-[#f1e6da] transition"
                 >
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>{lang === 'uk' ? 'Підбір подарунка' : 'Подбор подарка'}</span>
-                </button>
-                <button
-                  onClick={() => setActiveEngagementTab('calculator')}
-                  className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
-                    activeEngagementTab === 'calculator'
-                      ? 'bg-[#462b1f] text-white shadow-xs'
-                      : 'hover:text-[#b06a1e]'
-                  }`}
-                >
-                  <Calculator className="w-3.5 h-3.5" />
-                  <span>{lang === 'uk' ? 'Калькулятор свята' : 'Калькулятор праздника'}</span>
+                  {isToolsOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                 </button>
               </div>
             </div>
 
-            {activeEngagementTab === 'quiz' ? (
-              <div className="pt-5 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            {/* EXPANDABLE / COLLAPSIBLE BODY (2027 Smooth Accordion) */}
+            {isToolsOpen && (
+              <div className="transition-all duration-300">
+                {activeEngagementTab === 'quiz' ? (
+                  <div className="pt-5 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 <div className="lg:col-span-7 space-y-4">
                   {/* Step 1 */}
                   <div className="space-y-1.5">
@@ -1619,7 +1661,17 @@ export default function ChocoRadarApp({
                             : 'border-[#e1d5c8] bg-[#fbf6ee]'
                         }`}
                       >
-                        <div className="min-w-0">
+                        {/* 2027 visual avatar */}
+                        {m.imageUrl && (
+                          <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 border border-[#e1d5c8] bg-white">
+                            <img
+                              src={m.imageUrl}
+                              alt={m.name}
+                              className="w-full h-full object-cover object-center brightness-105"
+                            />
+                          </div>
+                        )}
+                        <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-1.5">
                             <span className="text-xs font-extrabold text-[#b06a1e]">
                               #{idx + 1}
@@ -1633,7 +1685,13 @@ export default function ChocoRadarApp({
                           </p>
                         </div>
                         <a
-                          href={m.websiteUrl}
+                          href={
+                            (quizFormat === 'flowers' && m.categoryUrls?.['shokoladni-kvity-ta-bukety']) ||
+                            (quizFormat === 'bars' && m.categoryUrls?.['plytky-shokoladu']) ||
+                            (quizFormat === 'candies' && m.categoryUrls?.['korpusni-ta-rozmalovani-tsukerky']) ||
+                            (quizFormat === 'cakes_zefir' && (m.categoryUrls?.['avtorski-torty-ta-deserty'] || m.categoryUrls?.['kraftovyi-zefir-ta-bukety'])) ||
+                            m.websiteUrl
+                          }
                           target="_blank"
                           rel="noopener noreferrer"
                           className="shrink-0 rounded-full bg-[#462b1f] hover:bg-[#b06a1e] text-white px-3 py-1.5 text-[11px] font-bold flex items-center gap-1"
@@ -1732,6 +1790,8 @@ export default function ChocoRadarApp({
                       : 'Получить предложения от мастеров под этот расчет →'}
                   </button>
                 </div>
+              </div>
+            )}
               </div>
             )}
           </section>
