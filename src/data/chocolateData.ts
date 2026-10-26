@@ -268,7 +268,7 @@ export const MAKERS: CraftMaker[] = [
       "Callebaut 100%",
       "Свіжий Instagram та Сайт"
     ],
-    "imageUrl": "/images/crafo-hero.jpg"
+    "imageUrl": "/images/crafo-collage.jpg"
   },
   {
     "id": "sisters-a",
@@ -479,7 +479,6 @@ export const MAKERS: CraftMaker[] = [
     "specialty": "Натуральний зефір ручної роботи, зефір у бельгійському шоколаді, зефірні букети та зефіро-сендвічі",
     "categories": [
       "kraftovyi-zefir-ta-bukety",
-      "shokoladni-kvity-ta-bukety",
       "bez-tsukru-ta-vegan",
       "solodoshchi-dlia-ditei"
     ],
@@ -505,7 +504,7 @@ export const MAKERS: CraftMaker[] = [
     ],
     "instagramUrl": "https://www.instagram.com/charivnyi_zefir",
     "instagramHandle": "@charivnyi_zefir",
-    "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1000&q=85"
+    "imageUrl": "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "bakerstreet-kyiv",
