@@ -49,8 +49,17 @@ export default function BlogIndexPage() {
             <span className="grid w-10 h-10 place-items-center rounded-xl bg-gradient-to-br from-[#7a4a2b] to-[#3a2113] text-white shadow-md text-lg">
               🍫
             </span>
-            <span className="font-serif text-lg font-bold">
-              Crafo<span className="text-[#b06a1e]">Hub</span> Блог
+            <span className="flex flex-col items-start leading-tight">
+              <span className="font-serif text-base sm:text-lg font-bold tracking-tight inline-flex items-baseline gap-1.5 whitespace-nowrap">
+                <span>Crafo<span className="text-[#b06a1e]">Hub</span></span>
+                <span className="text-[11px] sm:text-xs font-semibold text-[#b06a1e]">
+                  в Україні
+                </span>
+                <span className="text-xs sm:text-sm font-normal text-stone-500">• Блог</span>
+              </span>
+              <span className="text-[10px] sm:text-[11px] font-medium text-[#715f53]">
+                crafohub.com.ua
+              </span>
             </span>
           </Link>
 

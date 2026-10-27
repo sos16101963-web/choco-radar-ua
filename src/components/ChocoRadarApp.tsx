@@ -760,9 +760,12 @@ export default function ChocoRadarApp({
             <span className="grid w-9 h-9 sm:w-10 sm:h-10 place-items-center rounded-xl bg-gradient-to-br from-[#7a4a2b] to-[#3a2113] text-white shadow-md text-lg">
               🍫
             </span>
-            <span className="flex flex-col items-start leading-none">
-              <span className="font-serif text-base sm:text-lg font-bold tracking-tight">
-                Crafo<span className="text-[#b06a1e]">Hub</span>
+            <span className="flex flex-col items-start leading-tight">
+              <span className="font-serif text-base sm:text-lg font-bold tracking-tight inline-flex items-baseline gap-1.5 whitespace-nowrap">
+                <span>Crafo<span className="text-[#b06a1e]">Hub</span></span>
+                <span className="text-[11px] sm:text-xs font-semibold text-[#b06a1e]">
+                  {lang === 'uk' ? 'в Україні' : 'в Украине'}
+                </span>
               </span>
               <span
                 className={`text-[10px] sm:text-[11px] font-medium ${
@@ -1016,19 +1019,19 @@ export default function ChocoRadarApp({
                     : 'bg-[#fefbf7] border-[#d4b08c] hover:border-[#b06a1e] shadow-md'
                 }`}
               >
-                <div className="relative h-64 sm:h-72 overflow-hidden bg-[#3a2113]">
+                <div className="relative h-64 sm:h-72 overflow-hidden bg-[#24130a]">
                   <img
                     src="/images/crafo-collage.jpg"
                     alt="Шоколад та цукерки"
-                    className="w-full h-full object-cover object-center brightness-105 contrast-105 transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover object-center brightness-110 contrast-105 saturate-110 transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/85 via-black/35 to-transparent pointer-events-none" />
                   <div className="absolute top-4 left-4">
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-[#e39851] px-3 py-1 text-xs font-extrabold text-[#26140b] shadow-md">
                       🍫 {chocolateMakersCount} {lang === 'uk' ? 'майстерень' : 'мастерских'}
                     </span>
                   </div>
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
+                  <div className="absolute bottom-4 left-4 right-4 text-white drop-shadow-md">
                     <div className="text-xs font-extrabold uppercase tracking-wider text-[#f5c492]">
                       {lang === 'uk' ? 'Розділ 1' : 'Раздел 1'}
                     </div>
@@ -1111,13 +1114,13 @@ export default function ChocoRadarApp({
                     alt="Авторські торти та десерти"
                     className="w-full h-full object-cover object-center brightness-105 contrast-105 transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/85 via-black/35 to-transparent pointer-events-none" />
                   <div className="absolute top-4 left-4">
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-[#c75b7a] px-3 py-1 text-xs font-extrabold text-white shadow-md">
                       🎂 {cakeMakersCount} {lang === 'uk' ? 'кондитерських' : 'кондитерских'}
                     </span>
                   </div>
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
+                  <div className="absolute bottom-4 left-4 right-4 text-white drop-shadow-md">
                     <div className="text-xs font-extrabold uppercase tracking-wider text-pink-200">
                       {lang === 'uk' ? 'Розділ 2' : 'Раздел 2'}
                     </div>
@@ -1200,13 +1203,13 @@ export default function ChocoRadarApp({
                     alt="Крафтовий зефір та букети"
                     className="w-full h-full object-cover object-center brightness-105 contrast-105 transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/85 via-black/35 to-transparent pointer-events-none" />
                   <div className="absolute top-4 left-4">
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-[#e0a866] px-3 py-1 text-xs font-extrabold text-[#26140b] shadow-md">
                       🌸 {zefirMakersCount} {lang === 'uk' ? 'майстерень' : 'мастерских'}
                     </span>
                   </div>
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
+                  <div className="absolute bottom-4 left-4 right-4 text-white drop-shadow-md">
                     <div className="text-xs font-extrabold uppercase tracking-wider text-amber-200">
                       {lang === 'uk' ? 'Розділ 3' : 'Раздел 3'}
                     </div>
