@@ -99,7 +99,6 @@ export const DISCOVERED_CATEGORY_URLS: Record<string, Partial<Record<Exclude<Cat
     "horikhy-ta-sukhofrukty-v-shokoladi": "https://sweets.net.ua/ua/g86589895-orehi-suhofrukty-shokolade",
   },
   "choconel-lutsk": {
-    "korpusni-ta-rozmalovani-tsukerky": "https://choconel.com.ua/product-category/tsukerky-ruchno-roboty",
     "plytky-shokoladu": "https://choconel.com.ua/product-category/shokoladni-plytky",
   },
   "aimant": {

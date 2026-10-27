@@ -438,7 +438,6 @@ export const MAKERS: CraftMaker[] = [
     "specialty": "Букети з шоколадних квітів (півонії, троянди, тюльпани) з бельгійського шоколаду Veliche",
     "categories": [
       "shokoladni-kvity-ta-bukety",
-      "korpusni-ta-rozmalovani-tsukerky"
     ],
     "mainCategory": "shokoladni-kvity-ta-bukety",
     "isBeanToBar": false,
@@ -452,7 +451,6 @@ export const MAKERS: CraftMaker[] = [
     "websiteUrl": "https://ecojoy.com.ua/ua/shokoladni-buketi/",
     "categoryUrls": {
       "shokoladni-kvity-ta-bukety": "https://ecojoy.com.ua/ua/shokoladni-buketi/",
-      "korpusni-ta-rozmalovani-tsukerky": "https://ecojoy.com.ua/ua/shokoladni-kviti/"
     },
     "instagramHandle": "@ecojoy.ua",
     "instagramUrl": "https://www.instagram.com/ecojoy.ua/",
@@ -679,7 +677,6 @@ export const MAKERS: CraftMaker[] = [
     "specialty": "Крафтовий плитка шоколаду та батончик шоколад із локальними смаками (білі гриби, гречка, шовковиця, троянда)",
     "categories": [
       "plytky-shokoladu",
-      "korpusni-ta-rozmalovani-tsukerky"
     ],
     "mainCategory": "plytky-shokoladu",
     "isBeanToBar": true,
@@ -2132,14 +2129,13 @@ export const MAKERS: CraftMaker[] = [
     "city": "Луцьк",
     "regionCity": "Луцьк / Волинь",
     "foundedYear": 2017,
-    "specialty": "Майстерня авторських цукерок ручної роботи, шоколадних плиток, фігурок та подарункових наборів",
+    "specialty": "Майстерня авторських шоколадних плиток, фігурок та подарункових наборів",
     "categories": [
-      "korpusni-ta-rozmalovani-tsukerky",
       "plytky-shokoladu",
       "shokoladni-kvity-ta-bukety",
       "solodoshchi-dlia-ditei"
     ],
-    "mainCategory": "korpusni-ta-rozmalovani-tsukerky",
+    "mainCategory": "plytky-shokoladu",
     "isBeanToBar": false,
     "isVerified": true,
     "rating": 4.94,
@@ -2147,7 +2143,7 @@ export const MAKERS: CraftMaker[] = [
     "cacaoOrigin": [
       "Бельгія"
     ],
-    "description": "Волинська ательє-майстерня шоколаду та цукерок ручної роботи в центрі Луцька: вишукані трюфелі, праліне, шоколадні квіти, плитки та святкові бокси.",
+    "description": "Волинська ательє-майстерня крафтового шоколаду в центрі Луцька: авторські шоколадні плитки, фігурний шоколад та святкові подарункові бокси.",
     "websiteUrl": "https://choconel.com.ua",
     "phone": "+38 (067) 332-27-08",
     "email": "choconel.atelier@gmail.com",
@@ -2155,7 +2151,7 @@ export const MAKERS: CraftMaker[] = [
     "shippingNote": "Фірмова крамниця у Луцьку та доставка Новою Поштою",
     "badges": [
       "Луцьке шоколадне ательє",
-      "Цукерки та плитки",
+      "Плитки та шоколадні набори",
       "Ручна робота"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1582293041079-7814c2f12063?auto=format&fit=crop&w=1000&q=85"
