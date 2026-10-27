@@ -5,6 +5,13 @@ import { BLOG_ARTICLES, CITY_SEO_HUBS } from '@/data/blogData';
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://choco-radar-ua.vercel.app';
 
+  const sectionUrls: MetadataRoute.Sitemap = ['/shokolad', '/torty', '/zefir'].map((path) => ({
+    url: `${baseUrl}${path}`,
+    lastModified: new Date(),
+    changeFrequency: 'daily' as const,
+    priority: 0.95,
+  }));
+
   const categoryUrls = CATEGORIES.filter((c) => c.slug !== 'all').map((cat) => ({
     url: `${baseUrl}/katalog/${cat.slug}`,
     lastModified: new Date(),
@@ -33,6 +40,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'daily',
       priority: 1,
     },
+    ...sectionUrls,
     {
       url: `${baseUrl}/blog`,
       lastModified: new Date(),

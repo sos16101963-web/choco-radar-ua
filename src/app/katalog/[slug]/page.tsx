@@ -35,5 +35,12 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     notFound();
   }
 
-  return <ChocoRadarApp initialCategory={cat.slug as CategorySlug} />;
+  const section =
+    cat.slug === 'avtorski-torty-ta-deserty'
+      ? 'cakes'
+      : cat.slug === 'kraftovyi-zefir-ta-bukety'
+      ? 'zefir'
+      : 'chocolate';
+
+  return <ChocoRadarApp initialSection={section} initialCategory={cat.slug as CategorySlug} />;
 }

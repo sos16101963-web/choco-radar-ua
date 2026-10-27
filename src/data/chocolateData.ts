@@ -999,7 +999,7 @@ export const MAKERS: CraftMaker[] = [
       "фруктовий зефір",
       "класична технологія"
     ],
-    "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1000&q=85"
+    "imageUrl": "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "myzo",
@@ -3123,7 +3123,7 @@ export const MAKERS: CraftMaker[] = [
       "солодощі",
       "Хмельницький"
     ],
-    "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1000&q=85"
+    "imageUrl": "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "its-craft",
@@ -3689,7 +3689,7 @@ export const MAKERS: CraftMaker[] = [
       "відправка НП",
       "Суми"
     ],
-    "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1000&q=85"
+    "imageUrl": "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "zefirka-gift-cherkasy",
