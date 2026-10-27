@@ -400,13 +400,26 @@ export default function ChocoRadarApp({
     searchQuery,
   ]);
 
-  // Top 4 Flagship Makers for Home Page preview
+  // Top 4 Flagship Makers for Home Page preview (filters by city if selected)
   const homeTop4Makers = useMemo(() => {
-    const ids = ['crafo-kharkiv', 'chebakery-kharkiv', 'piolli-zefir', 'sisters-a'];
-    return ids
-      .map((id) => MAKERS.find((m) => m.id === id))
-      .filter((m): m is CraftMaker => !!m);
-  }, []);
+    if (selectedCity === 'all') {
+      const ids = ['crafo-kharkiv', 'chebakery-kharkiv', 'piolli-zefir', 'sisters-a'];
+      return ids
+        .map((id) => MAKERS.find((m) => m.id === id))
+        .filter((m): m is CraftMaker => !!m);
+    }
+    return MAKERS.filter(
+      (m) =>
+        m.regionCity === selectedCity ||
+        m.city.toLowerCase().includes(selectedCity.split('•')[0].trim().toLowerCase())
+    )
+      .sort((a, b) => {
+        if (a.id === 'crafo-kharkiv') return -1;
+        if (b.id === 'crafo-kharkiv') return 1;
+        return b.rating - a.rating;
+      })
+      .slice(0, 4);
+  }, [selectedCity]);
 
   // Interactive Sommelier Recommendations — NOW RETURNS TOP-4 MAIN PRODUCERS!
   const quizRecommendedMakers = useMemo(() => {
@@ -902,39 +915,42 @@ export default function ChocoRadarApp({
              STEP 1: HOME PAGE — CLEAN, EASY-TO-UNDERSTAND 3-SECTION GATEWAY
           ================================================================= */
           <div className="mx-auto max-w-7xl px-3 py-6 sm:px-6 sm:py-10 lg:px-8 space-y-10">
-            {/* Clean Hero Banner */}
-            <div className="text-center max-w-3xl mx-auto space-y-3">
+            {/* Clean Grand Hero Banner */}
+            <div className="text-center max-w-3xl mx-auto space-y-3.5">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-[#b06a1e]/40 bg-[#e39851]/20 px-3.5 py-1 text-xs font-extrabold text-[#8c4f12] dark:text-[#f0a556]">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>
                   {lang === 'uk'
-                    ? 'CrafoHub 2027 • Найкращі крафтові солодощі України'
-                    : 'CrafoHub 2027 • Лучшие крафтовые сладости Украины'}
+                    ? `CrafoHub 2027 • ${MAKERS.length} перевірених майстерень України`
+                    : `CrafoHub 2027 • ${MAKERS.length} проверенных мастерских Украины`}
                 </span>
               </span>
 
               <h1 className="font-serif text-2xl sm:text-5xl font-bold leading-tight tracking-tight">
-                {lang === 'uk' ? 'Оберіть розділ солодощів' : 'Выберите раздел сладостей'}
+                {lang === 'uk' ? 'Кращі, перевірені виробники ' : 'Лучшие, проверенные производители '}
+                <span className="bg-gradient-to-r from-[#7a4a2b] via-[#b06a1e] to-[#c75b7a] bg-clip-text text-transparent">
+                  {lang === 'uk' ? 'крафтової продукції в Україні' : 'крафтовой продукции в Украине'}
+                </span>
               </h1>
 
               <p
-                className={`text-xs sm:text-base max-w-xl mx-auto leading-relaxed ${
+                className={`text-xs sm:text-base max-w-2xl mx-auto leading-relaxed ${
                   isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'
                 }`}
               >
                 {lang === 'uk'
-                  ? 'Натисніть на потрібний розділ — ми покажемо види продукції та 4 основних перевірених виробники з прямим переходом до товарів.'
-                  : 'Нажмите на нужный раздел — мы покажем виды продукции и 4 основных проверенных производителя с прямым переходом к товарам.'}
+                  ? 'Єдиний сервіс CrafoHub (crafohub.com.ua), де зібрані найкращі майстерні шоколаду, авторських тортів та крафтового зефіру: обирайте очима, знаходьте 4 основних виробники свого міста та переходьте напряму до замовлення.'
+                  : 'Единый сервис CrafoHub (crafohub.com.ua), где собраны лучшие мастерские шоколада, авторских тортов и крафтового зефира: выбирайте глазами, находите 4 основных производителя своего города и переходите напрямую к заказу.'}
               </p>
 
-              {/* Quick Drawer Triggers Bar (Assortment Drawer & Sommelier Drawer) */}
-              <div className="pt-2 flex flex-wrap items-center justify-center gap-2.5">
+              {/* Quick Triggers Bar without the word "Шторка" */}
+              <div className="pt-1 flex flex-wrap items-center justify-center gap-2.5">
                 <button
                   onClick={() => {
                     setDrawerSectionTab('chocolate');
                     setIsAssortmentDrawerOpen(true);
                   }}
-                  className={`inline-flex items-center gap-2 rounded-full border-2 px-4 py-2.5 text-xs sm:text-sm font-extrabold transition shadow-sm ${
+                  className={`inline-flex items-center gap-2 rounded-full border-2 px-5 py-2.5 text-xs sm:text-sm font-extrabold transition shadow-sm ${
                     isDark
                       ? 'bg-[#261b16] border-[#e39851] text-[#f0a556] hover:bg-[#362820]'
                       : 'bg-white border-[#462b1f] text-[#302016] hover:bg-[#f1e6da]'
@@ -943,22 +959,48 @@ export default function ChocoRadarApp({
                   <LayoutList className="w-4 h-4 text-[#b06a1e]" />
                   <span>
                     {lang === 'uk'
-                      ? '📋 Весь асортимент продукції (Шторка)'
-                      : '📋 Весь ассортимент продукции (Шторка)'}
+                      ? '📋 Весь асортимент продукції'
+                      : '📋 Весь ассортимент продукции'}
                   </span>
                 </button>
 
                 <button
                   onClick={() => setIsSommelierDrawerOpen(true)}
-                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#b06a1e] to-[#8c4f12] hover:brightness-110 px-4 py-2.5 text-xs sm:text-sm font-extrabold text-white shadow-md transition"
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#b06a1e] to-[#8c4f12] hover:brightness-110 px-5 py-2.5 text-xs sm:text-sm font-extrabold text-white shadow-md transition"
                 >
                   <Wand2 className="w-4 h-4" />
                   <span>
                     {lang === 'uk'
-                      ? '🪄 Підібрати з Сомельє (Шторка)'
-                      : '🪄 Подобрать с Сомелье (Шторка)'}
+                      ? '🪄 Підібрати з Сомельє'
+                      : '🪄 Подобрать с Сомелье'}
                   </span>
                 </button>
+              </div>
+
+              {/* Prominent City Filter Bar across Ukraine on Home */}
+              <div className="pt-2 flex items-center justify-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
+                <span className="text-xs font-extrabold text-[#b06a1e] shrink-0 flex items-center gap-1 mr-1">
+                  <MapPin className="w-3.5 h-3.5" />
+                  <span>{lang === 'uk' ? 'Місто:' : 'Город:'}</span>
+                </span>
+                {CITY_FILTERS.map((city) => {
+                  const active = selectedCity === city.id;
+                  return (
+                    <button
+                      key={city.id}
+                      onClick={() => setSelectedCity(city.id)}
+                      className={`shrink-0 px-3.5 py-1.5 rounded-full text-xs font-extrabold transition ${
+                        active
+                          ? 'bg-[#462b1f] text-[#faf4eb] shadow-sm'
+                          : isDark
+                          ? 'bg-[#362820] text-[#eee7dd] hover:bg-[#462b1f]'
+                          : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e3d2c0]'
+                      }`}
+                    >
+                      {lang === 'uk' ? city.uk : city.ru}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -1026,13 +1068,29 @@ export default function ChocoRadarApp({
                     </div>
                   </div>
 
-                  <div className="w-full rounded-full bg-gradient-to-r from-[#462b1f] to-[#3a2113] group-hover:from-[#b06a1e] group-hover:to-[#8c4f12] text-white font-extrabold py-3.5 px-5 text-sm flex items-center justify-center gap-2 shadow-md transition">
-                    <span>
-                      {lang === 'uk'
-                        ? 'Обрати шоколад (Види та ТОП-4)'
-                        : 'Выбрать шоколад (Виды и ТОП-4)'}
-                    </span>
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  <div className="flex items-center gap-2 pt-1">
+                    <div className="flex-1 rounded-full bg-gradient-to-r from-[#462b1f] to-[#3a2113] group-hover:from-[#b06a1e] group-hover:to-[#8c4f12] text-white font-extrabold py-3 px-4 text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-md transition">
+                      <span>
+                        {lang === 'uk'
+                          ? 'Перейти у розділ'
+                          : 'Перейти в раздел'}
+                      </span>
+                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setDrawerSectionTab('chocolate');
+                        setIsAssortmentDrawerOpen(true);
+                      }}
+                      className="rounded-full border-2 border-[#b06a1e]/40 hover:border-[#b06a1e] bg-white text-[#302016] px-3.5 py-3 text-xs font-extrabold flex items-center gap-1.5 transition shrink-0 shadow-xs"
+                      title={lang === 'uk' ? 'Відкрити асортимент шоколаду справа' : 'Открыть ассортимент шоколада справа'}
+                    >
+                      <LayoutList className="w-4 h-4 text-[#b06a1e]" />
+                      <span>{lang === 'uk' ? 'Асортимент' : 'Ассортимент'}</span>
+                    </button>
                   </div>
                 </div>
               </Link>
@@ -1099,13 +1157,29 @@ export default function ChocoRadarApp({
                     </div>
                   </div>
 
-                  <div className="w-full rounded-full bg-gradient-to-r from-[#c75b7a] to-[#8e2f4a] group-hover:brightness-110 text-white font-extrabold py-3.5 px-5 text-sm flex items-center justify-center gap-2 shadow-md transition">
-                    <span>
-                      {lang === 'uk'
-                        ? 'Обрати торти (Види та ТОП-4)'
-                        : 'Выбрать торты (Виды и ТОП-4)'}
-                    </span>
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  <div className="flex items-center gap-2 pt-1">
+                    <div className="flex-1 rounded-full bg-gradient-to-r from-[#c75b7a] to-[#8e2f4a] group-hover:brightness-110 text-white font-extrabold py-3 px-4 text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-md transition">
+                      <span>
+                        {lang === 'uk'
+                          ? 'Перейти у розділ'
+                          : 'Перейти в раздел'}
+                      </span>
+                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setDrawerSectionTab('cakes');
+                        setIsAssortmentDrawerOpen(true);
+                      }}
+                      className="rounded-full border-2 border-[#c75b7a]/40 hover:border-[#c75b7a] bg-white text-[#302016] px-3.5 py-3 text-xs font-extrabold flex items-center gap-1.5 transition shrink-0 shadow-xs"
+                      title={lang === 'uk' ? 'Відкрити асортимент тортів справа' : 'Открыть ассортимент тортов справа'}
+                    >
+                      <LayoutList className="w-4 h-4 text-[#c75b7a]" />
+                      <span>{lang === 'uk' ? 'Асортимент' : 'Ассортимент'}</span>
+                    </button>
                   </div>
                 </div>
               </Link>
@@ -1172,13 +1246,29 @@ export default function ChocoRadarApp({
                     </div>
                   </div>
 
-                  <div className="w-full rounded-full bg-gradient-to-r from-[#b06a1e] to-[#8c4f12] group-hover:brightness-110 text-white font-extrabold py-3.5 px-5 text-sm flex items-center justify-center gap-2 shadow-md transition">
-                    <span>
-                      {lang === 'uk'
-                        ? 'Обрати зефір (Види та ТОП-4)'
-                        : 'Выбрать зефир (Виды и ТОП-4)'}
-                    </span>
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  <div className="flex items-center gap-2 pt-1">
+                    <div className="flex-1 rounded-full bg-gradient-to-r from-[#b06a1e] to-[#8c4f12] group-hover:brightness-110 text-white font-extrabold py-3 px-4 text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-md transition">
+                      <span>
+                        {lang === 'uk'
+                          ? 'Перейти у розділ'
+                          : 'Перейти в раздел'}
+                      </span>
+                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setDrawerSectionTab('zefir');
+                        setIsAssortmentDrawerOpen(true);
+                      }}
+                      className="rounded-full border-2 border-[#b06a1e]/40 hover:border-[#b06a1e] bg-white text-[#302016] px-3.5 py-3 text-xs font-extrabold flex items-center gap-1.5 transition shrink-0 shadow-xs"
+                      title={lang === 'uk' ? 'Відкрити асортимент зефіру справа' : 'Открыть ассортимент зефира справа'}
+                    >
+                      <LayoutList className="w-4 h-4 text-[#b06a1e]" />
+                      <span>{lang === 'uk' ? 'Асортимент' : 'Ассортимент'}</span>
+                    </button>
                   </div>
                 </div>
               </Link>
@@ -1298,8 +1388,8 @@ export default function ChocoRadarApp({
                     <LayoutList className="w-4 h-4 text-[#b06a1e]" />
                     <span>
                       {lang === 'uk'
-                        ? '📋 Асортимент продукції (Шторка справа)'
-                        : '📋 Ассортимент продукции (Шторка справа)'}
+                        ? '📋 Асортимент продукції'
+                        : '📋 Ассортимент продукции'}
                     </span>
                   </button>
 
@@ -1310,8 +1400,8 @@ export default function ChocoRadarApp({
                     <Wand2 className="w-4 h-4" />
                     <span>
                       {lang === 'uk'
-                        ? '🪄 Підбір з Сомельє (Шторка справа)'
-                        : '🪄 Подбор с Сомелье (Шторка справа)'}
+                        ? '🪄 Підбір з Сомельє'
+                        : '🪄 Подбор с Сомелье'}
                     </span>
                   </button>
                 </div>
@@ -1409,7 +1499,7 @@ export default function ChocoRadarApp({
                   }}
                   className="shrink-0 rounded-full bg-[#462b1f] hover:bg-[#b06a1e] text-white px-3.5 py-2 text-xs font-bold transition self-start sm:self-center"
                 >
-                  {lang === 'uk' ? 'Склад і опис у шторці →' : 'Состав и описание в шторке →'}
+                  {lang === 'uk' ? 'Докладний опис та склад →' : 'Подробное описание и состав →'}
                 </button>
               </div>
 
@@ -1636,8 +1726,8 @@ export default function ChocoRadarApp({
                 {
                   qUk: 'Де подивитися детальний опис асортименту та скористатися Сомельє?',
                   qRu: 'Где посмотреть детальное описание ассортимента и воспользоваться Сомелье?',
-                  aUk: 'Натисніть кнопку «Асортимент» або «Сомельє» у верхній панелі чи внизу екрана смартфона — праворуч плавно виїде зручна шторка з повним описом усіх видів продукції або інтерактивним помічником вибору.',
-                  aRu: 'Нажмите кнопку «Ассортимент» или «Сомелье» в верхней панели или внизу экрана смартфона — справа плавно выедет удобная шторка с полным описанием всех видов продукции или интерактивным помощником выбора.',
+                  aUk: 'Натисніть кнопку «Асортимент» або «Сомельє» у верхній панелі чи внизу екрана смартфона — праворуч плавно відкриється зручна панель з повним описом усіх видів продукції або інтерактивним помічником вибору.',
+                  aRu: 'Нажмите кнопку «Ассортимент» или «Сомелье» в верхней панели или внизу экрана смартфона — справа плавно откроется удобная панель с полным описанием всех видов продукции или интерактивным помощником выбора.',
                 },
               ].map((faq, idx) => {
                 const isOpen = openFaqIndex === idx;
@@ -1772,9 +1862,9 @@ export default function ChocoRadarApp({
             onClick={() => setIsAssortmentDrawerOpen(false)}
             className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
           />
-          <div className="fixed inset-y-0 right-0 z-50 flex max-w-full pl-8">
+          <div className="fixed inset-y-0 right-0 z-50 flex max-w-full pl-6 sm:pl-8">
             <div
-              className={`w-screen max-w-md sm:max-w-lg flex flex-col shadow-2xl border-l ${
+              className={`w-screen max-w-md sm:max-w-lg flex flex-col shadow-2xl border-l animate-slide-in-right ${
                 isDark
                   ? 'bg-[#1e1510] border-white/15 text-[#eee7dd]'
                   : 'bg-[#fefbf7] border-[#d9c8b8] text-[#302016]'
@@ -1900,9 +1990,9 @@ export default function ChocoRadarApp({
             onClick={() => setIsSommelierDrawerOpen(false)}
             className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
           />
-          <div className="fixed inset-y-0 right-0 z-50 flex max-w-full pl-8">
+          <div className="fixed inset-y-0 right-0 z-50 flex max-w-full pl-6 sm:pl-8">
             <div
-              className={`w-screen max-w-md sm:max-w-lg flex flex-col shadow-2xl border-l ${
+              className={`w-screen max-w-md sm:max-w-lg flex flex-col shadow-2xl border-l animate-slide-in-right ${
                 isDark
                   ? 'bg-[#1e1510] border-white/15 text-[#eee7dd]'
                   : 'bg-[#fefbf7] border-[#d9c8b8] text-[#302016]'
