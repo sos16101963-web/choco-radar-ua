@@ -4,6 +4,7 @@ export type MacroSectionId = 'home' | 'chocolate' | 'cakes' | 'zefir';
 
 export interface ProductVariantItem {
   id: string;
+  slug: string;
   section: Exclude<MacroSectionId, 'home'>;
   categorySlug: Exclude<CategorySlug, 'all'>;
   emoji: string;
@@ -22,9 +23,11 @@ export interface ProductVariantItem {
   customDirectUrls?: Record<string, string>;
 }
 
+// 7 VARIANTS FOR CHOCOLATE (1 visible + 6 in menu)
 export const CHOCOLATE_VARIANTS: ProductVariantItem[] = [
   {
     id: 'choco-bars',
+    slug: 'plytky-shokoladu',
     section: 'chocolate',
     categorySlug: 'plytky-shokoladu',
     emoji: '🍫',
@@ -45,6 +48,7 @@ export const CHOCOLATE_VARIANTS: ProductVariantItem[] = [
   },
   {
     id: 'choco-candies',
+    slug: 'tsukerky-ta-tryufeli',
     section: 'chocolate',
     categorySlug: 'korpusni-ta-rozmalovani-tsukerky',
     emoji: '🍬',
@@ -58,13 +62,14 @@ export const CHOCOLATE_VARIANTS: ProductVariantItem[] = [
       'Дизайнерские наборы от 4 до 36 конфет ручной работы: корпусные конфеты с натуральными фруктово-ягодными ганашами, соленой карамелью, фисташковым и фундучным пралине, а также авторские трюфели с выдержанными сырами (Дорблю, Пармезан, Горгонзола).',
     ingredientsUk: 'Бельгійський та французький шоколад Callebaut / Valrhona, вершки, натуральні ягідні пюре, горіхові пасти.',
     ingredientsRu: 'Бельгийский и французский шоколад Callebaut / Valrhona, сливки, натуральные ягодные пюре, ореховые пасты.',
-    shelfLifeUk: 'Від 14 днів до 3 місяців',
-    shelfLifeRu: 'От 14 дней до 3 месяцев',
+    shelfLifeUk: '4–8 тижнів (найкраще смакують свіжими)',
+    shelfLifeRu: '4–8 недель (наилучший вкус в свежем виде)',
     imageUrl: 'https://images.unsplash.com/photo-1548907040-4baa42d10919?auto=format&fit=crop&w=1000&q=85',
-    preferredMakerIds: ['crafo-kharkiv', 'chocoblues-odesa', 'bogi-cacao', 'candy-coupe-buffet'],
+    preferredMakerIds: ['crafo-kharkiv', 'shoco-lviv', 'laviva-kyiv', 'chocoblues-odesa'],
   },
   {
     id: 'choco-flowers',
+    slug: 'shokoladni-kvity',
     section: 'chocolate',
     categorySlug: 'shokoladni-kvity-ta-bukety',
     emoji: '🌹',
@@ -73,18 +78,19 @@ export const CHOCOLATE_VARIANTS: ProductVariantItem[] = [
     shortDescUk: 'Реалістичні букети з шоколадних троянд, півоній і тюльпанів, які не в’януть.',
     shortDescRu: 'Реалистичные букеты из шоколадных роз, пионов и тюльпанов, которые не вянут.',
     detailedAssortmentUk:
-      'Ефектні подарункові букети у капелюшних коробках і дизайнерському пакуванні з реалістичних шоколадних півоній, троянд, тюльпанів і ромашок. Кожна пелюстка відливається вручну з цільного преміального бельгійського шоколаду.',
+      'Неймовірні подарункові букети від 7 до 51 квітки у капелюшних коробках та крафтовому папері: троянди, півонії, ромашки та тюльпани з суцільного бельгійського шоколаду. Зберігають ідеальний вигляд до 6 місяців.',
     detailedAssortmentRu:
-      'Эффектные подарочные букеты в шляпных коробках и дизайнерской упаковке из реалистичных шоколадных пионов, роз, тюльпанов и ромашек. Каждый лепесток отливается вручную из цельного премиального бельгийского шоколада.',
-    ingredientsUk: 'Натуральний бельгійський шоколад Barry Callebaut та Veliche Gourmet (білий, молочний, полуничний, темний) без глазурі.',
-    ingredientsRu: 'Натуральный бельгийский шоколад Barry Callebaut и Veliche Gourmet (белый, молочный, клубничный, темный) без глазури.',
-    shelfLifeUk: 'До 6 місяців при кімнатній температурі',
-    shelfLifeRu: 'До 6 месяцев при комнатной температуре',
-    imageUrl: '/images/crafo-hero.jpg',
-    preferredMakerIds: ['crafo-kharkiv', 'ecojoy', 'candy-coupe-buffet', 'chocolady'],
+      'Невероятные подарочные букеты от 7 до 51 цветка в шляпных коробках и крафтовой бумаге: розы, пионы, ромашки и тюльпаны из цельного бельгийского шоколада. Сохраняют идеальный вид до 6 месяцев.',
+    ingredientsUk: 'Суцільний білий, молочний та полуничний бельгійський шоколад Barry Callebaut, натуральні екстракти квітів.',
+    ingredientsRu: 'Сплошной белый, молочный и клубничный бельгийский шоколад Barry Callebaut, натуральные экстракты цветов.',
+    shelfLifeUk: '6 місяців при +18...+22 °C',
+    shelfLifeRu: '6 месяцев при +18...+22 °C',
+    imageUrl: 'https://images.unsplash.com/photo-1516054575922-f0b8eeadec1a?auto=format&fit=crop&w=1000&q=85',
+    preferredMakerIds: ['crafo-kharkiv', 'sweetworld-shoude-kharkiv', 'chocoblues-odesa', 'laviva-kyiv'],
   },
   {
     id: 'choco-berries',
+    slug: 'yagody-v-shokoladi',
     section: 'chocolate',
     categorySlug: 'malyna-ta-polunytsia-v-shokoladi',
     emoji: '🍓',
@@ -93,18 +99,19 @@ export const CHOCOLATE_VARIANTS: ProductVariantItem[] = [
     shortDescUk: 'Ціла сублімована малина та свіжа відбірна полуниця у бельгійському шоколаді.',
     shortDescRu: 'Целая сублимированная малина и свежая отборная клубника в бельгийском шоколаде.',
     detailedAssortmentUk:
-      'Хрустка сублімована малина та полуниця у подвійному шарі молочного, білого та рубінового шоколаду, а також подарункові набори свіжої полуниці, лохини та бананів у шоколаді для романтичних сюрпризів.',
+      'Хіт подарунків: ціла сублімована карпатська малина у товстому шарі темного чи молочного шоколаду (хрумка зовні, ніжна всередині), а також подарункові набори свіжої полуниці у шоколаді з мигдалевою крихтою та кокосом.',
     detailedAssortmentRu:
-      'Хрустящая сублимированная малина и клубника в двойном слое молочного, белого и рубинового шоколада, а также подарочные наборы свежей клубники, голубики и бананов в шоколаде для романтических сюрпризов.',
-    ingredientsUk: 'Добірні ягоди (сублімовані або свіжі) + 100% бельгійський шоколад Callebaut.',
-    ingredientsRu: 'Отборные ягоды (сублимированные или свежие) + 100% бельгийский шоколад Callebaut.',
-    shelfLifeUk: 'Сублімовані ягоди — 6 міс., свіжі — 24–36 год',
-    shelfLifeRu: 'Сублимированные ягоды — 6 мес., свежие — 24–36 ч',
-    imageUrl: 'https://images.unsplash.com/photo-1575372587186-5012f8886b4e?auto=format&fit=crop&w=1000&q=85',
-    preferredMakerIds: ['crafo-kharkiv', 'yandmi', 'honey-zavertailo', 'frutado'],
+      'Хит подарков: целая сублимированная карпатская малина в толстом слое темного или молочного шоколада (хрустящая снаружи, нежная внутри), а также подарочные наборы свежей клубники в шоколаде с миндальной крошкой и кокосом.',
+    ingredientsUk: 'Сублімована цільна малина, відбірна полуниця, білий і молочний шоколад Callebaut, горіховий крокант.',
+    ingredientsRu: 'Сублимированная цельная малина, отборная клубника, белый и молочный шоколад Callebaut, ореховый крокант.',
+    shelfLifeUk: 'Сублімовані ягоди: 6 міс.; свіжа полуниця: 24–48 год',
+    shelfLifeRu: 'Сублимированные ягоды: 6 мес.; свежая клубника: 24–48 ч',
+    imageUrl: 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=1000&q=85',
+    preferredMakerIds: ['crafo-kharkiv', 'yandmi', 'berry-bar-kyiv', 'fruitlife-kyiv'],
   },
   {
     id: 'choco-nuts',
+    slug: 'gorikhy-v-shokoladi',
     section: 'chocolate',
     categorySlug: 'horikhy-ta-sukhofrukty-v-shokoladi',
     emoji: '🌰',
@@ -113,38 +120,40 @@ export const CHOCOLATE_VARIANTS: ProductVariantItem[] = [
     shortDescUk: 'Фундук, мигдаль, кеш’ю, фісташка, чорнослив та курага у ремісничому шоколаді.',
     shortDescRu: 'Фундук, миндаль, кешью, фисташка, чернослив и курага в ремесленном шоколаде.',
     detailedAssortmentUk:
-      'Ремісниче горіхове драже (карамелізований фундук і мигдаль у темному та молочному шоколаді), а також соковитий чорнослив, курага, фінік та інжир з волоським горіхом у натуральній шоколадній оболонці.',
+      'Цільний добірний лісовий фундук, каліфорнійський мигдаль і зелена фісташка свіжого дбайливого обсмаження, вкриті оксамитовим шоколадом, а також традиційний український чорнослив, курага та журавлина у шоколаді.',
     detailedAssortmentRu:
-      'Ремесленное ореховое драже (карамелизированный фундук и миндаль в темном и молочном шоколаде), а также сочный чернослив, курага, финик и инжир с грецким орехом в натуральной шоколадной оболочке.',
-    ingredientsUk: 'Цільні обсмажені горіхи, натуральні сухофрукти без консервантів, ремісничий шоколад.',
-    ingredientsRu: 'Цельные обжаренные орехи, натуральные сухофрукты без консервантов, ремесленный шоколад.',
-    shelfLifeUk: 'До 6 місяців',
-    shelfLifeRu: 'До 6 месяцев',
-    imageUrl: 'https://images.unsplash.com/photo-1606312619070-d48b4c652a52?auto=format&fit=crop&w=1000&q=85',
-    preferredMakerIds: ['crafo-kharkiv', 'yandmi', 'honey-zavertailo', 'shoco-lviv'],
+      'Цельный отборный лесной фундук, калифорнийский миндаль и зеленая фисташка свежей бережной обжарки, покрытые бархатным шоколадом, а также традиционный украинский чернослив, курага и клюква в шоколаде.',
+    ingredientsUk: 'Цільні горіхи найвищого сорту (Extra), сухофрукти без цукру, какао-маса та какао-масло.',
+    ingredientsRu: 'Цельные орехи высшего сорта (Extra), сухофрукты без сахара, какао-масса и какао-масло.',
+    shelfLifeUk: '6–9 місяців у сухому темному місці',
+    shelfLifeRu: '6–9 месяцев в сухом темном месте',
+    imageUrl: 'https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=1000&q=85',
+    preferredMakerIds: ['yandmi', 'crafo-kharkiv', 'una-luna-hoshcha', 'cukorka-lutsk'],
   },
   {
     id: 'choco-sugarfree',
+    slug: 'shokolad-bez-tsukru',
     section: 'chocolate',
     categorySlug: 'bez-tsukru-ta-vegan',
-    emoji: '🌿',
+    emoji: '🌱',
     titleUk: 'Шоколад без цукру та Vegan',
     titleRu: 'Шоколад без сахара и Vegan',
     shortDescUk: 'Натуральний шоколад і цукерки на меду, стевії, еритритолі, кокосовому нектарі та керобі.',
     shortDescRu: 'Натуральный шоколад и конфеты на меду, стевии, эритритоле, кокосовом нектаре и кэробе.',
     detailedAssortmentUk:
-      'Корисний ремісничий шоколад без білого рафінованого цукру, лактози та глютену. Ідеальний вибір для прихильників ЗОЖ, спортсменів, веганів та людей, які контролюють рівень глікемічного індексу.',
+      'Безпечні вишукані солодощі для діабетиків, веганів та прихильників кето/ЗОЖ: bean-to-bar плитки 85–100% какао, шоколад на карпатському лісовому меду, вироби на низькоглікемічному еритритолі без білого цукру, глютену та лактози.',
     detailedAssortmentRu:
-      'Полезный ремесленный шоколад без белого рафинированного сахара, лактозы и глютена. Идеальный выбор для сторонников ЗОЖ, спортсменов, веганов и людей, контролирующих уровень гликемического индекса.',
-    ingredientsUk: 'Терте какао, какао-масло, кокосове або вівсяне молоко, стевія, еритритол, мед або кероб.',
-    ingredientsRu: 'Тертое какао, какао-масло, кокосовое или овсяное молоко, стевия, эритритол, мед или кэроб.',
-    shelfLifeUk: '6–9 місяців',
-    shelfLifeRu: '6–9 месяцев',
-    imageUrl: 'https://images.unsplash.com/photo-1511381939415-e44015466834?auto=format&fit=crop&w=1000&q=85',
-    preferredMakerIds: ['sisters-a', 'yandmi', 'bogi-cacao', 'zhiviy-shokolad'],
+      'Безопасные изысканные сладости для диабетиков, веганов и сторонников кето/ЗОЖ: bean-to-bar плитки 85–100% какао, шоколад на карпатском лесном меду, изделия на низкогликемическом эритритоле без белого сахара, глютена и лактозы.',
+    ingredientsUk: 'Какао-боби Criollo/Trinitario, масло какао cold-pressed, сухе кокосове молоко, еритритол, стевія або мед.',
+    ingredientsRu: 'Какао-бобы Criollo/Trinitario, масло какао cold-pressed, сухое кокосовое молоко, эритритол, стевия или мед.',
+    shelfLifeUk: '6–12 місяців',
+    shelfLifeRu: '6–12 месяцев',
+    imageUrl: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=1000&q=85',
+    preferredMakerIds: ['sisters-a', 'healthy-choice-kyiv', 'yandmi', 'bogi-cacao-kyiv'],
   },
   {
     id: 'choco-kids',
+    slug: 'dytiachi-solodoshchi',
     section: 'chocolate',
     categorySlug: 'solodoshchi-dlia-ditei',
     emoji: '🧸',
@@ -153,32 +162,34 @@ export const CHOCOLATE_VARIANTS: ProductVariantItem[] = [
     shortDescUk: 'Дитячі шоколадні фігурки, ведмедики, набори без хімії та штучних барвників.',
     shortDescRu: 'Детские шоколадные фигурки, мишки, наборы без химии и искусственных красителей.',
     detailedAssortmentUk:
-      'Безпечні дитячі ласощі з чистим складом: шоколадні ведмедики, зайчики, машинки, лоліпопси на паличці з натурального молочного та білого бельгійського шоколаду або керобу (без кофеїну).',
+      'Безпечні радощі для малечі: об’ємні фігурки звірят, ведмедиків, динозавриків та машинок із ніжного молочного шоколаду, шоколадні ложки для приготування какао, набори цукерок із ягідними соками замість синтетичних барвників.',
     detailedAssortmentRu:
-      'Безопасные детские лакомства с чистым составом: шоколадные мишки, зайчики, машинки, лолипопсы на палочке из натурального молочного и белого бельгийского шоколада или кэроба (без кофеина).',
-    ingredientsUk: '100% натуральне какао-масло, цільне молоко, натуральні ягідні порошки замість барвників.',
-    ingredientsRu: '100% натуральное какао-масло, цельное молоко, натуральные ягодные порошки вместо красителей.',
-    shelfLifeUk: 'До 6 місяців',
-    shelfLifeRu: 'До 6 месяцев',
+      'Безопасные радости для малышей: объемные фигурки зверят, мишек, динозавриков и машинок из нежного молочного шоколада, шоколадные ложки для приготовления какао, наборы конфет с ягодными соками вместо синтетических красителей.',
+    ingredientsUk: 'Натуральне незбиране молоко, какао-масло, тростинний цукор або кероб без кофеїну, ягідні соки (буряк, шпинат, малина).',
+    ingredientsRu: 'Натуральное цельное молоко, какао-масло, тростниковый сахар или кэроб без кофеина, ягодные соки (свекла, шпинат, малина).',
+    shelfLifeUk: '4–6 місяців',
+    shelfLifeRu: '4–6 месяцев',
     imageUrl: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?auto=format&fit=crop&w=1000&q=85',
-    preferredMakerIds: ['crafo-kharkiv', 'chocolady', 'wander', 'lvivska-kopalnya'],
+    preferredMakerIds: ['crafo-kharkiv', 'chebakery-kharkiv', 'cukorka-lutsk', 'una-luna-hoshcha'],
   },
 ];
 
+// 4 VARIANTS FOR CAKES (1 visible + 3 in menu)
 export const CAKE_VARIANTS: ProductVariantItem[] = [
   {
     id: 'cakes-custom',
+    slug: 'sviatkovi-torty',
     section: 'cakes',
     categorySlug: 'avtorski-torty-ta-deserty',
     emoji: '🎂',
-    titleUk: 'Святкові та мусові торти на замовлення',
-    titleRu: 'Праздничные и муссовые торты на заказ',
-    shortDescUk: 'Дизайнерські мусові торти у шоколадному велюрі, бісквітні іменинні торти з авторським декором.',
-    shortDescRu: 'Дизайнерские муссовые торты в шоколадном велюре, бисквитные именинные торты с авторским декором.',
+    titleUk: 'Святкові, весільні та мусові торти на замовлення',
+    titleRu: 'Праздничные, свадебные и муссовые торты на заказ',
+    shortDescUk: 'Дизайнерські мусові торти у шоколадному велюрі, весільні багатоярусні та бісквітні торти.',
+    shortDescRu: 'Дизайнерские муссовые торты в шоколадном велюре, свадебные многоярусные и бисквитные торты.',
     detailedAssortmentUk:
-      'Флагманські святкові торти ручної роботи від 1.5 кг: мусові європейські торти у бельгійському шоколадному велюрі та дзеркальній глазурі, а також класичні багатошарові бісквітні торти з ягідним конфі, фісташкою, манго-маракуйєю та солоною карамеллю.',
+      'Флагманські святкові торти ручної роботи від 1.5 кг: мусові європейські торти у бельгійському шоколадному велюрі та дзеркальній глазурі, а також весільні багатоярусні конструкції від 3 до 25 кг із дегустаційними сетами начинок.',
     detailedAssortmentRu:
-      'Флагманские праздничные торты ручной работы от 1.5 кг: муссовые европейские торты в бельгийском шоколадном велюре и зеркальной глазури, а также классические многослойные бисквитные торты с ягодным конфи, фисташкой, манго-маракуйей и соленой карамелью.',
+      'Флагманские праздничные торты ручной работы от 1.5 кг: муссовые европейские торты в бельгийском шоколадном велюре и зеркальной глазури, а также свадебные многоярусные конструкции от 3 до 25 кг с дегустационными сетами начинок.',
     ingredientsUk: 'Натуральні вершки 33%, вершкове масло 82.5%, сир Маскарпоне / Філадельфія, бельгійський шоколад, живе пюре ягід.',
     ingredientsRu: 'Натуральные сливки 33%, сливочное масло 82.5%, сыр Маскарпоне / Филадельфия, бельгийский шоколад, живое пюре ягод.',
     shelfLifeUk: '72 години у холодильнику (+2...+6 °C)',
@@ -194,6 +205,7 @@ export const CAKE_VARIANTS: ProductVariantItem[] = [
   },
   {
     id: 'cakes-bento',
+    slug: 'bento-torty',
     section: 'cakes',
     categorySlug: 'avtorski-torty-ta-deserty',
     emoji: '🍱',
@@ -220,6 +232,7 @@ export const CAKE_VARIANTS: ProductVariantItem[] = [
   },
   {
     id: 'cakes-kids',
+    slug: 'dytiachi-torty',
     section: 'cakes',
     categorySlug: 'avtorski-torty-ta-deserty',
     emoji: '🧸',
@@ -245,33 +258,8 @@ export const CAKE_VARIANTS: ProductVariantItem[] = [
     },
   },
   {
-    id: 'cakes-wedding',
-    section: 'cakes',
-    categorySlug: 'avtorski-torty-ta-deserty',
-    emoji: '💍',
-    titleUk: 'Весільні, корпоративні та багатоярусні торти',
-    titleRu: 'Свадебные, корпоративные и многоярусные торты',
-    shortDescUk: 'Розкішні багатоярусні конструкції з доставкою на локацію свята чи банкет.',
-    shortDescRu: 'Роскошные многоярусные конструкции с доставкой на локацию праздника или банкет.',
-    detailedAssortmentUk:
-      'Ексклюзивні весільні та ювілейні торти від 3 до 25 кг: можливість поєднання різних смаків у кожному ярусі, декор живими або шоколадними квітами, велюрове покриття та бережна доставка спеціалізованим транспортом.',
-    detailedAssortmentRu:
-      'Эксклюзивные свадебные и юбилейные торты от 3 до 25 кг: возможность сочетания разных вкусов в каждом ярусе, декор живыми или шоколадными цветами, велюровое покрытие и бережная доставка специализированным транспортом.',
-    ingredientsUk: 'Преміальні інгредієнти ресторанного класу, дегустаційні сети начинок перед замовленням.',
-    ingredientsRu: 'Премиальные ингредиенты ресторанного класса, дегустационные сеты начинок перед заказом.',
-    shelfLifeUk: '72 години у холодильнику',
-    shelfLifeRu: '72 часа в холодильнике',
-    imageUrl: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?auto=format&fit=crop&w=1000&q=85',
-    preferredMakerIds: ['chebakery-kharkiv', 'manzhosova-patisserie', 'bakerstreet-kyiv', 'torts-ua-dnipro'],
-    customDirectUrls: {
-      'chebakery-kharkiv': 'https://chebakery.com.ua/cake-gallery',
-      'manzhosova-patisserie': 'https://manzhosova.com',
-      'bakerstreet-kyiv': 'https://bakerstreet.ua/catalog/vesilni-torti',
-      'torts-ua-dnipro': 'https://torts.ua',
-    },
-  },
-  {
     id: 'cakes-pastry',
+    slug: 'makarony-ta-tistechka',
     section: 'cakes',
     categorySlug: 'avtorski-torty-ta-deserty',
     emoji: '🧁',
@@ -298,9 +286,11 @@ export const CAKE_VARIANTS: ProductVariantItem[] = [
   },
 ];
 
+// 3 VARIANTS FOR ZEFIR (1 visible + 2 in menu)
 export const ZEFIR_VARIANTS: ProductVariantItem[] = [
   {
     id: 'zefir-bouquets',
+    slug: 'zefirni-bukety',
     section: 'zefir',
     categorySlug: 'kraftovyi-zefir-ta-bukety',
     emoji: '💐',
@@ -326,33 +316,8 @@ export const ZEFIR_VARIANTS: ProductVariantItem[] = [
     },
   },
   {
-    id: 'zefir-boxes',
-    section: 'zefir',
-    categorySlug: 'kraftovyi-zefir-ta-bukety',
-    emoji: '🌸',
-    titleUk: 'Натуральний ягідний та фруктовий зефір у боксах',
-    titleRu: 'Натуральный ягодный и фруктовый зефир в боксах',
-    shortDescUk: 'Повітряні завитки зефіру з малини, смородини, манго-маракуйї, обліпихи та лаванди.',
-    shortDescRu: 'Воздушные завитки зефира из малины, смородины, манго-маракуйи, облепихи и лаванды.',
-    detailedAssortmentUk:
-      'Подарункові коробки класичного крафтового зефіру на 6, 9, 12 та 24 штуки з яскравими природними смаками: чорна смородина, малина, полуниця-шампанське, манго-маракуйя, пряна груша з дорблю, кава-бейліс та лаванда-чорниця.',
-    detailedAssortmentRu:
-      'Подарочные коробки классического крафтового зефира на 6, 9, 12 и 24 штуки с яркими природными вкусами: черная смородина, малина, клубника-шампанское, манго-маракуйя, пряная груша с дорблю, кофе-бейлис и лаванда-черника.',
-    ingredientsUk: '100% натуральне фруктово-ягідне пюре, агар-агар, знижений вміст цукру, без штучних консервантів.',
-    ingredientsRu: '100% натуральное фруктово-ягодное пюре, агар-агар, сниженное содержание сахара, без искусственных консервантов.',
-    shelfLifeUk: '10–14 днів при кімнатній температурі',
-    shelfLifeRu: '10–14 дней при комнатной температуре',
-    imageUrl: 'https://images.unsplash.com/photo-1526081347589-7fa3cb41b4b2?auto=format&fit=crop&w=1000&q=85',
-    preferredMakerIds: ['charivnyi-zefir', 'zefiroly-dnipro', 'glam-zefyr', 'ginger-pastila-lviv'],
-    customDirectUrls: {
-      'charivnyi-zefir': 'https://www.charivnyi-zefir.com',
-      'zefiroly-dnipro': 'https://zefiroly.com',
-      'glam-zefyr': 'https://zefir.com.ua',
-      'ginger-pastila-lviv': 'https://ginger.org.ua',
-    },
-  },
-  {
     id: 'zefir-chocolate',
+    slug: 'zefir-u-shokoladi',
     section: 'zefir',
     categorySlug: 'kraftovyi-zefir-ta-bukety',
     emoji: '🍫',
@@ -378,34 +343,41 @@ export const ZEFIR_VARIANTS: ProductVariantItem[] = [
     },
   },
   {
-    id: 'zefir-pastila',
+    id: 'zefir-boxes',
+    slug: 'yagidnyi-zefir-ta-pastyla',
     section: 'zefir',
     categorySlug: 'kraftovyi-zefir-ta-bukety',
-    emoji: '🌿',
-    titleUk: 'Зефір без цукру, натуральна пастила та фріпси',
-    titleRu: 'Зефир без сахара, натуральная пастила и фрипсы',
-    shortDescUk: 'Ягідна пастила без цукру, фруктові чіпси та легкий дієтичний зефір для дітей та ЗОЖ.',
-    shortDescRu: 'Ягодная пастила без сахара, фруктовые чипсы и легкий диетический зефир для детей и ЗОЖ.',
+    emoji: '🌸',
+    titleUk: 'Натуральний ягідний зефір у боксах та пастила',
+    titleRu: 'Натуральный ягодный зефир в боксах и пастила',
+    shortDescUk: 'Подарункові бокси ягідного зефіру на агар-агарі та натуральна пастила без цукру.',
+    shortDescRu: 'Подарочные боксы ягодного зефира на агар-агаре и натуральная пастила без сахара.',
     detailedAssortmentUk:
-      '100% натуральна реміснича пастила з печених яблук і лісових ягід, висушена при бережній температурі до 45 °C для збереження всіх вітамінів, хрусткі фруктові фріпси та легкий зефір на еритритолі/стевії.',
+      'Подарункові коробки класичного крафтового зефіру на 6, 9, 12 та 24 штуки з яскравими природними смаками (смородина, малина, манго-маракуйя, обліпиха), а також 100% натуральна ягідна пастила без білого цукру.',
     detailedAssortmentRu:
-      '100% натуральная ремесленная пастила из печеных яблок и лесных ягод, высушенная при бережной температуре до 45 °C для сохранения всех витаминов, хрустящие фруктовые фрипсы и легкий зефир на эритритоле/стевии.',
-    ingredientsUk: 'Тільки свіжі українські ягоди та фрукти без доданого білого цукру, барвників і глютену.',
-    ingredientsRu: 'Только свежие украинские ягоды и фрукты без добавленного белого сахара, красителей и глютена.',
-    shelfLifeUk: 'Пастила та фріпси — до 6 місяців',
-    shelfLifeRu: 'Пастила и фрипсы — до 6 месяцев',
-    imageUrl: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=1000&q=85',
-    preferredMakerIds: ['ginger-pastila-lviv', 'charivnyi-zefir', 'zefiroly-dnipro', 'piolli-zefir'],
+      'Подарочные коробки классического крафтового зефира на 6, 9, 12 и 24 штуки с яркими природными вкусами (смородина, малина, манго-маракуйя, облепиха), а также 100% натуральная ягодная пастила без белого сахара.',
+    ingredientsUk: '100% натуральне фруктово-ягідне пюре, агар-агар, знижений вміст цукру, без штучних консервантів.',
+    ingredientsRu: '100% натуральное фруктово-ягодное пюре, агар-агар, сниженное содержание сахара, без искусственных консервантов.',
+    shelfLifeUk: '10–14 днів при кімнатній температурі',
+    shelfLifeRu: '10–14 дней при комнатной температуре',
+    imageUrl: 'https://images.unsplash.com/photo-1526081347589-7fa3cb41b4b2?auto=format&fit=crop&w=1000&q=85',
+    preferredMakerIds: ['charivnyi-zefir', 'zefiroly-dnipro', 'glam-zefyr', 'ginger-pastila-lviv'],
     customDirectUrls: {
-      'ginger-pastila-lviv': 'https://ginger.org.ua',
       'charivnyi-zefir': 'https://www.charivnyi-zefir.com',
       'zefiroly-dnipro': 'https://zefiroly.com',
-      'piolli-zefir': 'https://piolli.com.ua/shop/cat/zefirni-buketi-ta-koshiki',
+      'glam-zefyr': 'https://zefir.com.ua',
+      'ginger-pastila-lviv': 'https://ginger.org.ua',
     },
   },
 ];
 
-export const ALL_SECTION_VARIANTS: Record<Exclude<MacroSectionId, 'home'>, ProductVariantItem[]> = {
+export const ALL_SECTION_VARIANTS: ProductVariantItem[] = [
+  ...CHOCOLATE_VARIANTS,
+  ...CAKE_VARIANTS,
+  ...ZEFIR_VARIANTS,
+];
+
+export const SECTION_VARIANTS_MAP: Record<Exclude<MacroSectionId, 'home'>, ProductVariantItem[]> = {
   chocolate: CHOCOLATE_VARIANTS,
   cakes: CAKE_VARIANTS,
   zefir: ZEFIR_VARIANTS,
