@@ -112,9 +112,9 @@ export const CATEGORIES: CategoryInfo[] = [
     titleUk: 'Всі вироби та виробники шоколаду, зефіру і тортів України',
     shortTitle: 'Всі категорії',
     emoji: '✨',
-    seoH1: 'CraftHub — Всі крафтові виробники шоколаду, зефіру та авторських тортів України',
+    seoH1: 'CrafoHub — Всі крафтові виробники шоколаду, зефіру та авторських тортів України',
     seoDescription:
-      'Всеукраїнська платформа CraftHub: 104 перевірені активні майстерні з прямими телефонами, адресами та сайтами. Плитки шоколаду і батончики, цукерки ручної роботи, шоколадні та зефірні букети, малина в шоколаді, вироби без цукру, солодощі для дітей та торти на замовлення.',
+      'Всеукраїнська платформа CrafoHub: 105 перевірені активні майстерні з прямими телефонами, адресами та сайтами. Плитки шоколаду і батончики, цукерки ручної роботи, шоколадні та зефірні букети, малина в шоколаді, вироби без цукру, солодощі для дітей та торти на замовлення.',
     expertGuide:
       'Оберіть потрібну рубрику зверху або скористайтеся Інтерактивним Сомельє Подарунків: платформа миттєво підбере кращі вироби та перевірених майстрів вашого міста.',
   },
@@ -123,7 +123,7 @@ export const CATEGORIES: CategoryInfo[] = [
     titleUk: 'Плитка шоколаду, батончик (Авторський та Ремісничий шоколад)',
     shortTitle: 'Плитка шоколаду, батончик',
     emoji: '🍫',
-    seoH1: 'Плитка шоколаду та крафтові батончики України — CraftHub',
+    seoH1: 'Плитка шоколаду та крафтові батончики України — CrafoHub',
     seoDescription:
       'Крафтові плитки шоколаду, шоколадні батончики з горіхами, карамеллю, ягодами та дубайський шоколад від найкращих майстерень України.',
     expertGuide:
@@ -134,7 +134,7 @@ export const CATEGORIES: CategoryInfo[] = [
     titleUk: 'Корпусні, розмальовані цукерки, сирні трюфелі та фадж',
     shortTitle: 'Цукерки ручної роботи',
     emoji: '🍬',
-    seoH1: 'Цукерки ручної роботи та трюфелі України — CraftHub',
+    seoH1: 'Цукерки ручної роботи та трюфелі України — CrafoHub',
     seoDescription:
       'Дизайнерські розписні корпусні цукерки, сирні трюфелі з дорблю та пармезаном, праліне й американський фадж від українських шоколатьє.',
     expertGuide:
@@ -145,7 +145,7 @@ export const CATEGORIES: CategoryInfo[] = [
     titleUk: 'Шоколадні квіти, півонії, троянди та подарункові букети',
     shortTitle: 'Шоколадні квіти і букети',
     emoji: '🌹',
-    seoH1: 'Шоколадні квіти та букети ручної роботи в Україні — CraftHub',
+    seoH1: 'Шоколадні квіти та букети ручної роботи в Україні — CrafoHub',
     seoDescription:
       'Реалістичні букети з шоколадних троянд, півоній і тюльпанів зі справжнього бельгійського шоколаду Callebaut та Veliche з доставкою Новою Поштою.',
     expertGuide:
@@ -156,7 +156,7 @@ export const CATEGORIES: CategoryInfo[] = [
     titleUk: 'Малина та полуниця в шоколаді (Сублімована та Свіжа)',
     shortTitle: 'Малина і полуниця в шоколаді',
     emoji: '🍓',
-    seoH1: 'Малина та полуниця в шоколаді — Виробники України | CraftHub',
+    seoH1: 'Малина та полуниця в шоколаді — Виробники України | CrafoHub',
     seoDescription:
       'Цільна хрумка сублімована малина в шоколаді з доставкою по всій Україні та подарункові бокси свіжої полуниці в бельгійському шоколаді.',
     expertGuide:
@@ -167,7 +167,7 @@ export const CATEGORIES: CategoryInfo[] = [
     titleUk: 'Горіхи, драже, чорнослив та сухофрукти в шоколаді',
     shortTitle: 'Горіхи та сухофрукти',
     emoji: '🌰',
-    seoH1: 'Горіхи та сухофрукти в шоколаді — Виробники України | CraftHub',
+    seoH1: 'Горіхи та сухофрукти в шоколаді — Виробники України | CrafoHub',
     seoDescription:
       'Карамелізований фундук, мигдаль, фісташка, чорнослив з волоським горіхом, курага, інжир та фініки в справжньому шоколаді.',
     expertGuide:
@@ -178,7 +178,7 @@ export const CATEGORIES: CategoryInfo[] = [
     titleUk: 'Без цукру / Vegan / На меду та стевії',
     shortTitle: 'Без цукру',
     emoji: '🌿',
-    seoH1: 'Шоколад, батончики та зефір без цукру в Україні — CraftHub',
+    seoH1: 'Шоколад, батончики та зефір без цукру в Україні — CrafoHub',
     seoDescription:
       'Корисний крафтовий шоколад, батончики, пастила, зефір і цукерки без білого цукру, лактози та глютену: на меду, кокосовому нектарі, еритритолі та стевії.',
     expertGuide:
@@ -189,7 +189,7 @@ export const CATEGORIES: CategoryInfo[] = [
     titleUk: 'Для дітей (Натуральні ласощі, шоколад на керобі, пастила, фігурки)',
     shortTitle: 'Для дітей',
     emoji: '🧸',
-    seoH1: 'Крафтові солодощі та шоколад для дітей в Україні — CraftHub',
+    seoH1: 'Крафтові солодощі та шоколад для дітей в Україні — CrafoHub',
     seoDescription:
       'Безпечні натуральні солодощі для дітей: дитячий шоколад на керобі без кофеїну, ягідна пастила без цукру, шоколадні фігурки, льодяники та дитячі святкові торти.',
     expertGuide:
@@ -200,7 +200,7 @@ export const CATEGORIES: CategoryInfo[] = [
     titleUk: 'Крафтовий зефір ручної роботи, зефірні букети та пастила',
     shortTitle: 'Зефір та зефірні букети',
     emoji: '🌸',
-    seoH1: 'Крафтовий зефір, зефірні букети та пастила ручної роботи — CraftHub',
+    seoH1: 'Крафтовий зефір, зефірні букети та пастила ручної роботи — CrafoHub',
     seoDescription:
       'Натуральний ягідно-фруктовий зефір на агар-агарі, розкішні букети з зефірних квітів (півонії, троянди, тюльпани), зефір у бельгійському шоколаді та пастила.',
     expertGuide:
@@ -211,7 +211,7 @@ export const CATEGORIES: CategoryInfo[] = [
     titleUk: 'Авторські торти на замовлення, бенто-торти, макарони та десерти',
     shortTitle: 'Авторські торти і десерти',
     emoji: '🎂',
-    seoH1: 'Авторські торти на замовлення та крафтові кондитерські України — CraftHub',
+    seoH1: 'Авторські торти на замовлення та крафтові кондитерські України — CrafoHub',
     seoDescription:
       'Перевірені кондитерські ательє Харкова, Києва, Львова, Дніпра та Одеси: весільні, дитячі та корпоративні торти, мусові десерти, бенто-торти та макарони.',
     expertGuide:
@@ -223,7 +223,7 @@ export const CATEGORIES: CategoryInfo[] = [
 export const MAKERS: CraftMaker[] = [
   {
     "id": "crafo-kharkiv",
-    "name": "CraftChoco / ChocoCraft (crafo.com.ua) — №1 Лідер категорії Шоколад",
+    "name": "Crafo — Майстерня крафтового шоколаду",
     "slug": "crafo-kharkiv",
     "segment": "chocolatier-bonbons",
     "segmentTitle": "2. Шоколатьє, авторські плитки, цукерки та шоколадні квіти",
@@ -247,7 +247,7 @@ export const MAKERS: CraftMaker[] = [
     "cacaoOrigin": [
       "Бельгія (Barry Callebaut)"
     ],
-    "description": "Офіційний лідер рейтингу крафтового шоколаду України (crafo.com.ua): виготовляють преміальні шоколадні плитки ручної роботи, авторські корпусні та трюфельні цукерки, реалістичні букети з шоколадних квітів та подарункові бокси зі 100% бельгійського шоколаду Barry Callebaut.",
+    "description": "Преміальна майстерня крафтового шоколаду: виготовлення авторських плиток, корпусних та трюфельних цукерок, реалістичних букетів з шоколадних квітів та подарункових боксів зі 100% бельгійського шоколаду Barry Callebaut.",
     "websiteUrl": "https://crafo.com.ua/katalog",
     "categoryUrls": {
       "plytky-shokoladu": "https://crafo.com.ua/podarunky/mystetstvo-u-ploti",
@@ -272,7 +272,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "sisters-a",
-    "name": "Sisters A. Chocolate (sisterschocolate.com)",
+    "name": "Sisters A. Chocolate",
     "slug": "sisters-a-chocolate",
     "segment": "bean-to-bar",
     "segmentTitle": "1. Плитка шоколаду та крафтові батончики",
@@ -308,11 +308,11 @@ export const MAKERS: CraftMaker[] = [
       "Плитка шоколаду • Батончик 72 год",
       "Fino de Aroma"
     ],
-    "imageUrl": "https://sisterschocolate.com/wp-content/uploads/2021/02/Sur-del-Lago-5.jpg"
+    "imageUrl": "/images/sisters-a.jpg"
   },
   {
     "id": "piolli-zefir",
-    "name": "Piolli — Студія зефірних квітів (piolli.com.ua)",
+    "name": "Piolli — Студія зефірних квітів",
     "slug": "piolli-zefir-kyiv",
     "segment": "craft-zefir-pastila",
     "segmentTitle": "5. Крафтовий зефір ручної роботи, зефірні квіти та пастила",
@@ -349,7 +349,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "chebakery-kharkiv",
-    "name": "CheBakery — Кондитерська Олени Чечендаєвої (chebakery.com.ua)",
+    "name": "CheBakery — Кондитерська Олени Чечендаєвої",
     "slug": "chebakery-kharkiv",
     "segment": "custom-cakes-pastry",
     "segmentTitle": "6. Авторські торти на замовлення, бенто-торти та десерти ручної роботи",
@@ -389,7 +389,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "yandmi",
-    "name": "YandMi (yandmi.com)",
+    "name": "YandMi",
     "slug": "yandmi-craft",
     "segment": "bean-to-bar",
     "segmentTitle": "1. Плитка шоколаду та крафтові батончики",
@@ -428,7 +428,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "ecojoy",
-    "name": "Ecojoy — Майстерня шоколадних букетів (ecojoy.com.ua)",
+    "name": "Ecojoy — Майстерня шоколадних букетів",
     "slug": "ecojoy-chocolate-florist",
     "segment": "flowers-berries-nuts",
     "segmentTitle": "4. Шоколадні квіти, букети, малина, полуниця та горіхи в шоколаді",
@@ -467,7 +467,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "charivnyi-zefir",
-    "name": "Майстерня «Чарівний Зефір» (charivnyi-zefir.com)",
+    "name": "Майстерня «Чарівний Зефір»",
     "slug": "charivnyi-zefir-kyiv",
     "segment": "craft-zefir-pastila",
     "segmentTitle": "5. Крафтовий зефір ручної роботи, зефірні квіти та пастила",
@@ -506,7 +506,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "bakerstreet-kyiv",
-    "name": "BAKERSTREET Bakery (bakerstreet.ua)",
+    "name": "BAKERSTREET Bakery",
     "slug": "bakerstreet-kyiv",
     "segment": "custom-cakes-pastry",
     "segmentTitle": "6. Авторські торти на замовлення, бенто-торти та десерти ручної роботи",
@@ -547,7 +547,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "chocoblues-odesa",
-    "name": "Chocoblues — Майстерня авторського шоколаду (chocoblues.com.ua)",
+    "name": "Chocoblues — Майстерня авторського шоколаду",
     "slug": "chocoblues-odesa",
     "segment": "chocolatier-bonbons",
     "segmentTitle": "2. Цукерки ручної роботи, шоколатьє та авторські набори",
@@ -589,7 +589,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "stranger",
-    "name": "Stranger Craft Chocolate (stranger.org.ua)",
+    "name": "Stranger Craft Chocolate",
     "slug": "stranger-craft-chocolate",
     "segment": "bean-to-bar",
     "segmentTitle": "1. Плитка шоколаду та крафтові батончики",
@@ -628,7 +628,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "bogi-cacao",
-    "name": "Bogi Cacao (bogicacao.com.ua)",
+    "name": "Bogi Cacao",
     "slug": "bogi-cacao",
     "segment": "bean-to-bar",
     "segmentTitle": "1. Плитка шоколаду та крафтові батончики",
@@ -667,7 +667,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "meetty",
-    "name": "Meetty Chocolate (meettychocolate.com)",
+    "name": "Meetty Chocolate",
     "slug": "meetty-chocolate",
     "segment": "bean-to-bar",
     "segmentTitle": "1. Плитка шоколаду та крафтові батончики",
@@ -705,7 +705,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "candy-coupe-buffet",
-    "name": "CandyBuffet / Candy Coupe (candybuffet.kiev.ua)",
+    "name": "CandyBuffet / Candy Coupe",
     "slug": "candy-coupe",
     "segment": "chocolatier-bonbons",
     "segmentTitle": "2. Шоколатьє, авторські плитки, цукерки та шоколадні квіти",
@@ -743,7 +743,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "honey-zavertailo",
-    "name": "HONEY & Zavertailo (honeykyiv.com)",
+    "name": "HONEY & Zavertailo",
     "slug": "honey-zavertailo",
     "segment": "flowers-berries-nuts",
     "segmentTitle": "4. Шоколадні квіти, букети, малина, полуниця та горіхи в шоколаді",
@@ -781,7 +781,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "zefiroly-dnipro",
-    "name": "Майстерня «ZefirOly» (zefiroly.com)",
+    "name": "Майстерня «ZefirOly»",
     "slug": "zefiroly-dnipro",
     "segment": "craft-zefir-pastila",
     "segmentTitle": "5. Крафтовий зефір ручної роботи, зефірні квіти та пастила",
@@ -817,7 +817,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "ginger-pastila-lviv",
-    "name": "Крамничка «Джинджер» / Ginger (ginger.org.ua)",
+    "name": "Крамничка «Джинджер» / Ginger",
     "slug": "ginger-pastila-lviv",
     "segment": "craft-zefir-pastila",
     "segmentTitle": "5. Крафтовий зефір ручної роботи, зефірні квіти та пастила",
@@ -1003,7 +1003,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "myzo",
-    "name": "MYZO Chocolate (myzo.com.ua)",
+    "name": "MYZO Chocolate",
     "slug": "myzo-chocolate",
     "segment": "bean-to-bar",
     "segmentTitle": "1. Плитка шоколаду та крафтові батончики",
@@ -1079,7 +1079,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "cheese-sweets",
-    "name": "Cheese Sweets Олега Соловйова (cheesesweets.com.ua)",
+    "name": "Cheese Sweets Олега Соловйова",
     "slug": "cheese-sweets",
     "segment": "chocolatier-bonbons",
     "segmentTitle": "2. Шоколатьє, авторські плитки, цукерки та шоколадні квіти",
@@ -1116,7 +1116,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "shoco-lviv",
-    "name": "SHOco. Chocolaterie (shoco.ua)",
+    "name": "SHOco. Chocolaterie",
     "slug": "shoco-lviv",
     "segment": "chocolatier-bonbons",
     "segmentTitle": "2. Шоколатьє, авторські плитки, цукерки та шоколадні квіти",
@@ -1230,7 +1230,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "healthy-choice",
-    "name": "Healthy Choice (healthychoice.ua)",
+    "name": "Healthy Choice",
     "slug": "healthy-choice-ukraine",
     "segment": "healthy-vegan",
     "segmentTitle": "3. Healthy / Vegan / Raw шоколад (Без білого цукру, лактози та глютену)",
@@ -1269,7 +1269,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "chocobox-kyiv",
-    "name": "Chocobox (chocobox.com.ua)",
+    "name": "Chocobox",
     "slug": "chocobox-kyiv",
     "segment": "flowers-berries-nuts",
     "segmentTitle": "4. Шоколадні квіти, букети, малина, полуниця та горіхи в шоколаді",
@@ -1304,7 +1304,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "maslotom",
-    "name": "ТОМ / MasloTOM (maslotom.com)",
+    "name": "ТОМ / MasloTOM",
     "slug": "maslotom-chocolate",
     "segment": "flowers-berries-nuts",
     "segmentTitle": "4. Шоколадні квіти, букети, малина, полуниця та горіхи в шоколаді",
@@ -1342,7 +1342,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "cukorka-volyn",
-    "name": "ТМ «Цукорка» / Волинські солодощі (cukorka.com.ua)",
+    "name": "ТМ «Цукорка» / Волинські солодощі",
     "slug": "cukorka-volyn",
     "segment": "flowers-berries-nuts",
     "segmentTitle": "4. Шоколадні квіти, букети, малина, полуниця та горіхи в шоколаді",
@@ -1381,7 +1381,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "glam-zefyr",
-    "name": "Glam_Zefyr (zefir.com.ua)",
+    "name": "Glam_Zefyr",
     "slug": "glam-zefyr-ukraine",
     "segment": "craft-zefir-pastila",
     "segmentTitle": "5. Крафтовий зефір ручної роботи, зефірні квіти та пастила",
@@ -1419,7 +1419,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "artzefir-ua",
-    "name": "ARTZEFIR — Майстерня зефірних квітів (artzefir.com)",
+    "name": "ARTZEFIR — Майстерня зефірних квітів",
     "slug": "artzefir-ukraine",
     "segment": "craft-zefir-pastila",
     "segmentTitle": "5. Крафтовий зефір ручної роботи, зефірні квіти та пастила",
@@ -1453,7 +1453,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "tortiya-kharkiv",
-    "name": "Кондитерська «ТортиЯ» (torti.kh.ua)",
+    "name": "Кондитерська «ТортиЯ»",
     "slug": "tortiya-kharkiv",
     "segment": "custom-cakes-pastry",
     "segmentTitle": "6. Авторські торти на замовлення, бенто-торти та десерти ручної роботи",
@@ -1488,7 +1488,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "mamulin-tortyk-kyiv",
-    "name": "Студія «Мамулін Тортик» (mamatort.com.ua)",
+    "name": "Студія «Мамулін Тортик»",
     "slug": "mamulin-tortyk-kyiv",
     "segment": "custom-cakes-pastry",
     "segmentTitle": "6. Авторські торти на замовлення, бенто-торти та десерти ручної роботи",
@@ -1524,7 +1524,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "torts-ua-dnipro",
-    "name": "Кондитерське ательє «TORTS.UA» (torts.ua)",
+    "name": "Кондитерське ательє «TORTS.UA»",
     "slug": "torts-ua-dnipro",
     "segment": "custom-cakes-pastry",
     "segmentTitle": "6. Авторські торти на замовлення, бенто-торти та десерти ручної роботи",
@@ -1558,7 +1558,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "spell",
-    "name": "Spell Chocolate (spellchocolate.com)",
+    "name": "Spell Chocolate",
     "slug": "spell-chocolate",
     "segment": "chocolatier-bonbons",
     "segmentTitle": "2. Шоколатьє, авторські плитки, цукерки та шоколадні квіти",
@@ -1603,7 +1603,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "laviva",
-    "name": "LAVIVA Chocolate (laviva.com.ua)",
+    "name": "LAVIVA Chocolate",
     "slug": "laviva-chocolate",
     "segment": "chocolatier-bonbons",
     "segmentTitle": "2. Шоколатьє, авторські плитки, цукерки та шоколадні квіти",
@@ -1642,7 +1642,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "nptruffles",
-    "name": "NPtruffles (nptruffles.in.ua)",
+    "name": "NPtruffles",
     "slug": "nptruffles-ukraine",
     "segment": "chocolatier-bonbons",
     "segmentTitle": "2. Шоколатьє, авторські плитки, цукерки та шоколадні квіти",
@@ -1675,7 +1675,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "nomer-doma",
-    "name": "Номер Дому (nomerdomu.com.ua)",
+    "name": "Номер Дому",
     "slug": "nomer-doma",
     "segment": "chocolatier-bonbons",
     "segmentTitle": "2. Шоколатьє, авторські плитки, цукерки та шоколадні квіти",
@@ -1713,7 +1713,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "una-luna",
-    "name": "Una Luna / Пригощайся (gzpt.com.ua)",
+    "name": "Una Luna / Пригощайся",
     "slug": "una-luna",
     "segment": "chocolatier-bonbons",
     "segmentTitle": "2. Шоколатьє, авторські плитки, цукерки та шоколадні квіти",
@@ -1750,7 +1750,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "vilni",
-    "name": "Вільні / Vilni (vilni.ua)",
+    "name": "Вільні / Vilni",
     "slug": "vilni-sweets",
     "segment": "healthy-vegan",
     "segmentTitle": "3. Healthy / Vegan / Raw шоколад (Без білого цукру, лактози та глютену)",
@@ -1789,7 +1789,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "zhuzhu-shop",
-    "name": "ЖуЖу Shop (djujushop.com.ua)",
+    "name": "ЖуЖу Shop",
     "slug": "zhuzhu-shop",
     "segment": "healthy-vegan",
     "segmentTitle": "3. Healthy / Vegan / Raw шоколад (Без білого цукру, лактози та глютену)",
@@ -1829,7 +1829,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "frutado",
-    "name": "FRUTADO (frutado.com.ua)",
+    "name": "FRUTADO",
     "slug": "frutado-ukraine",
     "segment": "flowers-berries-nuts",
     "segmentTitle": "4. Шоколадні квіти, букети, малина, полуниця та горіхи в шоколаді",
@@ -1863,7 +1863,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "panfruit",
-    "name": "Panfruit Ukraine (panfruit.ua)",
+    "name": "Panfruit Ukraine",
     "slug": "panfruit-ukraine",
     "segment": "flowers-berries-nuts",
     "segmentTitle": "4. Шоколадні квіти, букети, малина, полуниця та горіхи в шоколаді",
@@ -1969,7 +1969,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "syndykat-smaku-kharkiv",
-    "name": "Майстерня тортів «Синдикат Смаку» (tortsvkus.com.ua)",
+    "name": "Майстерня тортів «Синдикат Смаку»",
     "slug": "syndykat-smaku-kharkiv",
     "segment": "custom-cakes-pastry",
     "segmentTitle": "6. Авторські торти на замовлення, бенто-торти та десерти ручної роботи",
@@ -2003,7 +2003,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "sweets-kharkiv",
-    "name": "SWEETS | Солодощі & Подарунки (sweets.net.ua)",
+    "name": "SWEETS | Солодощі & Подарунки",
     "slug": "sweets-net-ua-kharkiv",
     "segment": "chocolatier-bonbons",
     "segmentTitle": "2. Шоколатьє, авторські плитки, цукерки та подарункові набори",
@@ -2122,7 +2122,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "choconel-lutsk",
-    "name": "Choconel / Чоконель (choconel.com.ua)",
+    "name": "Choconel / Чоконель",
     "slug": "choconel-lutsk",
     "segment": "chocolatier-bonbons",
     "segmentTitle": "2. Шоколатьє, авторські плитки, цукерки та шоколадні квіти",
@@ -2158,7 +2158,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "berry-bar-zt",
-    "name": "Berry Bar (berrybar.com.ua)",
+    "name": "Berry Bar",
     "slug": "berry-bar-zhytomyr",
     "segment": "chocolatier-bonbons",
     "segmentTitle": "2. Шоколатьє, авторські плитки, цукерки та шоколадні квіти",
@@ -2194,7 +2194,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "fruitlife",
-    "name": "FruitLife (fruitlife.com.ua)",
+    "name": "FruitLife",
     "slug": "fruitlife-ukraine",
     "segment": "flowers-berries-nuts",
     "segmentTitle": "4. Шоколадні квіти, букети, малина, полуниця та горіхи в шоколаді",
@@ -2229,7 +2229,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "choconut-lviv",
-    "name": "КФ «Шоконат» / Choconut (choconut.com.ua)",
+    "name": "КФ «Шоконат» / Choconut",
     "slug": "choconut-lviv",
     "segment": "flowers-berries-nuts",
     "segmentTitle": "4. Шоколадні квіти, букети, малина, полуниця та горіхи в шоколаді",
@@ -2265,7 +2265,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "shoude-kharkiv",
-    "name": "SHOUD'E / Кондитерська фабрика «Солодкий Світ» (sweetworld.com.ua)",
+    "name": "SHOUD'E / Кондитерська фабрика «Солодкий Світ»",
     "slug": "shoude-sweetworld-kharkiv",
     "segment": "chocolatier-bonbons",
     "segmentTitle": "2. Шоколатьє, авторські плитки, цукерки та шоколадні квіти",
@@ -2305,7 +2305,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "aimant",
-    "name": "Aimant (aimant.ua)",
+    "name": "Aimant",
     "slug": "aimant-chocolate",
     "segment": "chocolatier-bonbons",
     "segmentTitle": "2. Шоколатьє, авторські плитки, цукерки та шоколадні квіти",
@@ -2342,7 +2342,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "afrodiziak",
-    "name": "Afrodiziak Chocolate (afrodiziak-chocolate.com.ua)",
+    "name": "Afrodiziak Chocolate",
     "slug": "afrodiziak-chocolate",
     "segment": "healthy-vegan",
     "segmentTitle": "3. Healthy / Vegan / Raw шоколад (Без білого цукру, лактози та глютену)",
@@ -2380,7 +2380,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "chocolady",
-    "name": "ChocoLady (chocolady.com.ua)",
+    "name": "ChocoLady",
     "slug": "chocolady-ukraine",
     "segment": "flowers-berries-nuts",
     "segmentTitle": "4. Шоколадні квіти, букети, малина, полуниця та горіхи в шоколаді",
@@ -2418,7 +2418,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "asal-ukraine",
-    "name": "ТМ «ASAL» (asal.com.ua)",
+    "name": "ТМ «ASAL»",
     "slug": "asal-sweets-ukraine",
     "segment": "flowers-berries-nuts",
     "segmentTitle": "4. Шоколадні квіти, букети, малина, полуниця та горіхи в шоколаді",
@@ -2451,7 +2451,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "khorek-kharkiv",
-    "name": "KHorek Chocolate (khorekchocolate.com.ua)",
+    "name": "KHorek Chocolate",
     "slug": "khorek-chocolate-kharkiv",
     "segment": "chocolatier-bonbons",
     "segmentTitle": "2. Шоколатьє, авторські плитки, цукерки та шоколадні квіти",
@@ -2485,7 +2485,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "cacao-chocolates",
-    "name": "Cacao & Chocolates (cacao-chocolates.com.ua)",
+    "name": "Cacao & Chocolates",
     "slug": "cacao-chocolates-ua",
     "segment": "chocolatier-bonbons",
     "segmentTitle": "2. Шоколатьє, авторські плитки, цукерки та шоколадні квіти",
@@ -2521,7 +2521,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "lviv-workshop",
-    "name": "Львівська майстерня шоколаду (chocolate.lviv.ua)",
+    "name": "Львівська майстерня шоколаду",
     "slug": "lviv-chocolate-workshop",
     "segment": "chocolatier-bonbons",
     "segmentTitle": "2. Шоколатьє, авторські плитки, цукерки та шоколадні квіти",
@@ -2562,7 +2562,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "yaro-sunfill",
-    "name": "Sunfill & YARO (sunfill.ua / yaro.ua)",
+    "name": "Sunfill & YARO",
     "slug": "yaro-sunfill",
     "segment": "healthy-vegan",
     "segmentTitle": "3. Healthy / Vegan / Raw шоколад (Без білого цукру, лактози та глютену)",
@@ -2601,7 +2601,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "amelia-dnipro",
-    "name": "ТМ «Amelia» (ameliasweet.com.ua)",
+    "name": "ТМ «Amelia»",
     "slug": "amelia-sweet-dnipro",
     "segment": "flowers-berries-nuts",
     "segmentTitle": "4. Шоколадні квіти, букети, малина, полуниця та горіхи в шоколаді",
@@ -2636,7 +2636,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "craftchocolate-ua",
-    "name": "Craft Chocolate (craftchocolate.com.ua)",
+    "name": "Craft Chocolate",
     "slug": "craftchocolate-com-ua",
     "segment": "chocolatier-bonbons",
     "segmentTitle": "2. Шоколатьє, авторські плитки, цукерки та шоколадні квіти",
@@ -4160,7 +4160,7 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "shokoladno-kharkiv",
-    "name": "ТМ «Шоколадно» (shokoladno.com.ua)",
+    "name": "ТМ «Шоколадно»",
     "slug": "tm-shokoladno-kharkiv",
     "segment": "flowers-berries-nuts",
     "segmentTitle": "4. Шоколадні квіти, букети, малина, полуниця та горіхи в шоколаді",

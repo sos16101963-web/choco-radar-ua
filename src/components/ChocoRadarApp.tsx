@@ -117,30 +117,49 @@ const CATEGORY_SHORT_LABELS: Record<
   },
 };
 
-const CITY_FILTERS: { id: string; uk: string; ru: string }[] = [
-  { id: 'all', uk: 'Вся Україна', ru: 'Вся Украина' },
-  { id: 'Харків', uk: 'Харків', ru: 'Харьков' },
-  { id: 'Київ', uk: 'Київ', ru: 'Киев' },
-  { id: 'Львів', uk: 'Львів', ru: 'Львов' },
-  { id: 'Дніпро', uk: 'Дніпро', ru: 'Днепр' },
-  { id: 'Одеса / Південь', uk: 'Одеса • Миколаїв', ru: 'Одесса • Николаев' },
-  { id: 'Луцьк / Волинь', uk: 'Луцьк • Волинь', ru: 'Луцк • Волынь' },
-  {
-    id: 'Вінниця / Хмельницький / Житомир',
-    uk: 'Вінниця • Хмельницький • Житомир',
-    ru: 'Винница • Хмельницкий • Житомир',
-  },
-  {
-    id: 'Полтава / Суми / Запоріжжя',
-    uk: 'Полтава • Суми • Запоріжжя',
-    ru: 'Полтава • Сумы • Запорожье',
-  },
-  {
-    id: 'Черкаси / Захід та Центри',
-    uk: 'Черкаси • Ужгород • Рівне',
-    ru: 'Черкассы • Ужгород • Ровно',
-  },
+const POPULAR_CITIES: { id: string; uk: string; ru: string; count: number }[] = [
+  { id: 'all', uk: 'Вся Україна', ru: 'Вся Украина', count: 105 },
+  { id: 'Київ', uk: 'Київ', ru: 'Киев', count: 35 },
+  { id: 'Харків', uk: 'Харків', ru: 'Харьков', count: 14 },
+  { id: 'Львів', uk: 'Львів', ru: 'Львов', count: 8 },
+  { id: 'Дніпро', uk: 'Дніпро', ru: 'Днепр', count: 7 },
+  { id: 'Одеса', uk: 'Одеса', ru: 'Одесса', count: 9 },
+  { id: 'Вінниця', uk: 'Вінниця', ru: 'Винница', count: 8 },
+  { id: 'Полтава', uk: 'Полтава', ru: 'Полтава', count: 6 },
+  { id: 'Луцьк', uk: 'Луцьк', ru: 'Луцк', count: 6 },
+  { id: 'Черкаси', uk: 'Черкаси', ru: 'Черкассы', count: 12 },
 ];
+
+const CITY_FILTERS = POPULAR_CITIES;
+
+function isCityMatch(m: CraftMaker, cityId: string): boolean {
+  if (cityId === 'all') return true;
+  const needle = cityId.toLowerCase();
+  const c = (m.city || '').toLowerCase();
+  const r = (m.regionCity || '').toLowerCase();
+  return c.includes(needle) || r.includes(needle);
+}
+
+function formatPhoneDisplay(phoneStr: string): string {
+  if (!phoneStr) return '';
+  const first = phoneStr.split(',')[0].trim();
+  const openCount = (first.match(/\(/g) || []).length;
+  const closeCount = (first.match(/\)/g) || []).length;
+  if (openCount > closeCount) {
+    const lastOpen = first.lastIndexOf('(');
+    return first.substring(0, lastOpen).trim();
+  }
+  return first;
+}
+
+function cleanDisplayName(name: string): string {
+  if (!name) return '';
+  if (name.includes('CraftChoco') || name.includes('Crafo.Choco')) return 'Crafo — Майстерня крафтового шоколаду';
+  return name
+    .replace(/\s*\([a-z0-9\.\-\/]+\.(?:com|ua|org|net|in\.ua|kiev\.ua|kh\.ua)(?:\s*\/\s*[a-z0-9\.\-\/]+\.(?:com|ua|org|net))?\)/gi, '')
+    .replace(/\s*—\s*№1\s*Лідер.*$/gi, '')
+    .trim();
+}
 
 // Simple Ukrainian-to-Russian dynamic text helper for database descriptions when RU is active
 function localizeText(text: string, lang: Lang): string {
@@ -259,6 +278,10 @@ export default function ChocoRadarApp({
   const [activeMakerModal, setActiveMakerModal] = useState<CraftMaker | null>(null);
   const [isTenderModalOpen, setIsTenderModalOpen] = useState(false);
   const [isAddMakerModalOpen, setIsAddMakerModalOpen] = useState(false);
+  const [isMethodologyModalOpen, setIsMethodologyModalOpen] = useState(false);
+  const [isCitySelectorModalOpen, setIsCitySelectorModalOpen] = useState(false);
+  const [cityFilterSearch, setCityFilterSearch] = useState('');
+  const [tenderCategory, setTenderCategory] = useState<'cake' | 'zefir' | 'chocolate' | 'corporate'>('cake');
   const [selectedPlanForModal, setSelectedPlanForModal] = useState<string>('PRO Майстерня');
   const [tenderSubmitted, setTenderSubmitted] = useState(false);
   const [makerSubmitted, setMakerSubmitted] = useState(false);
@@ -350,11 +373,7 @@ export default function ChocoRadarApp({
       if (onlyFavorites && !favoriteMakerIds.includes(m.id)) return false;
       if (!m.categories.includes(targetCategory)) return false;
 
-      if (
-        selectedCity !== 'all' &&
-        m.regionCity !== selectedCity &&
-        !m.city.toLowerCase().includes(selectedCity.split('•')[0].trim().toLowerCase())
-      ) {
+      if (!isCityMatch(m, selectedCity)) {
         return false;
       }
 
@@ -408,11 +427,7 @@ export default function ChocoRadarApp({
         .map((id) => MAKERS.find((m) => m.id === id))
         .filter((m): m is CraftMaker => !!m);
     }
-    return MAKERS.filter(
-      (m) =>
-        m.regionCity === selectedCity ||
-        m.city.toLowerCase().includes(selectedCity.split('•')[0].trim().toLowerCase())
-    )
+    return MAKERS.filter((m) => isCityMatch(m, selectedCity))
       .sort((a, b) => {
         if (a.id === 'crafo-kharkiv') return -1;
         if (b.id === 'crafo-kharkiv') return 1;
@@ -573,7 +588,7 @@ export default function ChocoRadarApp({
             {isLeader ? (
               <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[#e39851] to-[#b06a1e] px-3 py-1 text-[11px] font-extrabold text-[#26140b] shadow-md">
                 <Crown className="w-3.5 h-3.5 shrink-0" />
-                <span>{lang === 'uk' ? '№1 Лідер категорії' : '№1 Лидер категории'}</span>
+                <span>{lang === 'uk' ? 'Партнер платформи • Вибір редакції' : 'Партнер платформы • Выбор редакции'}</span>
               </span>
             ) : (
               <span className="rounded-full bg-black/45 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-md border border-white/20">
@@ -620,7 +635,7 @@ export default function ChocoRadarApp({
                 rel="noopener noreferrer"
                 className="hover:underline hover:text-[#b06a1e] transition"
               >
-                {localizeText(maker.name, lang)}
+                {cleanDisplayName(localizeText(maker.name, lang))}
               </a>
             </h3>
             <p
@@ -651,7 +666,7 @@ export default function ChocoRadarApp({
                 }`}
               >
                 <Phone className="w-3.5 h-3.5 text-[#b06a1e] shrink-0" />
-                <span>{maker.phone.split(',')[0]}</span>
+                <span>{formatPhoneDisplay(maker.phone)}</span>
               </a>
             ) : (
               <div className="flex items-center gap-1.5 text-[#b06a1e]">
@@ -835,6 +850,20 @@ export default function ChocoRadarApp({
 
           {/* Right Header Triggers: Assortment Drawer, Sommelier Drawer, Lang Switcher */}
           <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
+            {/* Button: Methodology & Trust */}
+            <button
+              onClick={() => setIsMethodologyModalOpen(true)}
+              className={`hidden md:inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold border transition ${
+                isDark
+                  ? 'bg-[#362820] border-white/20 text-[#eee7dd] hover:bg-[#462b1f]'
+                  : 'bg-white border-[#e1d5c8] text-[#5a4638] hover:bg-[#f1e6da]'
+              }`}
+              title={lang === 'uk' ? 'Стандарти перевірки майстерень' : 'Стандарты проверки мастерских'}
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              <span>{lang === 'uk' ? 'Методологія 2027' : 'Методология 2027'}</span>
+            </button>
+
             {/* Button 1: Open Right Assortment Drawer */}
             <button
               onClick={() => {
@@ -981,12 +1010,12 @@ export default function ChocoRadarApp({
               </div>
 
               {/* Prominent City Filter Bar across Ukraine on Home */}
-              <div className="pt-2 flex items-center justify-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
+              <div className="pt-2 flex items-center justify-center gap-1.5 flex-wrap">
                 <span className="text-xs font-extrabold text-[#b06a1e] shrink-0 flex items-center gap-1 mr-1">
                   <MapPin className="w-3.5 h-3.5" />
                   <span>{lang === 'uk' ? 'Місто:' : 'Город:'}</span>
                 </span>
-                {CITY_FILTERS.map((city) => {
+                {POPULAR_CITIES.slice(0, 6).map((city) => {
                   const active = selectedCity === city.id;
                   return (
                     <button
@@ -1001,9 +1030,29 @@ export default function ChocoRadarApp({
                       }`}
                     >
                       {lang === 'uk' ? city.uk : city.ru}
+                      <span className="ml-1 opacity-60 text-[10px]">({city.count})</span>
                     </button>
                   );
                 })}
+                <button
+                  onClick={() => setIsCitySelectorModalOpen(true)}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-extrabold border transition flex items-center gap-1.5 ${
+                    selectedCity !== 'all' && !POPULAR_CITIES.slice(0, 6).some((c) => c.id === selectedCity)
+                      ? 'bg-[#b06a1e] text-white border-[#b06a1e] shadow-sm'
+                      : isDark
+                      ? 'border-[#e39851]/50 text-[#f0a556] hover:bg-[#462b1f]'
+                      : 'border-[#b06a1e]/40 bg-white text-[#b06a1e] hover:bg-[#fff8ef]'
+                  }`}
+                >
+                  <Search className="w-3.5 h-3.5" />
+                  <span>
+                    {selectedCity !== 'all' && !POPULAR_CITIES.slice(0, 6).some((c) => c.id === selectedCity)
+                      ? selectedCity
+                      : lang === 'uk'
+                      ? 'Усі 43 міста ▾'
+                      : 'Все 43 города ▾'}
+                  </span>
+                </button>
               </div>
             </div>
 
@@ -1275,6 +1324,119 @@ export default function ChocoRadarApp({
                   </div>
                 </div>
               </Link>
+            </div>
+
+            {/* ===============================================================
+                NEW 2027 PILLAR: TENDER EXCHANGE (СЦЕНАРІЙ 2: ІНДИВІДУАЛЬНІ ЗАМОВЛЕННЯ)
+            =============================================================== */}
+            <section className={`rounded-3xl border-2 p-6 sm:p-8 shadow-lg transition-all ${
+              isDark
+                ? 'bg-gradient-to-br from-[#2a1a12] via-[#22150e] to-[#2c141c] border-[#e39851]/40'
+                : 'bg-gradient-to-br from-[#fffbf5] via-[#faf0e4] to-[#fdeded] border-[#b06a1e]/30'
+            }`}>
+              <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                <div className="space-y-3 max-w-2xl">
+                  <div className="inline-flex items-center gap-1.5 rounded-full bg-[#b06a1e]/15 border border-[#b06a1e]/30 px-3 py-1 text-xs font-extrabold text-[#b06a1e]">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>{lang === 'uk' ? 'Сценарій 2: Індивідуальні замовлення' : 'Сценарий 2: Индивидуальные заказы'}</span>
+                  </div>
+                  <h2 className="font-serif text-2xl sm:text-3xl font-bold leading-tight">
+                    {lang === 'uk'
+                      ? 'Тендерна біржа CrafoHub: один запит — 3–5 пропозицій від майстрів вашого міста'
+                      : 'Тендерная биржа CrafoHub: один запрос — 3–5 предложений от мастеров вашего города'}
+                  </h2>
+                  <p className={`text-xs sm:text-sm leading-relaxed ${isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'}`}>
+                    {lang === 'uk'
+                      ? 'Потрібен авторський торт на свято, їстівний зефірний букет або корпоративні подарунки? Не пишіть у 10 різних Instagram-акаунтів вручну. Опишіть задачу за 1 хвилину — вільні перевірені кондитери вашого міста самі надішлють розрахунок вартості та фото зразків.'
+                      : 'Нужен авторский торт на праздник, съедобный зефирный букет или корпоративные подарки? Не пишите в 10 разных Instagram-аккаунтов вручную. Опишите задачу за 1 минуту — свободные проверенные кондитеры вашего города сами пришлют расчет стоимости и фото образцов.'}
+                  </p>
+                  <div className="flex flex-wrap gap-4 pt-1 text-xs font-bold">
+                    <span className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400">
+                      <CheckCircle2 className="w-4 h-4 shrink-0" />
+                      {lang === 'uk' ? 'Відповідь за 1 годину' : 'Ответ за 1 час'}
+                    </span>
+                    <span className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400">
+                      <CheckCircle2 className="w-4 h-4 shrink-0" />
+                      {lang === 'uk' ? 'Без націнок та посередників' : 'Без наценок и посредников'}
+                    </span>
+                    <span className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400">
+                      <CheckCircle2 className="w-4 h-4 shrink-0" />
+                      {lang === 'uk' ? 'Тільки перевірені майстерні' : 'Только проверенные мастерские'}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="shrink-0 w-full sm:w-auto flex flex-col sm:flex-row lg:flex-col gap-3">
+                  <button
+                    onClick={() => {
+                      setTenderCategory('cake');
+                      setIsTenderModalOpen(true);
+                    }}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#b06a1e] to-[#8c4f12] hover:brightness-110 text-white font-extrabold px-6 py-3.5 text-xs sm:text-sm shadow-md transition"
+                  >
+                    <Gift className="w-4 h-4" />
+                    <span>{lang === 'uk' ? '🎯 Оголосити тендер безкоштовно' : '🎯 Объявить тендер бесплатно'}</span>
+                  </button>
+                  <button
+                    onClick={() => setIsMethodologyModalOpen(true)}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border-2 border-[#b06a1e]/40 hover:bg-[#b06a1e]/10 text-[#302016] dark:text-[#f0a556] font-bold px-5 py-3 text-xs transition"
+                  >
+                    <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                    <span>{lang === 'uk' ? 'Як ми верифікуємо майстрів' : 'Как мы верифицируем мастеров'}</span>
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            {/* ===============================================================
+                2 TRUST STANDARDS OF CRAFOHUB 2027 (ЦІНА ЗА 100 Г + ЧИСТИЙ СКЛАД)
+            =============================================================== */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className={`p-5 sm:p-6 rounded-3xl border transition ${
+                isDark ? 'bg-[#261b16] border-white/10' : 'bg-[#fffbf6] border-[#e1d5c8] shadow-sm'
+              }`}>
+                <div className="flex items-center gap-3">
+                  <span className="w-10 h-10 rounded-2xl bg-[#b06a1e]/15 text-[#b06a1e] flex items-center justify-center font-bold text-lg">
+                    ⚖️
+                  </span>
+                  <div>
+                    <h3 className="font-serif text-base sm:text-lg font-bold">
+                      {lang === 'uk' ? 'Стандарт «Чесна ціна за 100 г»' : 'Стандарт «Честная цена за 100 г»'}
+                    </h3>
+                    <span className="text-[11px] font-bold text-[#b06a1e]">
+                      {lang === 'uk' ? 'Захист від шрінкфляції' : 'Защита от шринкфляции'}
+                    </span>
+                  </div>
+                </div>
+                <p className={`mt-3 text-xs sm:text-sm leading-relaxed ${isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'}`}>
+                  {lang === 'uk'
+                    ? 'Коробка цукерок може важити як 70 г, так і 250 г при однаковій зовнішній ціні. CrafoHub автоматично розраховує питому вартість за 100 грамів для кожного товару, щоб ви бачили чесне співвідношення ціни та об’єму.'
+                    : 'Коробка конфет может весить как 70 г, так и 250 г при одинаковой внешней цене. CrafoHub автоматически рассчитывает удельную стоимость за 100 граммов для каждого товара, чтобы вы видели честное соотношение цены и объема.'}
+                </p>
+              </div>
+
+              <div className={`p-5 sm:p-6 rounded-3xl border transition ${
+                isDark ? 'bg-[#261b16] border-white/10' : 'bg-[#fffbf6] border-[#e1d5c8] shadow-sm'
+              }`}>
+                <div className="flex items-center gap-3">
+                  <span className="w-10 h-10 rounded-2xl bg-emerald-500/15 text-emerald-600 flex items-center justify-center font-bold text-lg">
+                    🌱
+                  </span>
+                  <div>
+                    <h3 className="font-serif text-base sm:text-lg font-bold">
+                      {lang === 'uk' ? 'Бейдж «100% Чистий склад»' : 'Бейдж «100% Чистый состав»'}
+                    </h3>
+                    <span className="text-[11px] font-bold text-emerald-600">
+                      {lang === 'uk' ? 'Clean Label стандарт 2027' : 'Clean Label стандарт 2027'}
+                    </span>
+                  </div>
+                </div>
+                <p className={`mt-3 text-xs sm:text-sm leading-relaxed ${isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'}`}>
+                  {lang === 'uk'
+                    ? 'Усі майстерні проходять перевірку сировини: виключно натуральне какао-масло (Barry Callebaut, Fino de Aroma), ягоди, горіхи та агар-агар. Жодних пальмових еквівалентів, штучних замінників чи дешевої кондитерської глазурі.'
+                    : 'Все мастерские проходят проверку сырья: исключительно натуральное какао-масло (Barry Callebaut, Fino de Aroma), ягоды, орехи и агар-агар. Никаких пальмовых эквивалентов, искусственных заменителей или дешевой кондитерской глазури.'}
+                </p>
+              </div>
             </div>
 
             {/* FLAGSHIP TOP-4 SHOWCASE ON HOME */}
@@ -1793,6 +1955,13 @@ export default function ChocoRadarApp({
             <Link href="/zefir" onClick={() => handleSelectSection('zefir')} className="hover:text-[#b06a1e]">
               🌸 {lang === 'uk' ? 'Зефір' : 'Зефир'}
             </Link>
+            <button
+              onClick={() => setIsMethodologyModalOpen(true)}
+              className="hover:text-[#b06a1e] flex items-center gap-1"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              <span>{lang === 'uk' ? 'Методологія відбору' : 'Методология отбора'}</span>
+            </button>
             <button
               onClick={() => {
                 setSelectedPlanForModal('PRO або Безкоштовний');
@@ -2351,32 +2520,52 @@ export default function ChocoRadarApp({
         </div>
       )}
 
-      {/* MODAL 2: Tender Request */}
+      {/* MODAL 2: Upgraded Tender Request */}
       {isTenderModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#fefbf7] text-[#302016] border border-[#e1d5c8] rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
-            <div className="flex items-start justify-between">
-              <h2 className="font-serif text-xl font-bold">
-                {lang === 'uk'
-                  ? 'Замовити торт, букет чи шоколадний набір'
-                  : 'Заказать торт, букет или шоколадный набор'}
-              </h2>
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-[#fefbf7] text-[#302016] border border-[#e1d5c8] rounded-3xl max-w-lg w-full p-6 sm:p-7 space-y-4 shadow-2xl my-auto">
+            <div className="flex items-start justify-between border-b border-[#e1d5c8] pb-3">
+              <div>
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#b06a1e]">
+                  {lang === 'uk' ? 'Тендерна біржа CrafoHub 2027' : 'Тендерная биржа CrafoHub 2027'}
+                </span>
+                <h2 className="font-serif text-xl sm:text-2xl font-bold mt-0.5">
+                  {lang === 'uk'
+                    ? 'Запит на індивідуальне замовлення'
+                    : 'Запрос на индивидуальный заказ'}
+                </h2>
+              </div>
               <button
                 onClick={() => {
                   setIsTenderModalOpen(false);
                   setTenderSubmitted(false);
                 }}
-                className="p-2 rounded-full bg-[#f1e6da]"
+                className="p-2 rounded-full bg-[#f1e6da] hover:bg-[#e5d5c3] transition shrink-0"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
+
             {tenderSubmitted ? (
-              <div className="bg-[#f1e6da] rounded-2xl p-6 text-center space-y-2">
-                <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto" />
-                <div className="font-bold">
-                  {lang === 'uk' ? 'Заявку передано майстрам!' : 'Заявка передана мастерам!'}
+              <div className="bg-[#f1e6da] rounded-2xl p-6 text-center space-y-3">
+                <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
+                <div className="font-serif text-lg font-bold">
+                  {lang === 'uk' ? 'Ваш запит успішно зареєстровано!' : 'Ваш запрос успешно зарегистрирован!'}
                 </div>
+                <p className="text-xs sm:text-sm text-[#5a4638] leading-relaxed">
+                  {lang === 'uk'
+                    ? 'Ми надіслали бриф вільним перевіреним майстерням вашого міста. Очікуйте 3–5 персональних пропозицій з фото та цінами у Telegram/Viber протягом 1 години.'
+                    : 'Мы отправили бриф свободным проверенным мастерским вашего города. Ожидайте 3–5 персональных предложений с фото и ценами в Telegram/Viber в течение 1 часа.'}
+                </p>
+                <button
+                  onClick={() => {
+                    setIsTenderModalOpen(false);
+                    setTenderSubmitted(false);
+                  }}
+                  className="rounded-full bg-[#462b1f] text-white px-5 py-2 text-xs font-bold"
+                >
+                  {lang === 'uk' ? 'Зрозуміло, дякую!' : 'Понятно, спасибо!'}
+                </button>
               </div>
             ) : (
               <form
@@ -2386,32 +2575,283 @@ export default function ChocoRadarApp({
                 }}
                 className="space-y-3 text-xs sm:text-sm"
               >
-                <input
-                  type="text"
-                  required
-                  placeholder={lang === 'uk' ? 'Ваше місто' : 'Ваш город'}
-                  className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
-                />
-                <input
-                  type="text"
-                  required
-                  placeholder={lang === 'uk' ? 'Що бажаєте замовити?' : 'Что хотите заказать?'}
-                  className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
-                />
-                <input
-                  type="text"
-                  required
-                  placeholder={lang === 'uk' ? 'Ваш телефон або Telegram' : 'Ваш телефон или Telegram'}
-                  className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
-                />
+                {/* Category selector */}
+                <div>
+                  <label className="block text-[11px] font-bold text-[#715f53] mb-1.5">
+                    {lang === 'uk' ? 'Що потрібно виготовити?' : 'Что необходимо изготовить?'}
+                  </label>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    {[
+                      { id: 'cake', uk: '🎂 Торт на свято', ru: '🎂 Торт на праздник' },
+                      { id: 'zefir', uk: '🌸 Зефірний букет', ru: '🌸 Зефирный букет' },
+                      { id: 'chocolate', uk: '🍫 Шоколадний набір', ru: '🍫 Шоколадный набор' },
+                      { id: 'corporate', uk: '🎁 Корпоративне', ru: '🎁 Корпоративное' },
+                    ].map((tab) => (
+                      <button
+                        key={tab.id}
+                        type="button"
+                        onClick={() => setTenderCategory(tab.id as any)}
+                        className={`py-2 px-3 rounded-xl text-xs font-bold transition border ${
+                          tenderCategory === tab.id
+                            ? 'bg-[#462b1f] text-white border-[#462b1f]'
+                            : 'bg-white border-[#d4c3b3] text-[#302016] hover:bg-[#fff8ef]'
+                        }`}
+                      >
+                        {lang === 'uk' ? tab.uk : tab.ru}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div>
+                    <label className="block text-[11px] font-bold text-[#715f53] mb-1">
+                      {lang === 'uk' ? 'Місто доставки/самовивозу' : 'Город доставки/самовывоза'}
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      defaultValue={selectedCity !== 'all' ? selectedCity : ''}
+                      placeholder={lang === 'uk' ? 'Наприклад: Харків' : 'Например: Харьков'}
+                      className="w-full bg-white border border-[#d4c3b3] rounded-xl px-3.5 py-2.5 outline-none focus:border-[#b06a1e]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold text-[#715f53] mb-1">
+                      {lang === 'uk' ? 'Дата події / дедлайн' : 'Дата события / дедлайн'}
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder={lang === 'uk' ? 'Наприклад: 20 травня' : 'Например: 20 мая'}
+                      className="w-full bg-white border border-[#d4c3b3] rounded-xl px-3.5 py-2.5 outline-none focus:border-[#b06a1e]"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-[#715f53] mb-1">
+                    {lang === 'uk' ? 'Опис замовлення (вага, кількість гостей, ідея)' : 'Описание заказа (вес, число гостей, идея)'}
+                  </label>
+                  <textarea
+                    rows={2}
+                    required
+                    placeholder={lang === 'uk'
+                      ? 'Наприклад: торт на 15 людей, начинка манго-маракуйя або шоколадний велюр...'
+                      : 'Например: торт на 15 человек, начинка манго-маракуйя или шоколадный велюр...'}
+                    className="w-full bg-white border border-[#d4c3b3] rounded-xl px-3.5 py-2 outline-none focus:border-[#b06a1e]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-[#715f53] mb-1">
+                    {lang === 'uk' ? 'Куди надіслати пропозиції (Телефон / Telegram / Viber)' : 'Куда прислать предложения (Телефон / Telegram / Viber)'}
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="+38 (0XX) XXX-XX-XX або @username"
+                    className="w-full bg-white border border-[#d4c3b3] rounded-xl px-3.5 py-2.5 outline-none focus:border-[#b06a1e]"
+                  />
+                </div>
+
                 <button
                   type="submit"
-                  className="w-full bg-[#b06a1e] hover:bg-[#965715] text-white font-bold py-3 rounded-full"
+                  className="w-full bg-gradient-to-r from-[#b06a1e] to-[#8c4f12] hover:brightness-110 text-white font-extrabold py-3.5 rounded-full shadow-md transition"
                 >
-                  {lang === 'uk' ? 'Надіслати запит' : 'Отправить запрос'}
+                  {lang === 'uk' ? '🎯 Отримати 3–5 розрахунків безкоштовно' : '🎯 Получить 3–5 расчетов бесплатно'}
                 </button>
               </form>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: Methodology & Trust Standard 2027 */}
+      {isMethodologyModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-[#fefbf7] text-[#302016] border border-[#e1d5c8] rounded-3xl max-w-2xl w-full p-6 sm:p-8 space-y-6 shadow-2xl max-h-[90vh] overflow-y-auto my-auto">
+            <div className="flex items-start justify-between border-b border-[#e1d5c8] pb-4">
+              <div>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600/15 px-3 py-1 text-xs font-extrabold text-emerald-700">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>Стандарт прозорості CrafoHub 2027</span>
+                </span>
+                <h2 className="font-serif text-2xl sm:text-3xl font-bold mt-1.5">
+                  {lang === 'uk'
+                    ? 'Методологія відбору та верифікації майстерень'
+                    : 'Методология отбора и верификации мастерских'}
+                </h2>
+              </div>
+              <button
+                onClick={() => setIsMethodologyModalOpen(false)}
+                className="p-2 rounded-full bg-[#f1e6da] hover:bg-[#e5d5c3] transition shrink-0"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="space-y-4 text-xs sm:text-sm leading-relaxed text-[#4a3b32]">
+              <p className="font-medium text-[#2d1f17]">
+                {lang === 'uk'
+                  ? 'CrafoHub — це національний гід та незалежний навігатор крафтових солодощів України. Наша мета на 2027 рік — надати українцям сервіс найвищого світового рівня для замовлення справжнього шоколаду, авторських тортів та натурального зефіру.'
+                  : 'CrafoHub — это национальный гид и независимый навигатор крафтовых сладостей Украины. Наша цель на 2027 год — предоставить украинцам сервис высшего мирового уровня для заказа настоящего шоколада, авторских тортов и натурального зефира.'}
+              </p>
+
+              <div className="space-y-3 pt-2">
+                <h3 className="font-serif text-base font-bold text-[#302016]">
+                  {lang === 'uk' ? '5 обов’язкових критеріїв перевірки кожної майстерні:' : '5 обязательных критериев проверки каждой мастерской:'}
+                </h3>
+
+                <div className="space-y-3">
+                  <div className="p-3.5 rounded-2xl bg-[#fff8ef] border border-[#e8d5c4] space-y-1">
+                    <div className="font-bold text-[#b06a1e] flex items-center gap-1.5">
+                      <span>1. 100% Чистий склад (Clean Label)</span>
+                    </div>
+                    <p className="text-[12px] sm:text-xs">
+                      {lang === 'uk'
+                        ? 'Тільки справжнє какао-масло (Fino de Aroma, Barry Callebaut, Cacao Barry). Категорична заборона пальмової олії, гідрогенізованих кондитерських жирів та замінників какао-масла (CBS/CBR). У зефірі — натуральне ягідне або яблучне пюре та агар-агар.'
+                        : 'Только настоящее какао-масло (Fino de Aroma, Barry Callebaut, Cacao Barry). Категорический запрет пальмового масла, гидрогенизированных кондитерских жиров и заменителей какао-масла (CBS/CBR). В зефире — натуральное ягодное или яблочное пюре и агар-агар.'}
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-[#fff8ef] border border-[#e8d5c4] space-y-1">
+                    <div className="font-bold text-[#b06a1e] flex items-center gap-1.5">
+                      <span>2. Свіжість партій та контроль логістики</span>
+                    </div>
+                    <p className="text-[12px] sm:text-xs">
+                      {lang === 'uk'
+                        ? 'Продукція не зберігається місяцями на складах супермаркетів. Майстри виготовляють десерти безпосередньо під замовлення або свіжими лімітованими партіями (24–48 годин) з термопакуванням.'
+                        : 'Продукция не хранится месяцами на складах супермаркетов. Мастера изготавливают десерты непосредственно под заказ или свежими лимитированными партиями (24–48 часов) с термоупаковкой.'}
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-[#fff8ef] border border-[#e8d5c4] space-y-1">
+                    <div className="font-bold text-[#b06a1e] flex items-center gap-1.5">
+                      <span>3. Прозоре порівняння ціни за 100 грамів</span>
+                    </div>
+                    <p className="text-[12px] sm:text-xs">
+                      {lang === 'uk'
+                        ? 'Ми виступаємо проти оманливого зменшення ваги упаковки. Каталог розраховує ціну за 100 грамів, щоб ви завжди знали реальну собівартість виробу.'
+                        : 'Мы выступаем против обманчивого уменьшения веса упаковки. Каталог рассчитывает цену за 100 граммов, чтобы вы всегда знали реальную себестоимость изделия.'}
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-[#fff8ef] border border-[#e8d5c4] space-y-1">
+                    <div className="font-bold text-[#b06a1e] flex items-center gap-1.5">
+                      <span>4. Репутаційний аудит та реальні відгуки</span>
+                    </div>
+                    <p className="text-[12px] sm:text-xs">
+                      {lang === 'uk'
+                        ? 'Кожна майстерня проходить перевірку відкритих відгуків у Google Maps, Instagram та маркетплейсах. Середній рейтинг має бути не нижче 4.8/5.0.'
+                        : 'Каждая мастерская проходит проверку открытых отзывов в Google Maps, Instagram и маркетплейсах. Средний рейтинг должен быть не ниже 4.8/5.0.'}
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-[#fff8ef] border border-[#e8d5c4] space-y-1">
+                    <div className="font-bold text-[#b06a1e] flex items-center gap-1.5">
+                      <span>5. Чесна реклама та відкритість партнерств</span>
+                    </div>
+                    <p className="text-[12px] sm:text-xs">
+                      {lang === 'uk'
+                        ? 'Майстерні розміщуються в каталозі безкоштовно за умови відповідності стандартам якості. Спеціальні виділення позначаються бейджем «Партнер платформи / Вибір редакції» відповідно до закону України «Про рекламу».'
+                        : 'Мастерские размещаются в каталоге бесплатно при условии соответствия стандартам качества. Специальные выделения маркируются бейджем «Партнер платформы / Выбор редакции» в соответствии с законом Украины «О рекламе».'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-[#e1d5c8] pt-4 space-y-1">
+                <div className="font-bold text-[#302016]">Контакти редакції та служби верифікації:</div>
+                <div className="text-xs text-[#715f53]">
+                  Електронна пошта: <a href="mailto:editor@crafohub.com.ua" className="underline text-[#b06a1e]">editor@crafohub.com.ua</a> | Підтримка: <a href="https://t.me/crafohub_ua" target="_blank" rel="noopener noreferrer" className="underline text-[#b06a1e]">Telegram @crafohub_ua</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: City Selector with Search (43 Cities of Ukraine) */}
+      {isCitySelectorModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-[#fefbf7] text-[#302016] border border-[#e1d5c8] rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl max-h-[85vh] flex flex-col">
+            <div className="flex items-center justify-between border-b border-[#e1d5c8] pb-3">
+              <div className="flex items-center gap-2">
+                <MapPin className="w-5 h-5 text-[#b06a1e]" />
+                <h2 className="font-serif text-xl font-bold">
+                  {lang === 'uk' ? 'Оберіть місто' : 'Выберите город'}
+                </h2>
+              </div>
+              <button
+                onClick={() => {
+                  setIsCitySelectorModalOpen(false);
+                  setCityFilterSearch('');
+                }}
+                className="p-1.5 rounded-full bg-[#f1e6da] hover:bg-[#e5d5c3] transition"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Search Input */}
+            <div className="relative">
+              <Search className="w-4 h-4 text-[#8c6b54] absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={cityFilterSearch}
+                onChange={(e) => setCityFilterSearch(e.target.value)}
+                placeholder={lang === 'uk' ? 'Швидкий пошук міста...' : 'Быстрый поиск города...'}
+                className="w-full bg-white border border-[#d4c3b3] rounded-full pl-9 pr-4 py-2 text-xs sm:text-sm outline-none focus:border-[#b06a1e]"
+              />
+            </div>
+
+            {/* City Grid */}
+            <div className="flex-1 overflow-y-auto space-y-1.5 pr-1 max-h-80">
+              <button
+                onClick={() => {
+                  setSelectedCity('all');
+                  setIsCitySelectorModalOpen(false);
+                  setCityFilterSearch('');
+                }}
+                className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition ${
+                  selectedCity === 'all'
+                    ? 'bg-[#462b1f] text-white'
+                    : 'bg-[#fff8ef] hover:bg-[#f1e6da] text-[#302016]'
+                }`}
+              >
+                <span>🇺🇦 {lang === 'uk' ? 'Вся Україна (Всі міста)' : 'Вся Украина (Все города)'}</span>
+                <span className="opacity-70 text-xs">105 майстерень</span>
+              </button>
+
+              {POPULAR_CITIES.filter((c) => c.id !== 'all')
+                .filter((c) =>
+                  !cityFilterSearch ||
+                  c.uk.toLowerCase().includes(cityFilterSearch.toLowerCase()) ||
+                  c.ru.toLowerCase().includes(cityFilterSearch.toLowerCase())
+                )
+                .map((city) => {
+                  const active = selectedCity === city.id;
+                  return (
+                    <button
+                      key={city.id}
+                      onClick={() => {
+                        setSelectedCity(city.id);
+                        setIsCitySelectorModalOpen(false);
+                        setCityFilterSearch('');
+                      }}
+                      className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition ${
+                        active
+                          ? 'bg-[#b06a1e] text-white'
+                          : 'bg-[#fff8ef] hover:bg-[#f1e6da] text-[#302016]'
+                      }`}
+                    >
+                      <span>📍 {lang === 'uk' ? city.uk : city.ru}</span>
+                      <span className="opacity-70 text-xs">{city.count} {lang === 'uk' ? 'майстерень' : 'мастерских'}</span>
+                    </button>
+                  );
+                })}
+            </div>
           </div>
         </div>
       )}

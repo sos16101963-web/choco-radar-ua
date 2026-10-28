@@ -6,9 +6,9 @@ import { CATEGORIES } from '@/data/chocolateData';
 import { ArrowUpRight, BookOpen, Clock, Sparkles, MapPin } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Блог CraftHub — Рейтинги, огляди та гіди з вибору крафтового шоколаду, зефіру і тортів України',
+  title: 'Блог CrafoHub — Рейтинги, огляди та гіди з вибору крафтового шоколаду, зефіру і тортів України',
   description:
-    'Експертні статті CraftHub: як обрати справжню крафтову плитку шоколаду та батончик, шоколадні квіти Callebaut, безпечні солодощі для дітей, вироби без цукру, зефірні букети та авторські торти.',
+    'Експертні статті CrafoHub: як обрати справжню крафтову плитку шоколаду та батончик, шоколадні квіти Callebaut, безпечні солодощі для дітей, вироби без цукру, зефірні букети та авторські торти.',
   alternates: {
     canonical: 'https://choco-radar-ua.vercel.app/blog',
   },
@@ -18,7 +18,7 @@ export default function BlogIndexPage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
-    name: 'Експертний блог CraftHub Україна',
+    name: 'Експертний блог CrafoHub Україна',
     url: 'https://choco-radar-ua.vercel.app/blog',
     description:
       'Огляди, рейтинги та гіди з вибору крафтового шоколаду, шоколадних квітів, виробів без цукру, солодощів для дітей, зефіру та авторських тортів в Україні.',
@@ -30,7 +30,7 @@ export default function BlogIndexPage() {
       url: `https://choco-radar-ua.vercel.app/blog/${art.slug}`,
       author: {
         '@type': 'Organization',
-        name: 'CraftHub Україна',
+        name: 'CrafoHub Україна',
       },
     })),
   };
@@ -67,7 +67,7 @@ export default function BlogIndexPage() {
             href="/"
             className="rounded-full bg-[#462b1f] hover:bg-[#b06a1e] text-white px-4 py-2 text-xs font-bold transition"
           >
-            ← До каталогу 104 майстерень
+            ← До каталогу 105 майстерень
           </Link>
         </div>
       </header>
@@ -76,7 +76,7 @@ export default function BlogIndexPage() {
         <div className="max-w-3xl space-y-3">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-[#e39851]/20 border border-[#b06a1e]/40 px-3.5 py-1 text-xs font-bold text-[#8c4f12]">
             <BookOpen className="w-3.5 h-3.5" />
-            <span>Експертний Журнал та SEO-Навігатор CraftHub 2027</span>
+            <span>Експертний Журнал та SEO-Навігатор CrafoHub 2027</span>
           </span>
           <h1 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight">
             Блог про крафтовий шоколад, солодощі без цукру, торти та букети

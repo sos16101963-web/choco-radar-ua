@@ -10,8 +10,8 @@ export default function HomePage() {
       {
         '@type': 'Organization',
         '@id': 'https://choco-radar-ua.vercel.app/#organization',
-        name: 'CraftHub Україна',
-        alternateName: 'CraftHub — Платформа крафтових солодощів України',
+        name: 'CrafoHub Україна',
+        alternateName: 'CrafoHub — Платформа крафтових солодощів України',
         url: 'https://choco-radar-ua.vercel.app',
         description:
           'Всеукраїнська сервісна платформа крафтових виробників шоколаду, цукерок, зефіру та авторських тортів.',
@@ -21,7 +21,7 @@ export default function HomePage() {
         '@type': 'WebSite',
         '@id': 'https://choco-radar-ua.vercel.app/#website',
         url: 'https://choco-radar-ua.vercel.app',
-        name: 'CraftHub — Навігатор крафтового шоколаду, зефіру та тортів України',
+        name: 'CrafoHub — Навігатор крафтового шоколаду, зефіру та тортів України',
         publisher: {
           '@id': 'https://choco-radar-ua.vercel.app/#organization',
         },
@@ -34,7 +34,7 @@ export default function HomePage() {
           {
             '@type': 'ListItem',
             position: 1,
-            name: 'CraftHub Україна',
+            name: 'CrafoHub Україна',
             item: 'https://choco-radar-ua.vercel.app',
           },
           ...CATEGORIES.filter((c) => c.slug !== 'all').map((cat, idx) => ({
@@ -47,7 +47,7 @@ export default function HomePage() {
       },
       {
         '@type': 'ItemList',
-        name: 'Рейтинг крафтових виробників шоколаду, зефіру та тортів України 2027 (CraftHub)',
+        name: 'Рейтинг крафтових виробників шоколаду, зефіру та тортів України 2027 (CrafoHub)',
         itemListOrder: 'https://schema.org/ItemListOrderDescending',
         numberOfItems: Math.min(MAKERS.length, 30),
         itemListElement: MAKERS.slice(0, 30).map((maker, index) => ({
@@ -76,7 +76,7 @@ export default function HomePage() {
       },
       {
         '@type': 'ItemList',
-        name: 'Порівняння крафтових виробів за ціною за 100 г (CraftHub)',
+        name: 'Порівняння крафтових виробів за ціною за 100 г (CrafoHub)',
         itemListOrder: 'https://schema.org/ItemListOrderDescending',
         numberOfItems: PRODUCTS.length,
         itemListElement: PRODUCTS.map((product, index) => ({
@@ -123,7 +123,7 @@ export default function HomePage() {
             name: 'Які солодощі обрати в рубриках «Без цукру» та «Для дітей»?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'На платформі CraftHub рубрики розділені для зручності: у розділі «Без цукру» представлені вироби на меду, кокосовому нектарі, еритритолі та стевії для веганів і діабетиків, а в окремій рубриці «Для дітей» — безпечний дитячий шоколад і батончики на керобі без кофеїну, натуральна ягідна пастила та шоколадні фігурки.',
+              text: 'На платформі CrafoHub рубрики розділені для зручності: у розділі «Без цукру» представлені вироби на меду, кокосовому нектарі, еритритолі та стевії для веганів і діабетиків, а в окремій рубриці «Для дітей» — безпечний дитячий шоколад і батончики на керобі без кофеїну, натуральна ягідна пастила та шоколадні фігурки.',
             },
           },
           {

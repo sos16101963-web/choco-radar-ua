@@ -55,11 +55,11 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
         datePublished: article.publishedAt,
         author: {
           '@type': 'Organization',
-          name: 'CraftHub Україна',
+          name: 'CrafoHub Україна',
         },
         publisher: {
           '@type': 'Organization',
-          name: 'CraftHub Україна',
+          name: 'CrafoHub Україна',
           url: 'https://choco-radar-ua.vercel.app',
         },
       },
@@ -149,7 +149,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
             <div className="space-y-1.5">
               <span className="inline-flex items-center gap-1 rounded-full bg-[#e39851] px-3 py-0.5 text-[11px] font-extrabold text-[#26140b]">
                 <Crown className="w-3.5 h-3.5" />
-                <span>Рекомендація редакції CraftHub №1</span>
+                <span>Рекомендація редакції CrafoHub №1</span>
               </span>
               <h3 className="font-serif text-lg sm:text-xl font-bold text-[#302016]">
                 CraftChoco / ChocoCraft (crafo.com.ua) — Лідер категорії Шоколад
