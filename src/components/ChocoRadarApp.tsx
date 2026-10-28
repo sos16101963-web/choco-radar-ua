@@ -1878,10 +1878,10 @@ export default function ChocoRadarApp({
                     {filteredMakers.slice(0, 3).map((maker, idx) => renderMakerCard(maker, idx))}
                   </div>
 
-                  {/* REMAINING PRODUCERS AS A CLEAN DIRECTORY LIST */}
+                  {/* REMAINING PRODUCERS AS A COLLAPSIBLE DIRECTORY LIST */}
                   {filteredMakers.length > 3 && (
                     <div className="space-y-4 pt-6 border-t border-[#e1d5c8]">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#fbf6ee] dark:bg-[#261b16] rounded-2xl p-4 sm:p-5 border border-[#e1d5c8] dark:border-white/10">
                         <div>
                           <h3 className="font-serif text-lg sm:text-xl font-bold flex items-center gap-2">
                             <span>
@@ -1899,127 +1899,172 @@ export default function ChocoRadarApp({
                               : 'Полный список мастерских с прямыми переходами к заказу'}
                           </p>
                         </div>
+
+                        <button
+                          type="button"
+                          onClick={() => setShowAllMakers((prev) => !prev)}
+                          className={`inline-flex items-center justify-center gap-2 rounded-full border-2 px-5 py-2.5 text-xs sm:text-sm font-extrabold transition shadow-xs shrink-0 ${
+                            showAllMakers
+                              ? 'bg-[#462b1f] text-white border-[#462b1f]'
+                              : isDark
+                              ? 'bg-[#362820] border-[#e39851]/60 text-[#f0a556] hover:bg-[#462b1f]'
+                              : 'bg-white border-[#b06a1e]/40 text-[#462b1f] hover:bg-[#f1e6da]'
+                          }`}
+                        >
+                          <span>
+                            {showAllMakers
+                              ? lang === 'uk'
+                                ? 'Сховати список майстерень'
+                                : 'Скрыть список мастерских'
+                              : lang === 'uk'
+                              ? `Показати список (${filteredMakers.length - 3})`
+                              : `Показать список (${filteredMakers.length - 3})`}
+                          </span>
+                          {showAllMakers ? (
+                            <ChevronUp className="w-4 h-4" />
+                          ) : (
+                            <ChevronDown className="w-4 h-4" />
+                          )}
+                        </button>
                       </div>
 
-                      <div
-                        className={`rounded-3xl border overflow-hidden divide-y ${
-                          isDark
-                            ? 'bg-[#261b16] border-white/10 divide-white/10'
-                            : 'bg-[#fefbf7] border-[#e1d5c8] divide-[#ebdcd0]'
-                        }`}
-                      >
-                        {filteredMakers.slice(3).map((maker, idx) => {
-                          const globalRank = idx + 4;
-                          const effectiveCategory = activeVariant.categorySlug;
-                          const customVariantUrl = activeVariant.customDirectUrls?.[maker.id];
-                          const categoryDirectUrl =
-                            customVariantUrl || getMakerCategoryUrl(maker, effectiveCategory);
-                          const directDestinationUrl = categoryDirectUrl || maker.websiteUrl;
-                          const cleanDomain = directDestinationUrl
-                            .replace('https://www.', '')
-                            .replace('https://', '')
-                            .replace(/\/$/, '');
+                      {showAllMakers && (
+                        <>
+                          <div
+                            className={`rounded-3xl border overflow-hidden divide-y ${
+                              isDark
+                                ? 'bg-[#261b16] border-white/10 divide-white/10'
+                                : 'bg-[#fefbf7] border-[#e1d5c8] divide-[#ebdcd0]'
+                            }`}
+                          >
+                            {filteredMakers.slice(3).map((maker, idx) => {
+                              const globalRank = idx + 4;
+                              const effectiveCategory = activeVariant.categorySlug;
+                              const customVariantUrl = activeVariant.customDirectUrls?.[maker.id];
+                              const categoryDirectUrl =
+                                customVariantUrl || getMakerCategoryUrl(maker, effectiveCategory);
+                              const directDestinationUrl = categoryDirectUrl || maker.websiteUrl;
+                              const cleanDomain = directDestinationUrl
+                                .replace('https://www.', '')
+                                .replace('https://', '')
+                                .replace(/\/$/, '');
 
-                          return (
-                            <div
-                              key={maker.id}
-                              className="p-3.5 sm:p-4.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 transition hover:bg-black/5 dark:hover:bg-white/5"
-                            >
-                              <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
-                                <span className="text-xs sm:text-sm font-extrabold text-[#b06a1e] w-7 shrink-0 text-center">
-                                  #{globalRank}
-                                </span>
+                              return (
+                                <div
+                                  key={maker.id}
+                                  className="p-3.5 sm:p-4.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 transition hover:bg-black/5 dark:hover:bg-white/5"
+                                >
+                                  <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                                    <span className="text-xs sm:text-sm font-extrabold text-[#b06a1e] w-7 shrink-0 text-center">
+                                      #{globalRank}
+                                    </span>
 
-                                {maker.imageUrl ? (
-                                  <div
-                                    onClick={() => setActiveMakerModal(maker)}
-                                    className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl overflow-hidden shrink-0 border border-black/10 bg-[#3a2113] cursor-pointer group"
-                                  >
-                                    <img
-                                      src={maker.imageUrl}
-                                      alt={maker.name}
-                                      className="w-full h-full object-cover object-center transition-transform group-hover:scale-110"
-                                      loading="lazy"
-                                    />
+                                    {maker.imageUrl ? (
+                                      <div
+                                        onClick={() => setActiveMakerModal(maker)}
+                                        className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl overflow-hidden shrink-0 border border-black/10 bg-[#3a2113] cursor-pointer group"
+                                      >
+                                        <img
+                                          src={maker.imageUrl}
+                                          alt={maker.name}
+                                          className="w-full h-full object-cover object-center transition-transform group-hover:scale-110"
+                                          loading="lazy"
+                                        />
+                                      </div>
+                                    ) : (
+                                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#f1e6da] dark:bg-[#362820] text-xl flex items-center justify-center shrink-0">
+                                        {effectiveCategory === 'avtorski-torty-ta-deserty'
+                                          ? '🎂'
+                                          : effectiveCategory === 'kraftovyi-zefir-ta-bukety'
+                                          ? '🌸'
+                                          : '🍫'}
+                                      </div>
+                                    )}
+
+                                    <div className="min-w-0 flex-1">
+                                      <div className="flex flex-wrap items-center gap-2">
+                                        <a
+                                          href={directDestinationUrl}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="font-bold text-sm sm:text-base leading-snug hover:underline hover:text-[#b06a1e] transition truncate"
+                                        >
+                                          {cleanDisplayName(localizeText(maker.name, lang))}
+                                        </a>
+                                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5">
+                                          <CheckCircle2 className="w-3 h-3" />
+                                          <span>{lang === 'uk' ? 'Перевірено' : 'Проверено'}</span>
+                                        </span>
+                                        <span className="text-xs font-bold text-[#b06a1e]">
+                                          ★ {maker.rating}
+                                        </span>
+                                      </div>
+
+                                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs text-[#715f53] dark:text-[#a79d91]">
+                                        <span className="flex items-center gap-1 shrink-0 font-medium">
+                                          <MapPin className="w-3 h-3 text-[#b06a1e]" />
+                                          <span>{localizeText(maker.city, lang)}</span>
+                                        </span>
+                                        <span className="hidden sm:inline opacity-40">•</span>
+                                        <span className="line-clamp-1 text-xs">
+                                          {localizeText(maker.specialty || maker.description, lang)}
+                                        </span>
+                                      </div>
+                                    </div>
                                   </div>
-                                ) : (
-                                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#f1e6da] dark:bg-[#362820] text-xl flex items-center justify-center shrink-0">
-                                    {effectiveCategory === 'avtorski-torty-ta-deserty'
-                                      ? '🎂'
-                                      : effectiveCategory === 'kraftovyi-zefir-ta-bukety'
-                                      ? '🌸'
-                                      : '🍫'}
-                                  </div>
-                                )}
 
-                                <div className="min-w-0 flex-1">
-                                  <div className="flex flex-wrap items-center gap-2">
+                                  <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                                    <button
+                                      onClick={() => setActiveMakerModal(maker)}
+                                      className={`rounded-full px-3 py-1.5 text-xs font-bold border transition ${
+                                        isDark
+                                          ? 'border-white/15 text-[#f0a556] hover:bg-white/10'
+                                          : 'border-[#d4c3b3] text-[#462b1f] hover:bg-[#f1e6da]'
+                                      }`}
+                                    >
+                                      {lang === 'uk' ? 'Детальніше' : 'Подробнее'}
+                                    </button>
+
                                     <a
                                       href={directDestinationUrl}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="font-bold text-sm sm:text-base leading-snug hover:underline hover:text-[#b06a1e] transition truncate"
+                                      className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-extrabold transition shadow-xs ${
+                                        isDark
+                                          ? 'bg-[#f0a556] text-[#26160e] hover:bg-[#e39851]'
+                                          : 'bg-[#462b1f] text-[#faf4eb] hover:bg-[#b06a1e]'
+                                      }`}
                                     >
-                                      {cleanDisplayName(localizeText(maker.name, lang))}
+                                      <span>
+                                        {cleanDomain.includes('instagram.com')
+                                          ? 'Instagram'
+                                          : lang === 'uk'
+                                          ? 'Перейти'
+                                          : 'Перейти'}
+                                      </span>
+                                      <ArrowUpRight className="w-3.5 h-3.5" />
                                     </a>
-                                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5">
-                                      <CheckCircle2 className="w-3 h-3" />
-                                      <span>{lang === 'uk' ? 'Перевірено' : 'Проверено'}</span>
-                                    </span>
-                                    <span className="text-xs font-bold text-[#b06a1e]">
-                                      ★ {maker.rating}
-                                    </span>
-                                  </div>
-
-                                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs text-[#715f53] dark:text-[#a79d91]">
-                                    <span className="flex items-center gap-1 shrink-0 font-medium">
-                                      <MapPin className="w-3 h-3 text-[#b06a1e]" />
-                                      <span>{localizeText(maker.city, lang)}</span>
-                                    </span>
-                                    <span className="hidden sm:inline opacity-40">•</span>
-                                    <span className="line-clamp-1 text-xs">
-                                      {localizeText(maker.specialty || maker.description, lang)}
-                                    </span>
                                   </div>
                                 </div>
-                              </div>
+                              );
+                            })}
+                          </div>
 
-                              <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
-                                <button
-                                  onClick={() => setActiveMakerModal(maker)}
-                                  className={`rounded-full px-3 py-1.5 text-xs font-bold border transition ${
-                                    isDark
-                                      ? 'border-white/15 text-[#f0a556] hover:bg-white/10'
-                                      : 'border-[#d4c3b3] text-[#462b1f] hover:bg-[#f1e6da]'
-                                  }`}
-                                >
-                                  {lang === 'uk' ? 'Детальніше' : 'Подробнее'}
-                                </button>
-
-                                <a
-                                  href={directDestinationUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-extrabold transition shadow-xs ${
-                                    isDark
-                                      ? 'bg-[#f0a556] text-[#26160e] hover:bg-[#e39851]'
-                                      : 'bg-[#462b1f] text-[#faf4eb] hover:bg-[#b06a1e]'
-                                  }`}
-                                >
-                                  <span>
-                                    {cleanDomain.includes('instagram.com')
-                                      ? 'Instagram'
-                                      : lang === 'uk'
-                                      ? 'Перейти'
-                                      : 'Перейти'}
-                                  </span>
-                                  <ArrowUpRight className="w-3.5 h-3.5" />
-                                </a>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
+                          <div className="text-center pt-2">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setShowAllMakers(false);
+                                const el = document.getElementById('makers-section');
+                                if (el) el.scrollIntoView({ behavior: 'smooth' });
+                              }}
+                              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#b06a1e] hover:underline"
+                            >
+                              <span>{lang === 'uk' ? 'Сховати список майстерень ▴' : 'Скрыть список мастерских ▴'}</span>
+                            </button>
+                          </div>
+                        </>
+                      )}
                     </div>
                   )}
                 </>
