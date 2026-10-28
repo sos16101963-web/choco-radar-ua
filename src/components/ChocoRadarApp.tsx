@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import {
   CATEGORIES,
@@ -210,6 +210,46 @@ export default function ChocoRadarApp({
 }: ChocoRadarAppProps) {
   const [lang, setLang] = useState<Lang>('uk');
   const [isDark, setIsDark] = useState(false);
+  const [isVariantDropdownOpen, setIsVariantDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const qLang = params.get('lang');
+      if (qLang === 'ru' || qLang === 'uk') {
+        setLang(qLang);
+        try {
+          localStorage.setItem('crafo_lang', qLang);
+        } catch (e) {}
+        return;
+      }
+      try {
+        const stored = localStorage.getItem('crafo_lang');
+        if (stored === 'ru' || stored === 'uk') {
+          setLang(stored as Lang);
+        }
+      } catch (e) {}
+    }
+  }, []);
+
+  const changeLanguage = (newLang: Lang) => {
+    setLang(newLang);
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem('crafo_lang', newLang);
+        const url = new URL(window.location.href);
+        url.searchParams.set('lang', newLang);
+        window.history.replaceState({}, '', url.toString());
+      } catch (e) {}
+    }
+  };
+
+  const getLocalizedHref = (path: string) => {
+    if (lang === 'ru') {
+      return path.includes('?') ? `${path}&lang=ru` : `${path}?lang=ru`;
+    }
+    return path;
+  };
 
   // Active Section ('home' | 'chocolate' | 'cakes' | 'zefir')
   const derivedInitialSection: MacroSectionId =
@@ -768,7 +808,7 @@ export default function ChocoRadarApp({
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center gap-2 sm:gap-3 px-3 sm:px-6 lg:px-8">
           <Link
-            href="/"
+            href={getLocalizedHref('/')}
             onClick={() => setActiveSection('home')}
             className="flex items-center gap-2 text-left outline-none shrink-0"
           >
@@ -795,7 +835,7 @@ export default function ChocoRadarApp({
           {/* Desktop Section Links */}
           <nav className="ml-3 hidden md:flex items-center gap-1.5">
             <Link
-              href="/"
+              href={getLocalizedHref('/')}
               onClick={() => setActiveSection('home')}
               className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
                 activeSection === 'home'
@@ -808,7 +848,7 @@ export default function ChocoRadarApp({
               🏠 {lang === 'uk' ? 'Головна' : 'Главная'}
             </Link>
             <Link
-              href="/shokolad"
+              href={getLocalizedHref('/shokolad')}
               onClick={() => handleSelectSection('chocolate')}
               className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
                 activeSection === 'chocolate'
@@ -821,7 +861,7 @@ export default function ChocoRadarApp({
               🍫 {lang === 'uk' ? 'Шоколад і цукерки' : 'Шоколад и конфеты'}
             </Link>
             <Link
-              href="/torty"
+              href={getLocalizedHref('/torty')}
               onClick={() => handleSelectSection('cakes')}
               className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
                 activeSection === 'cakes'
@@ -834,7 +874,7 @@ export default function ChocoRadarApp({
               🎂 {lang === 'uk' ? 'Торти і десерти' : 'Торты и десерты'}
             </Link>
             <Link
-              href="/zefir"
+              href={getLocalizedHref('/zefir')}
               onClick={() => handleSelectSection('zefir')}
               className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
                 activeSection === 'zefir'
@@ -900,7 +940,7 @@ export default function ChocoRadarApp({
               }`}
             >
               <button
-                onClick={() => setLang('uk')}
+                onClick={() => changeLanguage('uk')}
                 className={`rounded-full px-2 py-1 transition ${
                   lang === 'uk'
                     ? 'bg-[#462b1f] text-[#faf4eb]'
@@ -910,7 +950,7 @@ export default function ChocoRadarApp({
                 УКР
               </button>
               <button
-                onClick={() => setLang('ru')}
+                onClick={() => changeLanguage('ru')}
                 className={`rounded-full px-2 py-1 transition ${
                   lang === 'ru'
                     ? 'bg-[#462b1f] text-[#faf4eb]'
@@ -1060,7 +1100,7 @@ export default function ChocoRadarApp({
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
               {/* CARD 1: CHOCOLATE */}
               <Link
-                href="/shokolad"
+                href={getLocalizedHref('/shokolad')}
                 onClick={() => handleSelectSection('chocolate')}
                 className={`group relative flex flex-col overflow-hidden rounded-3xl border-2 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl ${
                   isDark
@@ -1149,7 +1189,7 @@ export default function ChocoRadarApp({
 
               {/* CARD 2: CAKES */}
               <Link
-                href="/torty"
+                href={getLocalizedHref('/torty')}
                 onClick={() => handleSelectSection('cakes')}
                 className={`group relative flex flex-col overflow-hidden rounded-3xl border-2 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl ${
                   isDark
@@ -1238,7 +1278,7 @@ export default function ChocoRadarApp({
 
               {/* CARD 3: ZEFIR */}
               <Link
-                href="/zefir"
+                href={getLocalizedHref('/zefir')}
                 onClick={() => handleSelectSection('zefir')}
                 className={`group relative flex flex-col overflow-hidden rounded-3xl border-2 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl ${
                   isDark
@@ -1456,7 +1496,7 @@ export default function ChocoRadarApp({
                 </div>
                 <div className="flex flex-wrap gap-2">
                   <Link
-                    href="/shokolad"
+                    href={getLocalizedHref('/shokolad')}
                     onClick={() => handleSelectSection('chocolate')}
                     className="rounded-full bg-[#f1e6da] hover:bg-[#e5d5c3] text-[#302016] px-4 py-2 text-xs font-extrabold transition"
                   >
@@ -1488,7 +1528,7 @@ export default function ChocoRadarApp({
                 {/* Back to Home & Section Switcher */}
                 <div className="flex flex-wrap items-center gap-2">
                   <Link
-                    href="/"
+                    href={getLocalizedHref('/')}
                     onClick={() => setActiveSection('home')}
                     className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-extrabold border transition ${
                       isDark
@@ -1502,7 +1542,7 @@ export default function ChocoRadarApp({
 
                   <div className="flex items-center gap-1 rounded-full p-1 bg-[#f1e6da] dark:bg-[#1a120e]">
                     <Link
-                      href="/shokolad"
+                      href={getLocalizedHref('/shokolad')}
                       onClick={() => handleSelectSection('chocolate')}
                       className={`rounded-full px-3 py-1.5 text-xs font-extrabold transition ${
                         activeSection === 'chocolate'
@@ -1513,7 +1553,7 @@ export default function ChocoRadarApp({
                       🍫 {lang === 'uk' ? 'Шоколад' : 'Шоколад'}
                     </Link>
                     <Link
-                      href="/torty"
+                      href={getLocalizedHref('/torty')}
                       onClick={() => handleSelectSection('cakes')}
                       className={`rounded-full px-3 py-1.5 text-xs font-extrabold transition ${
                         activeSection === 'cakes'
@@ -1524,7 +1564,7 @@ export default function ChocoRadarApp({
                       🎂 {lang === 'uk' ? 'Торти' : 'Торты'}
                     </Link>
                     <Link
-                      href="/zefir"
+                      href={getLocalizedHref('/zefir')}
                       onClick={() => handleSelectSection('zefir')}
                       className={`rounded-full px-3 py-1.5 text-xs font-extrabold transition ${
                         activeSection === 'zefir'
@@ -1574,107 +1614,168 @@ export default function ChocoRadarApp({
 
               {/* Section Title & Step 1 Instruction */}
               <div className="pt-2 border-t border-[#e1d5c8]/60">
-                <div className="text-xs font-extrabold uppercase tracking-wider text-[#b06a1e]">
-                  {activeSection === 'chocolate'
-                    ? lang === 'uk'
-                      ? '🍫 Розділ: Крафтовий шоколад та цукерки'
-                      : '🍫 Раздел: Крафтовый шоколад и конфеты'
-                    : activeSection === 'cakes'
-                    ? lang === 'uk'
-                      ? '🎂 Розділ: Авторські торти та десерти на замовлення'
-                      : '🎂 Раздел: Авторские торты и десерты на заказ'
-                    : lang === 'uk'
-                    ? '🌸 Розділ: Крафтовий зефір, зефірні букети та пастила'
-                    : '🌸 Раздел: Крафтовый зефир, зефирные букеты и пастила'}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div>
+                    <div className="text-xs font-extrabold uppercase tracking-wider text-[#b06a1e]">
+                      {activeSection === 'chocolate'
+                        ? lang === 'uk'
+                          ? '🍫 Розділ: Крафтовий шоколад та цукерки'
+                          : '🍫 Раздел: Крафтовый шоколад и конфеты'
+                        : activeSection === 'cakes'
+                        ? lang === 'uk'
+                          ? '🎂 Розділ: Авторські торти та десерти на замовлення'
+                          : '🎂 Раздел: Авторские торты и десерты на заказ'
+                        : lang === 'uk'
+                        ? '🌸 Розділ: Крафтовий зефір, зефірні букети та пастила'
+                        : '🌸 Раздел: Крафтовый зефир, зефирные букеты и пастила'}
+                    </div>
+                    <h1 className="font-serif text-xl sm:text-2xl font-bold mt-0.5">
+                      {lang === 'uk'
+                        ? 'Крок 1. Оберіть потрібний варіант продукту:'
+                        : 'Шаг 1. Выберите нужный вариант продукта:'}
+                    </h1>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      setDrawerSectionTab(activeSection);
+                      setIsAssortmentDrawerOpen(true);
+                    }}
+                    className="shrink-0 inline-flex items-center gap-1.5 rounded-full border border-[#b06a1e]/40 bg-white dark:bg-[#261b16] px-3.5 py-1.5 text-xs font-bold text-[#b06a1e] hover:bg-[#fff8ef] transition self-start sm:self-center shadow-xs"
+                  >
+                    <LayoutList className="w-3.5 h-3.5 text-[#b06a1e]" />
+                    <span>{lang === 'uk' ? 'Асортимент та склад' : 'Ассортимент и состав'}</span>
+                  </button>
                 </div>
-                <h1 className="font-serif text-xl sm:text-3xl font-bold mt-1">
-                  {lang === 'uk'
-                    ? 'Крок 1. Оберіть потрібний варіант продукту:'
-                    : 'Шаг 1. Выберите нужный вариант продукта:'}
-                </h1>
               </div>
 
-              {/* PRODUCT VARIANT CARDS FOR THIS SECTION */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-1">
-                {currentVariantsList.map((variant) => {
-                  const isSelected = activeVariant.id === variant.id;
-                  return (
-                    <button
-                      key={variant.id}
-                      onClick={() => handleSelectVariant(variant)}
-                      className={`group text-left rounded-2xl border-2 p-3 transition-all flex items-center gap-3 ${
-                        isSelected
-                          ? 'bg-gradient-to-br from-[#462b1f] to-[#2e190d] text-white border-[#e39851] shadow-md ring-2 ring-[#e39851]/30'
-                          : isDark
-                          ? 'bg-[#1a120e] border-white/15 text-[#eee7dd] hover:border-[#f0a556]'
-                          : 'bg-white border-[#e1d5c8] text-[#302016] hover:border-[#b06a1e] hover:bg-[#fbf6ee]'
-                      }`}
-                    >
-                      <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-white/20 bg-[#3a2113]">
-                        <img
-                          src={variant.imageUrl}
-                          alt={lang === 'uk' ? variant.titleUk : variant.titleRu}
-                          className="w-full h-full object-cover object-center"
-                        />
-                        <span className="absolute bottom-0.5 right-0.5 text-sm bg-black/50 backdrop-blur-xs rounded-md px-1">
-                          {variant.emoji}
+              {/* COMPACT PRODUCT VARIANT SELECTOR: ONLY 1 ACTIVE ROW VISIBLE, OTHERS EXPAND ON HOVER / CLICK */}
+              <div
+                className="relative"
+                onMouseEnter={() => setIsVariantDropdownOpen(true)}
+                onMouseLeave={() => setIsVariantDropdownOpen(false)}
+              >
+                {/* 1 Selected Active Row */}
+                <button
+                  type="button"
+                  onClick={() => setIsVariantDropdownOpen((prev) => !prev)}
+                  className={`w-full text-left rounded-2xl border-2 p-3 sm:p-3.5 transition-all flex items-center justify-between gap-3 shadow-md ${
+                    isDark
+                      ? 'bg-gradient-to-br from-[#462b1f] to-[#2e190d] text-white border-[#e39851] ring-2 ring-[#e39851]/30'
+                      : 'bg-gradient-to-br from-[#462b1f] to-[#2e190d] text-white border-[#e39851] ring-2 ring-[#e39851]/30'
+                  }`}
+                >
+                  <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                    <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden shrink-0 border border-white/20 bg-[#3a2113]">
+                      <img
+                        src={activeVariant.imageUrl}
+                        alt={lang === 'uk' ? activeVariant.titleUk : activeVariant.titleRu}
+                        className="w-full h-full object-cover object-center"
+                      />
+                      <span className="absolute bottom-0.5 right-0.5 text-xs sm:text-sm bg-black/60 backdrop-blur-xs rounded-md px-1 text-white">
+                        {activeVariant.emoji}
+                      </span>
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-extrabold text-sm sm:text-base leading-tight">
+                          {lang === 'uk' ? activeVariant.titleUk : activeVariant.titleRu}
+                        </span>
+                        <span className="rounded-full bg-[#e39851] text-[#26140b] text-[10px] font-extrabold px-2 py-0.5 shrink-0">
+                          {lang === 'uk' ? 'Обрано' : 'Выбрано'}
                         </span>
                       </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="font-bold text-xs sm:text-sm leading-tight">
-                          {lang === 'uk' ? variant.titleUk : variant.titleRu}
-                        </div>
-                        <p
-                          className={`text-[11px] line-clamp-2 mt-1 leading-snug ${
-                            isSelected ? 'text-[#f5c492]' : 'opacity-75'
-                          }`}
-                        >
-                          {lang === 'uk' ? variant.shortDescUk : variant.shortDescRu}
-                        </p>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Active Variant Quick Summary + City Filter */}
-              <div
-                className={`rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
-                  isDark ? 'bg-[#1a120e]' : 'bg-[#f1e6da]/75'
-                }`}
-              >
-                <div className="flex items-start gap-2.5">
-                  <span className="text-2xl shrink-0">{activeVariant.emoji}</span>
-                  <div>
-                    <div className="text-xs sm:text-sm font-extrabold">
-                      {lang === 'uk' ? activeVariant.titleUk : activeVariant.titleRu}
+                      <p className="text-[11px] sm:text-xs text-[#f5c492] line-clamp-1 sm:line-clamp-2 mt-0.5 leading-snug">
+                        {lang === 'uk' ? activeVariant.shortDescUk : activeVariant.shortDescRu}
+                      </p>
                     </div>
-                    <p className="text-xs opacity-85 mt-0.5">
-                      {lang === 'uk'
-                        ? activeVariant.detailedAssortmentUk
-                        : activeVariant.detailedAssortmentRu}
-                    </p>
                   </div>
-                </div>
 
-                <button
-                  onClick={() => {
-                    setDrawerSectionTab(activeSection);
-                    setIsAssortmentDrawerOpen(true);
-                  }}
-                  className="shrink-0 rounded-full bg-[#462b1f] hover:bg-[#b06a1e] text-white px-3.5 py-2 text-xs font-bold transition self-start sm:self-center"
-                >
-                  {lang === 'uk' ? 'Докладний опис та склад →' : 'Подробное описание и состав →'}
+                  <div className="shrink-0 flex items-center gap-1.5 rounded-full bg-[#e39851] hover:bg-[#f0a556] text-[#26140b] px-3 sm:px-3.5 py-1.5 sm:py-2 text-xs font-extrabold shadow-sm transition">
+                    <span>
+                      {lang === 'uk'
+                        ? `Змінити (${currentVariantsList.length - 1})`
+                        : `Изменить (${currentVariantsList.length - 1})`}
+                    </span>
+                    <ChevronDown
+                      className={`w-4 h-4 transition-transform duration-300 ${
+                        isVariantDropdownOpen ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </div>
                 </button>
+
+                {/* Dropdown Menu of Other Variants — appears on hover or click */}
+                {isVariantDropdownOpen && (
+                  <div className="absolute top-full left-0 right-0 z-40 mt-1.5 rounded-2xl border-2 border-[#b06a1e]/40 bg-[#fefbf7] dark:bg-[#1f140e] shadow-2xl p-2 sm:p-2.5 space-y-1.5 max-h-[75vh] overflow-y-auto animate-slide-in-right sm:animate-none">
+                    <div className="px-2 py-1 text-[11px] font-bold text-[#8c5225] dark:text-[#e39851] uppercase tracking-wider flex items-center justify-between border-b border-[#e1d5c8]/60 pb-1.5">
+                      <span>{lang === 'uk' ? 'Оберіть потрібний варіант продукту:' : 'Выберите нужный вариант продукта:'}</span>
+                      <span className="text-[10px] opacity-75">{currentVariantsList.length} {lang === 'uk' ? 'варіантів' : 'вариантов'}</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-1.5 pt-1">
+                      {currentVariantsList.map((variant) => {
+                        const isSelected = activeVariant.id === variant.id;
+                        return (
+                          <button
+                            key={variant.id}
+                            type="button"
+                            onClick={() => {
+                              handleSelectVariant(variant);
+                              setIsVariantDropdownOpen(false);
+                            }}
+                            className={`w-full text-left rounded-xl p-2.5 transition-all flex items-center gap-3 ${
+                              isSelected
+                                ? 'bg-gradient-to-r from-[#462b1f] to-[#361e12] text-white shadow-sm ring-1 ring-[#e39851]'
+                                : isDark
+                                ? 'bg-[#180f0b] text-[#eee7dd] hover:bg-[#2e1d15]'
+                                : 'bg-white text-[#302016] hover:bg-[#f6eee3] border border-[#e8dccf]'
+                            }`}
+                          >
+                            <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 border border-black/10 bg-[#3a2113]">
+                              <img
+                                src={variant.imageUrl}
+                                alt={lang === 'uk' ? variant.titleUk : variant.titleRu}
+                                className="w-full h-full object-cover object-center"
+                              />
+                              <span className="absolute bottom-0 right-0 text-[10px] bg-black/60 rounded px-1 text-white">
+                                {variant.emoji}
+                              </span>
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="font-bold text-xs sm:text-sm leading-tight">
+                                  {lang === 'uk' ? variant.titleUk : variant.titleRu}
+                                </span>
+                                {isSelected ? (
+                                  <span className="text-[10px] font-extrabold text-[#e39851] shrink-0">
+                                    ✓ {lang === 'uk' ? 'Активний' : 'Активный'}
+                                  </span>
+                                ) : (
+                                  <span className="text-[11px] font-bold text-[#b06a1e] opacity-75 shrink-0 hidden sm:inline">
+                                    {lang === 'uk' ? 'Обрати →' : 'Выбрать →'}
+                                  </span>
+                                )}
+                              </div>
+                              <p className={`text-[11px] line-clamp-1 mt-0.5 ${isSelected ? 'text-[#f5c492]' : 'opacity-75'}`}>
+                                {lang === 'uk' ? variant.shortDescUk : variant.shortDescRu}
+                              </p>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
 
-              {/* Optional City Filter Pills */}
-              <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar pt-1">
+              {/* Quick City Filter Pills on Section Page */}
+              <div className="flex items-center gap-1.5 flex-wrap pt-1">
                 <span className="text-xs font-bold text-[#b06a1e] shrink-0 flex items-center gap-1 mr-1">
                   <MapPin className="w-3.5 h-3.5" />
                   <span>{lang === 'uk' ? 'Місто:' : 'Город:'}</span>
                 </span>
-                {CITY_FILTERS.map((city) => {
+                {POPULAR_CITIES.slice(0, 6).map((city) => {
                   const active = selectedCity === city.id;
                   return (
                     <button
@@ -1692,6 +1793,23 @@ export default function ChocoRadarApp({
                     </button>
                   );
                 })}
+                <button
+                  onClick={() => setIsCitySelectorModalOpen(true)}
+                  className={`px-3 py-1 rounded-full text-xs font-bold border transition flex items-center gap-1 text-[#b06a1e] ${
+                    selectedCity !== 'all' && !POPULAR_CITIES.slice(0, 6).some((c) => c.id === selectedCity)
+                      ? 'bg-[#b06a1e] text-white border-[#b06a1e]'
+                      : 'border-[#b06a1e]/40 hover:bg-[#fff8ef]'
+                  }`}
+                >
+                  <Search className="w-3 h-3" />
+                  <span>
+                    {selectedCity !== 'all' && !POPULAR_CITIES.slice(0, 6).some((c) => c.id === selectedCity)
+                      ? selectedCity
+                      : lang === 'uk'
+                      ? 'Усі 43 міста ▾'
+                      : 'Все 43 города ▾'}
+                  </span>
+                </button>
               </div>
             </div>
 
@@ -1946,13 +2064,13 @@ export default function ChocoRadarApp({
               : 'Шоколад • Авторские торты • Крафтовый зефир'}
           </div>
           <div className="flex flex-wrap justify-center gap-4 font-bold">
-            <Link href="/shokolad" onClick={() => handleSelectSection('chocolate')} className="hover:text-[#b06a1e]">
+            <Link href={getLocalizedHref('/shokolad')} onClick={() => handleSelectSection('chocolate')} className="hover:text-[#b06a1e]">
               🍫 {lang === 'uk' ? 'Шоколад' : 'Шоколад'}
             </Link>
-            <Link href="/torty" onClick={() => handleSelectSection('cakes')} className="hover:text-[#b06a1e]">
+            <Link href={getLocalizedHref('/torty')} onClick={() => handleSelectSection('cakes')} className="hover:text-[#b06a1e]">
               🎂 {lang === 'uk' ? 'Торти' : 'Торты'}
             </Link>
-            <Link href="/zefir" onClick={() => handleSelectSection('zefir')} className="hover:text-[#b06a1e]">
+            <Link href={getLocalizedHref('/zefir')} onClick={() => handleSelectSection('zefir')} className="hover:text-[#b06a1e]">
               🌸 {lang === 'uk' ? 'Зефір' : 'Зефир'}
             </Link>
             <button
@@ -1987,7 +2105,7 @@ export default function ChocoRadarApp({
         }`}
       >
         <Link
-          href="/"
+          href={getLocalizedHref('/')}
           onClick={() => setActiveSection('home')}
           className={`flex flex-col items-center justify-center py-1 rounded-xl text-[10px] font-extrabold ${
             activeSection === 'home' ? 'text-[#b06a1e] bg-[#b06a1e]/10' : ''
