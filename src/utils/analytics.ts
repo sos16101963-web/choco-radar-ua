@@ -1,6 +1,6 @@
 'use client';
 
-// Client-side analytics tracker and persistent storage for clicks/referrals
+// Real-time analytics tracker and persistent storage for genuine buyer clicks & referrals
 export interface ClickEvent {
   makerId: string;
   type: 'website' | 'instagram' | 'phone' | 'modal_view';
@@ -19,21 +19,7 @@ export interface MakerStats {
   history: ClickEvent[];
 }
 
-const STORAGE_KEY = 'crafohub_maker_clicks_v1';
-
-// Initial realistic baseline activity so newly onboarded makers can see authentic pilot metrics
-export const BASELINE_MAKER_STATS: Record<string, { website: number; instagram: number; phone: number; views: number }> = {
-  'crafo-kharkiv': { website: 342, instagram: 184, phone: 67, views: 890 },
-  'chebakery-kharkiv': { website: 215, instagram: 310, phone: 42, views: 640 },
-  'piolli-zefir': { website: 188, instagram: 245, phone: 38, views: 512 },
-  'sisters-a': { website: 164, instagram: 198, phone: 29, views: 420 },
-  'laviva-kyiv': { website: 152, instagram: 176, phone: 31, views: 395 },
-  'bakerstreet-kyiv': { website: 178, instagram: 210, phone: 35, views: 460 },
-  'shoco-lviv': { website: 142, instagram: 185, phone: 24, views: 380 },
-  'charivnyi-zefir': { website: 118, instagram: 165, phone: 22, views: 310 },
-  'chocoblues-odesa': { website: 96, instagram: 134, phone: 19, views: 285 },
-  'tortiya-kharkiv': { website: 104, instagram: 148, phone: 26, views: 315 },
-};
+const STORAGE_KEY = 'crafohub_real_clicks_v2';
 
 export function getStoredClicks(): ClickEvent[] {
   if (typeof window === 'undefined') return [];
@@ -45,34 +31,56 @@ export function getStoredClicks(): ClickEvent[] {
   }
 }
 
-export function trackMakerClick(makerId: string, type: 'website' | 'instagram' | 'phone' | 'modal_view', extra?: { category?: string; city?: string }) {
+// Track genuine click: persists to localStorage and fires asynchronous API call to /api/analytics
+export function trackMakerClick(
+  makerId: string,
+  type: 'website' | 'instagram' | 'phone' | 'modal_view',
+  extra?: { category?: string; city?: string }
+) {
   if (typeof window === 'undefined') return;
+
+  const event: ClickEvent = {
+    makerId,
+    type,
+    timestamp: Date.now(),
+    category: extra?.category,
+    city: extra?.city,
+  };
+
   try {
     const current = getStoredClicks();
-    const event: ClickEvent = {
-      makerId,
-      type,
-      timestamp: Date.now(),
-      category: extra?.category,
-      city: extra?.city,
-    };
     current.push(event);
-    // Keep max 2000 events in localStorage
-    if (current.length > 2000) current.shift();
+    if (current.length > 5000) current.shift();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(current));
   } catch (e) {
-    console.error('Analytics tracking error', e);
+    console.error('LocalStorage write error', e);
+  }
+
+  // Also send event to Next.js API route in the background
+  try {
+    if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
+      navigator.sendBeacon('/api/analytics', JSON.stringify(event));
+    } else {
+      fetch('/api/analytics', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(event),
+        keepalive: true,
+      }).catch(() => {});
+    }
+  } catch {
+    // Non-blocking
   }
 }
 
+// Pure 100% genuine stats: starts strictly at 0 and increments ONLY when a real user performs an action
 export function getMakerStats(makerId: string): MakerStats {
   const events = getStoredClicks().filter((e) => e.makerId === makerId);
-  const baseline = BASELINE_MAKER_STATS[makerId] || { website: 28, instagram: 42, phone: 7, views: 95 };
 
-  let websiteClicks = baseline.website;
-  let instagramClicks = baseline.instagram;
-  let phoneClicks = baseline.phone;
-  let modalViews = baseline.views;
+  let websiteClicks = 0;
+  let instagramClicks = 0;
+  let phoneClicks = 0;
+  let modalViews = 0;
 
   events.forEach((ev) => {
     if (ev.type === 'website') websiteClicks++;
@@ -83,8 +91,14 @@ export function getMakerStats(makerId: string): MakerStats {
 
   const lastEvent = events[events.length - 1];
   const lastClickDate = lastEvent
-    ? new Date(lastEvent.timestamp).toLocaleDateString('uk-UA', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
-    : 'Сьогодні';
+    ? new Date(lastEvent.timestamp).toLocaleDateString('uk-UA', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+    : undefined;
 
   return {
     websiteClicks,

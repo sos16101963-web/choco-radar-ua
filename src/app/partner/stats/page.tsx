@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { MAKERS, CraftMaker } from '@/data/chocolateData';
-import { getMakerStats, appendUtm, BASELINE_MAKER_STATS, getStoredClicks } from '@/utils/analytics';
+import { getMakerStats, appendUtm, getStoredClicks } from '@/utils/analytics';
 import {
   ShieldCheck,
   Lock,
