@@ -96,7 +96,15 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    let body: any;
+    const contentType = request.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      body = await request.json();
+    } else {
+      const text = await request.text();
+      body = text ? JSON.parse(text) : {};
+    }
+
     const { makerId, type, category, city } = body;
 
     if (!makerId || !type) {
@@ -117,13 +125,12 @@ export async function POST(request: Request) {
 
     globalThis.__CRAFOHUB_EVENTS__.push(event);
 
-    // Keep memory clean (max 50,000 real events)
     if (globalThis.__CRAFOHUB_EVENTS__.length > 50000) {
       globalThis.__CRAFOHUB_EVENTS__.shift();
     }
 
     return NextResponse.json({ success: true, recorded: event });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to record event' }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: 'Failed to record event', details: error?.message }, { status: 500 });
   }
 }
