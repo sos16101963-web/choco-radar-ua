@@ -51,7 +51,10 @@ import {
   Maximize2,
   LayoutList,
   Clock,
+  BarChart2,
+  KeyRound,
 } from 'lucide-react';
+import { trackMakerClick, appendUtm, getMakerStats } from '@/utils/analytics';
 
 // Direct link to a category page on the maker's site (manual > auto-discovered). null = no verified link.
 function getMakerCategoryUrl(maker: CraftMaker, cat: CategorySlug): string | null {
@@ -345,6 +348,11 @@ export default function ChocoRadarApp({
   const [isMethodologyModalOpen, setIsMethodologyModalOpen] = useState(false);
   const [isCitySelectorModalOpen, setIsCitySelectorModalOpen] = useState(false);
   const [cityFilterSearch, setCityFilterSearch] = useState('');
+  const [isMakerStatsModalOpen, setIsMakerStatsModalOpen] = useState(false);
+  const [statsModalMaker, setStatsModalMaker] = useState<CraftMaker | null>(null);
+  const [statsPinInput, setStatsPinInput] = useState('');
+  const [statsUnlocked, setStatsUnlocked] = useState(false);
+  const [statsError, setStatsError] = useState('');
   const [tenderCategory, setTenderCategory] = useState<'cake' | 'zefir' | 'chocolate' | 'corporate'>('cake');
   const [selectedPlanForModal, setSelectedPlanForModal] = useState<string>('PRO Майстерня');
   const [tenderSubmitted, setTenderSubmitted] = useState(false);
@@ -725,6 +733,7 @@ export default function ChocoRadarApp({
             {maker.phone && !maker.phone.startsWith('Замовлення') ? (
               <a
                 href={`tel:${maker.phone.split(',')[0].replace(/[^\d+]/g, '')}`}
+                onClick={() => trackMakerClick(maker.id, 'phone', { category: effectiveCategory, city: maker.city })}
                 className={`flex items-center gap-1.5 hover:text-[#b06a1e] ${
                   isDark ? 'text-[#eee7dd]' : 'text-[#302016]'
                 }`}
@@ -766,13 +775,37 @@ export default function ChocoRadarApp({
                   {localizeText(maker.shippingNote, lang)}
                 </div>
               </div>
+
+              {/* Secret discreet button for maker's analytics access */}
+              <div className="pt-1 flex justify-end">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setStatsModalMaker(maker);
+                    setStatsPinInput('');
+                    setStatsUnlocked(false);
+                    setStatsError('');
+                    setIsMakerStatsModalOpen(true);
+                  }}
+                  className="text-[11px] text-[#a79d91] hover:text-[#b06a1e] flex items-center gap-1 opacity-70 hover:opacity-100 transition"
+                  title="Статистика переходів для виробника"
+                >
+                  <BarChart2 className="w-3 h-3" />
+                  <span>{lang === 'uk' ? 'Статистика майстерні' : 'Статистика мастерской'}</span>
+                </button>
+              </div>
             </div>
           )}
 
           {/* Direct Action Button — Immediately takes buyer to the selected product page */}
           <div className="mt-auto flex items-center gap-2 pt-2">
             <a
-              href={directDestinationUrl}
+              href={appendUtm(directDestinationUrl, maker.id)}
+              onClick={() => {
+                const clickType = cleanDomain.includes('instagram.com') ? 'instagram' : 'website';
+                trackMakerClick(maker.id, clickType, { category: effectiveCategory, city: maker.city });
+              }}
               target="_blank"
               rel="noopener noreferrer"
               className={`flex-1 inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-2.5 text-xs sm:text-sm font-extrabold transition shadow-sm ${
@@ -2026,7 +2059,11 @@ export default function ChocoRadarApp({
                                     </button>
 
                                     <a
-                                      href={directDestinationUrl}
+                                      href={appendUtm(directDestinationUrl, maker.id)}
+                                      onClick={() => {
+                                        const clickType = cleanDomain.includes('instagram.com') ? 'instagram' : 'website';
+                                        trackMakerClick(maker.id, clickType, { category: effectiveCategory, city: maker.city });
+                                      }}
                                       target="_blank"
                                       rel="noopener noreferrer"
                                       className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-extrabold transition shadow-xs ${
@@ -2242,6 +2279,14 @@ export default function ChocoRadarApp({
             >
               + {lang === 'uk' ? 'Додати майстерню' : 'Добавить мастерскую'}
             </button>
+            <Link
+              href="/partner/stats"
+              className="text-[#a79d91] hover:text-[#b06a1e] flex items-center gap-1 font-normal"
+              title="Закритий кабінет статистики переходів"
+            >
+              <BarChart2 className="w-3.5 h-3.5 opacity-70" />
+              <span>{lang === 'uk' ? 'Кабінет майстра (PIN)' : 'Кабинет мастера (PIN)'}</span>
+            </Link>
           </div>
         </div>
       </footer>
@@ -2775,19 +2820,40 @@ export default function ChocoRadarApp({
                 </div>
               )}
             </div>
-            <a
-              href={
-                getMakerCategoryUrl(activeMakerModal, selectedCategory) ||
-                getMakerCategoryUrl(activeMakerModal, activeMakerModal.mainCategory) ||
-                activeMakerModal.websiteUrl
-              }
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full bg-[#462b1f] hover:bg-[#b06a1e] text-white font-bold py-3 px-4 rounded-full text-xs sm:text-sm flex items-center justify-center gap-1.5"
-            >
-              <span>{lang === 'uk' ? 'Перейти на сайт виробника' : 'Перейти на сайт производителя'}</span>
-              <ArrowUpRight className="w-4 h-4" />
-            </a>
+            <div className="flex items-center gap-2 pt-1">
+              <a
+                href={appendUtm(
+                  getMakerCategoryUrl(activeMakerModal, selectedCategory) ||
+                  getMakerCategoryUrl(activeMakerModal, activeMakerModal.mainCategory) ||
+                  activeMakerModal.websiteUrl,
+                  activeMakerModal.id
+                )}
+                onClick={() => {
+                  trackMakerClick(activeMakerModal.id, 'website', { category: activeMakerModal.mainCategory, city: activeMakerModal.city });
+                }}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 bg-[#462b1f] hover:bg-[#b06a1e] text-white font-bold py-3 px-4 rounded-full text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-sm transition"
+              >
+                <span>{lang === 'uk' ? 'Перейти на сайт виробника' : 'Перейти на сайт производителя'}</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </a>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setStatsModalMaker(activeMakerModal);
+                  setStatsPinInput('');
+                  setStatsUnlocked(false);
+                  setStatsError('');
+                  setIsMakerStatsModalOpen(true);
+                }}
+                className="p-3 rounded-full border border-[#d4c3b3] bg-white text-[#715f53] hover:text-[#b06a1e] hover:border-[#b06a1e] transition shrink-0"
+                title={lang === 'uk' ? 'Статистика переходів для майстерні' : 'Статистика переходов для мастерской'}
+              >
+                <BarChart2 className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -3191,6 +3257,205 @@ export default function ChocoRadarApp({
                   {lang === 'uk' ? 'Відправити' : 'Отправить'}
                 </button>
               </form>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 4: Discreet Maker Statistics Modal (Unlocked with PIN or by site owner) */}
+      {isMakerStatsModalOpen && statsModalMaker && (
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-[#261b16] text-[#eee7dd] border border-white/20 rounded-3xl max-w-lg w-full p-6 sm:p-7 space-y-5 shadow-2xl my-auto animate-in fade-in zoom-in-95 duration-200">
+            {/* Header */}
+            <div className="flex items-start justify-between border-b border-white/10 pb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#e39851] to-[#b06a1e] text-[#26140b] flex items-center justify-center font-bold shadow">
+                  📊
+                </div>
+                <div>
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#f0a556]">
+                    CrafoHub Partner Analytics
+                  </span>
+                  <h3 className="font-serif text-lg sm:text-xl font-bold text-white">
+                    Статистика переходів покупців
+                  </h3>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsMakerStatsModalOpen(false)}
+                className="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition shrink-0"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Maker info header */}
+            <div className="flex items-center gap-3 p-3 rounded-2xl bg-[#1a120e] border border-white/10">
+              {statsModalMaker.imageUrl ? (
+                <img
+                  src={statsModalMaker.imageUrl}
+                  alt={statsModalMaker.name}
+                  className="w-12 h-12 rounded-xl object-cover shrink-0 border border-white/10"
+                />
+              ) : (
+                <div className="w-12 h-12 rounded-xl bg-[#3a2113] flex items-center justify-center text-xl">
+                  🍫
+                </div>
+              )}
+              <div className="min-w-0 flex-1">
+                <div className="font-bold text-white text-sm truncate">
+                  {statsModalMaker.name}
+                </div>
+                <div className="text-[11px] text-[#a79d91]">
+                  {statsModalMaker.city} • Рейтинг: ★ {statsModalMaker.rating}
+                </div>
+              </div>
+            </div>
+
+            {!statsUnlocked ? (
+              /* PIN Lock Screen */
+              <div className="space-y-4 py-2">
+                <div className="text-center space-y-1">
+                  <p className="text-xs text-[#c2b6a9] leading-relaxed">
+                    Статистика є конфіденційною інформацією виробника. Введіть персональний PIN або пароль адміністратора для перегляду.
+                  </p>
+                </div>
+
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    const cleanPin = statsPinInput.trim().toLowerCase();
+                    if (
+                      cleanPin === '2027' ||
+                      cleanPin === 'crafo2027' ||
+                      cleanPin === statsModalMaker.id.toLowerCase() ||
+                      cleanPin === statsModalMaker.slug.toLowerCase() ||
+                      cleanPin === `${statsModalMaker.slug}-2027`
+                    ) {
+                      setStatsUnlocked(true);
+                      setStatsError('');
+                    } else {
+                      setStatsError('Невірний PIN-код. Для отримання доступу зв’яжіться з хабом.');
+                    }
+                  }}
+                  className="space-y-3"
+                >
+                  <div className="relative">
+                    <KeyRound className="w-4 h-4 text-[#a79d91] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="password"
+                      value={statsPinInput}
+                      onChange={(e) => setStatsPinInput(e.target.value)}
+                      placeholder="Введіть PIN майстерні..."
+                      autoFocus
+                      required
+                      className="w-full bg-[#1a120e] border border-white/20 focus:border-[#f0a556] rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-white outline-none"
+                    />
+                  </div>
+                  {statsError && (
+                    <p className="text-xs text-rose-400 font-medium">
+                      {statsError}
+                    </p>
+                  )}
+
+                  <button
+                    type="submit"
+                    className="w-full bg-[#f0a556] hover:bg-[#e39851] text-[#26140b] font-extrabold py-2.5 rounded-xl text-xs sm:text-sm transition shadow-sm flex items-center justify-center gap-1.5"
+                  >
+                    <ShieldCheck className="w-4 h-4" />
+                    <span>Відкрити показники</span>
+                  </button>
+                </form>
+
+                <p className="text-[11px] text-center text-[#a79d91] pt-1">
+                  Майстерня ще не підключила особистий кабінет?{' '}
+                  <a
+                    href="https://t.me/crafohub_ua"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#f0a556] underline"
+                  >
+                    Отримати PIN у Telegram
+                  </a>
+                </p>
+              </div>
+            ) : (
+              /* Unlocked Stats Screen */
+              (() => {
+                const s = getMakerStats(statsModalMaker.id);
+                return (
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-2.5">
+                      <div className="bg-[#1a120e] p-3 rounded-xl border border-white/10 space-y-0.5">
+                        <div className="text-[10px] uppercase font-bold text-[#f0a556]">
+                          Всього лідів
+                        </div>
+                        <div className="text-2xl font-serif font-extrabold text-white">
+                          {s.totalLeads}
+                        </div>
+                        <p className="text-[10px] text-[#a79d91]">Звернень з хабу</p>
+                      </div>
+
+                      <div className="bg-[#1a120e] p-3 rounded-xl border border-white/10 space-y-0.5">
+                        <div className="text-[10px] uppercase font-bold text-emerald-400">
+                          На сайт / меню
+                        </div>
+                        <div className="text-2xl font-serif font-extrabold text-white">
+                          {s.websiteClicks}
+                        </div>
+                        <p className="text-[10px] text-[#a79d91]">З UTM-міткою crafohub</p>
+                      </div>
+
+                      <div className="bg-[#1a120e] p-3 rounded-xl border border-white/10 space-y-0.5">
+                        <div className="text-[10px] uppercase font-bold text-pink-400">
+                          В Instagram
+                        </div>
+                        <div className="text-2xl font-serif font-extrabold text-white">
+                          {s.instagramClicks}
+                        </div>
+                        <p className="text-[10px] text-[#a79d91]">Кліків у Direct / сторінку</p>
+                      </div>
+
+                      <div className="bg-[#1a120e] p-3 rounded-xl border border-white/10 space-y-0.5">
+                        <div className="text-[10px] uppercase font-bold text-amber-400">
+                          Дзвінки / Контакти
+                        </div>
+                        <div className="text-2xl font-serif font-extrabold text-white">
+                          {s.phoneClicks}
+                        </div>
+                        <p className="text-[10px] text-[#a79d91]">Прямих наборів номера</p>
+                      </div>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-gradient-to-br from-[#302016] to-[#1f140e] border border-[#e39851]/40 text-xs text-[#c2b6a9] space-y-1.5 leading-relaxed">
+                      <div className="font-bold text-[#f0a556] flex items-center gap-1.5">
+                        <span>💡 Для виробника:</span>
+                      </div>
+                      <p>
+                        Всі клієнти переходять безпосередньо у ваш кошик або Instagram-діалог за вашими роздрібними цінами без комісії платформи.
+                      </p>
+                      <div className="text-[10px] text-[#a79d91] pt-0.5">
+                        Останній зафіксований перехід: <strong className="text-white">{s.lastClickDate}</strong>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 pt-1">
+                      <Link
+                        href="/partner/stats"
+                        className="flex-1 text-center py-2 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition"
+                      >
+                        Повна аналітика хабу →
+                      </Link>
+                      <button
+                        onClick={() => setIsMakerStatsModalOpen(false)}
+                        className="py-2 px-4 rounded-xl bg-[#f0a556] text-[#26140b] text-xs font-extrabold hover:brightness-110 transition"
+                      >
+                        Закрити
+                      </button>
+                    </div>
+                  </div>
+                );
+              })()
             )}
           </div>
         </div>
