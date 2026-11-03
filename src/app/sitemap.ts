@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { CATEGORIES } from '@/data/chocolateData';
 import { BLOG_ARTICLES, CITY_SEO_HUBS } from '@/data/blogData';
+import { CITY_SECTION_COMBOS } from '@/data/cityCategorySeo';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://choco-radar-ua.vercel.app';
@@ -26,6 +27,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
+  const cityCategoryUrls = CITY_SECTION_COMBOS.map((combo) => ({
+    url: `${baseUrl}/misto/${combo.citySlug}/${combo.categorySlug}`,
+    lastModified: new Date(),
+    changeFrequency: 'daily' as const,
+    priority: 0.88,
+  }));
+
   const blogUrls = BLOG_ARTICLES.map((art) => ({
     url: `${baseUrl}/blog/${art.slug}`,
     lastModified: new Date(art.publishedAt),
@@ -47,8 +55,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'daily',
       priority: 0.9,
     },
+    {
+      url: `${baseUrl}/for-makers`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
     ...categoryUrls,
     ...cityUrls,
+    ...cityCategoryUrls,
     ...blogUrls,
   ];
 }

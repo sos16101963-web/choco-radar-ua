@@ -74,13 +74,23 @@ export const metadata: Metadata = {
   },
 };
 
+import { generateOrganizationSchema } from '@/utils/seoSchema';
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const orgSchema = generateOrganizationSchema();
+
   return (
     <html lang="uk" className={`${inter.variable} ${playfair.variable} scroll-smooth`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+        />
+      </head>
       <body className="min-h-screen bg-[#fbf6ee] text-[#302016] antialiased selection:bg-[#b06a1e] selection:text-white font-sans">
         {children}
       </body>

@@ -2,7 +2,12 @@ import React from 'react';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { CITY_SEO_HUBS } from '@/data/blogData';
+import { MAKERS } from '@/data/chocolateData';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
+import {
+  generateCityCategoryItemListSchema,
+  generateBreadcrumbSchema,
+} from '@/utils/seoSchema';
 
 interface CityPageProps {
   params: Promise<{ citySlug: string }>;
@@ -35,5 +40,34 @@ export default async function CityPage({ params }: CityPageProps) {
     notFound();
   }
 
-  return <ChocoRadarApp initialCategory="all" initialCity={city.regionFilterId} />;
+  const cityMakers = MAKERS.filter(
+    (m) =>
+      (m.city || '').toLowerCase().includes(city.cityNameUk.toLowerCase()) ||
+      (m.regionCity || '').toLowerCase().includes(city.cityNameUk.toLowerCase())
+  );
+
+  const itemListSchema = generateCityCategoryItemListSchema(
+    city.h1Uk,
+    city.cityNameUk,
+    cityMakers.length > 0 ? cityMakers : MAKERS.slice(0, 5)
+  );
+
+  const breadcrumbsSchema = generateBreadcrumbSchema([
+    { name: 'CrafoHub', url: 'https://choco-radar-ua.vercel.app' },
+    { name: `Майстерні: ${city.cityNameUk}`, url: `https://choco-radar-ua.vercel.app/misto/${city.slug}` },
+  ]);
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
+      />
+      <ChocoRadarApp initialCategory="all" initialCity={city.regionFilterId} />
+    </>
+  );
 }

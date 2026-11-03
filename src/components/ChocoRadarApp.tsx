@@ -53,6 +53,7 @@ import {
   Clock,
   BarChart2,
   KeyRound,
+  MessageCircle,
 } from 'lucide-react';
 import { trackMakerClick, appendUtm, getMakerStats } from '@/utils/analytics';
 
@@ -798,7 +799,7 @@ export default function ChocoRadarApp({
             </div>
           )}
 
-          {/* Direct Action Button — Immediately takes buyer to the selected product page */}
+          {/* Direct Action Buttons: Primary Site/Catalog + Fast Messenger */}
           <div className="mt-auto flex items-center gap-2 pt-2">
             <a
               href={appendUtm(directDestinationUrl, maker.id)}
@@ -829,6 +830,24 @@ export default function ChocoRadarApp({
               </span>
               <ArrowUpRight className="w-4 h-4 shrink-0" />
             </a>
+
+            {/* Fast Messenger button */}
+            {maker.phone && !maker.phone.startsWith('Замовлення') && (
+              <a
+                href={`https://wa.me/${maker.phone.replace(/[^\d]/g, '')}?text=${encodeURIComponent(
+                  lang === 'uk'
+                    ? `Доброго дня! Знайшов майстерню ${cleanDisplayName(maker.name)} на CrafoHub, хочу зробити замовлення.`
+                    : `Здравствуйте! Нашел мастерскую ${cleanDisplayName(maker.name)} на CrafoHub, хочу сделать заказ.`
+                )}`}
+                onClick={() => trackMakerClick(maker.id, 'phone', { category: effectiveCategory, city: maker.city })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full p-2.5 bg-emerald-600/15 text-emerald-700 dark:text-emerald-400 border border-emerald-600/30 hover:bg-emerald-600 hover:text-white transition shrink-0"
+                title={lang === 'uk' ? 'Швидкий зв’язок у месенджері' : 'Быстрая связь в мессенджере'}
+              >
+                <MessageCircle className="w-4 h-4" />
+              </a>
+            )}
 
             <button
               onClick={() => toggleMakerExpand(maker.id)}
@@ -942,6 +961,17 @@ export default function ChocoRadarApp({
               }`}
             >
               🌸 {lang === 'uk' ? 'Крафтовий зефір' : 'Крафтовый зефир'}
+            </Link>
+            <Link
+              href="/for-makers"
+              className={`rounded-full px-3 py-1.5 text-xs font-bold transition flex items-center gap-1 border ${
+                isDark
+                  ? 'border-amber-500/40 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20'
+                  : 'border-amber-600/30 bg-amber-50 text-amber-900 hover:bg-amber-100 shadow-xs'
+              }`}
+            >
+              <span>✨</span>
+              <span>{lang === 'uk' ? 'Виробникам' : 'Производителям'}</span>
             </Link>
           </nav>
 
@@ -2279,6 +2309,13 @@ export default function ChocoRadarApp({
             >
               + {lang === 'uk' ? 'Додати майстерню' : 'Добавить мастерскую'}
             </button>
+            <Link
+              href="/for-makers"
+              className="hover:text-[#b06a1e] flex items-center gap-1 text-amber-700 dark:text-amber-400 font-bold"
+            >
+              <span>✨</span>
+              <span>{lang === 'uk' ? 'Виробникам (0% комісія)' : 'Производителям (0% комиссия)'}</span>
+            </Link>
             <Link
               href="/partner/stats"
               className="text-[#a79d91] hover:text-[#b06a1e] flex items-center gap-1 font-normal"
