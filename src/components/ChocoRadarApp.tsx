@@ -124,27 +124,66 @@ const CATEGORY_SHORT_LABELS: Record<
   },
 };
 
-const POPULAR_CITIES: { id: string; uk: string; ru: string; count: number }[] = [
-  { id: 'all', uk: 'Вся Україна', ru: 'Вся Украина', count: 105 },
-  { id: 'Київ', uk: 'Київ', ru: 'Киев', count: 35 },
-  { id: 'Харків', uk: 'Харків', ru: 'Харьков', count: 14 },
-  { id: 'Львів', uk: 'Львів', ru: 'Львов', count: 8 },
-  { id: 'Дніпро', uk: 'Дніпро', ru: 'Днепр', count: 7 },
-  { id: 'Одеса', uk: 'Одеса', ru: 'Одесса', count: 9 },
-  { id: 'Вінниця', uk: 'Вінниця', ru: 'Винница', count: 8 },
-  { id: 'Полтава', uk: 'Полтава', ru: 'Полтава', count: 6 },
-  { id: 'Луцьк', uk: 'Луцьк', ru: 'Луцк', count: 6 },
-  { id: 'Черкаси', uk: 'Черкаси', ru: 'Черкассы', count: 12 },
-];
-
-const CITY_FILTERS = POPULAR_CITIES;
-
 function isCityMatch(m: CraftMaker, cityId: string): boolean {
   if (cityId === 'all') return true;
   const needle = cityId.toLowerCase();
   const c = (m.city || '').toLowerCase();
   const r = (m.regionCity || '').toLowerCase();
   return c.includes(needle) || r.includes(needle);
+}
+
+const RAW_CITIES: { id: string; uk: string; ru: string }[] = [
+  { id: 'all', uk: 'Вся Україна', ru: 'Вся Украина' },
+  { id: 'Київ', uk: 'Київ', ru: 'Киев' },
+  { id: 'Харків', uk: 'Харків', ru: 'Харьков' },
+  { id: 'Львів', uk: 'Львів', ru: 'Львов' },
+  { id: 'Дніпро', uk: 'Дніпро', ru: 'Днепр' },
+  { id: 'Одеса', uk: 'Одеса', ru: 'Одесса' },
+  { id: 'Запоріжжя', uk: 'Запоріжжя', ru: 'Запорожье' },
+  { id: 'Івано-Франківськ', uk: 'Івано-Франківськ', ru: 'Ивано-Франковск' },
+  { id: 'Чернівці', uk: 'Чернівці', ru: 'Черновцы' },
+  { id: 'Тернопіль', uk: 'Тернопіль', ru: 'Тернополь' },
+  { id: 'Вінниця', uk: 'Вінниця', ru: 'Винница' },
+  { id: 'Полтава', uk: 'Полтава', ru: 'Полтава' },
+  { id: 'Луцьк', uk: 'Луцьк', ru: 'Луцк' },
+  { id: 'Черкаси', uk: 'Черкаси', ru: 'Черкассы' },
+  { id: 'Хмельницький', uk: 'Хмельницький', ru: 'Хмельницкий' },
+  { id: 'Рівне', uk: 'Рівне', ru: 'Ровно' },
+  { id: 'Житомир', uk: 'Житомир', ru: 'Житомир' },
+  { id: 'Чернігів', uk: 'Чернігів', ru: 'Чернигов' },
+  { id: 'Суми', uk: 'Суми', ru: 'Сумы' },
+  { id: 'Кропивницький', uk: 'Кропивницький', ru: 'Кропивницкий' },
+  { id: 'Миколаїв', uk: 'Миколаїв', ru: 'Николаев' },
+  { id: 'Ужгород', uk: 'Ужгород', ru: 'Ужгород' },
+  { id: 'Кременчук', uk: 'Кременчук', ru: 'Кременчуг' },
+  { id: 'Ковель', uk: 'Ковель', ru: 'Ковель' },
+];
+
+const POPULAR_CITIES: { id: string; uk: string; ru: string; count: number }[] = RAW_CITIES.map((city) => ({
+  ...city,
+  count: city.id === 'all'
+    ? MAKERS.length
+    : MAKERS.filter((m) => isCityMatch(m, city.id)).length,
+}));
+
+const CITY_FILTERS = POPULAR_CITIES;
+
+function formatCitiesButtonText(count: number, lang: 'uk' | 'ru'): string {
+  if (lang === 'uk') {
+    const mod10 = count % 10;
+    const mod100 = count % 100;
+    if (mod100 >= 11 && mod100 <= 19) return `Усі ${count} міст ▾`;
+    if (mod10 === 1) return `Усі ${count} місто ▾`;
+    if (mod10 >= 2 && mod10 <= 4) return `Усі ${count} міста ▾`;
+    return `Усі ${count} міст ▾`;
+  } else {
+    const mod10 = count % 10;
+    const mod100 = count % 100;
+    if (mod100 >= 11 && mod100 <= 19) return `Все ${count} городов ▾`;
+    if (mod10 === 1) return `Все ${count} город ▾`;
+    if (mod10 >= 2 && mod10 <= 4) return `Все ${count} города ▾`;
+    return `Все ${count} городов ▾`;
+  }
 }
 
 function formatPhoneDisplay(phoneStr: string): string {
@@ -1197,9 +1236,7 @@ export default function ChocoRadarApp({
                   <span>
                     {selectedCity !== 'all' && !POPULAR_CITIES.slice(0, 6).some((c) => c.id === selectedCity)
                       ? selectedCity
-                      : lang === 'uk'
-                      ? 'Усі 43 міста ▾'
-                      : 'Все 43 города ▾'}
+                      : formatCitiesButtonText(POPULAR_CITIES.filter((c) => c.id !== 'all').length, lang)}
                   </span>
                 </button>
               </div>
@@ -1927,9 +1964,7 @@ export default function ChocoRadarApp({
                   <span>
                     {selectedCity !== 'all' && !POPULAR_CITIES.slice(0, 6).some((c) => c.id === selectedCity)
                       ? selectedCity
-                      : lang === 'uk'
-                      ? 'Усі 43 міста ▾'
-                      : 'Все 43 города ▾'}
+                      : formatCitiesButtonText(POPULAR_CITIES.filter((c) => c.id !== 'all').length, lang)}
                   </span>
                 </button>
               </div>
@@ -3219,7 +3254,7 @@ export default function ChocoRadarApp({
         </div>
       )}
 
-      {/* MODAL: City Selector with Search (43 Cities of Ukraine) */}
+      {/* MODAL: City Selector with Search */}
       {isCitySelectorModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
           <div className="bg-[#fefbf7] text-[#302016] border border-[#e1d5c8] rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl max-h-[85vh] flex flex-col">
@@ -3269,7 +3304,9 @@ export default function ChocoRadarApp({
                 }`}
               >
                 <span>🇺🇦 {lang === 'uk' ? 'Вся Україна (Всі міста)' : 'Вся Украина (Все города)'}</span>
-                <span className="opacity-70 text-xs">105 майстерень</span>
+                <span className="opacity-70 text-xs">
+                  {MAKERS.length} {lang === 'uk' ? 'майстерень' : 'мастерских'}
+                </span>
               </button>
 
               {POPULAR_CITIES.filter((c) => c.id !== 'all')
