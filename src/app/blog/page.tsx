@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { BLOG_ARTICLES, CITY_SEO_HUBS } from '@/data/blogData';
 import { CATEGORIES } from '@/data/chocolateData';
 import { ArrowUpRight, BookOpen, Clock, Sparkles, MapPin } from 'lucide-react';
+import { getOptimizedImageUrl } from '@/utils/imageOptimizer';
 
 export const metadata: Metadata = {
   title: 'Блог CrafoHub — Рейтинги, огляди та гіди з вибору крафтового шоколаду, зефіру і тортів України',
@@ -57,7 +58,7 @@ export default function BlogIndexPage() {
                 </span>
                 <span className="text-xs sm:text-sm font-normal text-stone-500">• Блог</span>
               </span>
-              <span className="text-[10px] sm:text-[11px] font-medium text-[#715f53]">
+              <span className="text-[10px] sm:text-[11px] font-medium text-[#4a382e]">
                 crafohub.com.ua
               </span>
             </span>
@@ -95,8 +96,12 @@ export default function BlogIndexPage() {
             >
               <Link href={`/blog/${article.slug}`} className="relative h-72 sm:h-80 overflow-hidden bg-[#f1e6da] block">
                 <img
-                  src={article.heroImage}
+                  src={getOptimizedImageUrl(article.heroImage, 600, 75)}
                   alt={article.titleUk}
+                  width={600}
+                  height={320}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
                 />
                 <div className="absolute top-4 left-4">

@@ -153,7 +153,7 @@ export default function PartnerStatsDashboard() {
                 PIN-код або код майстерні
               </label>
               <div className="relative">
-                <KeyRound className="w-4 h-4 text-[#a79d91] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <KeyRound className="w-4 h-4 text-[#d4c9be] absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="password"
                   value={pinInput}
@@ -180,7 +180,7 @@ export default function PartnerStatsDashboard() {
             </button>
           </form>
 
-          <div className="pt-2 border-t border-white/10 text-center text-xs text-[#a79d91] space-y-1">
+          <div className="pt-2 border-t border-white/10 text-center text-xs text-[#d4c9be] space-y-1">
             <p>
               Не маєте коду? Напишіть у{' '}
               <a
@@ -226,7 +226,7 @@ export default function PartnerStatsDashboard() {
                   Закритий доступ
                 </span>
               </div>
-              <span className="text-[10px] text-[#a79d91]">
+              <span className="text-[10px] text-[#d4c9be]">
                 {selectedMakerId === 'all'
                   ? 'Адміністративна панель усього хабу'
                   : `Персональний кабінет: ${activeMakerItem?.maker.name || ''}`}
@@ -281,7 +281,7 @@ export default function PartnerStatsDashboard() {
                 <div className="text-3xl font-serif font-extrabold text-white">
                   {totalAggregates.totalLeads.toLocaleString('uk-UA')}
                 </div>
-                <p className="text-[11px] text-[#a79d91]">Прямих переходів до покупки</p>
+                <p className="text-[11px] text-[#d4c9be]">Прямих переходів до покупки</p>
               </div>
 
               <div className="bg-[#261b16] border border-white/15 rounded-3xl p-5 space-y-2 shadow-sm">
@@ -292,7 +292,7 @@ export default function PartnerStatsDashboard() {
                 <div className="text-3xl font-serif font-extrabold text-white">
                   {totalAggregates.totalWeb.toLocaleString('uk-UA')}
                 </div>
-                <p className="text-[11px] text-[#a79d91]">Кліків з UTM-міткою crafohub</p>
+                <p className="text-[11px] text-[#d4c9be]">Кліків з UTM-міткою crafohub</p>
               </div>
 
               <div className="bg-[#261b16] border border-white/15 rounded-3xl p-5 space-y-2 shadow-sm">
@@ -303,7 +303,7 @@ export default function PartnerStatsDashboard() {
                 <div className="text-3xl font-serif font-extrabold text-white">
                   {totalAggregates.totalInsta.toLocaleString('uk-UA')}
                 </div>
-                <p className="text-[11px] text-[#a79d91]">Переходів у Direct / сторінку</p>
+                <p className="text-[11px] text-[#d4c9be]">Переходів у Direct / сторінку</p>
               </div>
 
               <div className="bg-[#261b16] border border-white/15 rounded-3xl p-5 space-y-2 shadow-sm">
@@ -314,7 +314,7 @@ export default function PartnerStatsDashboard() {
                 <div className="text-3xl font-serif font-extrabold text-white">
                   {totalAggregates.totalPhone.toLocaleString('uk-UA')}
                 </div>
-                <p className="text-[11px] text-[#a79d91]">Кліків за номерами телефонів</p>
+                <p className="text-[11px] text-[#d4c9be]">Кліків за номерами телефонів</p>
               </div>
             </div>
 
@@ -325,13 +325,13 @@ export default function PartnerStatsDashboard() {
                   <h2 className="font-serif text-lg sm:text-xl font-bold text-white">
                     Рейтинг майстерень за переходами покупців
                   </h2>
-                  <p className="text-xs text-[#a79d91]">
+                  <p className="text-xs text-[#d4c9be]">
                     Оберіть майстерню, щоб відкрити її персональний детальний звіт для демонстрації
                   </p>
                 </div>
 
                 <div className="relative w-full sm:w-72">
-                  <Search className="w-4 h-4 text-[#a79d91] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <Search className="w-4 h-4 text-[#d4c9be] absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <input
                     type="text"
                     value={searchQuery}
@@ -346,7 +346,7 @@ export default function PartnerStatsDashboard() {
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs border-collapse">
                   <thead>
-                    <tr className="border-b border-white/10 text-[#a79d91]">
+                    <tr className="border-b border-white/10 text-[#d4c9be]">
                       <th className="py-3 px-3 font-bold uppercase tracking-wider">#</th>
                       <th className="py-3 px-3 font-bold uppercase tracking-wider">Виробник</th>
                       <th className="py-3 px-3 font-bold uppercase tracking-wider">Місто</th>
@@ -384,7 +384,7 @@ export default function PartnerStatsDashboard() {
                               <div className="font-bold text-white text-sm line-clamp-1">
                                 {maker.name.replace(/\s*\(.*\)/, '')}
                               </div>
-                              <div className="text-[10px] text-[#a79d91] font-mono">
+                              <div className="text-[10px] text-[#d4c9be] font-mono">
                                 ID: {maker.id}
                               </div>
                             </div>
@@ -459,7 +459,7 @@ export default function PartnerStatsDashboard() {
                       <h2 className="font-serif text-xl sm:text-2xl font-bold text-white">
                         {activeMakerItem.maker.name}
                       </h2>
-                      <div className="flex items-center gap-2 text-xs text-[#a79d91] mt-0.5">
+                      <div className="flex items-center gap-2 text-xs text-[#d4c9be] mt-0.5">
                         <span>📍 {activeMakerItem.maker.city}</span>
                         <span>•</span>
                         <span>★ {activeMakerItem.maker.rating}</span>
@@ -501,7 +501,7 @@ export default function PartnerStatsDashboard() {
                 {/* KPI Metrics */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="bg-[#1a120e] rounded-2xl p-4 border border-white/10 space-y-1">
-                    <div className="text-[11px] font-bold text-[#a79d91] uppercase">Всього звернень</div>
+                    <div className="text-[11px] font-bold text-[#d4c9be] uppercase">Всього звернень</div>
                     <div className="text-3xl font-serif font-extrabold text-[#f0a556]">
                       {activeMakerItem.stats.totalLeads}
                     </div>
@@ -513,7 +513,7 @@ export default function PartnerStatsDashboard() {
                     <div className="text-3xl font-serif font-extrabold text-white">
                       {activeMakerItem.stats.websiteClicks}
                     </div>
-                    <p className="text-[10px] text-[#a79d91]">З міткою utm_source=crafohub</p>
+                    <p className="text-[10px] text-[#d4c9be]">З міткою utm_source=crafohub</p>
                   </div>
 
                   <div className="bg-[#1a120e] rounded-2xl p-4 border border-white/10 space-y-1">
@@ -521,7 +521,7 @@ export default function PartnerStatsDashboard() {
                     <div className="text-3xl font-serif font-extrabold text-white">
                       {activeMakerItem.stats.instagramClicks}
                     </div>
-                    <p className="text-[10px] text-[#a79d91]">Переходів у профіль / Direct</p>
+                    <p className="text-[10px] text-[#d4c9be]">Переходів у профіль / Direct</p>
                   </div>
 
                   <div className="bg-[#1a120e] rounded-2xl p-4 border border-white/10 space-y-1">
@@ -529,7 +529,7 @@ export default function PartnerStatsDashboard() {
                     <div className="text-3xl font-serif font-extrabold text-white">
                       {activeMakerItem.stats.phoneClicks}
                     </div>
-                    <p className="text-[10px] text-[#a79d91]">Натискань за номером телефону</p>
+                    <p className="text-[10px] text-[#d4c9be]">Натискань за номером телефону</p>
                   </div>
                 </div>
 

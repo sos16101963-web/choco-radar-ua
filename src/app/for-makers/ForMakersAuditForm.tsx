@@ -31,7 +31,7 @@ export default function ForMakersAuditForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-3.5 text-xs sm:text-sm">
       <div>
-        <label className="block text-[11px] font-bold text-[#715f53] mb-1">
+        <label className="block text-[11px] font-bold text-[#4a382e] mb-1">
           Назва майстерні / бренду *
         </label>
         <input
@@ -46,7 +46,7 @@ export default function ForMakersAuditForm() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label className="block text-[11px] font-bold text-[#715f53] mb-1">
+          <label className="block text-[11px] font-bold text-[#4a382e] mb-1">
             Місто виробництва *
           </label>
           <input
@@ -59,7 +59,7 @@ export default function ForMakersAuditForm() {
           />
         </div>
         <div>
-          <label className="block text-[11px] font-bold text-[#715f53] mb-1">
+          <label className="block text-[11px] font-bold text-[#4a382e] mb-1">
             Основний напрямок *
           </label>
           <select
@@ -76,7 +76,7 @@ export default function ForMakersAuditForm() {
       </div>
 
       <div>
-        <label className="block text-[11px] font-bold text-[#715f53] mb-1">
+        <label className="block text-[11px] font-bold text-[#4a382e] mb-1">
           Посилання на сайт або Instagram *
         </label>
         <input
@@ -90,7 +90,7 @@ export default function ForMakersAuditForm() {
       </div>
 
       <div>
-        <label className="block text-[11px] font-bold text-[#715f53] mb-1">
+        <label className="block text-[11px] font-bold text-[#4a382e] mb-1">
           Телефон та месенджер для зв’язку (Telegram/Viber) *
         </label>
         <input

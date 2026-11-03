@@ -228,7 +228,7 @@ export default function ForMakersPage() {
             <h2 className="font-serif text-2xl font-bold">
               Подати заявку на підключення майстерні
             </h2>
-            <p className="text-xs text-[#715f53]">
+            <p className="text-xs text-[#4a382e]">
               Заповніть форму за 1 хвилину. Наш експерт перевірить склад продукції та зв’яжеться з вами
               для відкриття персонального профілю.
             </p>
@@ -236,7 +236,7 @@ export default function ForMakersPage() {
 
           <ForMakersAuditForm />
 
-          <p className="text-[11px] text-center text-[#715f53]">
+          <p className="text-[11px] text-center text-[#4a382e]">
             Або напишіть нам напряму в Telegram:{' '}
             <a
               href="https://t.me/crafohub_ua"
@@ -251,7 +251,7 @@ export default function ForMakersPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-[#e1d5c8] py-8 px-4 text-center text-xs text-[#715f53]">
+      <footer className="border-t border-[#e1d5c8] py-8 px-4 text-center text-xs text-[#4a382e]">
         <div>CrafoHub Україна • Платформа незалежних крафтових виробників 2027</div>
         <div className="pt-2">
           <Link href="/" className="hover:text-[#b06a1e] underline">

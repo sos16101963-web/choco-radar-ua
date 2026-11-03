@@ -268,7 +268,7 @@ export const MAKERS: CraftMaker[] = [
       "Callebaut 100%",
       "Свіжий Instagram та Сайт"
     ],
-    "imageUrl": "/images/crafo-collage.jpg"
+    "imageUrl": "/images/crafo-collage.webp"
   },
   {
     "id": "sisters-a",
@@ -308,7 +308,7 @@ export const MAKERS: CraftMaker[] = [
       "Плитка шоколаду • Батончик 72 год",
       "Fino de Aroma"
     ],
-    "imageUrl": "/images/sisters-a.jpg"
+    "imageUrl": "/images/sisters-a.webp"
   },
   {
     "id": "piolli-zefir",
@@ -624,7 +624,7 @@ export const MAKERS: CraftMaker[] = [
       "З 2016 року",
       "Плитка шоколаду • Батончик"
     ],
-    "imageUrl": "https://static.wixstatic.com/media/93c538_5923c9898ce74187900833e45b954574%7Emv2.jpg/v1/fit/w_2500,h_1330,al_c/93c538_5923c9898ce74187900833e45b954574%7Emv2.jpg"
+    "imageUrl": "https://static.wixstatic.com/media/93c538_5923c9898ce74187900833e45b954574%7Emv2.jpg/v1/fit/w_600,h_400,al_c/93c538_5923c9898ce74187900833e45b954574%7Emv2.webp"
   },
   {
     "id": "bogi-cacao",
@@ -2669,7 +2669,7 @@ export const MAKERS: CraftMaker[] = [
       "Без пальмової олії",
       "Трюфелі та плитки"
     ],
-    "imageUrl": "https://static.wixstatic.com/media/93c538_5923c9898ce74187900833e45b954574%7Emv2.jpg/v1/fit/w_2500,h_1330,al_c/93c538_5923c9898ce74187900833e45b954574%7Emv2.jpg",
+    "imageUrl": "https://static.wixstatic.com/media/93c538_5923c9898ce74187900833e45b954574%7Emv2.jpg/v1/fit/w_600,h_400,al_c/93c538_5923c9898ce74187900833e45b954574%7Emv2.webp",
     "instagramUrl": "https://www.instagram.com/stranger_craft_chocolate",
     "instagramHandle": "@stranger_craft_chocolate"
   },
@@ -4269,7 +4269,7 @@ export const PRODUCTS: ChocolateProduct[] = [
     expertVerdict:
       'Виготовляється у провідній харківській майстерні Crafo (crafo.com.ua, вул. Лебединська, 1) зі 100% бельгійського шоколаду Callebaut. Доступні плитки, авторські цукерки та розкішні шоколадні квіти.',
     bestFor: ['gift-her', 'gift-boss', 'corporate', 'kids'],
-    imageUrl: '/images/crafo-hero.jpg',
+    imageUrl: '/images/crafo-hero.webp',
     offersCount: 5,
     productUrl: 'https://crafo.com.ua/podarunky/buket-iakyi-ne-ziviane',
   },

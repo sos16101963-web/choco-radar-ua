@@ -157,7 +157,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     publishedAt: '2026-10-24',
     authorUk: 'Експертна редакція CrafoHub',
     authorRu: 'Экспертная редакция CrafoHub',
-    heroImage: '/images/crafo-large-flowers.jpg',
+    heroImage: '/images/crafo-large-flowers.webp',
     seoKeywords: [
       'шоколадні квіти купити Україна',
       'букет з шоколадних троянд Харків Київ',

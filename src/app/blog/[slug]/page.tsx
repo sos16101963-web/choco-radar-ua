@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { BLOG_ARTICLES } from '@/data/blogData';
 import { ArrowUpRight, Clock, Crown, Sparkles } from 'lucide-react';
+import { getOptimizedImageUrl } from '@/utils/imageOptimizer';
 
 interface BlogArticlePageProps {
   params: Promise<{ slug: string }>;
@@ -127,8 +128,12 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
         {/* Big Clear Photo Banner */}
         <div className="rounded-3xl overflow-hidden border border-[#e1d5c8] shadow-md bg-[#f1e6da] h-72 sm:h-96">
           <img
-            src={article.heroImage}
+            src={getOptimizedImageUrl(article.heroImage, 800, 75)}
             alt={article.titleUk}
+            width={800}
+            height={400}
+            loading="eager"
+            decoding="async"
             className="w-full h-full object-cover object-center"
           />
         </div>

@@ -56,6 +56,7 @@ import {
   MessageCircle,
 } from 'lucide-react';
 import { trackMakerClick, appendUtm, getMakerStats } from '@/utils/analytics';
+import { getOptimizedImageUrl } from '@/utils/imageOptimizer';
 
 // Direct link to a category page on the maker's site (manual > auto-discovered). null = no verified link.
 function getMakerCategoryUrl(maker: CraftMaker, cat: CategorySlug): string | null {
@@ -632,9 +633,10 @@ export default function ChocoRadarApp({
           {maker.imageUrl ? (
             <>
               <img
-                src={maker.imageUrl}
+                src={getOptimizedImageUrl(maker.imageUrl, 500, 75)}
                 alt={maker.name}
-                loading="lazy"
+                loading={rankIndex === 0 ? "eager" : "lazy"}
+                decoding="async"
                 className="absolute inset-0 w-full h-full object-cover object-center brightness-105 contrast-105 transition-all duration-500 group-hover:scale-105"
               />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/65 via-black/25 to-transparent" />
@@ -679,7 +681,11 @@ export default function ChocoRadarApp({
               e.stopPropagation();
               toggleFavoriteMaker(maker.id);
             }}
-            aria-label="Обране"
+            aria-label={
+              isFav
+                ? (lang === 'uk' ? 'Видалити з обраного' : 'Удалить из избранного')
+                : (lang === 'uk' ? 'Додати в обране' : 'Добавить в избранное')
+            }
             className={`absolute right-3 top-3 z-10 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md transition ${
               isFav
                 ? 'bg-[#c75b7a] text-white shadow-md'
@@ -713,7 +719,7 @@ export default function ChocoRadarApp({
             </h3>
             <p
               className={`mt-1 flex items-center gap-1 text-xs font-medium ${
-                isDark ? 'text-[#a79d91]' : 'text-[#715f53]'
+                isDark ? 'text-[#d4c9be]' : 'text-[#4a382e]'
               }`}
             >
               <MapPin className="w-3.5 h-3.5 text-[#b06a1e] shrink-0" />
@@ -789,7 +795,8 @@ export default function ChocoRadarApp({
                     setStatsError('');
                     setIsMakerStatsModalOpen(true);
                   }}
-                  className="text-[11px] text-[#a79d91] hover:text-[#b06a1e] flex items-center gap-1 opacity-70 hover:opacity-100 transition"
+                  aria-label={lang === 'uk' ? 'Статистика майстерні' : 'Статистика мастерской'}
+                  className="text-[11px] text-[#4a382e] dark:text-[#d4c9be] hover:text-[#b06a1e] flex items-center gap-1 opacity-80 hover:opacity-100 transition"
                   title="Статистика переходів для виробника"
                 >
                   <BarChart2 className="w-3 h-3" />
@@ -842,6 +849,7 @@ export default function ChocoRadarApp({
                 onClick={() => trackMakerClick(maker.id, 'phone', { category: effectiveCategory, city: maker.city })}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={lang === 'uk' ? 'Швидкий зв’язок у месенджері' : 'Быстрая связь в мессенджере'}
                 className="rounded-full p-2.5 bg-emerald-600/15 text-emerald-700 dark:text-emerald-400 border border-emerald-600/30 hover:bg-emerald-600 hover:text-white transition shrink-0"
                 title={lang === 'uk' ? 'Швидкий зв’язок у месенджері' : 'Быстрая связь в мессенджере'}
               >
@@ -851,6 +859,11 @@ export default function ChocoRadarApp({
 
             <button
               onClick={() => toggleMakerExpand(maker.id)}
+              aria-label={
+                isExpanded
+                  ? (lang === 'uk' ? 'Згорнути детальну інформацію' : 'Свернуть подробную информацию')
+                  : (lang === 'uk' ? 'Розгорнути детальну інформацію' : 'Развернуть подробную информацию')
+              }
               className={`inline-flex items-center gap-1 rounded-full px-3 py-2.5 text-xs font-bold border transition shrink-0 ${
                 isDark
                   ? 'border-white/15 text-[#f0a556] hover:bg-white/10'
@@ -900,7 +913,7 @@ export default function ChocoRadarApp({
               </span>
               <span
                 className={`text-[10px] sm:text-[11px] font-medium ${
-                  isDark ? 'text-[#a79d91]' : 'text-[#715f53]'
+                  isDark ? 'text-[#d4c9be]' : 'text-[#4a382e]'
                 }`}
               >
                 crafohub.com.ua
@@ -980,6 +993,7 @@ export default function ChocoRadarApp({
             {/* Button: Methodology & Trust */}
             <button
               onClick={() => setIsMethodologyModalOpen(true)}
+              aria-label={lang === 'uk' ? 'Стандарти перевірки майстерень' : 'Стандарты проверки мастерских'}
               className={`hidden md:inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold border transition ${
                 isDark
                   ? 'bg-[#362820] border-white/20 text-[#eee7dd] hover:bg-[#462b1f]'
@@ -997,6 +1011,7 @@ export default function ChocoRadarApp({
                 if (activeSection !== 'home') setDrawerSectionTab(activeSection);
                 setIsAssortmentDrawerOpen(true);
               }}
+              aria-label={lang === 'uk' ? 'Відкрити асортимент продукції' : 'Открыть ассортимент продукции'}
               className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-extrabold border transition shadow-xs ${
                 isDark
                   ? 'bg-[#362820] border-[#e39851]/50 text-[#f0a556] hover:bg-[#462b1f]'
@@ -1012,6 +1027,7 @@ export default function ChocoRadarApp({
             {/* Button 2: Open Right Sommelier Drawer */}
             <button
               onClick={() => setIsSommelierDrawerOpen(true)}
+              aria-label={lang === 'uk' ? 'Підбір подарунка сомельє' : 'Подбор подарка сомелье'}
               className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#b06a1e] to-[#8c4f12] hover:brightness-110 px-3 py-1.5 text-xs font-extrabold text-white shadow-xs transition"
             >
               <Wand2 className="w-3.5 h-3.5" />
@@ -1028,20 +1044,22 @@ export default function ChocoRadarApp({
             >
               <button
                 onClick={() => changeLanguage('uk')}
+                aria-label="Українська мова"
                 className={`rounded-full px-2 py-1 transition ${
                   lang === 'uk'
                     ? 'bg-[#462b1f] text-[#faf4eb]'
-                    : 'text-[#715f53] hover:text-[#302016]'
+                    : 'text-[#4a382e] hover:text-[#1a100c]'
                 }`}
               >
                 УКР
               </button>
               <button
                 onClick={() => changeLanguage('ru')}
+                aria-label="Русский язык"
                 className={`rounded-full px-2 py-1 transition ${
                   lang === 'ru'
                     ? 'bg-[#462b1f] text-[#faf4eb]'
-                    : 'text-[#715f53] hover:text-[#302016]'
+                    : 'text-[#4a382e] hover:text-[#1a100c]'
                 }`}
               >
                 РУС
@@ -1050,7 +1068,11 @@ export default function ChocoRadarApp({
 
             <button
               onClick={() => setIsDark(!isDark)}
-              aria-label="Тема"
+              aria-label={
+                isDark
+                  ? (lang === 'uk' ? 'Увімкнути світлу тему' : 'Включить светлую тему')
+                  : (lang === 'uk' ? 'Увімкнути темну тему' : 'Включить темную тему')
+              }
               className={`w-8 h-8 rounded-full flex items-center justify-center border transition ${
                 isDark
                   ? 'border-white/20 bg-[#362820] text-[#f0a556]'
@@ -1197,8 +1219,12 @@ export default function ChocoRadarApp({
               >
                 <div className="relative h-64 sm:h-72 overflow-hidden bg-[#24130a]">
                   <img
-                    src="/images/crafo-collage.jpg"
-                    alt="Шоколад та цукерки"
+                    src="/images/crafo-collage.webp"
+                    alt={lang === 'uk' ? 'Шоколад та цукерки' : 'Шоколад и конфеты'}
+                    width={640}
+                    height={320}
+                    loading="eager"
+                    decoding="async"
                     className="w-full h-full object-cover object-center brightness-110 contrast-105 saturate-110 transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/85 via-black/35 to-transparent pointer-events-none" />
@@ -1264,6 +1290,7 @@ export default function ChocoRadarApp({
                         setDrawerSectionTab('chocolate');
                         setIsAssortmentDrawerOpen(true);
                       }}
+                      aria-label={lang === 'uk' ? 'Відкрити асортимент шоколаду справа' : 'Открыть ассортимент шоколада справа'}
                       className="rounded-full border-2 border-[#b06a1e]/40 hover:border-[#b06a1e] bg-white text-[#302016] px-3.5 py-3 text-xs font-extrabold flex items-center gap-1.5 transition shrink-0 shadow-xs"
                       title={lang === 'uk' ? 'Відкрити асортимент шоколаду справа' : 'Открыть ассортимент шоколада справа'}
                     >
@@ -1286,8 +1313,12 @@ export default function ChocoRadarApp({
               >
                 <div className="relative h-64 sm:h-72 overflow-hidden bg-[#5a182c]">
                   <img
-                    src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1000&q=85"
-                    alt="Авторські торти та десерти"
+                    src={getOptimizedImageUrl('https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=75', 600, 75)}
+                    alt={lang === 'uk' ? 'Авторські торти та десерти' : 'Авторские торты и десерты'}
+                    width={640}
+                    height={320}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover object-center brightness-105 contrast-105 transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/85 via-black/35 to-transparent pointer-events-none" />
@@ -1353,6 +1384,7 @@ export default function ChocoRadarApp({
                         setDrawerSectionTab('cakes');
                         setIsAssortmentDrawerOpen(true);
                       }}
+                      aria-label={lang === 'uk' ? 'Відкрити асортимент тортів справа' : 'Открыть ассортимент тортов справа'}
                       className="rounded-full border-2 border-[#c75b7a]/40 hover:border-[#c75b7a] bg-white text-[#302016] px-3.5 py-3 text-xs font-extrabold flex items-center gap-1.5 transition shrink-0 shadow-xs"
                       title={lang === 'uk' ? 'Відкрити асортимент тортів справа' : 'Открыть ассортимент тортов справа'}
                     >
@@ -1375,8 +1407,12 @@ export default function ChocoRadarApp({
               >
                 <div className="relative h-64 sm:h-72 overflow-hidden bg-[#7a4a2b]">
                   <img
-                    src="https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=1000&q=85"
-                    alt="Крафтовий зефір та букети"
+                    src={getOptimizedImageUrl('https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=600&q=75', 600, 75)}
+                    alt={lang === 'uk' ? 'Крафтовий зефір та букети' : 'Крафтовый зефир и букеты'}
+                    width={640}
+                    height={320}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover object-center brightness-105 contrast-105 transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/85 via-black/35 to-transparent pointer-events-none" />
@@ -1442,6 +1478,7 @@ export default function ChocoRadarApp({
                         setDrawerSectionTab('zefir');
                         setIsAssortmentDrawerOpen(true);
                       }}
+                      aria-label={lang === 'uk' ? 'Відкрити асортимент зефіру справа' : 'Открыть ассортимент зефира справа'}
                       className="rounded-full border-2 border-[#b06a1e]/40 hover:border-[#b06a1e] bg-white text-[#302016] px-3.5 py-3 text-xs font-extrabold flex items-center gap-1.5 transition shrink-0 shadow-xs"
                       title={lang === 'uk' ? 'Відкрити асортимент зефіру справа' : 'Открыть ассортимент зефира справа'}
                     >
@@ -1751,8 +1788,12 @@ export default function ChocoRadarApp({
                   <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
                     <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden shrink-0 border border-white/20 bg-[#3a2113]">
                       <img
-                        src={activeVariant.imageUrl}
+                        src={getOptimizedImageUrl(activeVariant.imageUrl, 150, 75)}
                         alt={lang === 'uk' ? activeVariant.titleUk : activeVariant.titleRu}
+                        width={64}
+                        height={64}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover object-center"
                       />
                       <span className="absolute bottom-0.5 right-0.5 text-xs sm:text-sm bg-black/60 backdrop-blur-xs rounded-md px-1 text-white">
@@ -1817,8 +1858,12 @@ export default function ChocoRadarApp({
                           >
                             <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 border border-black/10 bg-[#3a2113]">
                               <img
-                                src={variant.imageUrl}
+                                src={getOptimizedImageUrl(variant.imageUrl, 120, 75)}
                                 alt={lang === 'uk' ? variant.titleUk : variant.titleRu}
+                                width={48}
+                                height={48}
+                                loading="lazy"
+                                decoding="async"
                                 className="w-full h-full object-cover object-center"
                               />
                               <span className="absolute bottom-0 right-0 text-[10px] bg-black/60 rounded px-1 text-white">
@@ -1835,7 +1880,7 @@ export default function ChocoRadarApp({
                                   <ArrowRight className="w-3.5 h-3.5" />
                                 </span>
                               </div>
-                              <p className="text-[11px] text-[#715f53] dark:text-[#a79d91] line-clamp-1 mt-0.5">
+                              <p className="text-[11px] text-[#4a382e] dark:text-[#d4c9be] line-clamp-1 mt-0.5">
                                 {lang === 'uk' ? variant.shortDescUk : variant.shortDescRu}
                               </p>
                             </div>
@@ -2028,10 +2073,13 @@ export default function ChocoRadarApp({
                                         className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl overflow-hidden shrink-0 border border-black/10 bg-[#3a2113] cursor-pointer group"
                                       >
                                         <img
-                                          src={maker.imageUrl}
+                                          src={getOptimizedImageUrl(maker.imageUrl, 120, 75)}
                                           alt={maker.name}
+                                          width={56}
+                                          height={56}
                                           className="w-full h-full object-cover object-center transition-transform group-hover:scale-110"
                                           loading="lazy"
+                                          decoding="async"
                                         />
                                       </div>
                                     ) : (
@@ -2063,7 +2111,7 @@ export default function ChocoRadarApp({
                                         </span>
                                       </div>
 
-                                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs text-[#715f53] dark:text-[#a79d91]">
+                                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs text-[#4a382e] dark:text-[#d4c9be]">
                                         <span className="flex items-center gap-1 shrink-0 font-medium">
                                           <MapPin className="w-3 h-3 text-[#b06a1e]" />
                                           <span>{localizeText(maker.city, lang)}</span>
@@ -2189,8 +2237,12 @@ export default function ChocoRadarApp({
                     className="relative h-52 sm:h-60 w-full overflow-hidden block bg-[#f3e9dc]"
                   >
                     <img
-                      src={article.heroImage}
+                      src={getOptimizedImageUrl(article.heroImage, 500, 75)}
                       alt={lang === 'uk' ? article.titleUk : article.titleRu}
+                      width={500}
+                      height={240}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                     />
                   </Link>
@@ -2269,8 +2321,8 @@ export default function ChocoRadarApp({
       <footer
         className={`border-t py-8 px-4 sm:px-6 ${
           isDark
-            ? 'bg-[#140d0a] border-white/10 text-[#a79d91]'
-            : 'bg-[#f1e6da] border-[#e1d5c8] text-[#5a4638]'
+            ? 'bg-[#140d0a] border-white/10 text-[#d4c9be]'
+            : 'bg-[#f1e6da] border-[#e1d5c8] text-[#4a382e]'
         }`}
       >
         <div className="mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium">
@@ -2295,6 +2347,7 @@ export default function ChocoRadarApp({
             </Link>
             <button
               onClick={() => setIsMethodologyModalOpen(true)}
+              aria-label={lang === 'uk' ? 'Методологія відбору' : 'Методология отбора'}
               className="hover:text-[#b06a1e] flex items-center gap-1"
             >
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
@@ -2305,6 +2358,7 @@ export default function ChocoRadarApp({
                 setSelectedPlanForModal('PRO або Безкоштовний');
                 setIsAddMakerModalOpen(true);
               }}
+              aria-label={lang === 'uk' ? 'Додати майстерню' : 'Добавить мастерскую'}
               className="hover:text-[#b06a1e]"
             >
               + {lang === 'uk' ? 'Додати майстерню' : 'Добавить мастерскую'}
@@ -2318,7 +2372,7 @@ export default function ChocoRadarApp({
             </Link>
             <Link
               href="/partner/stats"
-              className="text-[#a79d91] hover:text-[#b06a1e] flex items-center gap-1 font-normal"
+              className="text-[#4a382e] dark:text-[#d4c9be] hover:text-[#b06a1e] flex items-center gap-1 font-normal"
               title="Закритий кабінет статистики переходів"
             >
               <BarChart2 className="w-3.5 h-3.5 opacity-70" />
@@ -2342,6 +2396,7 @@ export default function ChocoRadarApp({
         <Link
           href={getLocalizedHref('/')}
           onClick={() => setActiveSection('home')}
+          aria-label={lang === 'uk' ? 'Розділи' : 'Разделы'}
           className={`flex flex-col items-center justify-center py-1 rounded-xl text-[10px] font-extrabold ${
             activeSection === 'home' ? 'text-[#b06a1e] bg-[#b06a1e]/10' : ''
           }`}
@@ -2355,6 +2410,7 @@ export default function ChocoRadarApp({
             if (activeSection !== 'home') setDrawerSectionTab(activeSection);
             setIsAssortmentDrawerOpen(true);
           }}
+          aria-label={lang === 'uk' ? 'Асортимент' : 'Ассортимент'}
           className="flex flex-col items-center justify-center py-1 rounded-xl text-[10px] font-extrabold"
         >
           <LayoutList className="w-4 h-4 text-[#b06a1e]" />
@@ -2363,6 +2419,7 @@ export default function ChocoRadarApp({
 
         <button
           onClick={() => setIsSommelierDrawerOpen(true)}
+          aria-label={lang === 'uk' ? 'Сомельє' : 'Сомелье'}
           className="flex flex-col items-center justify-center py-1 rounded-xl text-[10px] font-extrabold"
         >
           <Wand2 className="w-4 h-4 text-[#b06a1e]" />
@@ -2371,6 +2428,7 @@ export default function ChocoRadarApp({
 
         <button
           onClick={() => setIsTenderModalOpen(true)}
+          aria-label={lang === 'uk' ? 'Замовити індивідуально' : 'Заказать индивидуально'}
           className="flex flex-col items-center justify-center py-1 rounded-xl bg-[#b06a1e] text-white text-[10px] font-extrabold"
         >
           <Gift className="w-4 h-4" />
@@ -2409,6 +2467,7 @@ export default function ChocoRadarApp({
                 </div>
                 <button
                   onClick={() => setIsAssortmentDrawerOpen(false)}
+                  aria-label={lang === 'uk' ? 'Закрити меню асортименту' : 'Закрыть меню ассортимента'}
                   className="w-9 h-9 rounded-full bg-[#f1e6da] text-[#302016] flex items-center justify-center hover:bg-[#e39851] transition shrink-0"
                 >
                   <X className="w-5 h-5" />
@@ -2453,8 +2512,12 @@ export default function ChocoRadarApp({
                   >
                     <div className="flex items-start gap-3">
                       <img
-                        src={item.imageUrl}
+                        src={getOptimizedImageUrl(item.imageUrl, 160, 75)}
                         alt={lang === 'uk' ? item.titleUk : item.titleRu}
+                        width={80}
+                        height={80}
+                        loading="lazy"
+                        decoding="async"
                         className="w-20 h-20 rounded-xl object-cover shrink-0 border border-[#e1d5c8]"
                       />
                       <div className="min-w-0 flex-1">
@@ -2540,6 +2603,7 @@ export default function ChocoRadarApp({
                 </div>
                 <button
                   onClick={() => setIsSommelierDrawerOpen(false)}
+                  aria-label={lang === 'uk' ? 'Закрити помічник сомельє' : 'Закрыть помощник сомелье'}
                   className="w-9 h-9 rounded-full bg-[#f1e6da] text-[#302016] flex items-center justify-center hover:bg-[#e39851] transition shrink-0"
                 >
                   <X className="w-5 h-5" />
@@ -2823,13 +2887,14 @@ export default function ChocoRadarApp({
                 <h2 className="font-serif text-xl font-bold">
                   {localizeText(activeMakerModal.name, lang)}
                 </h2>
-                <p className="text-xs text-[#715f53]">
+                <p className="text-xs text-[#4a382e]">
                   {localizeText(activeMakerModal.city, lang)} • ★ {activeMakerModal.rating}
                 </p>
               </div>
               <button
                 onClick={() => setActiveMakerModal(null)}
-                className="p-2 rounded-full bg-[#f1e6da]"
+                aria-label={lang === 'uk' ? 'Закрити деталі майстерні' : 'Закрыть детали мастерской'}
+                className="p-2 rounded-full bg-[#f1e6da] hover:bg-[#e5d5c3] transition shrink-0"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -2837,8 +2902,12 @@ export default function ChocoRadarApp({
             {activeMakerModal.imageUrl && (
               <div className="rounded-2xl overflow-hidden h-64 border border-[#e1d5c8]">
                 <img
-                  src={activeMakerModal.imageUrl}
+                  src={getOptimizedImageUrl(activeMakerModal.imageUrl, 600, 80)}
                   alt={activeMakerModal.name}
+                  width={500}
+                  height={256}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -2885,7 +2954,8 @@ export default function ChocoRadarApp({
                   setStatsError('');
                   setIsMakerStatsModalOpen(true);
                 }}
-                className="p-3 rounded-full border border-[#d4c3b3] bg-white text-[#715f53] hover:text-[#b06a1e] hover:border-[#b06a1e] transition shrink-0"
+                aria-label={lang === 'uk' ? 'Статистика переходів для майстерні' : 'Статистика переходов для мастерской'}
+                className="p-3 rounded-full border border-[#d4c3b3] bg-white text-[#4a382e] hover:text-[#b06a1e] hover:border-[#b06a1e] transition shrink-0"
                 title={lang === 'uk' ? 'Статистика переходів для майстерні' : 'Статистика переходов для мастерской'}
               >
                 <BarChart2 className="w-4 h-4" />
@@ -2915,6 +2985,7 @@ export default function ChocoRadarApp({
                   setIsTenderModalOpen(false);
                   setTenderSubmitted(false);
                 }}
+                aria-label={lang === 'uk' ? 'Закрити форму замовлення' : 'Закрыть форму заказа'}
                 className="p-2 rounded-full bg-[#f1e6da] hover:bg-[#e5d5c3] transition shrink-0"
               >
                 <X className="w-4 h-4" />
@@ -2952,7 +3023,7 @@ export default function ChocoRadarApp({
               >
                 {/* Category selector */}
                 <div>
-                  <label className="block text-[11px] font-bold text-[#715f53] mb-1.5">
+                  <label className="block text-[11px] font-bold text-[#4a382e] mb-1.5">
                     {lang === 'uk' ? 'Що потрібно виготовити?' : 'Что необходимо изготовить?'}
                   </label>
                   <div className="grid grid-cols-2 gap-1.5">
@@ -2980,7 +3051,7 @@ export default function ChocoRadarApp({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <div>
-                    <label className="block text-[11px] font-bold text-[#715f53] mb-1">
+                    <label className="block text-[11px] font-bold text-[#4a382e] mb-1">
                       {lang === 'uk' ? 'Місто доставки/самовивозу' : 'Город доставки/самовывоза'}
                     </label>
                     <input
@@ -2992,7 +3063,7 @@ export default function ChocoRadarApp({
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-bold text-[#715f53] mb-1">
+                    <label className="block text-[11px] font-bold text-[#4a382e] mb-1">
                       {lang === 'uk' ? 'Дата події / дедлайн' : 'Дата события / дедлайн'}
                     </label>
                     <input
@@ -3005,7 +3076,7 @@ export default function ChocoRadarApp({
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold text-[#715f53] mb-1">
+                  <label className="block text-[11px] font-bold text-[#4a382e] mb-1">
                     {lang === 'uk' ? 'Опис замовлення (вага, кількість гостей, ідея)' : 'Описание заказа (вес, число гостей, идея)'}
                   </label>
                   <textarea
@@ -3019,7 +3090,7 @@ export default function ChocoRadarApp({
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold text-[#715f53] mb-1">
+                  <label className="block text-[11px] font-bold text-[#4a382e] mb-1">
                     {lang === 'uk' ? 'Куди надіслати пропозиції (Телефон / Telegram / Viber)' : 'Куда прислать предложения (Телефон / Telegram / Viber)'}
                   </label>
                   <input
@@ -3060,6 +3131,7 @@ export default function ChocoRadarApp({
               </div>
               <button
                 onClick={() => setIsMethodologyModalOpen(false)}
+                aria-label={lang === 'uk' ? 'Закрити вікно методології' : 'Закрыть окно методологии'}
                 className="p-2 rounded-full bg-[#f1e6da] hover:bg-[#e5d5c3] transition shrink-0"
               >
                 <X className="w-5 h-5" />
@@ -3138,7 +3210,7 @@ export default function ChocoRadarApp({
 
               <div className="border-t border-[#e1d5c8] pt-4 space-y-1">
                 <div className="font-bold text-[#302016]">Контакти редакції та служби верифікації:</div>
-                <div className="text-xs text-[#715f53]">
+                <div className="text-xs text-[#4a382e]">
                   Електронна пошта: <a href="mailto:editor@crafohub.com.ua" className="underline text-[#b06a1e]">editor@crafohub.com.ua</a> | Підтримка: <a href="https://t.me/crafohub_ua" target="_blank" rel="noopener noreferrer" className="underline text-[#b06a1e]">Telegram @crafohub_ua</a>
                 </div>
               </div>
@@ -3163,6 +3235,7 @@ export default function ChocoRadarApp({
                   setIsCitySelectorModalOpen(false);
                   setCityFilterSearch('');
                 }}
+                aria-label={lang === 'uk' ? 'Закрити вибір міста' : 'Закрыть выбор города'}
                 className="p-1.5 rounded-full bg-[#f1e6da] hover:bg-[#e5d5c3] transition"
               >
                 <X className="w-4 h-4" />
@@ -3249,7 +3322,8 @@ export default function ChocoRadarApp({
                   setIsAddMakerModalOpen(false);
                   setMakerSubmitted(false);
                 }}
-                className="p-2 rounded-full bg-[#f1e6da]"
+                aria-label={lang === 'uk' ? 'Закрити форму додавання майстерні' : 'Закрыть форму добавления мастерской'}
+                className="p-2 rounded-full bg-[#f1e6da] hover:bg-[#e5d5c3] transition shrink-0"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -3320,6 +3394,7 @@ export default function ChocoRadarApp({
               </div>
               <button
                 onClick={() => setIsMakerStatsModalOpen(false)}
+                aria-label={lang === 'uk' ? 'Закрити кабінет статистики' : 'Закрыть кабинет статистики'}
                 className="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition shrink-0"
               >
                 <X className="w-4 h-4" />
@@ -3330,8 +3405,12 @@ export default function ChocoRadarApp({
             <div className="flex items-center gap-3 p-3 rounded-2xl bg-[#1a120e] border border-white/10">
               {statsModalMaker.imageUrl ? (
                 <img
-                  src={statsModalMaker.imageUrl}
+                  src={getOptimizedImageUrl(statsModalMaker.imageUrl, 100, 75)}
                   alt={statsModalMaker.name}
+                  width={48}
+                  height={48}
+                  loading="lazy"
+                  decoding="async"
                   className="w-12 h-12 rounded-xl object-cover shrink-0 border border-white/10"
                 />
               ) : (
@@ -3343,7 +3422,7 @@ export default function ChocoRadarApp({
                 <div className="font-bold text-white text-sm truncate">
                   {statsModalMaker.name}
                 </div>
-                <div className="text-[11px] text-[#a79d91]">
+                <div className="text-[11px] text-[#d4c9be]">
                   {statsModalMaker.city} • Рейтинг: ★ {statsModalMaker.rating}
                 </div>
               </div>
@@ -3378,7 +3457,7 @@ export default function ChocoRadarApp({
                   className="space-y-3"
                 >
                   <div className="relative">
-                    <KeyRound className="w-4 h-4 text-[#a79d91] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                    <KeyRound className="w-4 h-4 text-[#d4c9be] absolute left-3.5 top-1/2 -translate-y-1/2" />
                     <input
                       type="password"
                       value={statsPinInput}
@@ -3404,7 +3483,7 @@ export default function ChocoRadarApp({
                   </button>
                 </form>
 
-                <p className="text-[11px] text-center text-[#a79d91] pt-1">
+                <p className="text-[11px] text-center text-[#d4c9be] pt-1">
                   Майстерня ще не підключила особистий кабінет?{' '}
                   <a
                     href="https://t.me/crafohub_ua"
@@ -3430,7 +3509,7 @@ export default function ChocoRadarApp({
                         <div className="text-2xl font-serif font-extrabold text-white">
                           {s.totalLeads}
                         </div>
-                        <p className="text-[10px] text-[#a79d91]">Звернень з хабу</p>
+                        <p className="text-[10px] text-[#d4c9be]">Звернень з хабу</p>
                       </div>
 
                       <div className="bg-[#1a120e] p-3 rounded-xl border border-white/10 space-y-0.5">
@@ -3440,7 +3519,7 @@ export default function ChocoRadarApp({
                         <div className="text-2xl font-serif font-extrabold text-white">
                           {s.websiteClicks}
                         </div>
-                        <p className="text-[10px] text-[#a79d91]">З UTM-міткою crafohub</p>
+                        <p className="text-[10px] text-[#d4c9be]">З UTM-міткою crafohub</p>
                       </div>
 
                       <div className="bg-[#1a120e] p-3 rounded-xl border border-white/10 space-y-0.5">
@@ -3450,7 +3529,7 @@ export default function ChocoRadarApp({
                         <div className="text-2xl font-serif font-extrabold text-white">
                           {s.instagramClicks}
                         </div>
-                        <p className="text-[10px] text-[#a79d91]">Кліків у Direct / сторінку</p>
+                        <p className="text-[10px] text-[#d4c9be]">Кліків у Direct / сторінку</p>
                       </div>
 
                       <div className="bg-[#1a120e] p-3 rounded-xl border border-white/10 space-y-0.5">
@@ -3460,7 +3539,7 @@ export default function ChocoRadarApp({
                         <div className="text-2xl font-serif font-extrabold text-white">
                           {s.phoneClicks}
                         </div>
-                        <p className="text-[10px] text-[#a79d91]">Прямих наборів номера</p>
+                        <p className="text-[10px] text-[#d4c9be]">Прямих наборів номера</p>
                       </div>
                     </div>
 
@@ -3471,7 +3550,7 @@ export default function ChocoRadarApp({
                       <p>
                         Всі клієнти переходять безпосередньо у ваш кошик або Instagram-діалог за вашими роздрібними цінами без комісії платформи.
                       </p>
-                      <div className="text-[10px] text-[#a79d91] pt-0.5">
+                      <div className="text-[10px] text-[#d4c9be] pt-0.5">
                         Останній зафіксований перехід: <strong className="text-white">{s.lastClickDate}</strong>
                       </div>
                     </div>

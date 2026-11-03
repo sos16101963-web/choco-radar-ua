@@ -43,7 +43,7 @@ export const CHOCOLATE_VARIANTS: ProductVariantItem[] = [
     ingredientsRu: '100% бельгийский кувертюр Barry Callebaut или фермерские какао-бобы Fino de Aroma, натуральное какао-масло без пальмового масла.',
     shelfLifeUk: '6–9 місяців при +15...+21 °C',
     shelfLifeRu: '6–9 месяцев при +15...+21 °C',
-    imageUrl: '/images/crafo-collage.jpg',
+    imageUrl: '/images/crafo-collage.webp',
     preferredMakerIds: ['crafo-kharkiv', 'sisters-a', 'yandmi', 'chocoblues-odesa'],
   },
   {
