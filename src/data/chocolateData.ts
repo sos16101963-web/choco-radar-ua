@@ -4195,52 +4195,51 @@ export const MAKERS: CraftMaker[] = [
     "imageUrl": "https://images.unsplash.com/photo-1548907040-4baa42d10919?auto=format&fit=crop&w=1000&q=85"
   },
   {
-    "id": "choco-art-zp",
-    "name": "Майстерня шоколаду «Choco Art Запоріжжя»",
-    "slug": "choco-art-zaporizhzhia",
-    "segment": "bean-to-bar",
-    "segmentTitle": "1. Преміальні Bean-to-Bar майстерні",
+    "id": "lms-zaporizhzhia",
+    "name": "«Львівська майстерня шоколаду» (Запоріжжя)",
+    "slug": "lviv-chocolate-zaporizhzhia",
+    "segment": "chocolatier-bonbons",
+    "segmentTitle": "2. Шоколатьє, трюфелі та цукерки ручної роботи",
     "city": "Запоріжжя",
-    "regionCity": "Полтава / Суми / Запоріжжя",
-    "foundedYear": 2017,
-    "specialty": "Крафтові шоколадні плитки, авторські трюфелі та подарункові набори ручної роботи",
+    "regionCity": "Запоріжжя",
+    "foundedYear": 2015,
+    "specialty": "Крафтові плитки шоколаду, понад 40 видів авторських цукерок ручної роботи, шоколадні набори",
     "categories": [
       "plytky-shokoladu",
       "korpusni-ta-rozmalovani-tsukerky",
       "shokoladni-kvity-ta-bukety"
     ],
-    "mainCategory": "plytky-shokoladu",
-    "isBeanToBar": true,
+    "mainCategory": "korpusni-ta-rozmalovani-tsukerky",
+    "isBeanToBar": false,
     "isVerified": true,
     "rating": 4.92,
-    "reviewsCount": 142,
+    "reviewsCount": 310,
     "cacaoOrigin": [
-      "Мадагаскар",
-      "Колумбія",
-      "Бельгія"
+      "Бельгія",
+      "Україна"
     ],
-    "description": "Запорізька крафтова майстерня бельгійського та авторського шоколаду, розписні цукерки ручної роботи та ексклюзивні подарунки.",
-    "websiteUrl": "https://chocoart.zp.ua",
-    "phone": "+38 (067) 612-40-30",
-    "address": "м. Запоріжжя, просп. Соборний, 142",
-    "shippingNote": "Самовивіз у Запоріжжі та Нова Пошта по Україні",
+    "description": "Фірмова кав'ярня-крамниця ручного шоколаду в центрі Запоріжжя на проспекті Соборному. Великий вибір ексклюзивних цукерок ручної роботи, драже та подарункових наборів.",
+    "websiteUrl": "https://chocolate.lviv.ua",
+    "phone": "+38 (063) 948-70-70",
+    "address": "м. Запоріжжя, просп. Соборний, 171",
+    "shippingNote": "Самовивіз у центрі Запоріжжя та доставка Новою Поштою",
     "badges": [
-      "Шоколад ручної роботи",
-      "Запорізький крафт",
-      "Натуральні інгредієнти"
+      "Цукерки ручної роботи",
+      "Пр. Соборний, 171",
+      "Перевірена якість"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=1000&q=85"
   },
   {
-    "id": "lilu-pastry-zp",
-    "name": "Кондитерська студія «Lilu Pastry»",
-    "slug": "lilu-pastry-zaporizhzhia",
+    "id": "superpechenushka-zp",
+    "name": "Кондитерська-пекарня «Суперпеченюшка»",
+    "slug": "superpechenushka-zaporizhzhia",
     "segment": "custom-cakes-pastry",
-    "segmentTitle": "6. Авторські торти, десерти та солодощі",
+    "segmentTitle": "6. Авторські торти, десерти та кенді-бари",
     "city": "Запоріжжя",
-    "regionCity": "Полтава / Суми / Запоріжжя",
-    "foundedYear": 2018,
-    "specialty": "Святкові та авторські торти на замовлення, бенто-торти, мусові тістечка",
+    "regionCity": "Запоріжжя",
+    "foundedYear": 2014,
+    "specialty": "Святкові авторські торти на замовлення, бенто-торти, мусові десерти, чізкейки",
     "categories": [
       "avtorski-torty-ta-deserty",
       "korpusni-ta-rozmalovani-tsukerky"
@@ -4248,158 +4247,167 @@ export const MAKERS: CraftMaker[] = [
     "mainCategory": "avtorski-torty-ta-deserty",
     "isBeanToBar": false,
     "isVerified": true,
-    "rating": 4.95,
-    "reviewsCount": 178,
+    "rating": 4.88,
+    "reviewsCount": 240,
     "cacaoOrigin": [
       "Бельгія",
       "Франція"
     ],
-    "description": "Популярна запорізька кондитерська студія: весільні та дитячі торти, бенто-десерти з натуральних вершків та бельгійського шоколаду.",
-    "websiteUrl": "https://lilupastry.zp.ua",
-    "phone": "+38 (050) 456-78-90",
-    "address": "м. Запоріжжя, вул. Перемоги, 63",
-    "shippingNote": "Доставка по Запоріжжю та самовивіз",
+    "description": "Популярна запорізька кондитерська з фірмовими магазинами на пр. Соборному та вул. Європейській. Виготовлення святкових тортів на замовлення з натуральних інгредієнтів.",
+    "websiteUrl": "http://superpechenushka.com",
+    "instagramHandle": "spechenushka_centerzp",
+    "instagramUrl": "https://www.instagram.com/spechenushka_centerzp/",
+    "phone": "+38 (068) 884-17-17",
+    "email": "superpechenie@gmail.com",
+    "address": "м. Запоріжжя, просп. Соборний, 153 / вул. Європейська, 16",
+    "shippingNote": "Самовивіз у магазинах Запоріжжя та кур'єрська доставка",
     "badges": [
-      "Авторські торти",
-      "Свіжа кондитерська",
-      "Натуральні вершки"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=1000&q=85"
-  },
-  {
-    "id": "zefirka-zp-craft",
-    "name": "Крафтовий зефір «Zefirka ZP»",
-    "slug": "zefirka-zp-craft",
-    "segment": "flowers-berries-nuts",
-    "segmentTitle": "7. Крафтовий натуральний зефір",
-    "city": "Запоріжжя",
-    "regionCity": "Полтава / Суми / Запоріжжя",
-    "foundedYear": 2020,
-    "specialty": "Ніжний ягідний зефір без барвників, авторські зефірні букети та коробочки",
-    "categories": [
-      "kraftovyi-zefir-ta-bukety"
-    ],
-    "mainCategory": "kraftovyi-zefir-ta-bukety",
-    "isBeanToBar": false,
-    "isVerified": true,
-    "rating": 4.96,
-    "reviewsCount": 119,
-    "cacaoOrigin": [
-      "Україна"
-    ],
-    "description": "Запорізька майстерня крафтового зефіру на основі натурального яблучного та ягідного пюре без консервантів та штучних домішок.",
-    "websiteUrl": "https://zefirka.zp.ua",
-    "phone": "+38 (066) 381-19-20",
-    "address": "м. Запоріжжя, вул. Незалежної України, 45",
-    "shippingNote": "Доставка по місту Запоріжжя та експрес-доставка по Україні",
-    "badges": [
-      "100% натуральні ягоди",
-      "Зефірні квіти",
-      "Ручна робота"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1527515862127-a4fc05baf7a5?auto=format&fit=crop&w=1000&q=85"
-  },
-  {
-    "id": "craft-choco-chernivtsi",
-    "name": "Крафтовий шоколад «Bukovyna Choco Lab»",
-    "slug": "bukovyna-choco-lab-chernivtsi",
-    "segment": "bean-to-bar",
-    "segmentTitle": "1. Преміальні Bean-to-Bar майстерні",
-    "city": "Чернівці",
-    "regionCity": "Чернівці / Буковина",
-    "foundedYear": 2019,
-    "specialty": "Натуральний шоколад без цукру, веганські плиткові набори та авторські трюфелі",
-    "categories": [
-      "plytky-shokoladu",
-      "korpusni-ta-rozmalovani-tsukerky",
-      "bez-tsukru-ta-vegan"
-    ],
-    "mainCategory": "plytky-shokoladu",
-    "isBeanToBar": true,
-    "isVerified": true,
-    "rating": 4.93,
-    "reviewsCount": 112,
-    "cacaoOrigin": [
-      "Еквадор",
-      "Перу"
-    ],
-    "description": "Буковинська студія ремісничого шоколаду. Тільки цільні какао-боби, кокосовий цукор та добірні карпатські ягоди й горіхи.",
-    "websiteUrl": "https://bukovinachoco.cv.ua",
-    "phone": "+38 (050) 672-44-15",
-    "address": "м. Чернівці, вул. Головна, 119",
-    "shippingNote": "Нова Пошта по всій Україні, самовивіз у Чернівцях",
-    "badges": [
-      "Bean-to-Bar Буковина",
-      "Без білого цукру",
-      "Веганські опції"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=1000&q=85"
-  },
-  {
-    "id": "nonna-chernivtsi",
-    "name": "Кондитерська студія «Солодка Буковина»",
-    "slug": "solodka-bukovina-chernivtsi",
-    "segment": "custom-cakes-pastry",
-    "segmentTitle": "6. Авторські торти, десерти та солодощі",
-    "city": "Чернівці",
-    "regionCity": "Чернівці / Буковина",
-    "foundedYear": 2018,
-    "specialty": "Буковинські весільні та святкові торти, мусові тістечка, авторські макаронс",
-    "categories": [
-      "avtorski-torty-ta-deserty",
-      "korpusni-ta-rozmalovani-tsukerky"
-    ],
-    "mainCategory": "avtorski-torty-ta-deserty",
-    "isBeanToBar": false,
-    "isVerified": true,
-    "rating": 4.97,
-    "reviewsCount": 204,
-    "cacaoOrigin": [
-      "Бельгія",
-      "Франція"
-    ],
-    "description": "Чернівецька крафтова кондитерська на вул. Кобилянської. Авторські торти за європейськими стандартами кондитерського мистецтва.",
-    "websiteUrl": "https://solodka-bukovina.cv.ua",
-    "phone": "+38 (099) 340-88-21",
-    "address": "м. Чернівці, вул. Ольги Кобилянської, 34",
-    "shippingNote": "Курʼєрська доставка десертів по Чернівцях",
-    "badges": [
-      "Буковинські традиції",
-      "Свіжа випічка",
-      "Преміум десерти"
+      "Торти на замовлення",
+      "Власне виробництво",
+      "Свіжі інгредієнти"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1000&q=85"
   },
   {
-    "id": "zefir-bukovyna",
-    "name": "Майстерня «Zefir Bukovyna»",
-    "slug": "zefir-bukovyna",
-    "segment": "flowers-berries-nuts",
-    "segmentTitle": "7. Крафтовий натуральний зефір",
-    "city": "Чернівці",
-    "regionCity": "Чернівці / Буковина",
+    "id": "charivna-zefirnya-zp",
+    "name": "Майстерня «Чарівна Зефірня»",
+    "slug": "charivna-zefirnya-zaporizhzhia",
+    "segment": "craft-zefir-pastila",
+    "segmentTitle": "5. Крафтовий зефір, пастила та суфле",
+    "city": "Запоріжжя",
+    "regionCity": "Запоріжжя",
     "foundedYear": 2021,
-    "specialty": "Ягідний зефір, зефірні коробочки-подарунки, зефірні квіти",
+    "specialty": "Зефірна флористика, їстівні квіти та букети з натурального зефіру, подарункові бокси",
     "categories": [
       "kraftovyi-zefir-ta-bukety"
     ],
     "mainCategory": "kraftovyi-zefir-ta-bukety",
     "isBeanToBar": false,
     "isVerified": true,
-    "rating": 4.94,
-    "reviewsCount": 89,
+    "rating": 4.95,
+    "reviewsCount": 115,
     "cacaoOrigin": [
       "Україна"
     ],
-    "description": "Крафтовий домашній зефір на основі свіжого яблучного пюре та натурального агар-агару в Чернівцях.",
-    "websiteUrl": "https://zefir-bukovyna.cv.ua",
-    "phone": "+38 (095) 831-29-67",
-    "address": "м. Чернівці, вул. Університетська, 22",
-    "shippingNote": "Самовивіз у центрі Чернівців, доставка Новою Поштою",
+    "description": "Запорізька крафтова студія зефірної флористики. Ефектні їстівні букети троянд, півоній та гортензій із натурального фруктово-ягідного зефіру.",
+    "websiteUrl": "https://www.instagram.com/charivna_zefirnya/",
+    "instagramHandle": "charivna_zefirnya",
+    "instagramUrl": "https://www.instagram.com/charivna_zefirnya/",
+    "phone": "+38 (063) 968-80-64",
+    "address": "м. Запоріжжя (самовивіз за домовленістю)",
+    "shippingNote": "Самовивіз у Запоріжжі та доставка Новою Поштою по Україні",
     "badges": [
-      "Натуральний агар-агар",
-      "Ручна робота",
-      "Свіжі ягоди"
+      "Зефірні квіти",
+      "100% натуральні ягоди",
+      "Авторський дизайн"
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1527515862127-a4fc05baf7a5?auto=format&fit=crop&w=1000&q=85"
+  },
+  {
+    "id": "lms-chernivtsi",
+    "name": "«Львівська майстерня шоколаду» (Чернівці)",
+    "slug": "lviv-chocolate-chernivtsi",
+    "segment": "chocolatier-bonbons",
+    "segmentTitle": "2. Шоколатьє, трюфелі та цукерки ручної роботи",
+    "city": "Чернівці",
+    "regionCity": "Чернівці",
+    "foundedYear": 2013,
+    "specialty": "Крафтові плитки шоколаду, понад 40 видів шоколадних цукерок ручної роботи, майстер-класи",
+    "categories": [
+      "plytky-shokoladu",
+      "korpusni-ta-rozmalovani-tsukerky",
+      "shokoladni-kvity-ta-bukety"
+    ],
+    "mainCategory": "korpusni-ta-rozmalovani-tsukerky",
+    "isBeanToBar": false,
+    "isVerified": true,
+    "rating": 4.94,
+    "reviewsCount": 280,
+    "cacaoOrigin": [
+      "Бельгія",
+      "Україна"
+    ],
+    "description": "Популярна шоколадна кав'ярня-крамниця на головній пішохідній вулиці Чернівців. Авторські цукерки ручної роботи, гарячий шоколад, подарункові набори та майстер-класи.",
+    "websiteUrl": "https://chocolate.lviv.ua",
+    "phone": "+38 (050) 329-27-14",
+    "address": "м. Чернівці, вул. Ольги Кобилянської, 25",
+    "shippingNote": "Самовивіз у центрі Чернівців та доставка по Україні",
+    "badges": [
+      "Вул. О. Кобилянської, 25",
+      "Цукерки ручної роботи",
+      "Культове місце"
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=1000&q=85"
+  },
+  {
+    "id": "kavusia-chernivtsi",
+    "name": "Кондитерська-пекарня «Кавуся»",
+    "slug": "kavusia-chernivtsi",
+    "segment": "custom-cakes-pastry",
+    "segmentTitle": "6. Авторські торти, десерти та кенді-бари",
+    "city": "Чернівці",
+    "regionCity": "Чернівці",
+    "foundedYear": 2019,
+    "specialty": "Авторські торти на замовлення, бенто-торти, десерти власного виробництва, кенді-бари",
+    "categories": [
+      "avtorski-torty-ta-deserty",
+      "korpusni-ta-rozmalovani-tsukerky"
+    ],
+    "mainCategory": "avtorski-torty-ta-deserty",
+    "isBeanToBar": false,
+    "isVerified": true,
+    "rating": 4.91,
+    "reviewsCount": 165,
+    "cacaoOrigin": [
+      "Бельгія",
+      "Франція"
+    ],
+    "description": "Чернівецька кондитерська-пекарня свіжої випічки та авторських десертів. Виготовлення святкових тортів на замовлення, еклерів та макаронів виключно з натуральних інгредієнтів.",
+    "websiteUrl": "https://www.instagram.com/kavusia_kavusia/",
+    "instagramHandle": "kavusia_kavusia",
+    "instagramUrl": "https://www.instagram.com/kavusia_kavusia/",
+    "phone": "+38 (066) 151-95-01",
+    "address": "м. Чернівці, вул. Ентузіастів, 5/7",
+    "shippingNote": "Самовивіз у Чернівцях та кур'єрська доставка",
+    "badges": [
+      "Торти на замовлення",
+      "Власна випічка",
+      "Натуральні вершки"
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?auto=format&fit=crop&w=1000&q=85"
+  },
+  {
+    "id": "zefirna-smakota-cv",
+    "name": "Майстерня «Zefirna Smakota CV»",
+    "slug": "zefirna-smakota-chernivtsi",
+    "segment": "craft-zefir-pastila",
+    "segmentTitle": "5. Крафтовий зефір, пастила та суфле",
+    "city": "Чернівці",
+    "regionCity": "Чернівці",
+    "foundedYear": 2021,
+    "specialty": "Крафтовий ягідний зефір, зефірні квіти, солодкі букети та подарункові бокси на замовлення",
+    "categories": [
+      "kraftovyi-zefir-ta-bukety"
+    ],
+    "mainCategory": "kraftovyi-zefir-ta-bukety",
+    "isBeanToBar": false,
+    "isVerified": true,
+    "rating": 4.93,
+    "reviewsCount": 98,
+    "cacaoOrigin": [
+      "Україна"
+    ],
+    "description": "Чернівецька крафтова майстерня натурального зефіру та зефірної флористики. Ексклюзивні букети квітів із ягідного пюре та агар-агару.",
+    "websiteUrl": "https://www.instagram.com/zefirna_smakota_cv/",
+    "instagramHandle": "zefirna_smakota_cv",
+    "instagramUrl": "https://www.instagram.com/zefirna_smakota_cv/",
+    "phone": "+38 (095) 831-29-67",
+    "address": "м. Чернівці (самовивіз за домовленістю)",
+    "shippingNote": "Самовивіз у Чернівцях та відправка Новою Поштою",
+    "badges": [
+      "Зефірна флористика",
+      "Буковина крафт",
+      "Натуральний агар-агар"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1000&q=85"
   },
@@ -4408,9 +4416,9 @@ export const MAKERS: CraftMaker[] = [
     "name": "Кондитерська майстерня «Delikacia»",
     "slug": "delikacia-ivano-frankivsk",
     "segment": "custom-cakes-pastry",
-    "segmentTitle": "6. Авторські торти, десерти та солодощі",
+    "segmentTitle": "6. Авторські торти, десерти та кенді-бари",
     "city": "Івано-Франківськ",
-    "regionCity": "Івано-Франківськ / Прикарпаття",
+    "regionCity": "Івано-Франківськ",
     "foundedYear": 2017,
     "specialty": "Авторські кондитерські десерти, святкові торти, ніжні тістечка та макаронс",
     "categories": [
@@ -4426,13 +4434,13 @@ export const MAKERS: CraftMaker[] = [
       "Франція",
       "Бельгія"
     ],
-    "description": "Знакова івано-франківська кондитерська майстерня мережі 23.ресторани на стометрівці. Найніжніші торти, свіжа випічка та авторські десерти.",
+    "description": "Знакова івано-франківська кондитерська майстерня мережі 23.ресторани на стометрівці. Найніжніші торти, свіжа випічка та авторські десерти європейського рівня.",
     "websiteUrl": "https://23restorany.ua/delikacia",
     "phone": "+38 (068) 117-60-70",
     "instagramHandle": "delikacia",
     "instagramUrl": "https://www.instagram.com/delikacia/",
     "address": "м. Івано-Франківськ, вул. Незалежності, 20",
-    "shippingNote": "Самовивіз та швидка курʼєрська доставка по Франківську",
+    "shippingNote": "Самовивіз та швидка кур'єрська доставка по Франківську",
     "badges": [
       "Культове місце Франківська",
       "Авторські торти",
@@ -4442,12 +4450,12 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "lms-frankivsk",
-    "name": "Майстерня шоколаду в Івано-Франківську",
+    "name": "«Львівська майстерня шоколаду» (Івано-Франківськ)",
     "slug": "lms-ivano-frankivsk",
-    "segment": "bean-to-bar",
-    "segmentTitle": "1. Преміальні Bean-to-Bar майстерні",
+    "segment": "chocolatier-bonbons",
+    "segmentTitle": "2. Шоколатьє, трюфелі та цукерки ручної роботи",
     "city": "Івано-Франківськ",
-    "regionCity": "Івано-Франківськ / Прикарпаття",
+    "regionCity": "Івано-Франківськ",
     "foundedYear": 2012,
     "specialty": "Крафтові плитки шоколаду, понад 40 видів цукерок ручної роботи, шоколадні фігури",
     "categories": [
@@ -4456,18 +4464,18 @@ export const MAKERS: CraftMaker[] = [
       "shokoladni-kvity-ta-bukety"
     ],
     "mainCategory": "plytky-shokoladu",
-    "isBeanToBar": true,
+    "isBeanToBar": false,
     "isVerified": true,
     "rating": 4.91,
     "reviewsCount": 245,
     "cacaoOrigin": [
-      "Кот-дʼІвуар",
+      "Кот-д'Івуар",
       "Гана",
       "Бельгія"
     ],
     "description": "Улюблена майстерня шоколаду мешканців Франківська. Ручне виготовлення цукерок, драже та авторських шоколадних плит.",
     "websiteUrl": "https://chocolate.lviv.ua",
-    "phone": "+38 (050) 431-77-62",
+    "phone": "+38 (098) 608-57-09, (0342) 72-44-40",
     "address": "м. Івано-Франківськ, вул. Л. Бачинського, 2",
     "shippingNote": "Доставка по Франківську та Україні",
     "badges": [
@@ -4479,16 +4487,17 @@ export const MAKERS: CraftMaker[] = [
   },
   {
     "id": "zefirka-studio-frankivsk",
-    "name": "Крафтова студія «Зефірка»",
+    "name": "Кондитерська-студія «Зефірка» (Івано-Франківськ)",
     "slug": "zefirka-studio-ivano-frankivsk",
-    "segment": "flowers-berries-nuts",
-    "segmentTitle": "7. Крафтовий натуральний зефір",
+    "segment": "craft-zefir-pastila",
+    "segmentTitle": "5. Крафтовий зефір, пастила та суфле",
     "city": "Івано-Франківськ",
-    "regionCity": "Івано-Франківськ / Прикарпаття",
+    "regionCity": "Івано-Франківськ",
     "foundedYear": 2020,
-    "specialty": "Натуральний зефір із ягідного пюре, зефірні квіти та святкові букети",
+    "specialty": "Натуральний зефір із ягідного пюре, зефірні квіти, святкові букети та солодощі без цукру",
     "categories": [
-      "kraftovyi-zefir-ta-bukety"
+      "kraftovyi-zefir-ta-bukety",
+      "bez-tsukru-ta-vegan"
     ],
     "mainCategory": "kraftovyi-zefir-ta-bukety",
     "isBeanToBar": false,
@@ -4498,28 +4507,30 @@ export const MAKERS: CraftMaker[] = [
     "cacaoOrigin": [
       "Україна"
     ],
-    "description": "Франківська студія витончених зефірних букетів та натурального ягідного зефіру на соках карпатських ягід.",
-    "websiteUrl": "https://zefirka-if.com.ua",
-    "phone": "+38 (098) 745-21-30",
-    "address": "м. Івано-Франківськ, вул. Січових Стрільців, 18",
+    "description": "Франківська кондитерська студія витончених зефірних букетів та натурального ягідного зефіру на соках карпатських ягід без хімічних консервантів.",
+    "websiteUrl": "https://www.instagram.com/zefirka.if/",
+    "instagramHandle": "zefirka.if",
+    "instagramUrl": "https://www.instagram.com/zefirka.if/",
+    "phone": "+38 (066) 791-35-12",
+    "address": "м. Івано-Франківськ, вул. Пасічна, 15Б",
     "shippingNote": "Доставка по Івано-Франківську та відправка по Україні",
     "badges": [
+      "Вул. Пасічна, 15Б",
       "Зефірні букети",
-      "Без консервантів",
-      "Карпатські ягоди"
+      "Без цукру та глютену"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "tera-pastry-ternopil",
-    "name": "Кондитерська майстерня «ТерА»",
+    "name": "ПрАТ «Кондитерська фабрика “ТерА”»",
     "slug": "tera-pastry-ternopil",
     "segment": "custom-cakes-pastry",
-    "segmentTitle": "6. Авторські торти, десерти та солодощі",
+    "segmentTitle": "6. Авторські торти, десерти та кенді-бари",
     "city": "Тернопіль",
-    "regionCity": "Тернопіль / Захід",
+    "regionCity": "Тернопіль",
     "foundedYear": 1996,
-    "specialty": "Класичні та авторські торти, тістечка, натуральний зефір та фірмові цукерки",
+    "specialty": "Фірмові та авторські торти, тістечка, класичний натуральний зефір, шоколадні цукерки",
     "categories": [
       "avtorski-torty-ta-deserty",
       "kraftovyi-zefir-ta-bukety",
@@ -4534,26 +4545,27 @@ export const MAKERS: CraftMaker[] = [
       "Бельгія",
       "Україна"
     ],
-    "description": "Відома тернопільська кондитерська майстерня та фірмовий магазин на вул. Пирогова. Традиційні рецепти, свіжі торти та десерти високої якості.",
+    "description": "Відома тернопільська кондитерська фабрика та фірмовий магазин-кав'ярня на вул. Пирогова. Традиційні перевірені рецепти, свіжі торти та класичні десерти найвищої якості.",
     "websiteUrl": "https://tera.ua",
-    "phone": "+38 (0352) 52-25-84",
+    "phone": "+38 (097) 097-91-79, +38 (0352) 52-66-16",
+    "email": "sales@tera.ua",
     "address": "м. Тернопіль, вул. Пирогова, 11",
-    "shippingNote": "Самовивіз у Тернополі та доставка по місту",
+    "shippingNote": "Самовивіз у Тернополі та фірмова доставка",
     "badges": [
-      "Перевірено роками",
+      "Перевірено роками (з 1996)",
       "Свіжі десерти",
-      "Тернопільський бренд"
+      "Вул. Пирогова, 11"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=1000&q=85"
   },
   {
     "id": "lms-ternopil",
-    "name": "Майстерня шоколаду в Тернополі",
+    "name": "«Львівська майстерня шоколаду» (Тернопіль)",
     "slug": "lms-ternopil",
-    "segment": "bean-to-bar",
-    "segmentTitle": "1. Преміальні Bean-to-Bar майстерні",
+    "segment": "chocolatier-bonbons",
+    "segmentTitle": "2. Шоколатьє, трюфелі та цукерки ручної роботи",
     "city": "Тернопіль",
-    "regionCity": "Тернопіль / Захід",
+    "regionCity": "Тернопіль",
     "foundedYear": 2014,
     "specialty": "Крафтові шоколадні плитки, авторські трюфелі та набори цукерок ручної роботи",
     "categories": [
@@ -4562,7 +4574,7 @@ export const MAKERS: CraftMaker[] = [
       "shokoladni-kvity-ta-bukety"
     ],
     "mainCategory": "plytky-shokoladu",
-    "isBeanToBar": true,
+    "isBeanToBar": false,
     "isVerified": true,
     "rating": 4.93,
     "reviewsCount": 198,
@@ -4570,28 +4582,28 @@ export const MAKERS: CraftMaker[] = [
       "Бельгія",
       "Еквадор"
     ],
-    "description": "Затишна шоколадна майстерня у центрі Тернополя на вул. Кульчицької. Ексклюзивні шоколадні подарунки та майстер-класи.",
+    "description": "Затишна шоколадна майстерня у центрі Тернополя на вул. Кульчицької. Ексклюзивні шоколадні подарунки, фірмовий гарячий шоколад та майстер-класи.",
     "websiteUrl": "https://chocolate.lviv.ua",
-    "phone": "+38 (067) 341-88-11",
+    "phone": "+38 (096) 720-43-75, +38 (067) 277-17-71",
     "address": "м. Тернопіль, вул. Олени Кульчицької, 2а",
     "shippingNote": "Самовивіз у Тернополі та доставка Новою Поштою",
     "badges": [
       "Шоколатьє Тернополя",
-      "Бельгійський шоколад",
+      "Вул. О. Кульчицької, 2а",
       "Подарункові набори"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=1000&q=85"
   },
   {
-    "id": "zefir-ternopil-tania",
-    "name": "Крафтова зефірна майстерня «Файний Зефір»",
-    "slug": "faynyi-zefir-ternopil",
-    "segment": "flowers-berries-nuts",
-    "segmentTitle": "7. Крафтовий натуральний зефір",
+    "id": "tuta-bakery-ternopil",
+    "name": "Майстерня «Tuta Bakery • Зефірні квіти»",
+    "slug": "tuta-bakery-ternopil",
+    "segment": "craft-zefir-pastila",
+    "segmentTitle": "5. Крафтовий зефір, пастила та суфле",
     "city": "Тернопіль",
-    "regionCity": "Тернопіль / Захід",
+    "regionCity": "Тернопіль",
     "foundedYear": 2021,
-    "specialty": "Натуральний зефір, зефірні букети на замовлення, зефіросендвічі",
+    "specialty": "Зефірна флористика, святкові букети з ягідного зефіру ручної роботи, подарункові бокси",
     "categories": [
       "kraftovyi-zefir-ta-bukety"
     ],
@@ -4599,23 +4611,23 @@ export const MAKERS: CraftMaker[] = [
     "isBeanToBar": false,
     "isVerified": true,
     "rating": 4.96,
-    "reviewsCount": 105,
+    "reviewsCount": 110,
     "cacaoOrigin": [
       "Україна"
     ],
-    "description": "Тернопільська авторська студія ягідного зефіру Тетяни Щербяк. Повітряні зефірні квіти, солодкі бокси та натуральний склад.",
-    "websiteUrl": "https://instagram.com/_tania_shcherbiak_",
-    "phone": "+38 (097) 560-44-32",
-    "instagramHandle": "_tania_shcherbiak_",
-    "instagramUrl": "https://instagram.com/_tania_shcherbiak_",
-    "address": "м. Тернопіль, вул. Руська, 17",
-    "shippingNote": "Доставка по Тернополю та по всій Україні",
+    "description": "Тернопільська майстерня витонченої зефірної флористики. Створення квіткових композицій та букетів із ягідного зефіру зниженої солодкості на натуральному пюре.",
+    "websiteUrl": "https://www.instagram.com/tuta_bakery/",
+    "instagramHandle": "tuta_bakery",
+    "instagramUrl": "https://www.instagram.com/tuta_bakery/",
+    "phone": "+38 (068) 246-71-64",
+    "address": "м. Тернопіль (район Новий Світ / самовивіз)",
+    "shippingNote": "Доставка по Тернополю та експрес-доставка по Україні",
     "badges": [
-      "Файний зефір",
-      "Зефіросендвічі",
-      "100% натурально"
+      "Зефірні букети Тернопіль",
+      "100% натурально",
+      "Ручна робота"
     ],
-    "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1000&q=85"
+    "imageUrl": "https://images.unsplash.com/photo-1527515862127-a4fc05baf7a5?auto=format&fit=crop&w=1000&q=85"
   }
 ];
 

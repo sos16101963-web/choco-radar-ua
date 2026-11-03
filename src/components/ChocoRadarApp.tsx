@@ -132,6 +132,11 @@ function isCityMatch(m: CraftMaker, cityId: string): boolean {
   return c.includes(needle) || r.includes(needle);
 }
 
+function isDirectCityMatch(m: CraftMaker, cityId: string): boolean {
+  if (!cityId || cityId === 'all') return false;
+  return (m.city || '').toLowerCase().includes(cityId.toLowerCase());
+}
+
 const RAW_CITIES: { id: string; uk: string; ru: string }[] = [
   { id: 'all', uk: 'Вся Україна', ru: 'Вся Украина' },
   { id: 'Київ', uk: 'Київ', ru: 'Киев' },
@@ -503,7 +508,15 @@ export default function ChocoRadarApp({
       }
       return true;
     }).sort((a, b) => {
-      // 1. Crafo.com.ua is ALWAYS #1 in chocolate categories
+      // 0. When a specific city is selected, makers physically located in this city come FIRST!
+      if (selectedCity !== 'all') {
+        const aDirect = isDirectCityMatch(a, selectedCity);
+        const bDirect = isDirectCityMatch(b, selectedCity);
+        if (aDirect && !bDirect) return -1;
+        if (!aDirect && bDirect) return 1;
+      }
+
+      // 1. Crafo.com.ua is ALWAYS #1 in chocolate categories (if in all cities or if matching city)
       if (activeSection === 'chocolate') {
         if (a.id === 'crafo-kharkiv') return -1;
         if (b.id === 'crafo-kharkiv') return 1;
@@ -542,6 +555,12 @@ export default function ChocoRadarApp({
     }
     return MAKERS.filter((m) => isCityMatch(m, selectedCity))
       .sort((a, b) => {
+        // Direct city match comes first
+        const aDirect = isDirectCityMatch(a, selectedCity);
+        const bDirect = isDirectCityMatch(b, selectedCity);
+        if (aDirect && !bDirect) return -1;
+        if (!aDirect && bDirect) return 1;
+
         if (a.id === 'crafo-kharkiv') return -1;
         if (b.id === 'crafo-kharkiv') return 1;
         return b.rating - a.rating;
