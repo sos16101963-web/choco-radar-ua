@@ -1328,7 +1328,7 @@ export default function ChocoRadarApp({
                   </div>
 
                   <div className="flex items-center gap-2 pt-1">
-                    <div className="flex-1 rounded-full bg-gradient-to-r from-[#462b1f] to-[#3a2113] group-hover:from-[#b06a1e] group-hover:to-[#8c4f12] text-white font-extrabold py-3 px-4 text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-md transition">
+                    <div className="flex-1 rounded-full btn-primary-2027 font-black py-3 px-4 text-xs sm:text-sm flex items-center justify-center gap-1.5 transition">
                       <span>
                         {lang === 'uk'
                           ? 'Перейти у розділ'
@@ -1345,7 +1345,7 @@ export default function ChocoRadarApp({
                         setIsAssortmentDrawerOpen(true);
                       }}
                       aria-label={lang === 'uk' ? 'Відкрити асортимент шоколаду справа' : 'Открыть ассортимент шоколада справа'}
-                      className="rounded-full border-2 border-[#b06a1e]/40 hover:border-[#b06a1e] bg-white text-[#302016] px-3.5 py-3 text-xs font-extrabold flex items-center gap-1.5 transition shrink-0 shadow-xs"
+                      className="rounded-full btn-glass-pill px-3.5 py-3 text-xs font-extrabold flex items-center gap-1.5 shrink-0"
                       title={lang === 'uk' ? 'Відкрити асортимент шоколаду справа' : 'Открыть ассортимент шоколада справа'}
                     >
                       <LayoutList className="w-4 h-4 text-[#b06a1e]" />
@@ -1422,7 +1422,7 @@ export default function ChocoRadarApp({
                   </div>
 
                   <div className="flex items-center gap-2 pt-1">
-                    <div className="flex-1 rounded-full bg-gradient-to-r from-[#c75b7a] to-[#8e2f4a] group-hover:brightness-110 text-white font-extrabold py-3 px-4 text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-md transition">
+                    <div className="flex-1 rounded-full btn-rose-2027 font-black py-3 px-4 text-xs sm:text-sm flex items-center justify-center gap-1.5 transition">
                       <span>
                         {lang === 'uk'
                           ? 'Перейти у розділ'
@@ -1439,7 +1439,7 @@ export default function ChocoRadarApp({
                         setIsAssortmentDrawerOpen(true);
                       }}
                       aria-label={lang === 'uk' ? 'Відкрити асортимент тортів справа' : 'Открыть ассортимент тортов справа'}
-                      className="rounded-full border-2 border-[#c75b7a]/40 hover:border-[#c75b7a] bg-white text-[#302016] px-3.5 py-3 text-xs font-extrabold flex items-center gap-1.5 transition shrink-0 shadow-xs"
+                      className="rounded-full btn-glass-pill px-3.5 py-3 text-xs font-extrabold flex items-center gap-1.5 shrink-0"
                       title={lang === 'uk' ? 'Відкрити асортимент тортів справа' : 'Открыть ассортимент тортов справа'}
                     >
                       <LayoutList className="w-4 h-4 text-[#c75b7a]" />
@@ -1516,7 +1516,7 @@ export default function ChocoRadarApp({
                   </div>
 
                   <div className="flex items-center gap-2 pt-1">
-                    <div className="flex-1 rounded-full bg-gradient-to-r from-[#b06a1e] to-[#8c4f12] group-hover:brightness-110 text-white font-extrabold py-3 px-4 text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-md transition">
+                    <div className="flex-1 rounded-full btn-amber-2027 font-black py-3 px-4 text-xs sm:text-sm flex items-center justify-center gap-1.5 transition">
                       <span>
                         {lang === 'uk'
                           ? 'Перейти у розділ'
@@ -1533,7 +1533,7 @@ export default function ChocoRadarApp({
                         setIsAssortmentDrawerOpen(true);
                       }}
                       aria-label={lang === 'uk' ? 'Відкрити асортимент зефіру справа' : 'Открыть ассортимент зефира справа'}
-                      className="rounded-full border-2 border-[#b06a1e]/40 hover:border-[#b06a1e] bg-white text-[#302016] px-3.5 py-3 text-xs font-extrabold flex items-center gap-1.5 transition shrink-0 shadow-xs"
+                      className="rounded-full btn-glass-pill px-3.5 py-3 text-xs font-extrabold flex items-center gap-1.5 shrink-0"
                       title={lang === 'uk' ? 'Відкрити асортимент зефіру справа' : 'Открыть ассортимент зефира справа'}
                     >
                       <LayoutList className="w-4 h-4 text-[#b06a1e]" />
@@ -1590,14 +1590,14 @@ export default function ChocoRadarApp({
                       setTenderCategory('cake');
                       setIsTenderModalOpen(true);
                     }}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#b06a1e] to-[#8c4f12] hover:brightness-110 text-white font-extrabold px-6 py-3.5 text-xs sm:text-sm shadow-md transition"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full btn-amber-2027 font-black px-6 py-3.5 text-xs sm:text-sm"
                   >
                     <Gift className="w-4 h-4" />
                     <span>{lang === 'uk' ? '🎯 Оголосити тендер безкоштовно' : '🎯 Объявить тендер бесплатно'}</span>
                   </button>
                   <button
                     onClick={() => setIsMethodologyModalOpen(true)}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border-2 border-[#b06a1e]/40 hover:bg-[#b06a1e]/10 text-[#302016] dark:text-[#f0a556] font-bold px-5 py-3 text-xs transition"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full btn-glass-pill font-bold px-5 py-3 text-xs"
                   >
                     <ShieldCheck className="w-4 h-4 text-emerald-600" />
                     <span>{lang === 'uk' ? 'Як ми верифікуємо майстрів' : 'Как мы верифицируем мастеров'}</span>

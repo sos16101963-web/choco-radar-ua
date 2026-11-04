@@ -18,24 +18,26 @@ body {
    2027 AURA MESH GRADIENTS & TACTILE SURFACE STYLES
    ========================================================================= */
 
-/* Atmospheric ambient light background for light mode */
+/* Rich, visually vibrant ambient light background for light mode */
 .bg-crafo-aura-light {
-  background-color: #faf5ee;
+  background-color: #f7ede0;
   background-image: 
-    radial-gradient(circle at 12% 8%, rgba(246, 224, 201, 0.65) 0%, transparent 38%),
-    radial-gradient(circle at 88% 18%, rgba(238, 203, 168, 0.5) 0%, transparent 42%),
-    radial-gradient(circle at 50% 65%, rgba(254, 240, 222, 0.7) 0%, transparent 55%),
-    radial-gradient(circle at 20% 90%, rgba(243, 218, 192, 0.45) 0%, transparent 45%);
+    radial-gradient(ellipse 65% 50% at 10% 5%, #ffdfb8 0%, rgba(255, 223, 184, 0) 70%),
+    radial-gradient(ellipse 60% 45% at 90% 15%, #ffd4b2 0%, rgba(255, 212, 178, 0) 70%),
+    radial-gradient(ellipse 70% 55% at 50% 60%, #fae6cf 0%, rgba(250, 230, 207, 0) 75%),
+    radial-gradient(ellipse 80% 60% at 20% 95%, #ffd9bc 0%, rgba(255, 217, 188, 0) 70%),
+    linear-gradient(180deg, #fbf2e6 0%, #f6e8d8 50%, #f4e3d0 100%);
   background-attachment: fixed;
 }
 
 /* Atmospheric luxury obsidian for dark mode */
 .bg-crafo-aura-dark {
-  background-color: #170f0b;
+  background-color: #170d08;
   background-image: 
-    radial-gradient(circle at 18% 10%, rgba(176, 106, 30, 0.18) 0%, transparent 40%),
-    radial-gradient(circle at 85% 20%, rgba(142, 47, 74, 0.14) 0%, transparent 45%),
-    radial-gradient(circle at 50% 70%, rgba(227, 152, 81, 0.1) 0%, transparent 55%);
+    radial-gradient(ellipse 60% 50% at 15% 10%, rgba(196, 118, 33, 0.3) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 85% 25%, rgba(168, 50, 85, 0.25) 0%, transparent 70%),
+    radial-gradient(ellipse 70% 60% at 50% 75%, rgba(196, 118, 33, 0.18) 0%, transparent 75%),
+    linear-gradient(180deg, #1b100a 0%, #140b07 100%);
   background-attachment: fixed;
 }
 
@@ -54,107 +56,117 @@ body {
 }
 
 /* =========================================================================
-   2027 TACTILE BUTTONS & GLASSMORPHIC PILLS
+   2027 TACTILE BUTTONS & GLASSMORPHIC PILLS (VIBRANT & DISTINCT)
    ========================================================================= */
 
-/* Primary CTA Button: Deep Chocolate Silk with Specular Top Highlight */
+/* Primary CTA Button: Rich Belgian Chocolate with Golden Specular Highlight */
 .btn-primary-2027 {
-  background: linear-gradient(180deg, #4d3023 0%, #361f14 100%);
-  color: #faf5ee;
+  background: linear-gradient(180deg, #5c341f 0%, #3a1e11 100%) !important;
+  color: #fff9f0 !important;
+  border: 1px solid rgba(240, 165, 86, 0.4) !important;
   box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.35),
-    0 4px 14px rgba(54, 31, 20, 0.28),
-    0 1px 2px rgba(54, 31, 20, 0.16);
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.4),
+    0 4px 15px rgba(58, 30, 17, 0.35),
+    0 1px 3px rgba(0, 0, 0, 0.2) !important;
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .btn-primary-2027:hover {
-  background: linear-gradient(180deg, #5a3829 0%, #402417 100%);
-  transform: translateY(-1px);
+  background: linear-gradient(180deg, #6e3f26 0%, #462516 100%) !important;
+  transform: translateY(-2px);
   box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.4),
-    0 7px 20px rgba(54, 31, 20, 0.35),
-    0 2px 4px rgba(54, 31, 20, 0.2);
-}
-.btn-primary-2027:active {
-  transform: translateY(0.5px);
-  box-shadow: 
-    inset 0 1px 2px rgba(0, 0, 0, 0.4),
-    0 2px 6px rgba(54, 31, 20, 0.25);
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.45),
+    0 8px 24px rgba(58, 30, 17, 0.45),
+    0 3px 6px rgba(0, 0, 0, 0.25) !important;
 }
 
-/* Amber/Caramel Glow Button (Sommelier / Discover / Tender) */
+/* Amber/Caramel Glow Button (Sommelier, Discover, Leader) */
 .btn-amber-2027 {
-  background: linear-gradient(180deg, #c47621 0%, #a05a14 100%);
-  color: #ffffff;
+  background: linear-gradient(180deg, #d97706 0%, #b45309 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(253, 230, 138, 0.6) !important;
   box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.32),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.25),
-    0 4px 14px rgba(176, 106, 30, 0.32),
-    0 1px 2px rgba(176, 106, 30, 0.15);
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.3),
+    0 4px 16px rgba(217, 119, 6, 0.4),
+    0 1px 3px rgba(0, 0, 0, 0.15) !important;
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .btn-amber-2027:hover {
-  background: linear-gradient(180deg, #d38128 0%, #ad6217 100%);
-  transform: translateY(-1px);
+  background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%) !important;
+  transform: translateY(-2px);
   box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.4),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
-    0 8px 22px rgba(176, 106, 30, 0.42),
-    0 2px 5px rgba(176, 106, 30, 0.2);
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.35),
+    0 8px 26px rgba(217, 119, 6, 0.5),
+    0 3px 6px rgba(0, 0, 0, 0.2) !important;
 }
-.btn-amber-2027:active {
-  transform: translateY(0.5px);
+
+/* Berry/Rose Cake Button (Pink Velvet Gradient) */
+.btn-rose-2027 {
+  background: linear-gradient(180deg, #db2777 0%, #9d174d 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(251, 207, 232, 0.6) !important;
   box-shadow: 
-    inset 0 1px 2px rgba(0, 0, 0, 0.35),
-    0 2px 6px rgba(176, 106, 30, 0.25);
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.3),
+    0 4px 16px rgba(219, 39, 119, 0.35) !important;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-rose-2027:hover {
+  background: linear-gradient(180deg, #ec4899 0%, #be185d 100%) !important;
+  transform: translateY(-2px);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 8px 24px rgba(219, 39, 119, 0.45) !important;
 }
 
 /* Glassmorphic Pill Button (Cities, Filter pills, Assortment) */
 .btn-glass-pill {
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(176, 106, 30, 0.22);
-  color: #462b1f;
-  box-shadow: 0 1px 3px rgba(70, 43, 31, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  background: #ffffff !important;
+  border: 1.5px solid #d4a373 !important;
+  color: #4a2810 !important;
+  box-shadow: 
+    0 2px 8px rgba(180, 83, 9, 0.1),
+    inset 0 1px 0 #ffffff !important;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .btn-glass-pill:hover {
-  background: rgba(255, 248, 239, 0.95);
-  border-color: rgba(176, 106, 30, 0.45);
-  color: #b06a1e;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(176, 106, 30, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  background: #fff8ef !important;
+  border-color: #b45309 !important;
+  color: #b45309 !important;
+  transform: translateY(-1.5px);
+  box-shadow: 
+    0 5px 15px rgba(180, 83, 9, 0.18),
+    inset 0 1px 0 #ffffff !important;
 }
 
 /* Dark mode Glassmorphic Pill */
 .dark-btn-glass-pill {
-  background: rgba(54, 40, 32, 0.65);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(227, 152, 81, 0.25);
-  color: #eee7dd;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  background: rgba(45, 28, 19, 0.85) !important;
+  border: 1.5px solid rgba(245, 158, 11, 0.4) !important;
+  color: #fed7aa !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .dark-btn-glass-pill:hover {
-  background: rgba(70, 43, 31, 0.85);
-  border-color: rgba(240, 165, 86, 0.5);
-  color: #f0a556;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  background: rgba(65, 38, 25, 0.95) !important;
+  border-color: #f59e0b !important;
+  color: #ffffff !important;
+  transform: translateY(-1.5px);
+  box-shadow: 0 5px 16px rgba(245, 158, 11, 0.25) !important;
 }
 
 /* Active City / Category Pill */
 .btn-pill-active {
-  background: linear-gradient(180deg, #4d3023 0%, #361f14 100%) !important;
-  color: #faf5ee !important;
-  border-color: transparent !important;
+  background: linear-gradient(180deg, #b45309 0%, #78350f 100%) !important;
+  color: #ffffff !important;
+  border: 1.5px solid #fef3c7 !important;
   box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.25),
-    0 3px 10px rgba(54, 31, 20, 0.25) !important;
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 4px 14px rgba(120, 53, 15, 0.4) !important;
+  transform: translateY(-1px);
 }
 
 /* Apple-style clean scrollbar */
