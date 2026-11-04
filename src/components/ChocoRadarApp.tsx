@@ -672,14 +672,14 @@ export default function ChocoRadarApp({
     return (
       <article
         key={maker.id}
-        className={`group relative flex flex-col overflow-hidden rounded-3xl transition-all duration-200 hover:-translate-y-1 hover:shadow-xl ${
+        className={`group relative flex flex-col overflow-hidden rounded-3xl transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl ${
           isLeader
-            ? 'border-2 border-[#e39851] ring-2 ring-[#e39851]/30 shadow-lg'
+            ? 'border-2 border-[#e39851] ring-2 ring-[#e39851]/35 shadow-xl'
             : 'border'
         } ${
           isDark
-            ? 'bg-[#261b16] border-white/15 hover:border-[#f0a556]'
-            : 'bg-[#fefbf7] border-[#e1d5c8] hover:border-[#b06a1e] shadow-sm'
+            ? 'bg-[#221711]/90 backdrop-blur-md border-white/15 hover:border-[#f0a556]'
+            : 'bg-[#fefcf8]/90 backdrop-blur-md border-[#e1d5c8] hover:border-[#b06a1e] shadow-sm'
         }`}
       >
         {/* Top Visual Showcase */}
@@ -874,12 +874,10 @@ export default function ChocoRadarApp({
               }}
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex-1 inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-2.5 text-xs sm:text-sm font-extrabold transition shadow-sm ${
+              className={`flex-1 inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-2.5 text-xs sm:text-sm font-extrabold transition ${
                 isLeader
-                  ? 'bg-gradient-to-r from-[#e39851] to-[#b06a1e] text-[#26140b] hover:brightness-105'
-                  : isDark
-                  ? 'bg-[#f0a556] text-[#26160e] hover:bg-[#e39851]'
-                  : 'bg-[#462b1f] text-[#faf4eb] hover:bg-[#b06a1e]'
+                  ? 'btn-amber-2027 font-black'
+                  : 'btn-primary-2027'
               }`}
             >
               <span className="truncate">
@@ -943,14 +941,14 @@ export default function ChocoRadarApp({
 
   return (
     <div
-      className={`min-h-screen flex flex-col pb-20 sm:pb-0 transition-colors duration-200 ${
-        isDark ? 'bg-[#1a120e] text-[#eee7dd]' : 'bg-[#fbf6ee] text-[#302016]'
+      className={`min-h-screen flex flex-col pb-20 sm:pb-0 transition-colors duration-300 craft-grain-overlay ${
+        isDark ? 'bg-crafo-aura-dark text-[#eee7dd]' : 'bg-crafo-aura-light text-[#302016]'
       }`}
     >
       {/* STICKY HEADER */}
       <header
-        className={`sticky top-0 z-40 w-full border-b backdrop-blur-xl ${
-          isDark ? 'border-white/15 bg-[#1a120e]/95' : 'border-[#e1d5c8] bg-[#fbf6ee]/95'
+        className={`sticky top-0 z-40 w-full border-b backdrop-blur-xl transition-colors ${
+          isDark ? 'border-white/10 bg-[#170f0b]/90' : 'border-[#e1d5c8]/80 bg-[#faf5ee]/90 shadow-xs'
         }`}
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center gap-2 sm:gap-3 px-3 sm:px-6 lg:px-8">
@@ -986,10 +984,10 @@ export default function ChocoRadarApp({
               onClick={() => setActiveSection('home')}
               className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
                 activeSection === 'home'
-                  ? 'bg-[#462b1f] text-[#faf4eb] shadow-xs'
+                  ? 'btn-pill-active'
                   : isDark
-                  ? 'bg-[#362820] text-[#eee7dd] hover:bg-[#462b1f]'
-                  : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e5d5c3]'
+                  ? 'dark-btn-glass-pill'
+                  : 'btn-glass-pill'
               }`}
             >
               🏠 {lang === 'uk' ? 'Головна' : 'Главная'}
@@ -999,10 +997,10 @@ export default function ChocoRadarApp({
               onClick={() => handleSelectSection('chocolate')}
               className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
                 activeSection === 'chocolate'
-                  ? 'bg-[#462b1f] text-[#faf4eb] shadow-xs'
+                  ? 'btn-pill-active'
                   : isDark
-                  ? 'bg-[#362820] text-[#eee7dd] hover:bg-[#462b1f]'
-                  : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e5d5c3]'
+                  ? 'dark-btn-glass-pill'
+                  : 'btn-glass-pill'
               }`}
             >
               🍫 {lang === 'uk' ? 'Шоколад і цукерки' : 'Шоколад и конфеты'}
@@ -1012,10 +1010,10 @@ export default function ChocoRadarApp({
               onClick={() => handleSelectSection('cakes')}
               className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
                 activeSection === 'cakes'
-                  ? 'bg-[#8e2f4a] text-white shadow-xs'
+                  ? 'bg-gradient-to-b from-[#a33857] to-[#79243c] text-white shadow-md'
                   : isDark
-                  ? 'bg-[#362820] text-[#eee7dd] hover:bg-[#8e2f4a]'
-                  : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e5d5c3]'
+                  ? 'dark-btn-glass-pill hover:text-[#f8719d]'
+                  : 'btn-glass-pill hover:text-[#8e2f4a]'
               }`}
             >
               🎂 {lang === 'uk' ? 'Торти і десерти' : 'Торты и десерты'}
@@ -1025,10 +1023,10 @@ export default function ChocoRadarApp({
               onClick={() => handleSelectSection('zefir')}
               className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
                 activeSection === 'zefir'
-                  ? 'bg-[#b06a1e] text-white shadow-xs'
+                  ? 'btn-amber-2027'
                   : isDark
-                  ? 'bg-[#362820] text-[#eee7dd] hover:bg-[#b06a1e]'
-                  : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e5d5c3]'
+                  ? 'dark-btn-glass-pill hover:text-[#f59e0b]'
+                  : 'btn-glass-pill hover:text-[#b06a1e]'
               }`}
             >
               🌸 {lang === 'uk' ? 'Крафтовий зефір' : 'Крафтовый зефир'}
@@ -1037,8 +1035,8 @@ export default function ChocoRadarApp({
               href="/for-makers"
               className={`rounded-full px-3 py-1.5 text-xs font-bold transition flex items-center gap-1 border ${
                 isDark
-                  ? 'border-amber-500/40 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20'
-                  : 'border-amber-600/30 bg-amber-50 text-amber-900 hover:bg-amber-100 shadow-xs'
+                  ? 'border-amber-500/40 bg-amber-500/15 text-amber-300 hover:bg-amber-500/25 shadow-xs'
+                  : 'border-amber-600/30 bg-amber-50/90 text-amber-900 hover:bg-amber-100 shadow-xs'
               }`}
             >
               <span>✨</span>
@@ -1052,10 +1050,10 @@ export default function ChocoRadarApp({
             <button
               onClick={() => setIsMethodologyModalOpen(true)}
               aria-label={lang === 'uk' ? 'Стандарти перевірки майстерень' : 'Стандарты проверки мастерских'}
-              className={`hidden md:inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold border transition ${
+              className={`hidden md:inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition ${
                 isDark
-                  ? 'bg-[#362820] border-white/20 text-[#eee7dd] hover:bg-[#462b1f]'
-                  : 'bg-white border-[#e1d5c8] text-[#5a4638] hover:bg-[#f1e6da]'
+                  ? 'dark-btn-glass-pill hover:bg-[#462b1f]'
+                  : 'btn-glass-pill hover:bg-[#f1e6da]'
               }`}
               title={lang === 'uk' ? 'Стандарти перевірки майстерень' : 'Стандарты проверки мастерских'}
             >
@@ -1070,10 +1068,10 @@ export default function ChocoRadarApp({
                 setIsAssortmentDrawerOpen(true);
               }}
               aria-label={lang === 'uk' ? 'Відкрити асортимент продукції' : 'Открыть ассортимент продукции'}
-              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-extrabold border transition shadow-xs ${
+              className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-extrabold transition ${
                 isDark
-                  ? 'bg-[#362820] border-[#e39851]/50 text-[#f0a556] hover:bg-[#462b1f]'
-                  : 'bg-[#fff8ef] border-[#b06a1e]/40 text-[#462b1f] hover:bg-[#f1e6da]'
+                  ? 'dark-btn-glass-pill text-[#f0a556]'
+                  : 'btn-glass-pill text-[#462b1f]'
               }`}
             >
               <LayoutList className="w-3.5 h-3.5 text-[#b06a1e]" />
@@ -1086,7 +1084,7 @@ export default function ChocoRadarApp({
             <button
               onClick={() => setIsSommelierDrawerOpen(true)}
               aria-label={lang === 'uk' ? 'Підбір подарунка сомельє' : 'Подбор подарка сомелье'}
-              className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#b06a1e] to-[#8c4f12] hover:brightness-110 px-3 py-1.5 text-xs font-extrabold text-white shadow-xs transition"
+              className="inline-flex items-center gap-1.5 rounded-full btn-amber-2027 px-3.5 py-1.5 text-xs font-extrabold"
             >
               <Wand2 className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">
@@ -1189,10 +1187,10 @@ export default function ChocoRadarApp({
                     setDrawerSectionTab('chocolate');
                     setIsAssortmentDrawerOpen(true);
                   }}
-                  className={`inline-flex items-center gap-2 rounded-full border-2 px-5 py-2.5 text-xs sm:text-sm font-extrabold transition shadow-sm ${
+                  className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs sm:text-sm font-extrabold transition ${
                     isDark
-                      ? 'bg-[#261b16] border-[#e39851] text-[#f0a556] hover:bg-[#362820]'
-                      : 'bg-white border-[#462b1f] text-[#302016] hover:bg-[#f1e6da]'
+                      ? 'dark-btn-glass-pill hover:bg-[#362820]'
+                      : 'btn-glass-pill hover:bg-[#f1e6da]'
                   }`}
                 >
                   <LayoutList className="w-4 h-4 text-[#b06a1e]" />
@@ -1205,7 +1203,7 @@ export default function ChocoRadarApp({
 
                 <button
                   onClick={() => setIsSommelierDrawerOpen(true)}
-                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#b06a1e] to-[#8c4f12] hover:brightness-110 px-5 py-2.5 text-xs sm:text-sm font-extrabold text-white shadow-md transition"
+                  className="inline-flex items-center gap-2 rounded-full btn-amber-2027 px-5 py-2.5 text-xs sm:text-sm font-extrabold"
                 >
                   <Wand2 className="w-4 h-4" />
                   <span>
@@ -1230,10 +1228,10 @@ export default function ChocoRadarApp({
                       onClick={() => setSelectedCity(city.id)}
                       className={`shrink-0 px-3.5 py-1.5 rounded-full text-xs font-extrabold transition ${
                         active
-                          ? 'bg-[#462b1f] text-[#faf4eb] shadow-sm'
+                          ? 'btn-pill-active'
                           : isDark
-                          ? 'bg-[#362820] text-[#eee7dd] hover:bg-[#462b1f]'
-                          : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e3d2c0]'
+                          ? 'dark-btn-glass-pill'
+                          : 'btn-glass-pill'
                       }`}
                     >
                       {lang === 'uk' ? city.uk : city.ru}
@@ -1243,12 +1241,12 @@ export default function ChocoRadarApp({
                 })}
                 <button
                   onClick={() => setIsCitySelectorModalOpen(true)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-extrabold border transition flex items-center gap-1.5 ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-extrabold transition flex items-center gap-1.5 ${
                     selectedCity !== 'all' && !POPULAR_CITIES.slice(0, 6).some((c) => c.id === selectedCity)
-                      ? 'bg-[#b06a1e] text-white border-[#b06a1e] shadow-sm'
+                      ? 'btn-amber-2027'
                       : isDark
-                      ? 'border-[#e39851]/50 text-[#f0a556] hover:bg-[#462b1f]'
-                      : 'border-[#b06a1e]/40 bg-white text-[#b06a1e] hover:bg-[#fff8ef]'
+                      ? 'dark-btn-glass-pill text-[#f0a556]'
+                      : 'btn-glass-pill text-[#b06a1e]'
                   }`}
                 >
                   <Search className="w-3.5 h-3.5" />
@@ -1959,12 +1957,12 @@ export default function ChocoRadarApp({
                     <button
                       key={city.id}
                       onClick={() => setSelectedCity(city.id)}
-                      className={`shrink-0 px-3 py-1 rounded-full text-xs font-bold transition ${
+                      className={`shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold transition ${
                         active
-                          ? 'bg-[#462b1f] text-[#faf4eb] shadow-xs'
+                          ? 'btn-pill-active'
                           : isDark
-                          ? 'bg-[#362820] text-[#eee7dd]'
-                          : 'bg-[#f1e6da] text-[#3e281b] hover:bg-[#e3d2c0]'
+                          ? 'dark-btn-glass-pill'
+                          : 'btn-glass-pill'
                       }`}
                     >
                       {lang === 'uk' ? city.uk : city.ru}
@@ -1973,13 +1971,15 @@ export default function ChocoRadarApp({
                 })}
                 <button
                   onClick={() => setIsCitySelectorModalOpen(true)}
-                  className={`px-3 py-1 rounded-full text-xs font-bold border transition flex items-center gap-1 text-[#b06a1e] ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition flex items-center gap-1.5 ${
                     selectedCity !== 'all' && !POPULAR_CITIES.slice(0, 6).some((c) => c.id === selectedCity)
-                      ? 'bg-[#b06a1e] text-white border-[#b06a1e]'
-                      : 'border-[#b06a1e]/40 hover:bg-[#fff8ef]'
+                      ? 'btn-amber-2027'
+                      : isDark
+                      ? 'dark-btn-glass-pill text-[#f0a556]'
+                      : 'btn-glass-pill text-[#b06a1e]'
                   }`}
                 >
-                  <Search className="w-3 h-3" />
+                  <Search className="w-3.5 h-3.5" />
                   <span>
                     {selectedCity !== 'all' && !POPULAR_CITIES.slice(0, 6).some((c) => c.id === selectedCity)
                       ? selectedCity
@@ -2065,12 +2065,12 @@ export default function ChocoRadarApp({
                         <button
                           type="button"
                           onClick={() => setShowAllMakers((prev) => !prev)}
-                          className={`inline-flex items-center justify-center gap-2 rounded-full border-2 px-5 py-2.5 text-xs sm:text-sm font-extrabold transition shadow-xs shrink-0 ${
+                          className={`inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-xs sm:text-sm font-extrabold transition shrink-0 ${
                             showAllMakers
-                              ? 'bg-[#462b1f] text-white border-[#462b1f]'
+                              ? 'btn-primary-2027'
                               : isDark
-                              ? 'bg-[#362820] border-[#e39851]/60 text-[#f0a556] hover:bg-[#462b1f]'
-                              : 'bg-white border-[#b06a1e]/40 text-[#462b1f] hover:bg-[#f1e6da]'
+                              ? 'dark-btn-glass-pill hover:bg-[#462b1f]'
+                              : 'btn-glass-pill'
                           }`}
                         >
                           <span>

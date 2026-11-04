@@ -7,10 +7,154 @@
 }
 
 body {
-  background-color: #F5F5F7;
-  color: #1D1D1F;
+  background-color: #faf6f0;
+  color: #302016;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+/* =========================================================================
+   2027 AURA MESH GRADIENTS & TACTILE SURFACE STYLES
+   ========================================================================= */
+
+/* Atmospheric ambient light background for light mode */
+.bg-crafo-aura-light {
+  background-color: #faf5ee;
+  background-image: 
+    radial-gradient(circle at 12% 8%, rgba(246, 224, 201, 0.65) 0%, transparent 38%),
+    radial-gradient(circle at 88% 18%, rgba(238, 203, 168, 0.5) 0%, transparent 42%),
+    radial-gradient(circle at 50% 65%, rgba(254, 240, 222, 0.7) 0%, transparent 55%),
+    radial-gradient(circle at 20% 90%, rgba(243, 218, 192, 0.45) 0%, transparent 45%);
+  background-attachment: fixed;
+}
+
+/* Atmospheric luxury obsidian for dark mode */
+.bg-crafo-aura-dark {
+  background-color: #170f0b;
+  background-image: 
+    radial-gradient(circle at 18% 10%, rgba(176, 106, 30, 0.18) 0%, transparent 40%),
+    radial-gradient(circle at 85% 20%, rgba(142, 47, 74, 0.14) 0%, transparent 45%),
+    radial-gradient(circle at 50% 70%, rgba(227, 152, 81, 0.1) 0%, transparent 55%);
+  background-attachment: fixed;
+}
+
+/* Ultra-light tactile grain (2027 craft texture) */
+.craft-grain-overlay {
+  position: relative;
+}
+.craft-grain-overlay::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* =========================================================================
+   2027 TACTILE BUTTONS & GLASSMORPHIC PILLS
+   ========================================================================= */
+
+/* Primary CTA Button: Deep Chocolate Silk with Specular Top Highlight */
+.btn-primary-2027 {
+  background: linear-gradient(180deg, #4d3023 0%, #361f14 100%);
+  color: #faf5ee;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+    0 4px 14px rgba(54, 31, 20, 0.28),
+    0 1px 2px rgba(54, 31, 20, 0.16);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-primary-2027:hover {
+  background: linear-gradient(180deg, #5a3829 0%, #402417 100%);
+  transform: translateY(-1px);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+    0 7px 20px rgba(54, 31, 20, 0.35),
+    0 2px 4px rgba(54, 31, 20, 0.2);
+}
+.btn-primary-2027:active {
+  transform: translateY(0.5px);
+  box-shadow: 
+    inset 0 1px 2px rgba(0, 0, 0, 0.4),
+    0 2px 6px rgba(54, 31, 20, 0.25);
+}
+
+/* Amber/Caramel Glow Button (Sommelier / Discover / Tender) */
+.btn-amber-2027 {
+  background: linear-gradient(180deg, #c47621 0%, #a05a14 100%);
+  color: #ffffff;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+    0 4px 14px rgba(176, 106, 30, 0.32),
+    0 1px 2px rgba(176, 106, 30, 0.15);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-amber-2027:hover {
+  background: linear-gradient(180deg, #d38128 0%, #ad6217 100%);
+  transform: translateY(-1px);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    0 8px 22px rgba(176, 106, 30, 0.42),
+    0 2px 5px rgba(176, 106, 30, 0.2);
+}
+.btn-amber-2027:active {
+  transform: translateY(0.5px);
+  box-shadow: 
+    inset 0 1px 2px rgba(0, 0, 0, 0.35),
+    0 2px 6px rgba(176, 106, 30, 0.25);
+}
+
+/* Glassmorphic Pill Button (Cities, Filter pills, Assortment) */
+.btn-glass-pill {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(176, 106, 30, 0.22);
+  color: #462b1f;
+  box-shadow: 0 1px 3px rgba(70, 43, 31, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-glass-pill:hover {
+  background: rgba(255, 248, 239, 0.95);
+  border-color: rgba(176, 106, 30, 0.45);
+  color: #b06a1e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(176, 106, 30, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Dark mode Glassmorphic Pill */
+.dark-btn-glass-pill {
+  background: rgba(54, 40, 32, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(227, 152, 81, 0.25);
+  color: #eee7dd;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.dark-btn-glass-pill:hover {
+  background: rgba(70, 43, 31, 0.85);
+  border-color: rgba(240, 165, 86, 0.5);
+  color: #f0a556;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+/* Active City / Category Pill */
+.btn-pill-active {
+  background: linear-gradient(180deg, #4d3023 0%, #361f14 100%) !important;
+  color: #faf5ee !important;
+  border-color: transparent !important;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 3px 10px rgba(54, 31, 20, 0.25) !important;
 }
 
 /* Apple-style clean scrollbar */
@@ -20,16 +164,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #F5F5F7;
+  background: #faf5ee;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #D2D2D7;
+  background: #d4c3b3;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #86868B;
+  background: #b06a1e;
 }
 
 @keyframes slideInRight {
