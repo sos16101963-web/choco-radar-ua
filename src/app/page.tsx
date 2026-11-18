@@ -9,45 +9,45 @@ export default function HomePage() {
     '@graph': [
       {
         '@type': 'Organization',
-        '@id': 'https://choco-radar-ua.vercel.app/#organization',
-        name: 'CrafoHub Україна',
-        alternateName: 'CrafoHub — Платформа крафтових солодощів України',
-        url: 'https://choco-radar-ua.vercel.app',
+        '@id': 'https://crafohab.com.ua/#organization',
+        name: 'CrafoHab Україна',
+        alternateName: 'CrafoHab — Платформа крафтових солодощів України',
+        url: 'https://crafohab.com.ua',
         description:
           'Всеукраїнська сервісна платформа крафтових виробників шоколаду, цукерок, зефіру та авторських тортів.',
         areaServed: 'UA',
       },
       {
         '@type': 'WebSite',
-        '@id': 'https://choco-radar-ua.vercel.app/#website',
-        url: 'https://choco-radar-ua.vercel.app',
-        name: 'CrafoHub — Навігатор крафтового шоколаду, зефіру та тортів України',
+        '@id': 'https://crafohab.com.ua/#website',
+        url: 'https://crafohab.com.ua',
+        name: 'CrafoHab — Навігатор крафтового шоколаду, зефіру та тортів України',
         publisher: {
-          '@id': 'https://choco-radar-ua.vercel.app/#organization',
+          '@id': 'https://crafohab.com.ua/#organization',
         },
         inLanguage: ['uk-UA', 'ru-UA'],
       },
       {
         '@type': 'BreadcrumbList',
-        '@id': 'https://choco-radar-ua.vercel.app/#breadcrumbs',
+        '@id': 'https://crafohab.com.ua/#breadcrumbs',
         itemListElement: [
           {
             '@type': 'ListItem',
             position: 1,
-            name: 'CrafoHub Україна',
-            item: 'https://choco-radar-ua.vercel.app',
+            name: 'CrafoHab Україна',
+            item: 'https://crafohab.com.ua',
           },
           ...CATEGORIES.filter((c) => c.slug !== 'all').map((cat, idx) => ({
             '@type': 'ListItem',
             position: idx + 2,
             name: cat.shortTitle,
-            item: `https://choco-radar-ua.vercel.app/katalog/${cat.slug}`,
+            item: `https://crafohab.com.ua/katalog/${cat.slug}`,
           })),
         ],
       },
       {
         '@type': 'ItemList',
-        name: 'Рейтинг крафтових виробників шоколаду, зефіру та тортів України 2027 (CrafoHub)',
+        name: 'Рейтинг крафтових виробників шоколаду, зефіру та тортів України 2027 (CrafoHab)',
         itemListOrder: 'https://schema.org/ItemListOrderDescending',
         numberOfItems: Math.min(MAKERS.length, 30),
         itemListElement: MAKERS.slice(0, 30).map((maker, index) => ({
@@ -76,7 +76,7 @@ export default function HomePage() {
       },
       {
         '@type': 'ItemList',
-        name: 'Порівняння крафтових виробів за ціною за 100 г (CrafoHub)',
+        name: 'Порівняння крафтових виробів за ціною за 100 г (CrafoHab)',
         itemListOrder: 'https://schema.org/ItemListOrderDescending',
         numberOfItems: PRODUCTS.length,
         itemListElement: PRODUCTS.map((product, index) => ({
@@ -123,7 +123,7 @@ export default function HomePage() {
             name: 'Які солодощі обрати в рубриках «Без цукру» та «Для дітей»?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'На платформі CrafoHub рубрики розділені для зручності: у розділі «Без цукру» представлені вироби на меду, кокосовому нектарі, еритритолі та стевії для веганів і діабетиків, а в окремій рубриці «Для дітей» — безпечний дитячий шоколад і батончики на керобі без кофеїну, натуральна ягідна пастила та шоколадні фігурки.',
+              text: 'На платформі CrafoHab рубрики розділені для зручності: у розділі «Без цукру» представлені вироби на меду, кокосовому нектарі, еритритолі та стевії для веганів і діабетиків, а в окремій рубриці «Для дітей» — безпечний дитячий шоколад і батончики на керобі без кофеїну, натуральна ягідна пастила та шоколадні фігурки.',
             },
           },
           {

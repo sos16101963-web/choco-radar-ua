@@ -4,9 +4,9 @@ export function generateOrganizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'CrafoHub',
-    url: 'https://choco-radar-ua.vercel.app',
-    logo: 'https://choco-radar-ua.vercel.app/images/crafo-collage.jpg',
+    name: 'CrafoHab',
+    url: 'https://crafohab.com.ua',
+    logo: 'https://crafohab.com.ua/images/crafo-collage.jpg',
     description:
       'Національний маркетплейс та гід крафтового шоколаду, авторських тортів і зефіру ручної роботи в Україні.',
     sameAs: ['https://crafo.com.ua', 'https://instagram.com/crafo.choco'],
@@ -25,7 +25,7 @@ export function generateLocalBusinessSchema(maker: CraftMaker) {
     '@context': 'https://schema.org',
     '@type': 'Bakery',
     name: maker.name,
-    image: maker.imageUrl || 'https://choco-radar-ua.vercel.app/images/crafo-collage.jpg',
+    image: maker.imageUrl || 'https://crafohab.com.ua/images/crafo-collage.jpg',
     telephone: maker.phone,
     url: maker.websiteUrl,
     address: {

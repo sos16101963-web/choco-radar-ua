@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: config.titleUk,
       description: config.metaDescUk,
       url: `https://choco-radar-ua.vercel.app/misto/${config.citySlug}/${config.categorySlug}`,
-      siteName: 'CrafoHub',
+      siteName: 'CrafoHab',
       locale: 'uk_UA',
       type: 'website',
     },
@@ -87,7 +87,7 @@ export default async function CitySectionPage({ params }: PageProps) {
   const faqSchema = generateFaqSchema(config.faqUk);
 
   const breadcrumbsSchema = generateBreadcrumbSchema([
-    { name: 'CrafoHub', url: 'https://choco-radar-ua.vercel.app' },
+    { name: 'CrafoHab', url: 'https://choco-radar-ua.vercel.app' },
     { name: config.cityNameUk, url: `https://choco-radar-ua.vercel.app/misto/${config.citySlug}` },
     {
       name: config.categorySlug === 'torty' ? 'Торти' : config.categorySlug === 'zefir' ? 'Зефір' : 'Шоколад',

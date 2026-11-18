@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!variant) return {};
 
   return {
-    title: `${variant.titleUk} — 3 основні кондитерські України | CrafoHub`,
+    title: `${variant.titleUk} — 3 основні кондитерські України | CrafoHab`,
     description: `${variant.shortDescUk} Замовлення святкових та авторських тортів напряму у перевірених майстерень без націнок.`,
     alternates: {
       canonical: `https://choco-radar-ua.vercel.app/torty/${variant.slug}`,

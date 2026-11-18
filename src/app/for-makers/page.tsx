@@ -21,14 +21,14 @@ import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 import ForMakersAuditForm from './ForMakersAuditForm';
 
 export const metadata: Metadata = {
-  title: 'Виробникам та кондитерам — Розміщення без комісій у CrafoHub 2027',
+  title: 'Виробникам та кондитерам — Розміщення без комісій у CrafoHab 2027',
   description:
-    'Підключіть вашу майстерню шоколаду, кондитерську або зефірну флористику до CrafoHub. 0% комісії з замовлень, прямі покупці на ваш сайт та в Instagram, замовлення з тендерної біржі.',
+    'Підключіть вашу майстерню шоколаду, кондитерську або зефірну флористику до CrafoHab. 0% комісії з замовлень, прямі покупці на ваш сайт та в Instagram, замовлення з тендерної біржі.',
   alternates: {
     canonical: 'https://choco-radar-ua.vercel.app/for-makers',
   },
   openGraph: {
-    title: 'Виробникам та кондитерам — Розміщення у CrafoHub 2027',
+    title: 'Виробникам та кондитерам — Розміщення у CrafoHab 2027',
     description: '0% комісії з продажів, прямі клієнти, індивідуальні тендери по вашому місту.',
     url: 'https://choco-radar-ua.vercel.app/for-makers',
   },
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 
 export default function ForMakersPage() {
   const breadcrumbsSchema = generateBreadcrumbSchema([
-    { name: 'CrafoHub', url: 'https://choco-radar-ua.vercel.app' },
+    { name: 'CrafoHab', url: 'https://choco-radar-ua.vercel.app' },
     { name: 'Виробникам крафтових солодощів', url: 'https://choco-radar-ua.vercel.app/for-makers' },
   ]);
 
@@ -90,7 +90,7 @@ export default function ForMakersPage() {
         </h1>
 
         <p className="text-sm sm:text-base text-[#5a4638] max-w-2xl mx-auto leading-relaxed">
-          CrafoHub — це національний навігатор преміальних крафтових солодощів. Ми не ховаємо контакти
+          CrafoHab — це національний навігатор преміальних крафтових солодощів. Ми не ховаємо контакти
           і не стягуємо відсоток з ваших продажів, як Prom (18–25%) або Flowwow (20–30%). Клієнт купує
           безпосередньо на вашому сайті, в Instagram або месенджері за вашим прайсом.
         </p>
@@ -117,7 +117,7 @@ export default function ForMakersPage() {
         <div className="mx-auto max-w-6xl space-y-10">
           <div className="text-center space-y-2">
             <span className="text-xs font-bold uppercase tracking-widest text-[#b06a1e]">
-              Чому крафтовики обирають CrafoHub
+              Чому крафтовики обирають CrafoHab
             </span>
             <h2 className="font-serif text-2xl sm:text-3xl font-bold">
               3 ключові переваги для вашого кондитерського бізнесу
@@ -161,14 +161,14 @@ export default function ForMakersPage() {
         </div>
       </section>
 
-      {/* Comparison Table: CrafoHub vs Aggregators */}
+      {/* Comparison Table: CrafoHab vs Aggregators */}
       <section className="mx-auto max-w-5xl px-4 py-16 space-y-8">
         <div className="text-center space-y-2">
           <span className="text-xs font-bold uppercase tracking-widest text-[#b06a1e]">
             Порівняння каналів
           </span>
           <h2 className="font-serif text-2xl sm:text-3xl font-bold">
-            Чому CrafoHub вигідніший за традиційні маркетплейси
+            Чому CrafoHab вигідніший за традиційні маркетплейси
           </h2>
         </div>
 
@@ -177,7 +177,7 @@ export default function ForMakersPage() {
             <thead className="bg-[#f1e6da] border-b border-[#e1d5c8] text-[#302016]">
               <tr>
                 <th className="p-4 font-bold">Критерій</th>
-                <th className="p-4 font-bold text-[#b06a1e]">CrafoHub</th>
+                <th className="p-4 font-bold text-[#b06a1e]">CrafoHab</th>
                 <th className="p-4 font-bold text-gray-500">Prom / Rozetka</th>
                 <th className="p-4 font-bold text-gray-500">Flowwow</th>
               </tr>
@@ -208,7 +208,7 @@ export default function ForMakersPage() {
               <tr>
                 <td className="p-4 font-medium">UTM-трекінг та Google Analytics</td>
                 <td className="p-4 font-extrabold text-emerald-600">
-                  Повна прозорість (utm_source=crafohub)
+                  Повна прозорість (utm_source=crafohab)
                 </td>
                 <td className="p-4 text-gray-600">Заблоковано</td>
                 <td className="p-4 text-gray-600">Недоступно</td>
@@ -239,12 +239,12 @@ export default function ForMakersPage() {
           <p className="text-[11px] text-center text-[#4a382e]">
             Або напишіть нам напряму в Telegram:{' '}
             <a
-              href="https://t.me/crafohub_ua"
+              href="https://t.me/crafohab_ua"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#b06a1e] underline font-bold"
             >
-              @crafohub_ua
+              @crafohab_ua
             </a>
           </p>
         </div>
@@ -252,7 +252,7 @@ export default function ForMakersPage() {
 
       {/* Footer */}
       <footer className="border-t border-[#e1d5c8] py-8 px-4 text-center text-xs text-[#4a382e]">
-        <div>CrafoHub Україна • Платформа незалежних крафтових виробників 2027</div>
+        <div>CrafoHab Україна • Платформа незалежних крафтових виробників 2027</div>
         <div className="pt-2">
           <Link href="/" className="hover:text-[#b06a1e] underline">
             Повернутися до каталогу продукції

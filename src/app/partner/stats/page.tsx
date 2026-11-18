@@ -66,7 +66,7 @@ export default function PartnerStatsDashboard() {
       return;
     }
 
-    setErrorMsg('Невірний PIN-код доступу. Зверніться до адміністратора CrafoHub.');
+    setErrorMsg('Невірний PIN-код доступу. Зверніться до адміністратора CrafoHab.');
   };
 
   // Makers list sorted by total leads
@@ -137,7 +137,7 @@ export default function PartnerStatsDashboard() {
               <Lock className="w-7 h-7" />
             </div>
             <span className="inline-block text-[11px] font-extrabold uppercase tracking-widest text-[#f0a556]">
-              Закритий доступ • CrafoHub Analytics
+              Закритий доступ • CrafoHab Analytics
             </span>
             <h1 className="font-serif text-2xl font-bold text-white">
               Кабінет аналітики переходів
@@ -184,12 +184,12 @@ export default function PartnerStatsDashboard() {
             <p>
               Не маєте коду? Напишіть у{' '}
               <a
-                href="https://t.me/crafohub_ua"
+                href="https://t.me/crafohab_ua"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#f0a556] underline"
               >
-                Telegram @crafohub_ua
+                Telegram @crafohab_ua
               </a>
             </p>
             <div className="pt-2">
@@ -220,7 +220,7 @@ export default function PartnerStatsDashboard() {
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-serif font-bold text-white text-base sm:text-lg">
-                  CrafoHub <span className="text-[#f0a556]">Analytics</span>
+                  CrafoHab <span className="text-[#f0a556]">Analytics</span>
                 </span>
                 <span className="rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-extrabold px-2 py-0.5">
                   Закритий доступ
@@ -292,7 +292,7 @@ export default function PartnerStatsDashboard() {
                 <div className="text-3xl font-serif font-extrabold text-white">
                   {totalAggregates.totalWeb.toLocaleString('uk-UA')}
                 </div>
-                <p className="text-[11px] text-[#d4c9be]">Кліків з UTM-міткою crafohub</p>
+                <p className="text-[11px] text-[#d4c9be]">Кліків з UTM-міткою crafohab</p>
               </div>
 
               <div className="bg-[#261b16] border border-white/15 rounded-3xl p-5 space-y-2 shadow-sm">
@@ -454,7 +454,7 @@ export default function PartnerStatsDashboard() {
                     <div>
                       <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-extrabold px-2.5 py-0.5 mb-1">
                         <CheckCircle2 className="w-3 h-3" />
-                        <span>Звіт верифікованої майстерні CrafoHub</span>
+                        <span>Звіт верифікованої майстерні CrafoHab</span>
                       </div>
                       <h2 className="font-serif text-xl sm:text-2xl font-bold text-white">
                         {activeMakerItem.maker.name}
@@ -513,7 +513,7 @@ export default function PartnerStatsDashboard() {
                     <div className="text-3xl font-serif font-extrabold text-white">
                       {activeMakerItem.stats.websiteClicks}
                     </div>
-                    <p className="text-[10px] text-[#d4c9be]">З міткою utm_source=crafohub</p>
+                    <p className="text-[10px] text-[#d4c9be]">З міткою utm_source=crafohab</p>
                   </div>
 
                   <div className="bg-[#1a120e] rounded-2xl p-4 border border-white/10 space-y-1">
@@ -540,7 +540,7 @@ export default function PartnerStatsDashboard() {
                     <span>Комерційна цінність для виробника</span>
                   </div>
                   <h3 className="font-serif text-lg font-bold text-white">
-                    CrafoHub приводить платоспроможних клієнтів напряму без посередників
+                    CrafoHab приводить платоспроможних клієнтів напряму без посередників
                   </h3>
                   <p className="text-xs text-[#c2b6a9] leading-relaxed">
                     Кожен клік з каталогу — це цільовий покупець, який уже обрав конкретний продукт (шоколадні квіти, торт на свято, бенто або набір цукерок), побачив місто та чесну ціну. Комісія хабу становить 0% на базовому рівні, клієнт купує за вашими цінами.

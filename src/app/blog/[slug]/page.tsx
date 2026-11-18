@@ -56,11 +56,11 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
         datePublished: article.publishedAt,
         author: {
           '@type': 'Organization',
-          name: 'CrafoHub Україна',
+          name: 'CrafoHab Україна',
         },
         publisher: {
           '@type': 'Organization',
-          name: 'CrafoHub Україна',
+          name: 'CrafoHab Україна',
           url: 'https://choco-radar-ua.vercel.app',
         },
       },
@@ -89,7 +89,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
       <header className="sticky top-0 z-40 border-b border-[#e1d5c8] bg-[#fbf6ee]/95 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
           <Link href="/blog" className="text-xs sm:text-sm font-bold text-[#b06a1e] hover:underline">
-            ← Усі статті Блогу CrafoHub
+            ← Усі статті Блогу CrafoHab
           </Link>
           <Link
             href="/"
@@ -154,7 +154,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
             <div className="space-y-1.5">
               <span className="inline-flex items-center gap-1 rounded-full bg-[#e39851] px-3 py-0.5 text-[11px] font-extrabold text-[#26140b]">
                 <Crown className="w-3.5 h-3.5" />
-                <span>Рекомендація редакції CrafoHub №1</span>
+                <span>Рекомендація редакції CrafoHab №1</span>
               </span>
               <h3 className="font-serif text-lg sm:text-xl font-bold text-[#302016]">
                 CraftChoco / ChocoCraft (crafo.com.ua) — Лідер категорії Шоколад

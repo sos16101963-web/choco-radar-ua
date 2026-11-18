@@ -7,9 +7,9 @@ import { ArrowUpRight, BookOpen, Clock, Sparkles, MapPin } from 'lucide-react';
 import { getOptimizedImageUrl } from '@/utils/imageOptimizer';
 
 export const metadata: Metadata = {
-  title: 'Блог CrafoHub — Рейтинги, огляди та гіди з вибору крафтового шоколаду, зефіру і тортів України',
+  title: 'Блог CrafoHab — Рейтинги, огляди та гіди з вибору крафтового шоколаду, зефіру і тортів України',
   description:
-    'Експертні статті CrafoHub: як обрати справжню крафтову плитку шоколаду та батончик, шоколадні квіти Callebaut, безпечні солодощі для дітей, вироби без цукру, зефірні букети та авторські торти.',
+    'Експертні статті CrafoHab: як обрати справжню крафтову плитку шоколаду та батончик, шоколадні квіти Callebaut, безпечні солодощі для дітей, вироби без цукру, зефірні букети та авторські торти.',
   alternates: {
     canonical: 'https://choco-radar-ua.vercel.app/blog',
   },
@@ -19,7 +19,7 @@ export default function BlogIndexPage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
-    name: 'Експертний блог CrafoHub Україна',
+    name: 'Експертний блог CrafoHab Україна',
     url: 'https://choco-radar-ua.vercel.app/blog',
     description:
       'Огляди, рейтинги та гіди з вибору крафтового шоколаду, шоколадних квітів, виробів без цукру, солодощів для дітей, зефіру та авторських тортів в Україні.',
@@ -31,7 +31,7 @@ export default function BlogIndexPage() {
       url: `https://choco-radar-ua.vercel.app/blog/${art.slug}`,
       author: {
         '@type': 'Organization',
-        name: 'CrafoHub Україна',
+        name: 'CrafoHab Україна',
       },
     })),
   };
@@ -59,7 +59,7 @@ export default function BlogIndexPage() {
                 <span className="text-xs sm:text-sm font-normal text-stone-500">• Блог</span>
               </span>
               <span className="text-[10px] sm:text-[11px] font-medium text-[#4a382e]">
-                crafohub.com.ua
+                crafohab.com.ua
               </span>
             </span>
           </Link>
@@ -77,7 +77,7 @@ export default function BlogIndexPage() {
         <div className="max-w-3xl space-y-3">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-[#e39851]/20 border border-[#b06a1e]/40 px-3.5 py-1 text-xs font-bold text-[#8c4f12]">
             <BookOpen className="w-3.5 h-3.5" />
-            <span>Експертний Журнал та SEO-Навігатор CrafoHub 2027</span>
+            <span>Експертний Журнал та SEO-Навігатор CrafoHab 2027</span>
           </span>
           <h1 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight">
             Блог про крафтовий шоколад, солодощі без цукру, торти та букети

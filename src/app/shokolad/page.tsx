@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
 
 export const metadata: Metadata = {
-  title: 'Шоколад та цукерки ручної роботи України — CrafoHub 2027',
+  title: 'Шоколад та цукерки ручної роботи України — CrafoHab 2027',
   description:
     'Оберіть вид крафтового шоколаду: плитки шоколаду, батончики, корпусні цукерки ручної роботи, шоколадні квіти і букети, малина в шоколаді. 3 основні виробники та повний каталог майстерень України.',
   alternates: {

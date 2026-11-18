@@ -22,15 +22,15 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://choco-radar-ua.vercel.app'),
+  metadataBase: new URL('https://crafohab.com.ua'),
   title: {
-    default: 'CrafoHub — Всі крафтові виробники шоколаду, зефіру та тортів України (2027)',
-    template: '%s | CrafoHub — Платформа крафтових солодощів України',
+    default: 'CrafoHab — Всі крафтові виробники шоколаду, зефіру та тортів України (2027)',
+    template: '%s | CrafoHab — Платформа крафтових солодощів України',
   },
   description:
-    'CrafoHub — №1 сервіс крафтових солодощів України. Плитка шоколаду та батончик, цукерки ручної роботи, шоколадні квіти і букети, малина в шоколаді, вироби без цукру, солодощі для дітей, крафтовий зефір та авторські торти. 105 перевірені майстерні, чесна ціна за 100 г та тендерна біржа замовлень.',
+    'CrafoHab — №1 сервіс крафтових солодощів України. Плитка шоколаду та батончик, цукерки ручної роботи, шоколадні квіти і букети, малина в шоколаді, вироби без цукру, солодощі для дітей, крафтовий зефір та авторські торти. 117 перевірених майстерень, чесна ціна за 100 г та тендерна біржа замовлень.',
   keywords: [
-    'CrafoHub Україна',
+    'CrafoHab Україна',
     'крафтовий шоколад Україна',
     'плитка шоколаду батончик купити',
     'шоколадні квіти купити',
@@ -45,11 +45,11 @@ export const metadata: Metadata = {
     'crafo.com.ua',
   ],
   openGraph: {
-    title: 'CrafoHub — Всі крафтові виробники шоколаду, зефіру та тортів України',
+    title: 'CrafoHab — Всі крафтові виробники шоколаду, зефіру та тортів України',
     description:
-      'Інтерактивний підбір подарунків за 30 секунд, порівняння ціни за 100 г, чистоти складу та прямі контакти 105 перевірених майстерень України.',
-    url: 'https://choco-radar-ua.vercel.app',
-    siteName: 'CrafoHub',
+      'Інтерактивний підбір подарунків за 30 секунд, порівняння ціни за 100 г, чистоти складу та прямі контакти 117 перевірених майстерень України.',
+    url: 'https://crafohab.com.ua',
+    siteName: 'CrafoHab',
     locale: 'uk_UA',
     alternateLocale: ['ru_UA'],
     type: 'website',
@@ -66,10 +66,10 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://choco-radar-ua.vercel.app',
+    canonical: 'https://crafohab.com.ua',
     languages: {
-      'uk-UA': 'https://choco-radar-ua.vercel.app',
-      'ru-UA': 'https://choco-radar-ua.vercel.app/?lang=ru',
+      'uk-UA': 'https://crafohab.com.ua',
+      'ru-UA': 'https://crafohab.com.ua/?lang=ru',
     },
   },
 };

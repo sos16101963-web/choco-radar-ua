@@ -4,7 +4,7 @@ import { BLOG_ARTICLES, CITY_SEO_HUBS } from '@/data/blogData';
 import { CITY_SECTION_COMBOS } from '@/data/cityCategorySeo';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://choco-radar-ua.vercel.app';
+  const baseUrl = 'https://crafohab.com.ua';
 
   const sectionUrls: MetadataRoute.Sitemap = ['/shokolad', '/torty', '/zefir'].map((path) => ({
     url: `${baseUrl}${path}`,

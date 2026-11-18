@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://choco-radar-ua.vercel.app/sitemap.xml',
+    sitemap: 'https://crafohab.com.ua/sitemap.xml',
   };
 }

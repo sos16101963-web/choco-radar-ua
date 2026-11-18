@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
 
 export const metadata: Metadata = {
-  title: 'Авторські торти та десерти на замовлення — CrafoHub 2027',
+  title: 'Авторські торти та десерти на замовлення — CrafoHab 2027',
   description:
     'Святкові та мусові торти у шоколадному велюрі, трендові бенто-торти, дитячі торти та макарони. 3 основні кондитерські та повний список майстерень України.',
   alternates: {

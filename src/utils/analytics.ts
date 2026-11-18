@@ -19,7 +19,7 @@ export interface MakerStats {
   history: ClickEvent[];
 }
 
-const STORAGE_KEY = 'crafohub_real_clicks_v2';
+const STORAGE_KEY = 'crafohab_real_clicks_v2';
 
 export function getStoredClicks(): ClickEvent[] {
   if (typeof window === 'undefined') return [];
@@ -111,13 +111,13 @@ export function getMakerStats(makerId: string): MakerStats {
   };
 }
 
-// Append UTM parameters so the maker sees "crafohub" in their Google Analytics / Instagram analytics
+// Append UTM parameters so the maker sees "crafohab" in their Google Analytics / Instagram analytics
 export function appendUtm(url: string, makerId: string): string {
   if (!url) return url;
   try {
     const u = new URL(url);
     if (!u.searchParams.has('utm_source')) {
-      u.searchParams.set('utm_source', 'crafohub');
+      u.searchParams.set('utm_source', 'crafohab');
       u.searchParams.set('utm_medium', 'referral');
       u.searchParams.set('utm_campaign', 'catalog_2027');
       u.searchParams.set('utm_content', makerId);
@@ -125,6 +125,6 @@ export function appendUtm(url: string, makerId: string): string {
     return u.toString();
   } catch {
     const glue = url.includes('?') ? '&' : '?';
-    return `${url}${glue}utm_source=crafohub&utm_medium=referral&utm_campaign=catalog_2027&utm_content=${makerId}`;
+    return `${url}${glue}utm_source=crafohab&utm_medium=referral&utm_campaign=catalog_2027&utm_content=${makerId}`;
   }
 }

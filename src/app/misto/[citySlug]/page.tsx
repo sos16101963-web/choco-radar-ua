@@ -53,7 +53,7 @@ export default async function CityPage({ params }: CityPageProps) {
   );
 
   const breadcrumbsSchema = generateBreadcrumbSchema([
-    { name: 'CrafoHub', url: 'https://choco-radar-ua.vercel.app' },
+    { name: 'CrafoHab', url: 'https://choco-radar-ua.vercel.app' },
     { name: `Майстерні: ${city.cityNameUk}`, url: `https://choco-radar-ua.vercel.app/misto/${city.slug}` },
   ]);
 

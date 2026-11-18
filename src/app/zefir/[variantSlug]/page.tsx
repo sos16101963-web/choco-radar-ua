@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!variant) return {};
 
   return {
-    title: `${variant.titleUk} — 3 основні майстерні зефіру України | CrafoHub`,
+    title: `${variant.titleUk} — 3 основні майстерні зефіру України | CrafoHab`,
     description: `${variant.shortDescUk} Натуральний крафтовий зефір на агар-агарі, букети та солодощі без цукру від виробників.`,
     alternates: {
       canonical: `https://choco-radar-ua.vercel.app/zefir/${variant.slug}`,

@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!variant) return {};
 
   return {
-    title: `${variant.titleUk} — 3 основні виробники крафтового шоколаду України | CrafoHub`,
+    title: `${variant.titleUk} — 3 основні виробники крафтового шоколаду України | CrafoHab`,
     description: `${variant.shortDescUk} Порівняння складу, ціни за 100 г, прямі сайти та контакти перевірених майстерень України.`,
     alternates: {
       canonical: `https://choco-radar-ua.vercel.app/shokolad/${variant.slug}`,

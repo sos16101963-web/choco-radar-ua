@@ -899,8 +899,8 @@ export default function ChocoRadarApp({
               <a
                 href={`https://wa.me/${maker.phone.replace(/[^\d]/g, '')}?text=${encodeURIComponent(
                   lang === 'uk'
-                    ? `Доброго дня! Знайшов майстерню ${cleanDisplayName(maker.name)} на CrafoHub, хочу зробити замовлення.`
-                    : `Здравствуйте! Нашел мастерскую ${cleanDisplayName(maker.name)} на CrafoHub, хочу сделать заказ.`
+                    ? `Доброго дня! Знайшов майстерню ${cleanDisplayName(maker.name)} на CrafoHab, хочу зробити замовлення.`
+                    : `Здравствуйте! Нашел мастерскую ${cleanDisplayName(maker.name)} на CrafoHab, хочу сделать заказ.`
                 )}`}
                 onClick={() => trackMakerClick(maker.id, 'phone', { category: effectiveCategory, city: maker.city })}
                 target="_blank"
@@ -962,7 +962,7 @@ export default function ChocoRadarApp({
             </span>
             <span className="flex flex-col items-start leading-tight">
               <span className="font-serif text-base sm:text-lg font-bold tracking-tight inline-flex items-baseline gap-1.5 whitespace-nowrap">
-                <span>Crafo<span className="text-[#b06a1e]">Hub</span></span>
+                <span>Crafo<span className="text-[#b06a1e]">Hab</span></span>
                 <span className="text-[11px] sm:text-xs font-semibold text-[#b06a1e]">
                   {lang === 'uk' ? 'в Україні' : 'в Украине'}
                 </span>
@@ -972,7 +972,7 @@ export default function ChocoRadarApp({
                   isDark ? 'text-[#d4c9be]' : 'text-[#4a382e]'
                 }`}
               >
-                crafohub.com.ua
+                crafohab.com.ua
               </span>
             </span>
           </Link>
@@ -1158,8 +1158,8 @@ export default function ChocoRadarApp({
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>
                   {lang === 'uk'
-                    ? `CrafoHub 2027 • ${MAKERS.length} перевірених майстерень України`
-                    : `CrafoHub 2027 • ${MAKERS.length} проверенных мастерских Украины`}
+                    ? `CrafoHab 2027 • ${MAKERS.length} перевірених майстерень України`
+                    : `CrafoHab 2027 • ${MAKERS.length} проверенных мастерских Украины`}
                 </span>
               </span>
 
@@ -1176,8 +1176,8 @@ export default function ChocoRadarApp({
                 }`}
               >
                 {lang === 'uk'
-                  ? 'Єдиний сервіс CrafoHub (crafohub.com.ua), де зібрані найкращі майстерні шоколаду, авторських тортів та крафтового зефіру: обирайте очима, знаходьте 3 основні виробники свого міста та переходьте напряму до замовлення.'
-                  : 'Единый сервис CrafoHub (crafohub.com.ua), где собраны лучшие мастерские шоколада, авторских тортов и крафтового зефира: выбирайте глазами, находите 3 основных производителя своего города и переходите напрямую к заказу.'}
+                  ? 'Єдиний сервіс CrafoHab (crafohab.com.ua), де зібрані найкращі майстерні шоколаду, авторських тортів та крафтового зефіру: обирайте очима, знаходьте 3 основні виробники свого міста та переходьте напряму до замовлення.'
+                  : 'Единый сервис CrafoHab (crafohab.com.ua), где собраны лучшие мастерские шоколада, авторских тортов и крафтового зефира: выбирайте глазами, находите 3 основных производителя своего города и переходите напрямую к заказу.'}
               </p>
 
               {/* Quick Triggers Bar without the word "Шторка" */}
@@ -1560,8 +1560,8 @@ export default function ChocoRadarApp({
                   </div>
                   <h2 className="font-serif text-2xl sm:text-3xl font-bold leading-tight">
                     {lang === 'uk'
-                      ? 'Тендерна біржа CrafoHub: один запит — 3–5 пропозицій від майстрів вашого міста'
-                      : 'Тендерная биржа CrafoHub: один запрос — 3–5 предложений от мастеров вашего города'}
+                      ? 'Тендерна біржа CrafoHab: один запит — 3–5 пропозицій від майстрів вашого міста'
+                      : 'Тендерная биржа CrafoHab: один запрос — 3–5 предложений от мастеров вашего города'}
                   </h2>
                   <p className={`text-xs sm:text-sm leading-relaxed ${isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'}`}>
                     {lang === 'uk'
@@ -1628,8 +1628,8 @@ export default function ChocoRadarApp({
                 </div>
                 <p className={`mt-3 text-xs sm:text-sm leading-relaxed ${isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'}`}>
                   {lang === 'uk'
-                    ? 'Коробка цукерок може важити як 70 г, так і 250 г при однаковій зовнішній ціні. CrafoHub автоматично розраховує питому вартість за 100 грамів для кожного товару, щоб ви бачили чесне співвідношення ціни та об’єму.'
-                    : 'Коробка конфет может весить как 70 г, так и 250 г при одинаковой внешней цене. CrafoHub автоматически рассчитывает удельную стоимость за 100 граммов для каждого товара, чтобы вы видели честное соотношение цены и объема.'}
+                    ? 'Коробка цукерок може важити як 70 г, так і 250 г при однаковій зовнішній ціні. CrafoHab автоматично розраховує питому вартість за 100 грамів для кожного товару, щоб ви бачили чесне співвідношення ціни та об’єму.'
+                    : 'Коробка конфет может весить как 70 г, так и 250 г при одинаковой внешней цене. CrafoHab автоматически рассчитывает удельную стоимость за 100 граммов для каждого товара, чтобы вы видели честное соотношение цены и объема.'}
                 </p>
               </div>
 
@@ -1663,8 +1663,8 @@ export default function ChocoRadarApp({
                 <div>
                   <span className="text-xs font-extrabold uppercase tracking-wider text-[#b06a1e]">
                     {lang === 'uk'
-                      ? '🏆 Еталон якості CrafoHub 2027'
-                      : '🏆 Эталон качества CrafoHub 2027'}
+                      ? '🏆 Еталон якості CrafoHab 2027'
+                      : '🏆 Эталон качества CrafoHab 2027'}
                   </span>
                   <h2 className="font-serif text-xl sm:text-3xl font-bold mt-0.5">
                     {lang === 'uk'
@@ -2259,8 +2259,8 @@ export default function ChocoRadarApp({
                   <BookOpen className="w-3.5 h-3.5" />
                   <span>
                     {lang === 'uk'
-                      ? 'Експертний Блог CrafoHub • Гід покупця'
-                      : 'Экспертный Блог CrafoHub • Гид покупателя'}
+                      ? 'Експертний Блог CrafoHab • Гід покупця'
+                      : 'Экспертный Блог CrafoHab • Гид покупателя'}
                   </span>
                 </span>
                 <h2 className="font-serif text-xl sm:text-2xl font-bold">
@@ -2327,8 +2327,8 @@ export default function ChocoRadarApp({
             <div className="space-y-2.5">
               {[
                 {
-                  qUk: 'Як працює підбір 4 основних виробників на CrafoHub?',
-                  qRu: 'Как работает подбор 4 основных производителей на CrafoHub?',
+                  qUk: 'Як працює підбір 4 основних виробників на CrafoHab?',
+                  qRu: 'Как работает подбор 4 основных производителей на CrafoHab?',
                   aUk: 'Ви обираєте розділ (Шоколад, Торти або Зефір) і потрібний вид продукту. Система миттєво показує ТОП-4 перевірених виробників із прямими посиланнями саме у вибраний розділ на їхньому сайті.',
                   aRu: 'Вы выбираете раздел (Шоколад, Торты или Зефир) и нужный вид продукта. Система мгновенно показывает ТОП-4 проверенных производителей с прямыми ссылками именно в выбранный раздел на их сайте.',
                 },
@@ -2382,7 +2382,7 @@ export default function ChocoRadarApp({
         <div className="mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium">
           <div>
             <strong className={isDark ? 'text-white' : 'text-[#302016]'}>
-              CrafoHub Україна (crafohub.com.ua • 2027)
+              CrafoHab Україна (crafohab.com.ua • 2027)
             </strong>{' '}
             —{' '}
             {lang === 'uk'
@@ -2511,7 +2511,7 @@ export default function ChocoRadarApp({
               <div className="p-4 sm:p-5 border-b border-[#e1d5c8] flex items-center justify-between gap-3">
                 <div>
                   <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#b06a1e]">
-                    {lang === 'uk' ? 'Гід по продукції CrafoHub' : 'Гид по продукции CrafoHub'}
+                    {lang === 'uk' ? 'Гід по продукції CrafoHab' : 'Гид по продукции CrafoHab'}
                   </span>
                   <h2 className="font-serif text-lg sm:text-xl font-bold">
                     {lang === 'uk'
@@ -2646,8 +2646,8 @@ export default function ChocoRadarApp({
                 <div>
                   <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#b06a1e]">
                     {lang === 'uk'
-                      ? 'Інтерактивний помічник CrafoHub 2027'
-                      : 'Интерактивный помощник CrafoHub 2027'}
+                      ? 'Інтерактивний помічник CrafoHab 2027'
+                      : 'Интерактивный помощник CrafoHab 2027'}
                   </span>
                   <h2 className="font-serif text-lg sm:text-xl font-bold">
                     {lang === 'uk'
@@ -3026,7 +3026,7 @@ export default function ChocoRadarApp({
             <div className="flex items-start justify-between border-b border-[#e1d5c8] pb-3">
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#b06a1e]">
-                  {lang === 'uk' ? 'Тендерна біржа CrafoHub 2027' : 'Тендерная биржа CrafoHub 2027'}
+                  {lang === 'uk' ? 'Тендерна біржа CrafoHab 2027' : 'Тендерная биржа CrafoHab 2027'}
                 </span>
                 <h2 className="font-serif text-xl sm:text-2xl font-bold mt-0.5">
                   {lang === 'uk'
@@ -3175,7 +3175,7 @@ export default function ChocoRadarApp({
               <div>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600/15 px-3 py-1 text-xs font-extrabold text-emerald-700">
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>Стандарт прозорості CrafoHub 2027</span>
+                  <span>Стандарт прозорості CrafoHab 2027</span>
                 </span>
                 <h2 className="font-serif text-2xl sm:text-3xl font-bold mt-1.5">
                   {lang === 'uk'
@@ -3195,8 +3195,8 @@ export default function ChocoRadarApp({
             <div className="space-y-4 text-xs sm:text-sm leading-relaxed text-[#4a3b32]">
               <p className="font-medium text-[#2d1f17]">
                 {lang === 'uk'
-                  ? 'CrafoHub — це національний гід та незалежний навігатор крафтових солодощів України. Наша мета на 2027 рік — надати українцям сервіс найвищого світового рівня для замовлення справжнього шоколаду, авторських тортів та натурального зефіру.'
-                  : 'CrafoHub — это национальный гид и независимый навигатор крафтовых сладостей Украины. Наша цель на 2027 год — предоставить украинцам сервис высшего мирового уровня для заказа настоящего шоколада, авторских тортов и натурального зефира.'}
+                  ? 'CrafoHab — це національний гід та незалежний навігатор крафтових солодощів України. Наша мета на 2027 рік — надати українцям сервіс найвищого світового рівня для замовлення справжнього шоколаду, авторських тортів та натурального зефіру.'
+                  : 'CrafoHab — это национальный гид и независимый навигатор крафтовых сладостей Украины. Наша цель на 2027 год — предоставить украинцам сервис высшего мирового уровня для заказа настоящего шоколада, авторских тортов и натурального зефира.'}
               </p>
 
               <div className="space-y-3 pt-2">
@@ -3265,7 +3265,7 @@ export default function ChocoRadarApp({
               <div className="border-t border-[#e1d5c8] pt-4 space-y-1">
                 <div className="font-bold text-[#302016]">Контакти редакції та служби верифікації:</div>
                 <div className="text-xs text-[#4a382e]">
-                  Електронна пошта: <a href="mailto:editor@crafohub.com.ua" className="underline text-[#b06a1e]">editor@crafohub.com.ua</a> | Підтримка: <a href="https://t.me/crafohub_ua" target="_blank" rel="noopener noreferrer" className="underline text-[#b06a1e]">Telegram @crafohub_ua</a>
+                  Електронна пошта: <a href="mailto:editor@crafohab.com.ua" className="underline text-[#b06a1e]">editor@crafohab.com.ua</a> | Підтримка: <a href="https://t.me/crafohab_ua" target="_blank" rel="noopener noreferrer" className="underline text-[#b06a1e]">Telegram @crafohab_ua</a>
                 </div>
               </div>
             </div>
@@ -3370,7 +3370,7 @@ export default function ChocoRadarApp({
                   {selectedPlanForModal}
                 </span>
                 <h2 className="font-serif text-xl font-bold">
-                  {lang === 'uk' ? 'Додати майстерню у CrafoHub' : 'Добавить мастерскую в CrafoHub'}
+                  {lang === 'uk' ? 'Додати майстерню у CrafoHab' : 'Добавить мастерскую в CrafoHab'}
                 </h2>
               </div>
               <button
@@ -3441,7 +3441,7 @@ export default function ChocoRadarApp({
                 </div>
                 <div>
                   <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#f0a556]">
-                    CrafoHub Partner Analytics
+                    CrafoHab Partner Analytics
                   </span>
                   <h3 className="font-serif text-lg sm:text-xl font-bold text-white">
                     Статистика переходів покупців
@@ -3542,7 +3542,7 @@ export default function ChocoRadarApp({
                 <p className="text-[11px] text-center text-[#d4c9be] pt-1">
                   Майстерня ще не підключила особистий кабінет?{' '}
                   <a
-                    href="https://t.me/crafohub_ua"
+                    href="https://t.me/crafohab_ua"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-[#f0a556] underline"
@@ -3575,7 +3575,7 @@ export default function ChocoRadarApp({
                         <div className="text-2xl font-serif font-extrabold text-white">
                           {s.websiteClicks}
                         </div>
-                        <p className="text-[10px] text-[#d4c9be]">З UTM-міткою crafohub</p>
+                        <p className="text-[10px] text-[#d4c9be]">З UTM-міткою crafohab</p>
                       </div>
 
                       <div className="bg-[#1a120e] p-3 rounded-xl border border-white/10 space-y-0.5">
