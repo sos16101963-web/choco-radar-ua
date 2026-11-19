@@ -87,11 +87,25 @@ export default async function CitySectionPage({ params }: PageProps) {
 
   const faqSchema = generateFaqSchema(config.faqUk);
 
+  const sectionLeafUk =
+    config.categorySlug === 'torty'
+      ? `Торти на замовлення ${config.cityNameUk}`
+      : config.categorySlug === 'zefir'
+      ? `Крафтовий зефір ${config.cityNameUk}`
+      : `Крафтовий шоколад ${config.cityNameUk}`;
+
+  const sectionLeafRu =
+    config.categorySlug === 'torty'
+      ? `Торты на заказ ${config.cityNameRu}`
+      : config.categorySlug === 'zefir'
+      ? `Крафтовый зефир ${config.cityNameRu}`
+      : `Крафтовый шоколад ${config.cityNameRu}`;
+
   const breadcrumbsSchema = generateBreadcrumbSchema([
-    { name: SITE_NAME, url: SITE_URL },
-    { name: config.cityNameUk, url: `${SITE_URL}/misto/${config.citySlug}` },
+    { name: 'Крафтові солодощі України', url: SITE_URL },
+    { name: `Крафтові солодощі: ${config.cityNameUk}`, url: `${SITE_URL}/misto/${config.citySlug}` },
     {
-      name: config.categorySlug === 'torty' ? 'Торти' : config.categorySlug === 'zefir' ? 'Зефір' : 'Шоколад',
+      name: sectionLeafUk,
       url: `${SITE_URL}/misto/${config.citySlug}/${config.categorySlug}`,
     },
   ]);
@@ -139,6 +153,11 @@ export default async function CitySectionPage({ params }: PageProps) {
           articleRu: config.seoArticleRu,
           faqUk: config.faqUk,
           faqRu: config.faqRu,
+          breadcrumbs: [
+            { labelUk: 'Крафтові солодощі України', labelRu: 'Крафтовые сладости Украины', hrefUk: '/', hrefRu: '/ru' },
+            { labelUk: `Крафтові солодощі: ${config.cityNameUk}`, labelRu: `Крафтовые сладости: ${config.cityNameRu}`, hrefUk: `/misto/${config.citySlug}`, hrefRu: `/ru/misto/${config.citySlug}` },
+            { labelUk: sectionLeafUk, labelRu: sectionLeafRu },
+          ],
         }}
       />
     </>

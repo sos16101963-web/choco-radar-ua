@@ -28,8 +28,8 @@ export const metadata: Metadata = {
 
 export default function ShokoladPage() {
   const breadcrumbsSchema = generateBreadcrumbSchema([
-    { name: SITE_NAME, url: SITE_URL },
-    { name: 'Шоколад та цукерки', url: `${SITE_URL}/shokolad` },
+    { name: 'Крафтові солодощі України', url: SITE_URL },
+    { name: 'Крафтовий шоколад та цукерки', url: `${SITE_URL}/shokolad` },
   ]);
 
   return (
@@ -51,6 +51,10 @@ export default function ShokoladPage() {
             'Обирайте потрібний формат — від плиток bean-to-bar і корпусних цукерок до шоколадних квітів та виробів без цукру — з чесним порівнянням вартості за 100 г і прямим замовленням.',
           leadRu:
             'Выбирайте нужный формат — от плиток bean-to-bar и корпусных конфет до шоколадных цветов и изделий без сахара — с честным сравнением стоимости за 100 г и прямым заказом.',
+          breadcrumbs: [
+            { labelUk: 'Крафтові солодощі України', labelRu: 'Крафтовые сладости Украины', hrefUk: '/', hrefRu: '/ru' },
+            { labelUk: 'Крафтовий шоколад та цукерки', labelRu: 'Крафтовый шоколад и конфеты', hrefUk: '/shokolad', hrefRu: '/ru/shokolad' },
+          ],
         }}
       />
     </>

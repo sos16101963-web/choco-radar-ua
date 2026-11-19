@@ -6,6 +6,7 @@ import { MAKERS, MakerSegment, CraftMaker } from '@/data/chocolateData';
 import { SITE_EMAIL, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 import OptimizedImage from '@/components/OptimizedImage';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 const pageTitle = `Усі ${MAKERS.length} крафтових майстерень України`;
 const pageDescription = `Повний довідник перевірених крафтових виробників шоколаду, цукерок ручної роботи, шоколадних квітів, авторських тортів та зефіру в Україні (${MAKERS.length} майстерень). Прямі контакти, рейтинги та сайти без комісії.`;
@@ -38,8 +39,8 @@ const SEGMENT_GROUPS: { id: MakerSegment; title: string; emoji: string }[] = [
 
 export default function MakersDirectoryPage() {
   const breadcrumbsSchema = generateBreadcrumbSchema([
-    { name: SITE_NAME, url: SITE_URL },
-    { name: 'Майстерні України', url: pageUrl },
+    { name: 'Крафтові солодощі України', url: SITE_URL },
+    { name: 'Каталог крафтових майстерень України', url: pageUrl },
   ]);
 
   const collectionJsonLd = {
@@ -118,6 +119,13 @@ export default function MakersDirectoryPage() {
       </header>
 
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-10">
+        <Breadcrumbs
+          items={[
+            { label: 'Крафтові солодощі України', href: '/' },
+            { label: 'Каталог крафтових майстерень України' },
+          ]}
+        />
+
         {/* Hero Header */}
         <div className="max-w-3xl space-y-3">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-[#e39851]/20 border border-[#b06a1e]/40 px-3.5 py-1 text-xs font-extrabold text-[#8c4f12]">

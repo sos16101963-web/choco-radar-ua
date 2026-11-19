@@ -68,8 +68,9 @@ export default async function CityPage({ params }: CityPageProps) {
   );
 
   const breadcrumbsSchema = generateBreadcrumbSchema([
-    { name: SITE_NAME, url: SITE_URL },
-    { name: `Майстерні: ${city.cityNameUk}`, url },
+    { name: 'Крафтові солодощі України', url: SITE_URL },
+    { name: 'Каталог майстерень України', url: `${SITE_URL}/maysternya` },
+    { name: `Крафтові солодощі: ${city.cityNameUk}`, url },
   ]);
 
   return (
@@ -96,6 +97,11 @@ export default async function CityPage({ params }: CityPageProps) {
           articleTitleRu: `Крафтовые сладости: ${city.cityNameRu}`,
           articleUk: city.seoTextUk,
           articleRu: city.seoTextRu,
+          breadcrumbs: [
+            { labelUk: 'Крафтові солодощі України', labelRu: 'Крафтовые сладости Украины', hrefUk: '/', hrefRu: '/ru' },
+            { labelUk: 'Каталог майстерень України', labelRu: 'Каталог мастерских Украины', hrefUk: '/maysternya', hrefRu: '/maysternya' },
+            { labelUk: `Крафтові солодощі: ${city.cityNameUk}`, labelRu: `Крафтовые сладости: ${city.cityNameRu}` },
+          ],
         }}
       />
     </>

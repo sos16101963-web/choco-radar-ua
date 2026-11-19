@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 
 export default function ZefirPage() {
   const breadcrumbsSchema = generateBreadcrumbSchema([
-    { name: SITE_NAME, url: SITE_URL },
+    { name: 'Крафтові солодощі України', url: SITE_URL },
     { name: 'Крафтовий зефір та букети', url: `${SITE_URL}/zefir` },
   ]);
 
@@ -51,6 +51,10 @@ export default function ZefirPage() {
             'Натуральні їстівні букети з півоній і троянд, ягідний зефір на морському агар-агарі та зефір у бельгійському шоколаді напряму від перевірених майстерень.',
           leadRu:
             'Натуральные съедобные букеты из пионов и роз, ягодный зефир на морском агар-агаре и зефир в бельгийском шоколаде напрямую от проверенных мастерских.',
+          breadcrumbs: [
+            { labelUk: 'Крафтові солодощі України', labelRu: 'Крафтовые сладости Украины', hrefUk: '/', hrefRu: '/ru' },
+            { labelUk: 'Крафтовий зефір та букети', labelRu: 'Крафтовый зефир и букеты', hrefUk: '/zefir', hrefRu: '/ru/zefir' },
+          ],
         }}
       />
     </>

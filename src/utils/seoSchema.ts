@@ -111,13 +111,29 @@ export function generateLocalBusinessSchema(maker: CraftMaker) {
 
 export function generateMakerProfileSchema(
   maker: CraftMaker,
-  makerProducts: ChocolateProduct[]
+  makerProducts: ChocolateProduct[],
+  cityHub?: { slug: string; cityNameUk: string }
 ) {
   const profileUrl = `${SITE_URL}/maysternya/${maker.slug}`;
   const validPhone = getValidPhone(maker.phone);
   const sameAs = Array.from(
     new Set([maker.websiteUrl, maker.instagramUrl].filter((v): v is string => Boolean(v)))
   );
+
+  const sectionCrumb =
+    maker.segment === 'custom-cakes-pastry'
+      ? { name: 'Авторські торти на замовлення', url: `${SITE_URL}/torty` }
+      : maker.segment === 'craft-zefir-pastila'
+      ? { name: 'Крафтовий зефір та букети', url: `${SITE_URL}/zefir` }
+      : { name: 'Крафтовий шоколад та цукерки', url: `${SITE_URL}/shokolad` };
+
+  const breadcrumbTrail = [
+    { name: 'Крафтові солодощі України', item: SITE_URL },
+    { name: 'Каталог майстерень України', item: `${SITE_URL}/maysternya` },
+    { name: sectionCrumb.name, item: sectionCrumb.url },
+    ...(cityHub ? [{ name: cityHub.cityNameUk, item: `${SITE_URL}/misto/${cityHub.slug}` }] : []),
+    { name: maker.name, item: profileUrl },
+  ];
 
   const graph: Record<string, unknown>[] = [
     {
@@ -148,11 +164,12 @@ export function generateMakerProfileSchema(
     },
     {
       '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: SITE_NAME, item: SITE_URL },
-        { '@type': 'ListItem', position: 2, name: 'Майстерні України', item: `${SITE_URL}/maysternya` },
-        { '@type': 'ListItem', position: 3, name: maker.name, item: profileUrl },
-      ],
+      itemListElement: breadcrumbTrail.map((entry, idx) => ({
+        '@type': 'ListItem',
+        position: idx + 1,
+        name: entry.name,
+        item: entry.item,
+      })),
     },
   ];
 
@@ -269,7 +286,11 @@ export function generateBreadcrumbSchema(items: { name: string; url: string }[])
   };
 }
 
-export function generateBlogArticleSchema(article: BlogArticle, lang: 'uk' | 'ru' = 'uk') {
+export function generateBlogArticleSchema(
+  article: BlogArticle,
+  lang: 'uk' | 'ru' = 'uk',
+  categoryCrumb?: { name: string; url: string }
+) {
   const isRu = lang === 'ru';
   const articleUrl = isRu
     ? `${SITE_URL}/ru/blog/${article.slug}`
@@ -278,6 +299,19 @@ export function generateBlogArticleSchema(article: BlogArticle, lang: 'uk' | 'ru
   const homeUrl = isRu ? `${SITE_URL}/ru` : SITE_URL;
   const headline = isRu ? article.titleRu : article.titleUk;
   const description = isRu ? article.excerptRu : article.excerptUk;
+
+  const breadcrumbTrail = [
+    {
+      name: isRu ? 'Крафтовые сладости Украины' : 'Крафтові солодощі України',
+      item: homeUrl,
+    },
+    {
+      name: isRu ? 'Блог о крафтовых сладостях' : 'Блог про крафтові солодощі',
+      item: blogIndexUrl,
+    },
+    ...(categoryCrumb ? [{ name: categoryCrumb.name, item: categoryCrumb.url }] : []),
+    { name: headline, item: articleUrl },
+  ];
 
   const graph: Record<string, unknown>[] = [
     {
@@ -302,11 +336,12 @@ export function generateBlogArticleSchema(article: BlogArticle, lang: 'uk' | 'ru
     },
     {
       '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: SITE_NAME, item: homeUrl },
-        { '@type': 'ListItem', position: 2, name: 'Блог', item: blogIndexUrl },
-        { '@type': 'ListItem', position: 3, name: headline, item: articleUrl },
-      ],
+      itemListElement: breadcrumbTrail.map((entry, idx) => ({
+        '@type': 'ListItem',
+        position: idx + 1,
+        name: entry.name,
+        item: entry.item,
+      })),
     },
   ];
 

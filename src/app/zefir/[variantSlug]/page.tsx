@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const variant = ZEFIR_VARIANTS.find((v) => v.slug === variantSlug || v.id === variantSlug);
   if (!variant) return {};
 
-  const title = `${variant.titleUk} — майстерні зефіру України`;
+  const title = `${variant.titleUk} — купити в Україні від майстрів`;
   const description = `${variant.shortDescUk} Натуральний крафтовий зефір на агар-агарі, букети та солодощі без цукру від виробників.`;
   const url = `${SITE_URL}/zefir/${variant.slug}`;
 
@@ -53,8 +53,8 @@ export default async function ZefirVariantPage({ params }: PageProps) {
 
   const url = `${SITE_URL}/zefir/${variant.slug}`;
   const breadcrumbsSchema = generateBreadcrumbSchema([
-    { name: SITE_NAME, url: SITE_URL },
-    { name: 'Крафтовий зефір', url: `${SITE_URL}/zefir` },
+    { name: 'Крафтові солодощі України', url: SITE_URL },
+    { name: 'Крафтовий зефір та букети', url: `${SITE_URL}/zefir` },
     { name: variant.titleUk, url },
   ]);
 
@@ -71,14 +71,19 @@ export default async function ZefirVariantPage({ params }: PageProps) {
         initialMakers={getMakersForSection('zefir')}
         catalogSummary={getCatalogSummary()}
         seoOverride={{
-          h1Uk: `${variant.titleUk} — кращі майстерні України`,
-          h1Ru: `${variant.titleRu} — лучшие мастерские Украины`,
+          h1Uk: `${variant.titleUk}: крафтові майстерні України`,
+          h1Ru: `${variant.titleRu}: крафтовые мастерские Украины`,
           leadUk: variant.shortDescUk,
           leadRu: variant.shortDescRu,
           articleTitleUk: `Гід по категорії: ${variant.titleUk}`,
           articleTitleRu: `Гид по категории: ${variant.titleRu}`,
           articleUk: `${variant.detailedAssortmentUk} Склад: ${variant.ingredientsUk} Термін зберігання: ${variant.shelfLifeUk}.`,
           articleRu: `${variant.detailedAssortmentRu} Состав: ${variant.ingredientsRu} Срок хранения: ${variant.shelfLifeRu}.`,
+          breadcrumbs: [
+            { labelUk: 'Крафтові солодощі України', labelRu: 'Крафтовые сладости Украины', hrefUk: '/', hrefRu: '/ru' },
+            { labelUk: 'Крафтовий зефір та букети', labelRu: 'Крафтовый зефир и букеты', hrefUk: '/zefir', hrefRu: '/ru/zefir' },
+            { labelUk: variant.titleUk, labelRu: variant.titleRu },
+          ],
         }}
       />
     </>

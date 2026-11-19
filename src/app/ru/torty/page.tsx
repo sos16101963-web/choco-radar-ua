@@ -28,8 +28,8 @@ export const metadata: Metadata = {
 
 export default function RuTortyPage() {
   const breadcrumbsSchema = generateBreadcrumbSchema([
-    { name: SITE_NAME, url: `${SITE_URL}/ru` },
-    { name: 'Авторские торты', url: `${SITE_URL}/ru/torty` },
+    { name: 'Крафтовые сладости Украины', url: `${SITE_URL}/ru` },
+    { name: 'Авторские торты на заказ', url: `${SITE_URL}/ru/torty` },
   ]);
 
   return (
@@ -52,6 +52,10 @@ export default function RuTortyPage() {
             'Святкові мусові та бісквітні торти, бенто-торти з вашим написом, дитячі десерти та макарони з натуральних вершків 33% та вершкового масла без рослинних замінників.',
           leadRu:
             'Праздничные муссовые и бисквитные торты, бенто-торты с вашей надписью, детские десерты и макароны из натуральных сливок 33% и сливочного масла без растительных заменителей.',
+          breadcrumbs: [
+            { labelUk: 'Крафтові солодощі України', labelRu: 'Крафтовые сладости Украины', hrefUk: '/', hrefRu: '/ru' },
+            { labelUk: 'Авторські торти на замовлення', labelRu: 'Авторские торты на заказ', hrefUk: '/torty', hrefRu: '/ru/torty' },
+          ],
         }}
       />
     </>

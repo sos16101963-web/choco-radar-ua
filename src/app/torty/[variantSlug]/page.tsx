@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const variant = CAKE_VARIANTS.find((v) => v.slug === variantSlug || v.id === variantSlug);
   if (!variant) return {};
 
-  const title = `${variant.titleUk} — перевірені кондитерські України`;
+  const title = `${variant.titleUk} — замовити в Україні, ціни кондитерських`;
   const description = `${variant.shortDescUk} Замовлення святкових та авторських тортів напряму у майстерень без націнок.`;
   const url = `${SITE_URL}/torty/${variant.slug}`;
 
@@ -53,8 +53,8 @@ export default async function CakeVariantPage({ params }: PageProps) {
 
   const url = `${SITE_URL}/torty/${variant.slug}`;
   const breadcrumbsSchema = generateBreadcrumbSchema([
-    { name: SITE_NAME, url: SITE_URL },
-    { name: 'Авторські торти', url: `${SITE_URL}/torty` },
+    { name: 'Крафтові солодощі України', url: SITE_URL },
+    { name: 'Авторські торти на замовлення', url: `${SITE_URL}/torty` },
     { name: variant.titleUk, url },
   ]);
 
@@ -71,14 +71,19 @@ export default async function CakeVariantPage({ params }: PageProps) {
         initialMakers={getMakersForSection('cakes')}
         catalogSummary={getCatalogSummary()}
         seoOverride={{
-          h1Uk: `${variant.titleUk} — перевірені кондитерські України`,
-          h1Ru: `${variant.titleRu} — проверенные кондитерские Украины`,
+          h1Uk: `${variant.titleUk}: перевірені кондитерські України`,
+          h1Ru: `${variant.titleRu}: проверенные кондитерские Украины`,
           leadUk: variant.shortDescUk,
           leadRu: variant.shortDescRu,
           articleTitleUk: `Про формат: ${variant.titleUk}`,
           articleTitleRu: `О формате: ${variant.titleRu}`,
           articleUk: `${variant.detailedAssortmentUk} Склад: ${variant.ingredientsUk} Термін зберігання: ${variant.shelfLifeUk}.`,
           articleRu: `${variant.detailedAssortmentRu} Состав: ${variant.ingredientsRu} Срок хранения: ${variant.shelfLifeRu}.`,
+          breadcrumbs: [
+            { labelUk: 'Крафтові солодощі України', labelRu: 'Крафтовые сладости Украины', hrefUk: '/', hrefRu: '/ru' },
+            { labelUk: 'Авторські торти на замовлення', labelRu: 'Авторские торты на заказ', hrefUk: '/torty', hrefRu: '/ru/torty' },
+            { labelUk: variant.titleUk, labelRu: variant.titleRu },
+          ],
         }}
       />
     </>

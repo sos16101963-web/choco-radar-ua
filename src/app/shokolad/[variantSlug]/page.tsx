@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const variant = CHOCOLATE_VARIANTS.find((v) => v.slug === variantSlug || v.id === variantSlug);
   if (!variant) return {};
 
-  const title = `${variant.titleUk} — основні виробники крафтового шоколаду України`;
+  const title = `${variant.titleUk} — купити в Україні, перевірені майстерні`;
   const description = `${variant.shortDescUk} Порівняння складу, ціни за 100 г, прямі сайти та контакти перевірених майстерень України.`;
   const url = `${SITE_URL}/shokolad/${variant.slug}`;
 
@@ -53,8 +53,8 @@ export default async function ChocolateVariantPage({ params }: PageProps) {
 
   const url = `${SITE_URL}/shokolad/${variant.slug}`;
   const breadcrumbsSchema = generateBreadcrumbSchema([
-    { name: SITE_NAME, url: SITE_URL },
-    { name: 'Шоколад та цукерки', url: `${SITE_URL}/shokolad` },
+    { name: 'Крафтові солодощі України', url: SITE_URL },
+    { name: 'Крафтовий шоколад та цукерки', url: `${SITE_URL}/shokolad` },
     { name: variant.titleUk, url },
   ]);
 
@@ -71,14 +71,19 @@ export default async function ChocolateVariantPage({ params }: PageProps) {
         initialMakers={getMakersForSection('chocolate')}
         catalogSummary={getCatalogSummary()}
         seoOverride={{
-          h1Uk: `${variant.titleUk} — кращі крафтові виробники України`,
-          h1Ru: `${variant.titleRu} — лучшие крафтовые производители Украины`,
+          h1Uk: `${variant.titleUk}: перевірені майстерні України`,
+          h1Ru: `${variant.titleRu}: проверенные мастерские Украины`,
           leadUk: variant.shortDescUk,
           leadRu: variant.shortDescRu,
           articleTitleUk: `Особливості вибору: ${variant.titleUk}`,
           articleTitleRu: `Особенности выбора: ${variant.titleRu}`,
           articleUk: `${variant.detailedAssortmentUk} Склад: ${variant.ingredientsUk} Термін зберігання: ${variant.shelfLifeUk}.`,
           articleRu: `${variant.detailedAssortmentRu} Состав: ${variant.ingredientsRu} Срок хранения: ${variant.shelfLifeRu}.`,
+          breadcrumbs: [
+            { labelUk: 'Крафтові солодощі України', labelRu: 'Крафтовые сладости Украины', hrefUk: '/', hrefRu: '/ru' },
+            { labelUk: 'Крафтовий шоколад та цукерки', labelRu: 'Крафтовый шоколад и конфеты', hrefUk: '/shokolad', hrefRu: '/ru/shokolad' },
+            { labelUk: variant.titleUk, labelRu: variant.titleRu },
+          ],
         }}
       />
     </>

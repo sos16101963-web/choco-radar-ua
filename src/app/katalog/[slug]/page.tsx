@@ -55,9 +55,17 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       ? 'zefir'
       : 'chocolate';
 
+  const parentSection =
+    section === 'cakes'
+      ? { label: 'Авторські торти на замовлення', href: '/torty', url: `${SITE_URL}/torty` }
+      : section === 'zefir'
+      ? { label: 'Крафтовий зефір та букети', href: '/zefir', url: `${SITE_URL}/zefir` }
+      : { label: 'Крафтовий шоколад та цукерки', href: '/shokolad', url: `${SITE_URL}/shokolad` };
+
   const url = `${SITE_URL}/katalog/${cat.slug}`;
   const breadcrumbsSchema = generateBreadcrumbSchema([
-    { name: SITE_NAME, url: SITE_URL },
+    { name: 'Крафтові солодощі України', url: SITE_URL },
+    { name: parentSection.label, url: parentSection.url },
     { name: cat.shortTitle, url },
   ]);
 
@@ -77,6 +85,11 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           leadUk: cat.seoDescription,
           articleTitleUk: cat.titleUk,
           articleUk: cat.expertGuide,
+          breadcrumbs: [
+            { labelUk: 'Крафтові солодощі України', hrefUk: '/' },
+            { labelUk: parentSection.label, hrefUk: parentSection.href },
+            { labelUk: cat.shortTitle },
+          ],
         }}
       />
     </>

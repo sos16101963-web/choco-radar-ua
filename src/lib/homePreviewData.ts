@@ -3,6 +3,13 @@ import { DISCOVERED_CATEGORY_URLS } from '@/data/categoryLinks';
 
 export type Lang = 'uk' | 'ru';
 
+export interface BreadcrumbTrailItem {
+  labelUk: string;
+  labelRu?: string;
+  hrefUk?: string;
+  hrefRu?: string;
+}
+
 export interface CatalogMaker {
   id: string;
   name: string;
@@ -64,6 +71,32 @@ export const BLOG_PREVIEW_CARDS = [
       'На что смотреть в составе плитки, почему важно считать цену за 100 граммов и какие украинские мастерские делают шоколад с цельными орехами и ягодами без заменителей.',
     heroImage:
       'https://images.unsplash.com/photo-1587132137056-bfbf0166836e?auto=format&fit=crop&w=1000&q=80',
+  },
+  {
+    slug: 'dubaiskyi-shokolad-ta-korpusni-tsukerky-ukraina',
+    titleUk:
+      'Дубайський шоколад, корпусні цукерки та сирні трюфелі: на що дивитися перед покупкою',
+    titleRu:
+      'Дубайский шоколад, корпусные конфеты и сырные трюфели: на что смотреть перед покупкой',
+    excerptUk:
+      'З чого складається справжня фісташкова начинка з тістом катаїфі, скільки живуть корпусні цукерки з ганашем і чим цікаві сирні трюфелі з Дорблю й Пармезаном.',
+    excerptRu:
+      'Из чего делают настоящую фисташковую начинку с тестом катаифи, сколько хранятся корпусные конфеты с ганашем и чем отличаются сырные трюфели с Дорблю и Пармезаном.',
+    heroImage:
+      'https://images.unsplash.com/photo-1548907040-4baa42d10919?auto=format&fit=crop&w=1000&q=80',
+  },
+  {
+    slug: 'bento-tort-na-zamovlennia-vaha-tsina-napys',
+    titleUk:
+      'Бенто-торт на замовлення: вага, начинки, терміни та за скільки днів замовляти',
+    titleRu:
+      'Бенто-торт на заказ: вес, начинки, сроки и за сколько дней заказывать',
+    excerptUk:
+      'Скільки грамів важить стандартний бенто-торт, на скількох гостей його вистачає, що йде в комплекті та чи реально замовити десерт день у день.',
+    excerptRu:
+      'Сколько граммов весит стандартный бенто-торт, на сколько человек его хватает, что идет в комплекте и реально ли заказать десерт день в день.',
+    heroImage:
+      'https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=1000&q=80',
   },
 ] as const;
 

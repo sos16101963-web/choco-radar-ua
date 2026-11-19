@@ -5,6 +5,7 @@ import { BLOG_ARTICLES, CITY_SEO_HUBS } from '@/data/blogData';
 import { CATEGORIES, MAKERS } from '@/data/chocolateData';
 import { ArrowUpRight, BookOpen, Clock, Sparkles, MapPin } from 'lucide-react';
 import OptimizedImage from '@/components/OptimizedImage';
+import Breadcrumbs from '@/components/Breadcrumbs';
 import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 
@@ -50,8 +51,8 @@ export default function BlogIndexPage() {
   };
 
   const breadcrumbsSchema = generateBreadcrumbSchema([
-    { name: SITE_NAME, url: SITE_URL },
-    { name: 'Блог', url: `${SITE_URL}/blog` },
+    { name: 'Крафтові солодощі України', url: SITE_URL },
+    { name: 'Блог про крафтовий шоколад, торти та зефір', url: `${SITE_URL}/blog` },
   ]);
 
   return (
@@ -95,7 +96,14 @@ export default function BlogIndexPage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 space-y-12">
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:py-10 sm:px-6 lg:px-8 space-y-10">
+        <Breadcrumbs
+          items={[
+            { label: 'Крафтові солодощі України', href: '/' },
+            { label: 'Блог про крафтовий шоколад, торти та зефір' },
+          ]}
+        />
+
         <div className="max-w-3xl space-y-3">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-[#e39851]/20 border border-[#b06a1e]/40 px-3.5 py-1 text-xs font-bold text-[#8c4f12]">
             <BookOpen className="w-3.5 h-3.5" />

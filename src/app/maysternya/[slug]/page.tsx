@@ -19,6 +19,7 @@ import { SITE_EMAIL, SITE_NAME, SITE_URL, toAbsoluteUrl } from '@/lib/siteConfig
 import { generateMakerProfileSchema } from '@/utils/seoSchema';
 import OptimizedImage from '@/components/OptimizedImage';
 import MakerProfileActions from '@/components/MakerProfileActions';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 interface MakerPageProps {
   params: Promise<{ slug: string }>;
@@ -66,13 +67,18 @@ export default async function MakerProfilePage({ params }: MakerPageProps) {
 
   const profileUrl = `${SITE_URL}/maysternya/${maker.slug}`;
   const makerProducts = PRODUCTS.filter((p) => p.makerId === maker.id);
-  const jsonLd = generateMakerProfileSchema(maker, makerProducts);
-
   const cityHub = CITY_SEO_HUBS.find(
     (c) =>
       (maker.city || '').toLowerCase().includes(c.cityNameUk.toLowerCase()) ||
       (maker.regionCity || '').toLowerCase().includes(c.cityNameUk.toLowerCase())
   );
+  const sectionCrumb =
+    maker.segment === 'custom-cakes-pastry'
+      ? { label: 'Авторські торти на замовлення', href: '/torty' }
+      : maker.segment === 'craft-zefir-pastila'
+      ? { label: 'Крафтовий зефір та букети', href: '/zefir' }
+      : { label: 'Крафтовий шоколад та цукерки', href: '/shokolad' };
+  const jsonLd = generateMakerProfileSchema(maker, makerProducts, cityHub);
 
   // Merge manual + auto-discovered direct category links
   const directCategoryEntries = maker.categories
@@ -142,25 +148,15 @@ export default async function MakerProfilePage({ params }: MakerPageProps) {
 
       <main className="mx-auto max-w-6xl px-4 py-6 sm:py-10 sm:px-6 lg:px-8 space-y-10">
         {/* Visual Breadcrumbs */}
-        <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1.5 text-xs text-[#6e5d50]">
-          <Link href="/" className="hover:text-[#b06a1e] font-medium">
-            Головна
-          </Link>
-          <span>/</span>
-          <Link href="/maysternya" className="hover:text-[#b06a1e] font-medium">
-            Майстерні України
-          </Link>
-          {cityHub && (
-            <>
-              <span>/</span>
-              <Link href={`/misto/${cityHub.slug}`} className="hover:text-[#b06a1e] font-medium">
-                {cityHub.cityNameUk}
-              </Link>
-            </>
-          )}
-          <span>/</span>
-          <span className="font-bold text-[#302016] truncate">{maker.name}</span>
-        </nav>
+        <Breadcrumbs
+          items={[
+            { label: 'Крафтові солодощі України', href: '/' },
+            { label: 'Каталог майстерень України', href: '/maysternya' },
+            { label: sectionCrumb.label, href: sectionCrumb.href },
+            ...(cityHub ? [{ label: cityHub.cityNameUk, href: `/misto/${cityHub.slug}` }] : []),
+            { label: maker.name },
+          ]}
+        />
 
         {/* Hero Maker Profile Card */}
         <section className="rounded-3xl border border-[#e1d5c8] bg-[#fefbf7] p-5 sm:p-8 shadow-sm">

@@ -44,6 +44,7 @@ import { trackMakerClick, appendUtm } from '@/utils/analytics';
 import { extractPhoneDigits, hasRuRoute, HOME_FAQ } from '@/lib/siteConfig';
 import {
   BLOG_PREVIEW_CARDS,
+  BreadcrumbTrailItem,
   CatalogMaker,
   CatalogSummary,
   CITY_HUB_LINKS,
@@ -53,6 +54,7 @@ import {
   localizeText,
 } from '@/lib/homePreviewData';
 import OptimizedImage from './OptimizedImage';
+import Breadcrumbs from './Breadcrumbs';
 
 const ChocoModalsAndDrawers = dynamic(() => import('./ChocoModalsAndDrawers'), {
   ssr: false,
@@ -69,6 +71,7 @@ export interface PageSeoOverride {
   articleRu?: string;
   faqUk?: { q: string; a: string }[];
   faqRu?: { q: string; a: string }[];
+  breadcrumbs?: BreadcrumbTrailItem[];
 }
 
 interface ChocoRadarAppProps {
@@ -875,6 +878,12 @@ export default function ChocoRadarApp({
     );
   };
 
+  const visibleBreadcrumbs =
+    seoOverride?.breadcrumbs?.map((item) => ({
+      label: lang === 'uk' ? item.labelUk : item.labelRu || item.labelUk,
+      href: lang === 'uk' ? item.hrefUk : item.hrefRu || item.hrefUk,
+    })) || [];
+
   return (
     <div
       className={`min-h-screen flex flex-col pb-20 sm:pb-0 transition-colors duration-300 craft-grain-overlay ${
@@ -1088,6 +1097,14 @@ export default function ChocoRadarApp({
              STEP 1: HOME PAGE — CLEAN, EASY-TO-UNDERSTAND 3-SECTION GATEWAY
           ================================================================= */
           <div className="mx-auto max-w-7xl px-3 py-6 sm:px-6 sm:py-10 lg:px-8 space-y-10">
+            {visibleBreadcrumbs.length > 0 && (
+              <Breadcrumbs
+                items={visibleBreadcrumbs}
+                isDark={isDark}
+                className="flex justify-center"
+              />
+            )}
+
             {/* Clean Grand Hero Banner */}
             <div className="text-center max-w-3xl mx-auto space-y-3.5">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-[#b06a1e]/40 bg-[#e39851]/20 px-3.5 py-1 text-xs font-extrabold text-[#8c4f12] dark:text-[#f0a556]">
@@ -1104,9 +1121,9 @@ export default function ChocoRadarApp({
                   lang === 'uk' ? seoOverride.h1Uk : seoOverride.h1Ru || seoOverride.h1Uk
                 ) : (
                   <>
-                    {lang === 'uk' ? 'Кращі, перевірені виробники ' : 'Лучшие, проверенные производители '}
+                    {lang === 'uk' ? 'Крафтовий шоколад, торти та зефір ' : 'Крафтовый шоколад, торты и зефир '}
                     <span className="bg-gradient-to-r from-[#7a4a2b] via-[#b06a1e] to-[#c75b7a] bg-clip-text text-transparent">
-                      {lang === 'uk' ? 'крафтової продукції в Україні' : 'крафтовой продукции в Украине'}
+                      {lang === 'uk' ? 'від перевірених майстерень України' : 'от проверенных мастерских Украины'}
                     </span>
                   </>
                 )}
@@ -1639,7 +1656,11 @@ export default function ChocoRadarApp({
              - Right Drawer Triggers (Assortment & Sommelier)
              - TOP-4 MAIN PRODUCERS for the chosen product!
           ================================================================= */
-          <div className="mx-auto max-w-7xl px-3 py-5 sm:px-6 sm:py-8 lg:px-8 space-y-8">
+          <div className="mx-auto max-w-7xl px-3 py-5 sm:px-6 sm:py-8 lg:px-8 space-y-6">
+            {visibleBreadcrumbs.length > 0 && (
+              <Breadcrumbs items={visibleBreadcrumbs} isDark={isDark} />
+            )}
+
             {/* Top Navigation Bar & Right Drawer Triggers */}
             <div
               className={`rounded-3xl border p-4 sm:p-6 shadow-xs space-y-4 ${

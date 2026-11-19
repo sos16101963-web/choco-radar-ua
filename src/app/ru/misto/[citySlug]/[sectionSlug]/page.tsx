@@ -87,11 +87,25 @@ export default async function RuCitySectionPage({ params }: PageProps) {
 
   const faqSchema = generateFaqSchema(config.faqRu);
 
+  const sectionLeafUk =
+    config.categorySlug === 'torty'
+      ? `Торти на замовлення ${config.cityNameUk}`
+      : config.categorySlug === 'zefir'
+      ? `Крафтовий зефір ${config.cityNameUk}`
+      : `Крафтовий шоколад ${config.cityNameUk}`;
+
+  const sectionLeafRu =
+    config.categorySlug === 'torty'
+      ? `Торты на заказ ${config.cityNameRu}`
+      : config.categorySlug === 'zefir'
+      ? `Крафтовый зефир ${config.cityNameRu}`
+      : `Крафтовый шоколад ${config.cityNameRu}`;
+
   const breadcrumbsSchema = generateBreadcrumbSchema([
-    { name: SITE_NAME, url: `${SITE_URL}/ru` },
-    { name: config.cityNameRu, url: `${SITE_URL}/ru/misto/${config.citySlug}` },
+    { name: 'Крафтовые сладости Украины', url: `${SITE_URL}/ru` },
+    { name: `Крафтовые сладости: ${config.cityNameRu}`, url: `${SITE_URL}/ru/misto/${config.citySlug}` },
     {
-      name: config.categorySlug === 'torty' ? 'Торты' : config.categorySlug === 'zefir' ? 'Зефир' : 'Шоколад',
+      name: sectionLeafRu,
       url: `${SITE_URL}/ru/misto/${config.citySlug}/${config.categorySlug}`,
     },
   ]);
@@ -139,6 +153,11 @@ export default async function RuCitySectionPage({ params }: PageProps) {
           articleRu: config.seoArticleRu,
           faqUk: config.faqUk,
           faqRu: config.faqRu,
+          breadcrumbs: [
+            { labelUk: 'Крафтові солодощі України', labelRu: 'Крафтовые сладости Украины', hrefUk: '/', hrefRu: '/ru' },
+            { labelUk: `Крафтові солодощі: ${config.cityNameUk}`, labelRu: `Крафтовые сладости: ${config.cityNameRu}`, hrefUk: `/misto/${config.citySlug}`, hrefRu: `/ru/misto/${config.citySlug}` },
+            { labelUk: sectionLeafUk, labelRu: sectionLeafRu },
+          ],
         }}
       />
     </>

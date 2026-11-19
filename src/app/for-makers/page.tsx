@@ -20,6 +20,7 @@ import {
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import ForMakersAuditForm from './ForMakersAuditForm';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Виробникам та кондитерам — Розміщення без комісій',
@@ -40,8 +41,8 @@ export const metadata: Metadata = {
 
 export default function ForMakersPage() {
   const breadcrumbsSchema = generateBreadcrumbSchema([
-    { name: SITE_NAME, url: SITE_URL },
-    { name: 'Виробникам крафтових солодощів', url: `${SITE_URL}/for-makers` },
+    { name: 'Крафтові солодощі України', url: SITE_URL },
+    { name: 'Виробникам шоколаду, тортів і зефіру', url: `${SITE_URL}/for-makers` },
   ]);
 
   return (
@@ -79,8 +80,17 @@ export default function ForMakersPage() {
         </div>
       </header>
 
+      <div className="mx-auto max-w-5xl px-4 pt-6">
+        <Breadcrumbs
+          items={[
+            { label: 'Крафтові солодощі України', href: '/' },
+            { label: 'Виробникам шоколаду, тортів і зефіру' },
+          ]}
+        />
+      </div>
+
       {/* Hero Section */}
-      <section className="mx-auto max-w-5xl px-4 pt-12 pb-16 text-center space-y-6">
+      <section className="mx-auto max-w-5xl px-4 pt-6 pb-16 text-center space-y-6">
         <span className="inline-flex items-center gap-1.5 rounded-full bg-[#b06a1e]/15 border border-[#b06a1e]/30 px-3.5 py-1 text-xs font-extrabold text-[#b06a1e]">
           <Sparkles className="w-3.5 h-3.5" />
           <span>Для українських кондитерських та шоколатьє</span>
