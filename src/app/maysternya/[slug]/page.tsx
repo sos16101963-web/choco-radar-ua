@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: MakerPageProps): Promise<Meta
   const maker = MAKERS.find((m) => m.slug === slug);
   if (!maker) return {};
 
-  const title = `${maker.name} (${maker.city}) — відгуки, контакти, каталог | CrafoHab`;
+  const title = `${maker.name} (${maker.city}) — відгуки, контакти, каталог`;
   const description = `${maker.specialty}. Місто: ${maker.city}. ★ ${maker.rating} (${maker.reviewsCount} відгуків). Прямий сайт, Viber та Telegram без комісій на CrafoHab.`;
   const url = `${SITE_URL}/maysternya/${maker.slug}`;
 
@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: MakerPageProps): Promise<Meta
       canonical: url,
     },
     openGraph: {
-      title,
+      title: `${title} | ${SITE_NAME}`,
       description,
       url,
       siteName: SITE_NAME,
@@ -181,7 +181,7 @@ export default async function MakerProfilePage({ params }: MakerPageProps) {
                 {maker.isVerified && (
                   <span className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold text-[#302016] shadow-sm">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>Перевірено 2027</span>
+                    <span>Перевірено в каталозі</span>
                   </span>
                 )}
                 {maker.isBeanToBar && (
@@ -318,7 +318,7 @@ export default async function MakerProfilePage({ params }: MakerPageProps) {
                 Популярні позиції та порівняння ціни за 100 г
               </h2>
               <span className="text-xs font-bold text-[#8c4f12]">
-                Стандарт Clean Label
+                Склад продукції
               </span>
             </div>
 
@@ -415,7 +415,7 @@ export default async function MakerProfilePage({ params }: MakerPageProps) {
 
       <footer className="mt-8 border-t border-[#e1d5c8] bg-[#f1e6da] py-6 px-4 text-center text-xs text-[#4a382e]">
         <div className="font-bold text-[#302016]">
-          CrafoHab Україна (crafohab.com.ua • 2027) — Шоколад • Авторські торти • Крафтовий зефір
+          CrafoHab Україна (crafohab.com.ua) — Шоколад • Авторські торти • Крафтовий зефір
         </div>
       </footer>
     </div>

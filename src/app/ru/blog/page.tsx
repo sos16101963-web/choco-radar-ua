@@ -9,17 +9,19 @@ import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 
 export const metadata: Metadata = {
-  title: 'Блог CrafoHab — Рейтинги, обзоры и гиды по выбору крафтового шоколада, зефира и тортов Украины',
+  title: {
+    absolute: 'Блог CrafoHab — Как выбирать крафтовый шоколад, зефир и торты',
+  },
   description:
-    'Экспертные статьи CrafoHab: как выбрать настоящую крафтовую плитку шоколада и батончик, шоколадные цветы Callebaut, безопасные сладости для детей, изделия без сахара, зефирные букеты и авторские торты.',
+    'Практические советы покупателям: как отличить настоящий бельгийский шоколад от глазури, зачем считать цену за 100 г, какие сладости подойдут детям и как рассчитать вес торта.',
   alternates: {
     canonical: `${SITE_URL}/ru/blog`,
     languages: buildHreflangAlternates('/blog'),
   },
   openGraph: {
-    title: 'Блог CrafoHab — Экспертные рейтинги и гиды покупателя',
+    title: 'Блог CrafoHab — Как выбирать крафтовый шоколад, зефир и торты',
     description:
-      'Обзоры, рейтинги и гиды по выбору крафтового шоколада, шоколадных цветов, изделий без сахара, сладостей для детей, зефира и авторских тортов в Украине.',
+      'Практические статьи о крафтовом шоколаде, шоколадных цветах, сладостях без сахара, зефире и тортах на заказ в Украине.',
     url: `${SITE_URL}/ru/blog`,
     siteName: SITE_NAME,
     locale: 'ru_UA',
@@ -112,7 +114,7 @@ export default function RuBlogIndexPage() {
         <div className="max-w-3xl space-y-3">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-[#e39851]/20 border border-[#b06a1e]/40 px-3.5 py-1 text-xs font-bold text-[#8c4f12]">
             <BookOpen className="w-3.5 h-3.5" />
-            <span>Экспертный Журнал и SEO-Навигатор CrafoHab 2027</span>
+            <span>Журнал CrafoHab • Заметки о крафтовых сладостях</span>
           </span>
           <h1 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight">
             Блог о крафтовом шоколаде, сладостях без сахара, тортах и букетах
@@ -191,10 +193,10 @@ export default function RuBlogIndexPage() {
           <div className="space-y-2">
             <h2 className="font-serif text-2xl font-bold flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-[#b06a1e]" />
-              <span>SEO-разделы платформы по рубрикам и городам Украины</span>
+              <span>Разделы каталога и города Украины</span>
             </h2>
             <p className="text-xs sm:text-sm text-[#5a4638]">
-              Прямые посадочные страницы для быстрого поиска проверенных крафтовых производителей в вашем регионе:
+              Быстрый переход к мастерским по виду сладостей или вашему городу:
             </p>
           </div>
 

@@ -5,9 +5,9 @@ import { getCatalogSummary, getMakersForSection } from '@/lib/catalogData';
 import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 
-const title = 'Крафтовый зефир, зефирные букеты и пастила — CrafoHab 2027';
+const title = 'Крафтовый зефир, зефирные букеты и пастила';
 const description =
-  'Реалистичные зефирные букеты из пионов и роз, ягодный зефир на агар-агаре и зефир в шоколаде. Проверенные мастерские и прямые контакты производителей Украины.';
+  'Съедобные зефирные букеты из пионов и роз, ягодный зефир на агар-агаре и зефир в шоколаде. Проверенные мастерские и прямые контакты производителей Украины.';
 
 export const metadata: Metadata = {
   title,
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     languages: buildHreflangAlternates('/zefir'),
   },
   openGraph: {
-    title,
+    title: `${title} | ${SITE_NAME}`,
     description,
     url: `${SITE_URL}/ru/zefir`,
     siteName: SITE_NAME,

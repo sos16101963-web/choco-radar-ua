@@ -5,9 +5,9 @@ import { getCatalogSummary, getMakersForSection } from '@/lib/catalogData';
 import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 
-const title = 'Авторские торты и десерты на заказ в Украине — CrafoHab 2027';
+const title = 'Авторские торты и десерты на заказ в Украине';
 const description =
-  'Праздничные и муссовые торты в шоколадном велюре, трендовые бенто-торты, детские торты и макароны. Основные кондитерские и полный список мастерских Украины.';
+  'Праздничные и муссовые торты в шоколадном велюре, бенто-торты с надписью, детские торты и макароны. Проверенные кондитерские мастерские Украины.';
 
 export const metadata: Metadata = {
   title,
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     languages: buildHreflangAlternates('/torty'),
   },
   openGraph: {
-    title,
+    title: `${title} | ${SITE_NAME}`,
     description,
     url: `${SITE_URL}/ru/torty`,
     siteName: SITE_NAME,

@@ -50,7 +50,7 @@ export default function OpengraphImage() {
               fontFamily: 'sans-serif',
             }}
           >
-            Ukraine • Clean Label 2027
+            Україна • Перевірений склад
           </div>
         </div>
 

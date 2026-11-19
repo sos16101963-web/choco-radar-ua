@@ -5,9 +5,9 @@ import { getCatalogSummary, getMakersForSection } from '@/lib/catalogData';
 import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 
-const title = 'Шоколад и конфеты ручной работы Украины — CrafoHab 2027';
+const title = 'Шоколад и конфеты ручной работы Украины';
 const description =
-  'Выберите вид крафтового шоколада: плитки шоколада, батончики, корпусные конфеты ручной работы, шоколадные цветы и букеты, малина в шоколаде. Основные производители и полный каталог мастерских Украины.';
+  'Крафтовые плитки шоколада, батончики, корпусные конфеты ручной работы, шоколадные цветы и букеты, малина в шоколаде. Проверенные мастерские Украины с прямыми контактами.';
 
 export const metadata: Metadata = {
   title,
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     languages: buildHreflangAlternates('/shokolad'),
   },
   openGraph: {
-    title,
+    title: `${title} | ${SITE_NAME}`,
     description,
     url: `${SITE_URL}/ru/shokolad`,
     siteName: SITE_NAME,

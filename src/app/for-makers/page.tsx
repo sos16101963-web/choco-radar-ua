@@ -22,14 +22,14 @@ import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import ForMakersAuditForm from './ForMakersAuditForm';
 
 export const metadata: Metadata = {
-  title: 'Виробникам та кондитерам — Розміщення без комісій у CrafoHab 2027',
+  title: 'Виробникам та кондитерам — Розміщення без комісій',
   description:
-    'Підключіть вашу майстерню шоколаду, кондитерську або зефірну флористику до CrafoHab. 0% комісії з замовлень, прямі покупці на ваш сайт та в Instagram, замовлення з тендерної біржі.',
+    'Підключіть вашу майстерню шоколаду, кондитерську або зефірну студію до CrafoHab. 0% комісії з замовлень, прямі переходи на ваш сайт та в Instagram, заявки на індивідуальні торти і букети.',
   alternates: {
     canonical: `${SITE_URL}/for-makers`,
   },
   openGraph: {
-    title: 'Виробникам та кондитерам — Розміщення у CrafoHab 2027',
+    title: 'Виробникам та кондитерам — Розміщення без комісій | CrafoHab',
     description: '0% комісії з продажів, прямі клієнти, індивідуальні тендери по вашому місту.',
     url: `${SITE_URL}/for-makers`,
     siteName: SITE_NAME,
@@ -83,7 +83,7 @@ export default function ForMakersPage() {
       <section className="mx-auto max-w-5xl px-4 pt-12 pb-16 text-center space-y-6">
         <span className="inline-flex items-center gap-1.5 rounded-full bg-[#b06a1e]/15 border border-[#b06a1e]/30 px-3.5 py-1 text-xs font-extrabold text-[#b06a1e]">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Для українських кондитерських та шоколатьє • Стандарт 2027</span>
+          <span>Для українських кондитерських та шоколатьє</span>
         </span>
 
         <h1 className="font-serif text-3xl sm:text-5xl font-bold leading-tight">
@@ -94,7 +94,7 @@ export default function ForMakersPage() {
         </h1>
 
         <p className="text-sm sm:text-base text-[#5a4638] max-w-2xl mx-auto leading-relaxed">
-          CrafoHab — це національний навігатор преміальних крафтових солодощів. Ми не ховаємо контакти
+          CrafoHab — це каталог українських майстерень крафтових солодощів. Ми не ховаємо контакти
           і не стягуємо відсоток з ваших продажів, як Prom (18–25%) або Flowwow (20–30%). Клієнт купує
           безпосередньо на вашому сайті, в Instagram або месенджері за вашим прайсом.
         </p>
@@ -144,10 +144,10 @@ export default function ForMakersPage() {
               <div className="w-12 h-12 rounded-2xl bg-[#b06a1e]/15 text-[#b06a1e] flex items-center justify-center text-xl font-bold">
                 🎯
               </div>
-              <h3 className="font-serif text-lg font-bold">Гарячі ліди з Тендерної біржі</h3>
+              <h3 className="font-serif text-lg font-bold">Заявки на індивідуальні замовлення</h3>
               <p className="text-xs sm:text-sm text-[#5a4638] leading-relaxed">
                 Покупці залишають заявки на індивідуальні торти на свято, весілля та корпоративні бокси.
-                Ви отримуєте готовий бриф із містом, датою та бюджетом.
+                Ви отримуєте зрозумілий запит із містом, датою та бюджетом.
               </p>
             </div>
 
@@ -155,10 +155,10 @@ export default function ForMakersPage() {
               <div className="w-12 h-12 rounded-2xl bg-pink-500/15 text-pink-600 flex items-center justify-center text-xl font-bold">
                 🏷️
               </div>
-              <h3 className="font-serif text-lg font-bold">Знак якості «Перевірено 2027»</h3>
+              <h3 className="font-serif text-lg font-bold">Позначка «Перевірений склад»</h3>
               <p className="text-xs sm:text-sm text-[#5a4638] leading-relaxed">
-                Статус верифікованої майстерні Clean Label підтверджує натуральність вашої сировини (без
-                пальмової олії), підвищує довіру клієнтів і дозволяє тримати гідний середній чек.
+                Підтвердження натурального складу (без пальмової олії та кондитерської глазурі) підвищує
+                довіру покупців і допомагає обґрунтувати чесну ціну ручної роботи.
               </p>
             </div>
           </div>
@@ -204,7 +204,7 @@ export default function ForMakersPage() {
               <tr>
                 <td className="p-4 font-medium">Конкуренція з дешевим мас-маркетом</td>
                 <td className="p-4 font-extrabold text-emerald-600">
-                  Ні (лише крафт і Clean Label)
+                  Ні (лише крафтовий шоколад і натуральні десерти)
                 </td>
                 <td className="p-4 text-gray-600">Так (дешева кондитерська глазур)</td>
                 <td className="p-4 text-gray-600">Змішана</td>
@@ -256,7 +256,7 @@ export default function ForMakersPage() {
 
       {/* Footer */}
       <footer className="border-t border-[#e1d5c8] py-8 px-4 text-center text-xs text-[#4a382e]">
-        <div>CrafoHab Україна • Платформа незалежних крафтових виробників 2027</div>
+        <div>CrafoHab Україна • Каталог незалежних крафтових виробників</div>
         <div className="pt-2">
           <Link href="/" className="hover:text-[#b06a1e] underline">
             Повернутися до каталогу продукції

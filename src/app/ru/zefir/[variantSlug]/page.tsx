@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const variant = ZEFIR_VARIANTS.find((v) => v.slug === variantSlug || v.id === variantSlug);
   if (!variant) return {};
 
-  const title = `${variant.titleRu} — основные мастерские зефира Украины | CrafoHab`;
+  const title = `${variant.titleRu} — мастерские зефира Украины`;
   const description = `${variant.shortDescRu} Натуральный крафтовый зефир на агар-агаре, букеты и сладости без сахара от производителей.`;
   const url = `${SITE_URL}/ru/zefir/${variant.slug}`;
 
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       languages: buildHreflangAlternates(`/zefir/${variant.slug}`),
     },
     openGraph: {
-      title,
+      title: `${title} | ${SITE_NAME}`,
       description,
       url,
       siteName: SITE_NAME,

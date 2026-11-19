@@ -5,11 +5,11 @@ import { PRODUCTS, MAKERS, getPricePer100g } from '@/data/chocolateData';
 import { getCatalogSummary, getMakersForSection } from '@/lib/catalogData';
 import { buildHreflangAlternates, HOME_FAQ, SITE_NAME, SITE_URL, toAbsoluteUrl } from '@/lib/siteConfig';
 
-const title = 'CrafoHab — Все крафтовые производители шоколада, зефира и тортов Украины (2027)';
-const description = `CrafoHab — сервис №1 крафтовых сладостей Украины. Плитка шоколада и батончики, конфеты ручной работы, шоколадные цветы и букеты, малина в шоколаде, изделия без сахара, сладости для детей, крафтовый зефир и авторские торты. ${MAKERS.length} проверенных мастерских, честная цена за 100 г и тендерная биржа заказов.`;
+const title = 'CrafoHab — Крафтовый шоколад, авторские торты и зефир от мастерских Украины';
+const description = `Каталог проверенных украинских мастерских шоколада, зефира и тортов на заказ. ${MAKERS.length} производителей с прямыми контактами, сравнением цены за 100 г и заказом без комиссии.`;
 
 export const metadata: Metadata = {
-  title,
+  title: { absolute: title },
   description,
   alternates: {
     canonical: `${SITE_URL}/ru`,
@@ -44,7 +44,7 @@ export default function RuHomePage() {
       },
       {
         '@type': 'ItemList',
-        name: 'Рейтинг крафтовых производителей шоколада, зефира и тортов Украины 2027 (CrafoHab)',
+        name: 'Каталог крафтовых производителей шоколада, зефира и тортов Украины (CrafoHab)',
         itemListOrder: 'https://schema.org/ItemListOrderDescending',
         numberOfItems: Math.min(MAKERS.length, 30),
         itemListElement: MAKERS.slice(0, 30).map((maker, index) => ({

@@ -31,7 +31,7 @@ export default function HomePage() {
       },
       {
         '@type': 'ItemList',
-        name: 'Рейтинг крафтових виробників шоколаду, зефіру та тортів України 2027 (CrafoHab)',
+        name: 'Каталог крафтових виробників шоколаду, зефіру та тортів України (CrafoHab)',
         itemListOrder: 'https://schema.org/ItemListOrderDescending',
         numberOfItems: Math.min(MAKERS.length, 30),
         itemListElement: MAKERS.slice(0, 30).map((maker, index) => ({

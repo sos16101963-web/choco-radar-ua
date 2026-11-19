@@ -22,8 +22,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const variant = CAKE_VARIANTS.find((v) => v.slug === variantSlug || v.id === variantSlug);
   if (!variant) return {};
 
-  const title = `${variant.titleUk} — основні кондитерські України | CrafoHab`;
-  const description = `${variant.shortDescUk} Замовлення святкових та авторських тортів напряму у перевірених майстерень без націнок.`;
+  const title = `${variant.titleUk} — перевірені кондитерські України`;
+  const description = `${variant.shortDescUk} Замовлення святкових та авторських тортів напряму у майстерень без націнок.`;
   const url = `${SITE_URL}/torty/${variant.slug}`;
 
   return {
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       languages: buildHreflangAlternates(`/torty/${variant.slug}`),
     },
     openGraph: {
-      title,
+      title: `${title} | ${SITE_NAME}`,
       description,
       url,
       siteName: SITE_NAME,

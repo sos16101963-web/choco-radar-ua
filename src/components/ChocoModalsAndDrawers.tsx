@@ -313,8 +313,8 @@ export default function ChocoModalsAndDrawers({
                 <div>
                   <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#b06a1e]">
                     {lang === 'uk'
-                      ? 'Інтерактивний помічник CrafoHab 2027'
-                      : 'Интерактивный помощник CrafoHab 2027'}
+                      ? 'Помічник підбору CrafoHab'
+                      : 'Помощник подбора CrafoHab'}
                   </span>
                   <h2 className="font-serif text-lg sm:text-xl font-bold">
                     {lang === 'uk'
@@ -767,7 +767,7 @@ export default function ChocoModalsAndDrawers({
             <div className="flex items-start justify-between border-b border-[#e1d5c8] pb-3">
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#b06a1e]">
-                  {lang === 'uk' ? 'Тендерна біржа CrafoHab 2027' : 'Тендерная биржа CrafoHab 2027'}
+                  {lang === 'uk' ? 'Індивідуальні заявки • CrafoHab' : 'Индивидуальные заявки • CrafoHab'}
                 </span>
                 <h2 className="font-serif text-xl sm:text-2xl font-bold mt-0.5">
                   {lang === 'uk'
@@ -922,7 +922,7 @@ export default function ChocoModalsAndDrawers({
               <div>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600/15 px-3 py-1 text-xs font-extrabold text-emerald-700">
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>Стандарт прозорості CrafoHab 2027</span>
+                  <span>{lang === 'uk' ? 'Принципи відбору CrafoHab' : 'Принципы отбора CrafoHab'}</span>
                 </span>
                 <h2 className="font-serif text-2xl sm:text-3xl font-bold mt-1.5">
                   {lang === 'uk'
@@ -942,8 +942,8 @@ export default function ChocoModalsAndDrawers({
             <div className="space-y-4 text-xs sm:text-sm leading-relaxed text-[#4a3b32]">
               <p className="font-medium text-[#2d1f17]">
                 {lang === 'uk'
-                  ? 'CrafoHab — це національний гід та незалежний навігатор крафтових солодощів України. Наша мета на 2027 рік — надати українцям сервіс найвищого світового рівня для замовлення справжнього шоколаду, авторських тортів та натурального зефіру.'
-                  : 'CrafoHab — это национальный гид и независимый навигатор крафтовых сладостей Украины. Наша цель на 2027 год — предоставить украинцам сервис высшего мирового уровня для заказа настоящего шоколада, авторских тортов и натурального зефира.'}
+                  ? 'CrafoHab — це каталог перевірених крафтових майстерень України, де ви обираєте справжній шоколад, авторські торти й натуральний зефір напряму у виробників без націнок посередників.'
+                  : 'CrafoHab — это каталог проверенных крафтовых мастерских Украины, где вы выбираете настоящий шоколад, авторские торты и натуральный зефир напрямую у производителей без наценок посредников.'}
               </p>
 
               <div className="space-y-3 pt-2">
@@ -954,7 +954,7 @@ export default function ChocoModalsAndDrawers({
                 <div className="space-y-3">
                   <div className="p-3.5 rounded-2xl bg-[#fff8ef] border border-[#e8d5c4] space-y-1">
                     <div className="font-bold text-[#b06a1e] flex items-center gap-1.5">
-                      <span>1. 100% Чистий склад (Clean Label)</span>
+                      <span>{lang === 'uk' ? '1. Натуральний склад без замінників' : '1. Натуральный состав без заменителей'}</span>
                     </div>
                     <p className="text-[12px] sm:text-xs">
                       {lang === 'uk'
@@ -980,8 +980,8 @@ export default function ChocoModalsAndDrawers({
                     </div>
                     <p className="text-[12px] sm:text-xs">
                       {lang === 'uk'
-                        ? 'Ми виступаем проти оманливого зменшення ваги упаковки. Каталог розраховує ціну за 100 грамів, щоб ви завжди знали реальну собівартість виробу.'
-                        : 'Мы выступаем против обманчивого уменьшения веса упаковки. Каталог рассчитывает цену за 100 граммов, чтобы вы всегда знали реальную себестоимость изделия.'}
+                        ? 'Ми проти прихованого зменшення ваги упаковки: каталог розраховує ціну за 100 грамів, щоб ви завжди бачили реальну ціну за 100 г.'
+                        : 'Мы против скрытого уменьшения веса упаковки: каталог рассчитывает цену за 100 граммов, чтобы вы всегда видели реальную цену за 100 г.'}
                     </p>
                   </div>
 

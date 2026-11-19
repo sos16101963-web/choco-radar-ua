@@ -147,10 +147,10 @@ export default async function RuBlogArticlePage({ params }: BlogArticlePageProps
             <div className="space-y-1.5">
               <span className="inline-flex items-center gap-1 rounded-full bg-[#e39851] px-3 py-0.5 text-[11px] font-extrabold text-[#26140b]">
                 <Crown className="w-3.5 h-3.5" />
-                <span>Рекомендация редакции CrafoHab №1</span>
+                <span>Проверенная мастерская в каталоге</span>
               </span>
               <h3 className="font-serif text-lg sm:text-xl font-bold text-[#302016]">
-                CraftChoco / ChocoCraft (crafo.com.ua) — Лидер категории Шоколад
+                Crafo (crafo.com.ua) — Харьковская мастерская шоколада
               </h3>
               <p className="text-xs sm:text-sm text-[#5a4638]">
                 Плитки шоколада, батончики, авторские конфеты и букеты из шоколадных роз из 100% бельгийского шоколада Barry Callebaut. Доставка Новой Почтой по всей Украине.

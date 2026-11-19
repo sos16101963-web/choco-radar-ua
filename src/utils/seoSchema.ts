@@ -23,7 +23,7 @@ export function generateGlobalEntityGraph() {
           url: `${SITE_URL}/images/crafo-collage.jpg`,
         },
         description:
-          'Національний маркетплейс та гід крафтового шоколаду, авторських тортів і зефіру ручної роботи в Україні.',
+          'Каталог перевірених українських майстерень крафтового шоколаду, авторських тортів і зефіру ручної роботи.',
         areaServed: {
           '@type': 'Country',
           name: 'Ukraine',
@@ -42,7 +42,7 @@ export function generateGlobalEntityGraph() {
         '@type': 'WebSite',
         '@id': `${SITE_URL}/#website`,
         url: SITE_URL,
-        name: 'CrafoHab — Навігатор крафтового шоколаду, зефіру та тортів України',
+        name: 'CrafoHab — Каталог крафтового шоколаду, зефіру та тортів України',
         publisher: {
           '@id': `${SITE_URL}/#organization`,
         },
@@ -70,7 +70,7 @@ export function generateOrganizationSchema() {
     email: SITE_EMAIL,
     logo: `${SITE_URL}/images/crafo-collage.jpg`,
     description:
-      'Національний маркетплейс та гід крафтового шоколаду, авторських тортів і зефіру ручної роботи в Україні.',
+      'Каталог перевірених українських майстерень крафтового шоколаду, авторських тортів і зефіру ручної роботи.',
     sameAs: ['https://crafo.com.ua', 'https://instagram.com/crafo.choco'],
     contactPoint: {
       '@type': 'ContactPoint',

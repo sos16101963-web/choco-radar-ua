@@ -21,8 +21,8 @@ export default function ForMakersAuditForm() {
         <div className="text-3xl mb-2">🎉</div>
         <h4 className="font-bold text-base mb-1">Дякуємо! Заявку на аудит прийнято</h4>
         <p className="text-xs text-emerald-700">
-          Ми перевіримо профіль <strong>{brandName || 'вашої майстерні'}</strong> на відповідність стандарту
-          Clean Label 2027 та зв’яжемося за контактом <strong>{contact}</strong> протягом робочого дня.
+          Ми перевіримо профіль <strong>{brandName || 'вашої майстерні'}</strong> на відповідність вимогам
+          перевіреного складу та зв’яжемося за контактом <strong>{contact}</strong> протягом робочого дня.
         </p>
       </div>
     );

@@ -7,7 +7,7 @@ import { SITE_EMAIL, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 import OptimizedImage from '@/components/OptimizedImage';
 
-const pageTitle = `Усі ${MAKERS.length} перевірених крафтових майстерень України — каталог CrafoHab 2027`;
+const pageTitle = `Усі ${MAKERS.length} крафтових майстерень України`;
 const pageDescription = `Повний довідник перевірених крафтових виробників шоколаду, цукерок ручної роботи, шоколадних квітів, авторських тортів та зефіру в Україні (${MAKERS.length} майстерень). Прямі контакти, рейтинги та сайти без комісії.`;
 const pageUrl = `${SITE_URL}/maysternya`;
 
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     canonical: pageUrl,
   },
   openGraph: {
-    title: pageTitle,
+    title: `${pageTitle} | ${SITE_NAME}`,
     description: pageDescription,
     url: pageUrl,
     siteName: SITE_NAME,
@@ -122,7 +122,7 @@ export default function MakersDirectoryPage() {
         <div className="max-w-3xl space-y-3">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-[#e39851]/20 border border-[#b06a1e]/40 px-3.5 py-1 text-xs font-extrabold text-[#8c4f12]">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Національний реєстр CrafoHab 2027 • {MAKERS.length} майстерень</span>
+            <span>Каталог CrafoHab • {MAKERS.length} майстерень</span>
           </span>
           <h1 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
             Каталог крафтових майстерень України — {MAKERS.length} перевірених виробників
@@ -207,7 +207,7 @@ export default function MakersDirectoryPage() {
       {/* Footer with Legal Disclaimer */}
       <footer className="mt-12 border-t border-[#e1d5c8] bg-[#f1e6da] py-8 px-4 text-center text-xs text-[#4a382e] space-y-4">
         <div className="font-bold text-[#302016]">
-          CrafoHab Україна (crafohab.com.ua • 2027) — Усі {MAKERS.length} перевірених майстерень
+          CrafoHab Україна (crafohab.com.ua) — Усі {MAKERS.length} перевірених майстерень
         </div>
         <p className="max-w-3xl mx-auto text-[11px] leading-relaxed text-[#7a6858]">
           Інформація взята з відкритих публічних джерел для ознайомлення споживачів. Якщо ви є власником майстерні та бажаєте оновити дані або видалити профіль — зв&apos;яжіться з нами:{' '}

@@ -9,17 +9,19 @@ import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 
 export const metadata: Metadata = {
-  title: 'Блог CrafoHab — Рейтинги, огляди та гіди з вибору крафтового шоколаду, зефіру і тортів України',
+  title: {
+    absolute: 'Блог CrafoHab — Як обирати крафтовий шоколад, зефір і торти',
+  },
   description:
-    'Експертні статті CrafoHab: як обрати справжню крафтову плитку шоколаду та батончик, шоколадні квіти Callebaut, безпечні солодощі для дітей, вироби без цукру, зефірні букети та авторські торти.',
+    'Практичні поради покупцям: як відрізнити справжній бельгійський шоколад від глазурі, навіщо рахувати ціну за 100 г, які солодощі підійдуть дітям і як розрахувати вагу торта.',
   alternates: {
     canonical: `${SITE_URL}/blog`,
     languages: buildHreflangAlternates('/blog'),
   },
   openGraph: {
-    title: 'Блог CrafoHab — Експертні рейтинги та гіди покупця',
+    title: 'Блог CrafoHab — Як обирати крафтовий шоколад, зефір і торти',
     description:
-      'Огляди, рейтинги та гіди з вибору крафтового шоколаду, шоколадних квітів, виробів без цукру, солодощів для дітей, зефіру та авторських тортів в Україні.',
+      'Практичні статті про крафтовий шоколад, шоколадні квіти, солодощі без цукру, зефір і авторські торти в Україні.',
     url: `${SITE_URL}/blog`,
     siteName: SITE_NAME,
     locale: 'uk_UA',
@@ -97,7 +99,7 @@ export default function BlogIndexPage() {
         <div className="max-w-3xl space-y-3">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-[#e39851]/20 border border-[#b06a1e]/40 px-3.5 py-1 text-xs font-bold text-[#8c4f12]">
             <BookOpen className="w-3.5 h-3.5" />
-            <span>Експертний Журнал та SEO-Навігатор CrafoHab 2027</span>
+            <span>Журнал CrafoHab • Нотатки про крафтові солодощі</span>
           </span>
           <h1 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight">
             Блог про крафтовий шоколад, солодощі без цукру, торти та букети
@@ -176,10 +178,10 @@ export default function BlogIndexPage() {
           <div className="space-y-2">
             <h2 className="font-serif text-2xl font-bold flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-[#b06a1e]" />
-              <span>SEO-Розділи платформи за рубриками та містами України</span>
+              <span>Розділи каталогу та міста України</span>
             </h2>
             <p className="text-xs sm:text-sm text-[#5a4638]">
-              Прямі посадкові сторінки для швидкого пошуку перевірених крафтових виробників у вашому регіоні:
+              Швидкий перехід до майстерень за видом солодощів або вашим містом:
             </p>
           </div>
 

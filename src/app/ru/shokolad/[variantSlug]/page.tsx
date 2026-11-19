@@ -22,8 +22,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const variant = CHOCOLATE_VARIANTS.find((v) => v.slug === variantSlug || v.id === variantSlug);
   if (!variant) return {};
 
-  const title = `${variant.titleRu} — основные производители крафтового шоколада Украины | CrafoHab`;
-  const description = `${variant.shortDescRu} Сравнение состава, цены за 100 г, прямые сайты и контакты проверенных мастерских Украины.`;
+  const title = `${variant.titleRu} — проверенные производители шоколада Украины`;
+  const description = `${variant.shortDescRu} Сравнение состава, цены за 100 г, прямые сайты и контакты мастерских Украины.`;
   const url = `${SITE_URL}/ru/shokolad/${variant.slug}`;
 
   return {
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       languages: buildHreflangAlternates(`/shokolad/${variant.slug}`),
     },
     openGraph: {
-      title,
+      title: `${title} | ${SITE_NAME}`,
       description,
       url,
       siteName: SITE_NAME,
