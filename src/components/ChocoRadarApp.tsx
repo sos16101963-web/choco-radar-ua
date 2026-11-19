@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
@@ -39,9 +39,15 @@ import {
   Maximize2,
   LayoutList,
   BarChart2,
+  Share2,
+  Check,
+  Copy,
+  X,
+  Clock,
+  SlidersHorizontal,
 } from 'lucide-react';
 import { trackMakerClick, appendUtm } from '@/utils/analytics';
-import { extractPhoneDigits, hasRuRoute, HOME_FAQ } from '@/lib/siteConfig';
+import { extractPhoneDigits, hasRuRoute, HOME_FAQ, SITE_URL } from '@/lib/siteConfig';
 import {
   BLOG_PREVIEW_CARDS,
   BreadcrumbTrailItem,
@@ -53,10 +59,25 @@ import {
   Lang,
   localizeText,
 } from '@/lib/homePreviewData';
+import {
+  getRecentMakers,
+  getStoredFavorites,
+  getStoredTheme,
+  RecentMakerEntry,
+  recordRecentMaker,
+  saveStoredFavorites,
+  saveStoredTheme,
+  shareOrCopy,
+} from '@/lib/uxStorage';
 import OptimizedImage from './OptimizedImage';
 import Breadcrumbs from './Breadcrumbs';
+import BackToTopButton from './BackToTopButton';
 
 const ChocoModalsAndDrawers = dynamic(() => import('./ChocoModalsAndDrawers'), {
+  ssr: false,
+});
+
+const CommandPaletteModal = dynamic(() => import('./CommandPaletteModal'), {
   ssr: false,
 });
 
@@ -326,9 +347,55 @@ export default function ChocoRadarApp({
   const [isSommelierDrawerOpen, setIsSommelierDrawerOpen] = useState<boolean>(false);
 
   // Favorites & Modals
-  const [favoriteMakerIds, setFavoriteMakerIds] = useState<string[]>(['crafo-kharkiv']);
+  const [favoriteMakerIds, setFavoriteMakerIds] = useState<string[]>([]);
+  const [recentMakers, setRecentMakers] = useState<RecentMakerEntry[]>([]);
+  const [sortMode, setSortMode] = useState<'recommended' | 'rating'>('recommended');
   const [onlyFavorites, setOnlyFavorites] = useState(false);
   const [expandedMakerIds, setExpandedMakerIds] = useState<string[]>([]);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isFavoritesDrawerOpen, setIsFavoritesDrawerOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [copiedPhoneMakerId, setCopiedPhoneMakerId] = useState<string | null>(null);
+
+  const hasHydratedRef = useRef(false);
+  const toastTimerRef = useRef<number | null>(null);
+  const variantDropdownRef = useRef<HTMLDivElement>(null);
+
+  const showToast = useCallback((msg: string) => {
+    setToastMessage(msg);
+    if (toastTimerRef.current !== null && typeof window !== 'undefined') {
+      window.clearTimeout(toastTimerRef.current);
+    }
+    if (typeof window !== 'undefined') {
+      toastTimerRef.current = window.setTimeout(() => {
+        setToastMessage(null);
+      }, 2400);
+    }
+  }, []);
+
+  useEffect(() => {
+    setFavoriteMakerIds(getStoredFavorites());
+    setRecentMakers(getRecentMakers());
+    if (getStoredTheme() === 'dark') {
+      setIsDark(true);
+    }
+    hasHydratedRef.current = true;
+    return () => {
+      if (toastTimerRef.current !== null && typeof window !== 'undefined') {
+        window.clearTimeout(toastTimerRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.documentElement.classList.toggle('dark', isDark);
+      document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+    }
+    if (hasHydratedRef.current) {
+      saveStoredTheme(isDark);
+    }
+  }, [isDark]);
 
   // Modals (lazy-loaded overlay triggers)
   const [activeMakerModal, setActiveMakerModal] = useState<CatalogMaker | null>(null);
@@ -344,6 +411,7 @@ export default function ChocoRadarApp({
   const hasAnyOverlayOpen = Boolean(
     isAssortmentDrawerOpen ||
       isSommelierDrawerOpen ||
+      isFavoritesDrawerOpen ||
       activeMakerModal ||
       isTenderModalOpen ||
       isMethodologyModalOpen ||
@@ -351,6 +419,70 @@ export default function ChocoRadarApp({
       isAddMakerModalOpen ||
       isMakerStatsModalOpen
   );
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setIsSearchOpen((prev) => !prev);
+        return;
+      }
+
+      if (e.key === '/') {
+        const el = document.activeElement as HTMLElement | null;
+        const tag = el?.tagName;
+        const isTyping =
+          tag === 'INPUT' ||
+          tag === 'TEXTAREA' ||
+          tag === 'SELECT' ||
+          Boolean(el?.isContentEditable);
+        if (!isTyping) {
+          e.preventDefault();
+          setIsSearchOpen(true);
+        }
+        return;
+      }
+
+      if (e.key === 'Escape') {
+        setIsSearchOpen(false);
+        setIsVariantDropdownOpen(false);
+        setIsAssortmentDrawerOpen(false);
+        setIsSommelierDrawerOpen(false);
+        setIsFavoritesDrawerOpen(false);
+        setActiveMakerModal(null);
+        setIsTenderModalOpen(false);
+        setIsAddMakerModalOpen(false);
+        setIsMethodologyModalOpen(false);
+        setIsCitySelectorModalOpen(false);
+        setIsMakerStatsModalOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        isVariantDropdownOpen &&
+        variantDropdownRef.current &&
+        !variantDropdownRef.current.contains(e.target as Node)
+      ) {
+        setIsVariantDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isVariantDropdownOpen]);
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    document.body.style.overflow = hasAnyOverlayOpen || isSearchOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [hasAnyOverlayOpen, isSearchOpen]);
 
   // Macro Pillar counts (computed on server in catalogSummary)
   const {
@@ -407,9 +539,69 @@ export default function ChocoRadarApp({
   };
 
   const toggleFavoriteMaker = (id: string) => {
-    setFavoriteMakerIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    setFavoriteMakerIds((prev) => {
+      const exists = prev.includes(id);
+      const next = exists ? prev.filter((item) => item !== id) : [...prev, id];
+      saveStoredFavorites(next);
+      showToast(
+        exists
+          ? lang === 'uk'
+            ? 'Видалено з обраного'
+            : 'Удалено из избранного'
+          : lang === 'uk'
+          ? 'Додано в обране ❤️'
+          : 'Добавлено в избранное ❤️'
+      );
+      return next;
+    });
+  };
+
+  const clearFavorites = () => {
+    saveStoredFavorites([]);
+    setFavoriteMakerIds([]);
+    setOnlyFavorites(false);
+    showToast(lang === 'uk' ? 'Список обраного очищено' : 'Список избранного очищен');
+  };
+
+  const openMakerPreview = (maker: CatalogMaker) => {
+    setActiveMakerModal(maker);
+    setRecentMakers(
+      recordRecentMaker({
+        id: maker.id,
+        slug: maker.slug,
+        name: maker.name,
+        city: maker.city,
+        imageUrl: maker.imageUrl,
+      })
     );
+  };
+
+  const handleShareMaker = async (maker: CatalogMaker) => {
+    const res = await shareOrCopy({
+      title: cleanDisplayName(localizeText(maker.name, lang)),
+      text: localizeText(maker.specialty, lang),
+      url: `${SITE_URL}/maysternya/${maker.slug}`,
+    });
+    if (res === 'shared') {
+      showToast(lang === 'uk' ? 'Посиланням поділилися ✓' : 'Поделились ссылкой ✓');
+    } else if (res === 'copied') {
+      showToast(lang === 'uk' ? 'Посилання на майстерню скопійовано ✓' : 'Ссылка на мастерскую скопирована ✓');
+    }
+  };
+
+  const handleCopyPhone = async (maker: CatalogMaker) => {
+    const cleanPhone = formatPhoneDisplay(maker.phone);
+    if (!cleanPhone || typeof navigator === 'undefined' || !navigator.clipboard?.writeText) return;
+    try {
+      await navigator.clipboard.writeText(cleanPhone);
+      setCopiedPhoneMakerId(maker.id);
+      showToast(lang === 'uk' ? 'Номер скопійовано ✓' : 'Номер скопирован ✓');
+      window.setTimeout(() => {
+        setCopiedPhoneMakerId((curr) => (curr === maker.id ? null : curr));
+      }, 2200);
+    } catch {
+      // Clipboard blocked
+    }
   };
 
   const toggleMakerExpand = (id: string) => {
@@ -452,6 +644,10 @@ export default function ChocoRadarApp({
         if (!aDirect && bDirect) return 1;
       }
 
+      if (sortMode === 'rating') {
+        if (b.rating !== a.rating) return b.rating - a.rating;
+      }
+
       // 1. Crafo.com.ua is ALWAYS #1 in chocolate categories (if in all cities or if matching city)
       if (activeSection === 'chocolate') {
         if (a.id === 'crafo-kharkiv') return -1;
@@ -476,6 +672,7 @@ export default function ChocoRadarApp({
     initialMakers,
     activeVariant,
     activeSection,
+    sortMode,
     onlyFavorites,
     favoriteMakerIds,
     selectedCity,
@@ -600,7 +797,7 @@ export default function ChocoRadarApp({
         <div
           className="relative h-60 sm:h-68 overflow-hidden cursor-pointer group/img"
           style={{ background: headerMeta.gradient }}
-          onClick={() => setActiveMakerModal(maker)}
+          onClick={() => openMakerPreview(maker)}
         >
           {maker.imageUrl ? (
             <>
@@ -628,7 +825,7 @@ export default function ChocoRadarApp({
           )}
 
           {/* Top Left Rank & Leader Badge */}
-          <div className="absolute left-3.5 top-3.5 z-10 flex flex-wrap items-center gap-1.5 pr-10">
+          <div className="absolute left-3.5 top-3.5 z-10 flex flex-wrap items-center gap-1.5 pr-20">
             {rankIndex !== undefined && rankIndex < 3 && (
               <span className="inline-flex items-center gap-1 rounded-full bg-[#302016]/90 backdrop-blur-md text-[#f0a556] border border-[#f0a556]/40 px-2.5 py-1 text-[11px] font-extrabold shadow-md">
                 ТОП-{rankIndex + 1}
@@ -649,8 +846,22 @@ export default function ChocoRadarApp({
             </span>
           </div>
 
-          {/* Top Right Favorite Button */}
+          {/* Top Right Share & Favorite Buttons */}
           <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleShareMaker(maker);
+            }}
+            aria-label={lang === 'uk' ? 'Поділитися майстернею' : 'Поделиться мастерской'}
+            title={lang === 'uk' ? 'Поділитися майстернею' : 'Поделиться мастерской'}
+            className="absolute right-12 top-3 z-10 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md bg-black/35 text-white/90 hover:bg-black/60 transition active:scale-95"
+          >
+            <Share2 className="w-3.5 h-3.5" />
+          </button>
+
+          <button
+            type="button"
             onClick={(e) => {
               e.stopPropagation();
               toggleFavoriteMaker(maker.id);
@@ -660,7 +871,7 @@ export default function ChocoRadarApp({
                 ? (lang === 'uk' ? 'Видалити з обраного' : 'Удалить из избранного')
                 : (lang === 'uk' ? 'Додати в обране' : 'Добавить в избранное')
             }
-            className={`absolute right-3 top-3 z-10 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md transition ${
+            className={`absolute right-3 top-3 z-10 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md transition active:scale-95 ${
               isFav
                 ? 'bg-[#c75b7a] text-white shadow-md'
                 : 'bg-black/35 text-white/85 hover:bg-black/55'
@@ -684,6 +895,17 @@ export default function ChocoRadarApp({
             <h3 className="font-serif text-base sm:text-lg font-bold leading-snug">
               <Link
                 href={`/maysternya/${maker.slug}`}
+                onClick={() =>
+                  setRecentMakers(
+                    recordRecentMaker({
+                      id: maker.id,
+                      slug: maker.slug,
+                      name: maker.name,
+                      city: maker.city,
+                      imageUrl: maker.imageUrl,
+                    })
+                  )
+                }
                 className="hover:underline hover:text-[#b06a1e] transition"
               >
                 {cleanDisplayName(localizeText(maker.name, lang))}
@@ -736,12 +958,53 @@ export default function ChocoRadarApp({
             >
               <p className="leading-relaxed">{localizeText(maker.description, lang)}</p>
               <div
-                className={`rounded-xl p-3 space-y-1 ${
+                className={`rounded-xl p-3 space-y-1.5 ${
                   isDark ? 'bg-[#1a120e]' : 'bg-[#f1e6da]/70'
                 }`}
               >
-                <div>
-                  <strong>{lang === 'uk' ? 'Телефон:' : 'Телефон:'}</strong> {maker.phone}
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div>
+                    <strong>{lang === 'uk' ? 'Телефон:' : 'Телефон:'}</strong>{' '}
+                    {phoneNum && !maker.phone.startsWith('Замовлення') ? (
+                      <a
+                        href={`tel:+${phoneNum}`}
+                        onClick={() =>
+                          trackMakerClick(maker.id, 'phone', {
+                            category: effectiveCategory,
+                            city: maker.city,
+                          })
+                        }
+                        className="font-bold hover:text-[#b06a1e] hover:underline"
+                      >
+                        {formatPhoneDisplay(maker.phone)}
+                      </a>
+                    ) : (
+                      <span>{localizeText(maker.phone, lang)}</span>
+                    )}
+                  </div>
+                  {phoneNum && !maker.phone.startsWith('Замовлення') && (
+                    <button
+                      type="button"
+                      onClick={() => handleCopyPhone(maker)}
+                      className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-bold border transition ${
+                        isDark
+                          ? 'border-white/15 bg-white/5 hover:border-[#e39851] text-[#f0a556]'
+                          : 'border-[#d4c3b3] bg-white hover:border-[#b06a1e] text-[#462b1f]'
+                      }`}
+                    >
+                      {copiedPhoneMakerId === maker.id ? (
+                        <>
+                          <Check className="w-3 h-3 text-emerald-600" />
+                          <span>{lang === 'uk' ? 'Скопійовано' : 'Скопировано'}</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3 h-3 text-[#b06a1e]" />
+                          <span>{lang === 'uk' ? 'Копіювати' : 'Копировать'}</span>
+                        </>
+                      )}
+                    </button>
+                  )}
                 </div>
                 {maker.address && (
                   <div>
@@ -923,7 +1186,7 @@ export default function ChocoRadarApp({
           </Link>
 
           {/* Desktop Section Links */}
-          <nav className="ml-3 hidden md:flex items-center gap-1.5">
+          <nav className="ml-3 hidden lg:flex items-center gap-1.5">
             <Link
               href={getLocalizedHref('/')}
               onClick={() => setActiveSection('home')}
@@ -989,13 +1252,58 @@ export default function ChocoRadarApp({
             </Link>
           </nav>
 
-          {/* Right Header Triggers: Assortment Drawer, Sommelier Drawer, Lang Switcher */}
+          {/* Right Header Triggers: Search, Favorites, Assortment Drawer, Sommelier Drawer, Lang Switcher */}
           <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
+            {/* Button: Command Palette Instant Search */}
+            <button
+              type="button"
+              onClick={() => setIsSearchOpen(true)}
+              aria-label={lang === 'uk' ? 'Пошук по каталогу (Ctrl+K)' : 'Поиск по каталогу (Ctrl+K)'}
+              title={lang === 'uk' ? 'Пошук по каталогу (Ctrl+K)' : 'Поиск по каталогу (Ctrl+K)'}
+              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-extrabold transition ${
+                isDark
+                  ? 'dark-btn-glass-pill hover:bg-[#462b1f]'
+                  : 'btn-glass-pill hover:bg-[#f1e6da]'
+              }`}
+            >
+              <Search className="w-3.5 h-3.5 text-[#b06a1e]" />
+              <span className="hidden xl:inline">
+                {lang === 'uk' ? 'Пошук' : 'Поиск'}
+              </span>
+              <kbd className="hidden 2xl:inline-flex items-center rounded border border-[#b06a1e]/30 px-1.5 py-0.5 text-[10px] font-bold opacity-75">
+                Ctrl K
+              </kbd>
+            </button>
+
+            {/* Button: Saved Favorites & Comparison Drawer */}
+            <button
+              type="button"
+              onClick={() => setIsFavoritesDrawerOpen(true)}
+              aria-label={lang === 'uk' ? 'Обрані майстерні та порівняння' : 'Избранные мастерские и сравнение'}
+              title={lang === 'uk' ? 'Обрані майстерні та порівняння' : 'Избранные мастерские и сравнение'}
+              className={`relative inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-extrabold transition ${
+                isDark
+                  ? 'dark-btn-glass-pill hover:bg-[#462b1f]'
+                  : 'btn-glass-pill hover:bg-[#f1e6da]'
+              }`}
+            >
+              <Heart
+                className={`w-3.5 h-3.5 ${
+                  favoriteMakerIds.length > 0 ? 'text-[#c75b7a] fill-[#c75b7a]' : 'text-[#b06a1e]'
+                }`}
+              />
+              {favoriteMakerIds.length > 0 && (
+                <span className="rounded-full bg-[#c75b7a] text-white px-1.5 py-0.5 text-[10px] leading-none font-extrabold">
+                  {favoriteMakerIds.length}
+                </span>
+              )}
+            </button>
+
             {/* Button: Methodology & Trust */}
             <button
               onClick={() => setIsMethodologyModalOpen(true)}
               aria-label={lang === 'uk' ? 'Стандарти перевірки майстерень' : 'Стандарты проверки мастерских'}
-              className={`hidden md:inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition ${
+              className={`hidden xl:inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition ${
                 isDark
                   ? 'dark-btn-glass-pill hover:bg-[#462b1f]'
                   : 'btn-glass-pill hover:bg-[#f1e6da]'
@@ -1091,7 +1399,7 @@ export default function ChocoRadarApp({
           1) IF activeSection === 'home' -> Clean 3-Section Gateway Page
           2) IF activeSection !== 'home' -> Dedicated Section Page + Top 4 Makers
       ===================================================================== */}
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         {activeSection === 'home' ? (
           /* =================================================================
              STEP 1: HOME PAGE — CLEAN, EASY-TO-UNDERSTAND 3-SECTION GATEWAY
@@ -1618,6 +1926,39 @@ export default function ChocoRadarApp({
               </div>
             </div>
 
+            {/* RECENTLY VIEWED MAKERS (if any in localStorage) */}
+            {recentMakers.length > 0 && (
+              <section
+                aria-label={lang === 'uk' ? 'Нещодавно переглянуті' : 'Недавно просмотренные'}
+                className={`rounded-2xl border px-4 py-3 flex items-center gap-2.5 overflow-x-auto no-scrollbar ${
+                  isDark ? 'bg-[#221711]/80 border-white/10' : 'bg-[#fefbf7]/90 border-[#e1d5c8] shadow-xs'
+                }`}
+              >
+                <span className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#b06a1e] shrink-0">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>{lang === 'uk' ? 'Нещодавно переглянуті:' : 'Недавно просмотренные:'}</span>
+                </span>
+                {recentMakers.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={`/maysternya/${item.slug}`}
+                    className={`shrink-0 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-bold transition ${
+                      isDark
+                        ? 'bg-[#2e1e16] border-white/15 text-[#eee7dd] hover:border-[#e39851]'
+                        : 'bg-white border-[#d4c3b3] text-[#302016] hover:border-[#b06a1e] hover:bg-[#fff8ef]'
+                    }`}
+                  >
+                    <span className="truncate max-w-[180px]">
+                      {cleanDisplayName(localizeText(item.name, lang))}
+                    </span>
+                    <span className="opacity-65 text-[10px]">
+                      • {localizeText(item.city, lang)}
+                    </span>
+                  </Link>
+                ))}
+              </section>
+            )}
+
             {/* FLAGSHIP TOP-3 SHOWCASE ON HOME */}
             <section className="space-y-5 pt-4">
               <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-[#e1d5c8] pb-4">
@@ -1816,6 +2157,7 @@ export default function ChocoRadarApp({
 
               {/* COMPACT PRODUCT VARIANT SELECTOR: ONLY 1 ACTIVE ROW VISIBLE, OTHERS IN DROPDOWN MENU */}
               <div
+                ref={variantDropdownRef}
                 className="relative"
                 onMouseEnter={() => setIsVariantDropdownOpen(true)}
                 onMouseLeave={() => setIsVariantDropdownOpen(false)}
@@ -1972,6 +2314,92 @@ export default function ChocoRadarApp({
                   </span>
                 </button>
               </div>
+
+              {/* Inline Filter & Sort Bar */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-2 border-t border-[#e1d5c8]/60 dark:border-white/10">
+                <div className="relative flex-1">
+                  <Search className="w-3.5 h-3.5 text-[#b06a1e] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <input
+                    type="search"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder={
+                      lang === 'uk'
+                        ? 'Пошук майстерні або міста...'
+                        : 'Поиск мастерской или города...'
+                    }
+                    aria-label={
+                      lang === 'uk'
+                        ? 'Пошук майстерні або міста'
+                        : 'Поиск мастерской или города'
+                    }
+                    className={`w-full rounded-full border pl-9 pr-8 py-2 text-xs font-medium outline-none transition ${
+                      isDark
+                        ? 'bg-[#1a120e] border-white/15 text-[#eee7dd] placeholder:text-[#8c7a6b] focus:border-[#e39851]'
+                        : 'bg-white border-[#d4c3b3] text-[#302016] placeholder:text-[#8c7a6b] focus:border-[#b06a1e]'
+                    }`}
+                  />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery('')}
+                      aria-label={lang === 'uk' ? 'Очистити пошук' : 'Очистить поиск'}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-[#7a6858] hover:text-[#b06a1e]"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-2 flex-wrap">
+                  <button
+                    type="button"
+                    onClick={() => setOnlyFavorites((prev) => !prev)}
+                    className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-bold border transition ${
+                      onlyFavorites
+                        ? 'bg-[#c75b7a] border-[#c75b7a] text-white shadow-xs'
+                        : isDark
+                        ? 'bg-[#2a1d17] border-white/15 text-[#eee7dd] hover:border-[#c75b7a]'
+                        : 'bg-white border-[#d4c3b3] text-[#462b1f] hover:border-[#c75b7a]'
+                    }`}
+                  >
+                    <Heart
+                      className={`w-3.5 h-3.5 ${
+                        onlyFavorites || favoriteMakerIds.length > 0 ? 'fill-current' : ''
+                      }`}
+                    />
+                    <span>
+                      {lang === 'uk' ? 'Обрані' : 'Избранное'}
+                      {favoriteMakerIds.length > 0 ? ` (${favoriteMakerIds.length})` : ''}
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setSortMode((prev) => (prev === 'recommended' ? 'rating' : 'recommended'))
+                    }
+                    className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-bold border transition ${
+                      sortMode === 'rating'
+                        ? 'bg-[#b06a1e] border-[#b06a1e] text-white shadow-xs'
+                        : isDark
+                        ? 'bg-[#2a1d17] border-white/15 text-[#eee7dd] hover:border-[#e39851]'
+                        : 'bg-white border-[#d4c3b3] text-[#462b1f] hover:border-[#b06a1e]'
+                    }`}
+                  >
+                    <SlidersHorizontal className="w-3.5 h-3.5" />
+                    <span>
+                      {sortMode === 'recommended'
+                        ? lang === 'uk'
+                          ? 'Рекомендовані'
+                          : 'Рекомендуемые'
+                        : lang === 'uk'
+                        ? 'За рейтингом ★'
+                        : 'По рейтингу ★'}
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
 
             {/* ===============================================================
@@ -2003,19 +2431,38 @@ export default function ChocoRadarApp({
               </div>
 
               {filteredMakers.length === 0 ? (
-                <div className="rounded-3xl border border-[#e1d5c8] bg-[#fefbf7] p-8 text-center space-y-3">
-                  <p className="text-base font-bold text-[#302016]">
-                    {lang === 'uk'
+                <div
+                  className={`rounded-3xl border p-8 text-center space-y-3 ${
+                    isDark
+                      ? 'border-white/15 bg-[#221711] text-[#eee7dd]'
+                      : 'border-[#e1d5c8] bg-[#fefbf7] text-[#302016]'
+                  }`}
+                >
+                  <p className="text-base font-bold">
+                    {onlyFavorites
+                      ? lang === 'uk'
+                        ? 'У вибраному ще немає майстерень цієї рубрики'
+                        : 'В избранном еще нет мастерских этой рубрики'
+                      : searchQuery.trim() !== ''
+                      ? lang === 'uk'
+                        ? `За запитом «${searchQuery}» майстерень не знайдено`
+                        : `По запросу «${searchQuery}» мастерских не найдено`
+                      : lang === 'uk'
                       ? 'У вибраному місті майстерень цієї рубрики не знайдено'
                       : 'В выбранном городе мастерских этой рубрики не найдено'}
                   </p>
                   <button
-                    onClick={() => setSelectedCity('all')}
-                    className="rounded-full bg-[#462b1f] px-5 py-2.5 text-xs font-bold text-white"
+                    type="button"
+                    onClick={() => {
+                      setSelectedCity('all');
+                      setSearchQuery('');
+                      setOnlyFavorites(false);
+                    }}
+                    className="rounded-full bg-[#462b1f] hover:bg-[#b06a1e] px-5 py-2.5 text-xs font-bold text-white transition"
                   >
                     {lang === 'uk'
-                      ? 'Показати ТОП-3 виробники з доставкою по всій Україні'
-                      : 'Показать ТОП-3 производителя с доставкой по всей Украине'}
+                      ? 'Скинути фільтри та показати всю Україну'
+                      : 'Сбросить фильтры и показать всю Украину'}
                   </button>
                 </div>
               ) : (
@@ -2108,7 +2555,7 @@ export default function ChocoRadarApp({
 
                                     {maker.imageUrl ? (
                                       <div
-                                        onClick={() => setActiveMakerModal(maker)}
+                                        onClick={() => openMakerPreview(maker)}
                                         className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl overflow-hidden shrink-0 border border-black/10 bg-[#3a2113] cursor-pointer group"
                                       >
                                         <OptimizedImage
@@ -2164,7 +2611,7 @@ export default function ChocoRadarApp({
 
                                   <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
                                     <button
-                                      onClick={() => setActiveMakerModal(maker)}
+                                      onClick={() => openMakerPreview(maker)}
                                       className={`rounded-full px-3 py-1.5 text-xs font-bold border transition ${
                                         isDark
                                           ? 'border-white/15 text-[#f0a556] hover:bg-white/10'
@@ -2485,11 +2932,11 @@ export default function ChocoRadarApp({
       </footer>
 
       {/* =====================================================================
-          STICKY MOBILE BOTTOM NAVIGATION BAR (2027 Intuitive 4-Button Bar)
+          STICKY MOBILE BOTTOM NAVIGATION BAR (2026 5-Button Bar + Safe Area)
       ===================================================================== */}
       <nav
         aria-label="Мобільна навігація"
-        className={`sm:hidden fixed bottom-0 inset-x-0 z-40 border-t backdrop-blur-xl px-2 py-1.5 grid grid-cols-4 gap-1 ${
+        className={`sm:hidden fixed bottom-0 inset-x-0 z-40 border-t backdrop-blur-xl px-1.5 pt-1.5 pb-[max(0.375rem,env(safe-area-inset-bottom))] grid grid-cols-5 gap-1 ${
           isDark
             ? 'bg-[#1a120e]/95 border-white/15 text-[#eee7dd]'
             : 'bg-[#fefbf7]/95 border-[#d9c8b8] text-[#302016]'
@@ -2506,6 +2953,16 @@ export default function ChocoRadarApp({
           <Sparkles className="w-4 h-4 text-[#b06a1e]" />
           <span className="mt-0.5">{lang === 'uk' ? 'Розділи' : 'Разделы'}</span>
         </Link>
+
+        <button
+          type="button"
+          onClick={() => setIsSearchOpen(true)}
+          aria-label={lang === 'uk' ? 'Пошук' : 'Поиск'}
+          className="flex flex-col items-center justify-center py-1 rounded-xl text-[10px] font-extrabold"
+        >
+          <Search className="w-4 h-4 text-[#b06a1e]" />
+          <span className="mt-0.5">{lang === 'uk' ? 'Пошук' : 'Поиск'}</span>
+        </button>
 
         <button
           onClick={() => {
@@ -2538,6 +2995,27 @@ export default function ChocoRadarApp({
         </button>
       </nav>
 
+      {/* Toast Micro-Feedback */}
+      {toastMessage && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed bottom-20 sm:bottom-6 left-1/2 z-50 rounded-full bg-[#302016] text-white border border-[#e39851]/60 px-4 py-2 text-xs font-extrabold shadow-2xl animate-toast-in whitespace-nowrap"
+        >
+          {toastMessage}
+        </div>
+      )}
+
+      <BackToTopButton lang={lang} isDark={isDark} />
+
+      {isSearchOpen && (
+        <CommandPaletteModal
+          isOpen={isSearchOpen}
+          onClose={() => setIsSearchOpen(false)}
+          lang={lang}
+          isDark={isDark}
+        />
+      )}
 
       {hasAnyOverlayOpen && (
         <ChocoModalsAndDrawers
@@ -2557,6 +3035,11 @@ export default function ChocoRadarApp({
           setDrawerSectionTab={setDrawerSectionTab}
           isSommelierDrawerOpen={isSommelierDrawerOpen}
           setIsSommelierDrawerOpen={setIsSommelierDrawerOpen}
+          isFavoritesDrawerOpen={isFavoritesDrawerOpen}
+          setIsFavoritesDrawerOpen={setIsFavoritesDrawerOpen}
+          favoriteMakerIds={favoriteMakerIds}
+          toggleFavoriteMaker={toggleFavoriteMaker}
+          clearFavorites={clearFavorites}
           activeMakerModal={activeMakerModal}
           setActiveMakerModal={setActiveMakerModal}
           isTenderModalOpen={isTenderModalOpen}

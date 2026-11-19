@@ -98,6 +98,12 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-[#fbf6ee] text-[#302016] antialiased selection:bg-[#b06a1e] selection:text-white font-sans">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-full focus:bg-[#462b1f] focus:px-4 focus:py-2 focus:text-xs focus:font-extrabold focus:text-white focus:shadow-xl"
+        >
+          Перейти до основного змісту
+        </a>
         {children}
       </body>
     </html>

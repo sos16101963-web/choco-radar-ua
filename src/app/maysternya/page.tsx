@@ -1,12 +1,16 @@
 import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { CheckCircle2, MapPin, ArrowUpRight, Sparkles } from 'lucide-react';
-import { MAKERS, MakerSegment, CraftMaker } from '@/data/chocolateData';
+import { Sparkles } from 'lucide-react';
+import { MAKERS } from '@/data/chocolateData';
 import { SITE_EMAIL, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
-import OptimizedImage from '@/components/OptimizedImage';
 import Breadcrumbs from '@/components/Breadcrumbs';
+import MakersDirectoryFilter, {
+  DirectoryMaker,
+  DirectorySegmentGroup,
+} from '@/components/MakersDirectoryFilter';
+import BackToTopButton from '@/components/BackToTopButton';
 
 const pageTitle = `Усі ${MAKERS.length} крафтових майстерень України`;
 const pageDescription = `Повний довідник перевірених крафтових виробників шоколаду, цукерок ручної роботи, шоколадних квітів, авторських тортів та зефіру в Україні (${MAKERS.length} майстерень). Прямі контакти, рейтинги та сайти без комісії.`;
@@ -28,7 +32,7 @@ export const metadata: Metadata = {
   },
 };
 
-const SEGMENT_GROUPS: { id: MakerSegment; title: string; emoji: string }[] = [
+const SEGMENT_GROUPS: DirectorySegmentGroup[] = [
   { id: 'chocolatier-bonbons', title: 'Шоколатьє, корпусні цукерки та авторські плитки', emoji: '🍬' },
   { id: 'bean-to-bar', title: 'Ремісничий шоколад Bean-to-Bar', emoji: '🍫' },
   { id: 'flowers-berries-nuts', title: 'Шоколадні квіти, ягоди та горіхи в шоколаді', emoji: '🌹' },
@@ -36,6 +40,19 @@ const SEGMENT_GROUPS: { id: MakerSegment; title: string; emoji: string }[] = [
   { id: 'craft-zefir-pastila', title: 'Крафтовий зефір, зефірні букети та пастила', emoji: '🌸' },
   { id: 'custom-cakes-pastry', title: 'Авторські торти, бенто та кондитерські ательє', emoji: '🎂' },
 ];
+
+const DIRECTORY_MAKERS: DirectoryMaker[] = MAKERS.map((m) => ({
+  id: m.id,
+  slug: m.slug,
+  name: m.name,
+  city: m.city,
+  regionCity: m.regionCity,
+  segment: m.segment,
+  specialty: m.specialty,
+  rating: m.rating,
+  isVerified: m.isVerified,
+  imageUrl: m.imageUrl,
+}));
 
 export default function MakersDirectoryPage() {
   const breadcrumbsSchema = generateBreadcrumbSchema([
@@ -118,7 +135,7 @@ export default function MakersDirectoryPage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-10">
+      <main id="main-content" className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-10">
         <Breadcrumbs
           items={[
             { label: 'Крафтові солодощі України', href: '/' },
@@ -140,77 +157,11 @@ export default function MakersDirectoryPage() {
           </p>
         </div>
 
-        {/* Grouped Directory */}
-        <div className="space-y-12">
-          {SEGMENT_GROUPS.map((group) => {
-            const makersInGroup: CraftMaker[] = MAKERS.filter((m) => m.segment === group.id);
-            if (makersInGroup.length === 0) return null;
-
-            return (
-              <section key={group.id} className="space-y-4 cv-auto">
-                <div className="flex items-center justify-between border-b border-[#e1d5c8] pb-3">
-                  <h2 className="font-serif text-xl sm:text-2xl font-bold flex items-center gap-2">
-                    <span>{group.emoji}</span>
-                    <span>{group.title}</span>
-                  </h2>
-                  <span className="rounded-full bg-[#f1e6da] px-3 py-1 text-xs font-extrabold text-[#462b1f] shrink-0">
-                    {makersInGroup.length}
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {makersInGroup.map((maker) => (
-                    <Link
-                      key={maker.id}
-                      href={`/maysternya/${maker.slug}`}
-                      className="group rounded-2xl border border-[#e1d5c8] bg-[#fefbf7] hover:border-[#b06a1e] hover:shadow-lg transition p-4 flex items-start gap-3.5"
-                    >
-                      <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 bg-[#f1e6da] border border-[#e1d5c8]">
-                        <OptimizedImage
-                          src={maker.imageUrl}
-                          alt={maker.name}
-                          fill
-                          sizes="64px"
-                          fallbackWidth={160}
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-
-                      <div className="min-w-0 flex-1 space-y-1">
-                        <div className="flex items-start justify-between gap-2">
-                          <h3 className="font-serif text-sm sm:text-base font-bold leading-snug group-hover:text-[#b06a1e] transition line-clamp-1">
-                            {maker.name}
-                          </h3>
-                          <span className="shrink-0 text-[11px] font-bold text-[#8c4f12]">
-                            ★ {maker.rating}
-                          </span>
-                        </div>
-
-                        <p className="flex items-center gap-1 text-xs font-medium text-[#4a382e]">
-                          <MapPin className="w-3 h-3 text-[#b06a1e] shrink-0" />
-                          <span className="truncate">{maker.city}</span>
-                          {maker.isVerified && (
-                            <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0 ml-1" />
-                          )}
-                        </p>
-
-                        <p className="text-xs text-[#5a4638] line-clamp-2 leading-relaxed">
-                          {maker.specialty}
-                        </p>
-
-                        <div className="pt-1 inline-flex items-center gap-1 text-[11px] font-bold text-[#b06a1e]">
-                          <span>Профіль та контакти</span>
-                          <ArrowUpRight className="w-3 h-3" />
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </section>
-            );
-          })}
-        </div>
+        {/* Grouped Directory with Instant Client Search & Filter */}
+        <MakersDirectoryFilter makers={DIRECTORY_MAKERS} segmentGroups={SEGMENT_GROUPS} />
       </main>
+
+      <BackToTopButton lang="uk" />
 
       {/* Footer with Legal Disclaimer */}
       <footer className="mt-12 border-t border-[#e1d5c8] bg-[#f1e6da] py-8 px-4 text-center text-xs text-[#4a382e] space-y-4">

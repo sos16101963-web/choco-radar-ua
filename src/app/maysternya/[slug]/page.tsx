@@ -20,6 +20,7 @@ import { generateMakerProfileSchema } from '@/utils/seoSchema';
 import OptimizedImage from '@/components/OptimizedImage';
 import MakerProfileActions from '@/components/MakerProfileActions';
 import Breadcrumbs from '@/components/Breadcrumbs';
+import BackToTopButton from '@/components/BackToTopButton';
 
 interface MakerPageProps {
   params: Promise<{ slug: string }>;
@@ -146,7 +147,7 @@ export default async function MakerProfilePage({ params }: MakerPageProps) {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-4 py-6 sm:py-10 sm:px-6 lg:px-8 space-y-10">
+      <main id="main-content" className="mx-auto max-w-6xl px-4 py-6 sm:py-10 sm:px-6 lg:px-8 space-y-10">
         {/* Visual Breadcrumbs */}
         <Breadcrumbs
           items={[
@@ -258,12 +259,14 @@ export default async function MakerProfilePage({ params }: MakerPageProps) {
               {/* Interactive CTA, Viber & Telegram Quick Order, Copy Link */}
               <MakerProfileActions
                 makerId={maker.id}
+                makerSlug={maker.slug}
                 makerName={maker.name}
                 city={maker.city}
                 mainCategory={maker.mainCategory}
                 websiteUrl={maker.websiteUrl}
                 instagramUrl={maker.instagramUrl}
                 phone={maker.phone}
+                imageUrl={maker.imageUrl}
                 profileUrl={profileUrl}
               />
             </div>
@@ -408,6 +411,8 @@ export default async function MakerProfilePage({ params }: MakerPageProps) {
           </p>
         </section>
       </main>
+
+      <BackToTopButton lang="uk" />
 
       <footer className="mt-8 border-t border-[#e1d5c8] bg-[#f1e6da] py-6 px-4 text-center text-xs text-[#4a382e]">
         <div className="font-bold text-[#302016]">

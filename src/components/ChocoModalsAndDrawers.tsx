@@ -8,11 +8,15 @@ import {
   Calculator,
   CheckCircle2,
   Clock,
+  Columns3,
+  Heart,
   KeyRound,
   MapPin,
+  Phone,
   Search,
   ShieldCheck,
   Sparkles,
+  Trash2,
   X,
 } from 'lucide-react';
 import { CategorySlug, MAKERS } from '@/data/chocolateData';
@@ -27,6 +31,7 @@ import {
   CatalogCityCount,
   CatalogMaker,
   CatalogSummary,
+  cleanDisplayName,
   getMakerCategoryUrl,
   Lang,
   localizeText,
@@ -75,6 +80,12 @@ interface ChocoModalsAndDrawersProps {
   setIsMakerStatsModalOpen: (open: boolean) => void;
   statsModalMaker: CatalogMaker | null;
   setStatsModalMaker: (maker: CatalogMaker | null) => void;
+
+  isFavoritesDrawerOpen: boolean;
+  setIsFavoritesDrawerOpen: (open: boolean) => void;
+  favoriteMakerIds: string[];
+  toggleFavoriteMaker: (id: string) => void;
+  clearFavorites: () => void;
 }
 
 export default function ChocoModalsAndDrawers({
@@ -111,9 +122,15 @@ export default function ChocoModalsAndDrawers({
   setIsMakerStatsModalOpen,
   statsModalMaker,
   setStatsModalMaker,
+  isFavoritesDrawerOpen,
+  setIsFavoritesDrawerOpen,
+  favoriteMakerIds,
+  toggleFavoriteMaker,
+  clearFavorites,
 }: ChocoModalsAndDrawersProps) {
   // Interactive Sommelier & Calculator inside the Right Drawer
   const [activeEngagementTab, setActiveEngagementTab] = useState<'quiz' | 'calculator'>('quiz');
+  const [favTab, setFavTab] = useState<'list' | 'compare'>('list');
   const [quizRecipient, setQuizRecipient] = useState<'her' | 'kids' | 'boss' | 'self'>('her');
   const [quizDiet, setQuizDiet] = useState<'classic' | 'sugarfree' | 'kids_safe'>('classic');
   const [quizFormat, setQuizFormat] = useState<'bars' | 'flowers' | 'candies' | 'cakes_zefir'>('flowers');
@@ -1379,6 +1396,402 @@ export default function ChocoModalsAndDrawers({
                 );
               })()
             )}
+          </div>
+        </div>
+      )}
+
+      {/* RIGHT SLIDE-OVER DRAWER 3: SAVED FAVORITES & SIDE-BY-SIDE COMPARISON */}
+      {isFavoritesDrawerOpen && (
+        <div className="fixed inset-0 z-50 overflow-hidden">
+          <div
+            onClick={() => setIsFavoritesDrawerOpen(false)}
+            className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
+          />
+          <div className="fixed inset-y-0 right-0 z-50 flex max-w-full pl-6 sm:pl-8">
+            <div
+              className={`w-screen max-w-md sm:max-w-xl flex flex-col shadow-2xl border-l animate-slide-in-right ${
+                isDark
+                  ? 'bg-[#1e1510] border-white/15 text-[#eee7dd]'
+                  : 'bg-[#fefbf7] border-[#d9c8b8] text-[#302016]'
+              }`}
+            >
+              {/* Drawer Header */}
+              <div
+                className={`p-4 sm:p-5 border-b flex items-center justify-between gap-3 ${
+                  isDark ? 'border-white/10' : 'border-[#e1d5c8]'
+                }`}
+              >
+                <div>
+                  <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#b06a1e]">
+                    {lang === 'uk' ? 'Ваш вибір CrafoHab' : 'Ваш выбор CrafoHab'}
+                  </span>
+                  <h2 className="font-serif text-lg sm:text-xl font-bold flex items-center gap-2">
+                    <Heart className="w-4 h-4 text-[#c75b7a] fill-[#c75b7a]" />
+                    <span>
+                      {lang === 'uk' ? 'Обрані майстерні' : 'Избранные мастерские'} ({favoriteMakerIds.length})
+                    </span>
+                  </h2>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsFavoritesDrawerOpen(false)}
+                  aria-label={lang === 'uk' ? 'Закрити обрані майстерні' : 'Закрыть избранные мастерские'}
+                  className={`w-9 h-9 rounded-full flex items-center justify-center transition ${
+                    isDark ? 'bg-[#2a1d17] text-[#eee7dd] hover:bg-[#3a2820]' : 'bg-[#f1e6da] text-[#302016] hover:bg-[#e5d5c3]'
+                  }`}
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {(() => {
+                const savedMakers = favoriteMakerIds
+                  .map((id) => MAKERS.find((m) => m.id === id))
+                  .filter((m): m is (typeof MAKERS)[number] => Boolean(m));
+
+                if (savedMakers.length === 0) {
+                  return (
+                    <div className="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-3">
+                      <span className="w-14 h-14 rounded-2xl bg-[#c75b7a]/15 text-[#c75b7a] flex items-center justify-center">
+                        <Heart className="w-7 h-7" />
+                      </span>
+                      <h3 className="font-serif text-lg font-bold">
+                        {lang === 'uk' ? 'Список обраного порожній' : 'Список избранного пуст'}
+                      </h3>
+                      <p className={`text-xs sm:text-sm max-w-xs leading-relaxed ${isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'}`}>
+                        {lang === 'uk'
+                          ? 'Натискайте сердечко ❤️ на картках майстерень, щоб зберегти улюблених виробників і порівняти їх поруч.'
+                          : 'Нажимайте сердечко ❤️ на карточках мастерских, чтобы сохранить понравившихся производителей и сравнить их рядом.'}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => setIsFavoritesDrawerOpen(false)}
+                        className="rounded-full bg-[#462b1f] hover:bg-[#b06a1e] text-white px-5 py-2.5 text-xs font-extrabold transition"
+                      >
+                        {lang === 'uk' ? 'Перейти до каталогу' : 'Перейти в каталог'}
+                      </button>
+                    </div>
+                  );
+                }
+
+                const showCompare = favTab === 'compare' && savedMakers.length >= 2;
+                const compareSlice = savedMakers.slice(0, 4);
+
+                return (
+                  <>
+                    {savedMakers.length >= 2 && (
+                      <div
+                        className={`px-4 py-2.5 border-b flex items-center gap-2 ${
+                          isDark ? 'border-white/10 bg-[#170f0b]' : 'border-[#e1d5c8] bg-[#f7efe4]'
+                        }`}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => setFavTab('list')}
+                          className={`flex-1 rounded-full py-2 px-3 text-xs font-extrabold transition ${
+                            !showCompare
+                              ? 'bg-[#462b1f] text-white shadow-xs'
+                              : isDark
+                              ? 'text-[#d4c9be] hover:bg-white/5'
+                              : 'text-[#4a382e] hover:bg-white/70'
+                          }`}
+                        >
+                          {lang === 'uk' ? `Список (${savedMakers.length})` : `Список (${savedMakers.length})`}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setFavTab('compare')}
+                          className={`flex-1 rounded-full py-2 px-3 text-xs font-extrabold inline-flex items-center justify-center gap-1.5 transition ${
+                            showCompare
+                              ? 'bg-[#b06a1e] text-white shadow-xs'
+                              : isDark
+                              ? 'text-[#d4c9be] hover:bg-white/5'
+                              : 'text-[#4a382e] hover:bg-white/70'
+                          }`}
+                        >
+                          <Columns3 className="w-3.5 h-3.5" />
+                          <span>{lang === 'uk' ? 'Порівняти поруч' : 'Сравнить рядом'}</span>
+                        </button>
+                      </div>
+                    )}
+
+                    <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3">
+                      {!showCompare ? (
+                        savedMakers.map((maker) => {
+                          const phoneNum = extractPhoneDigits(maker.phone);
+                          const hasPhone = Boolean(phoneNum && !maker.phone.startsWith('Замовлення'));
+                          return (
+                            <div
+                              key={maker.id}
+                              className={`rounded-2xl border p-3.5 space-y-3 ${
+                                isDark ? 'bg-[#261b16] border-white/15' : 'bg-white border-[#e1d5c8] shadow-xs'
+                              }`}
+                            >
+                              <div className="flex items-start gap-3">
+                                <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-[#e1d5c8]/60 bg-[#3a2113]">
+                                  <OptimizedImage
+                                    src={maker.imageUrl}
+                                    alt={maker.name}
+                                    fill
+                                    sizes="64px"
+                                    fallbackWidth={160}
+                                    className="object-cover"
+                                  />
+                                </div>
+                                <div className="min-w-0 flex-1 space-y-0.5">
+                                  <div className="flex items-start justify-between gap-2">
+                                    <Link
+                                      href={`/maysternya/${maker.slug}`}
+                                      onClick={() => setIsFavoritesDrawerOpen(false)}
+                                      className="font-serif font-bold text-sm leading-snug hover:text-[#b06a1e] hover:underline"
+                                    >
+                                      {cleanDisplayName(localizeText(maker.name, lang))}
+                                    </Link>
+                                    <button
+                                      type="button"
+                                      onClick={() => toggleFavoriteMaker(maker.id)}
+                                      aria-label={lang === 'uk' ? 'Видалити з обраного' : 'Удалить из избранного'}
+                                      className="rounded-full p-1 text-[#7a6858] hover:text-[#c75b7a] hover:bg-black/5 shrink-0"
+                                    >
+                                      <X className="w-3.5 h-3.5" />
+                                    </button>
+                                  </div>
+                                  <div className="flex items-center gap-2 text-[11px] font-bold">
+                                    <span className="inline-flex items-center gap-1 opacity-80">
+                                      <MapPin className="w-3 h-3 text-[#b06a1e]" />
+                                      {localizeText(maker.city, lang)}
+                                    </span>
+                                    <span className="text-[#b06a1e]">★ {maker.rating}</span>
+                                  </div>
+                                  <p className="text-[11px] opacity-80 line-clamp-2">
+                                    {localizeText(maker.specialty || maker.description, lang)}
+                                  </p>
+                                </div>
+                              </div>
+
+                              <div className="flex flex-wrap items-center gap-2">
+                                <a
+                                  href={appendUtm(maker.websiteUrl, maker.id)}
+                                  onClick={() =>
+                                    trackMakerClick(
+                                      maker.id,
+                                      maker.websiteUrl.includes('instagram.com') ? 'instagram' : 'website',
+                                      { category: maker.mainCategory, city: maker.city }
+                                    )
+                                  }
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1 rounded-full bg-[#462b1f] hover:bg-[#b06a1e] text-white px-3.5 py-1.5 text-[11px] font-extrabold transition"
+                                >
+                                  <span>{lang === 'uk' ? 'Сайт / каталог' : 'Сайт / каталог'}</span>
+                                  <ArrowUpRight className="w-3 h-3" />
+                                </a>
+
+                                {hasPhone && (
+                                  <>
+                                    <a
+                                      href={`viber://chat?number=%2B${phoneNum}`}
+                                      onClick={() =>
+                                        trackMakerClick(maker.id, 'phone', {
+                                          category: maker.mainCategory,
+                                          city: maker.city,
+                                        })
+                                      }
+                                      className="inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold bg-[#7360f2]/15 text-[#5e35b1] dark:text-[#c4b5fd] border border-[#7360f2]/30"
+                                    >
+                                      Viber
+                                    </a>
+                                    <a
+                                      href={`https://t.me/+${phoneNum}`}
+                                      onClick={() =>
+                                        trackMakerClick(maker.id, 'phone', {
+                                          category: maker.mainCategory,
+                                          city: maker.city,
+                                        })
+                                      }
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold bg-[#229ed9]/15 text-[#0088cc] dark:text-[#7dd3fc] border border-[#229ed9]/30"
+                                    >
+                                      Telegram
+                                    </a>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <div className="space-y-3">
+                          {savedMakers.length > 4 && (
+                            <p className="text-[11px] opacity-75">
+                              {lang === 'uk'
+                                ? 'Для зручності показано перші 4 збережені майстерні.'
+                                : 'Для удобства показаны первые 4 сохранённые мастерские.'}
+                            </p>
+                          )}
+                          <div className="overflow-x-auto pb-2">
+                            <table className="w-full min-w-[460px] text-left border-collapse text-xs">
+                              <thead>
+                                <tr className={`border-b ${isDark ? 'border-white/15' : 'border-[#e1d5c8]'}`}>
+                                  <th className="py-2 pr-3 font-extrabold text-[#b06a1e] w-24 align-top">
+                                    {lang === 'uk' ? 'Параметр' : 'Параметр'}
+                                  </th>
+                                  {compareSlice.map((maker) => (
+                                    <th key={maker.id} className="py-2 px-2.5 align-top min-w-[140px]">
+                                      <Link
+                                        href={`/maysternya/${maker.slug}`}
+                                        onClick={() => setIsFavoritesDrawerOpen(false)}
+                                        className="font-serif font-bold text-xs hover:text-[#b06a1e] hover:underline block"
+                                      >
+                                        {cleanDisplayName(localizeText(maker.name, lang))}
+                                      </Link>
+                                    </th>
+                                  ))}
+                                </tr>
+                              </thead>
+                              <tbody className={`divide-y ${isDark ? 'divide-white/10' : 'divide-[#e1d5c8]/70'}`}>
+                                <tr>
+                                  <td className="py-2.5 pr-3 font-bold opacity-75">
+                                    {lang === 'uk' ? 'Місто' : 'Город'}
+                                  </td>
+                                  {compareSlice.map((m) => (
+                                    <td key={m.id} className="py-2.5 px-2.5 font-medium">
+                                      {localizeText(m.city, lang)}
+                                    </td>
+                                  ))}
+                                </tr>
+                                <tr>
+                                  <td className="py-2.5 pr-3 font-bold opacity-75">
+                                    {lang === 'uk' ? 'Рейтинг' : 'Рейтинг'}
+                                  </td>
+                                  {compareSlice.map((m) => (
+                                    <td key={m.id} className="py-2.5 px-2.5 font-extrabold text-[#b06a1e]">
+                                      ★ {m.rating}
+                                    </td>
+                                  ))}
+                                </tr>
+                                <tr>
+                                  <td className="py-2.5 pr-3 font-bold opacity-75 align-top">
+                                    {lang === 'uk' ? 'Спеціалізація' : 'Специализация'}
+                                  </td>
+                                  {compareSlice.map((m) => (
+                                    <td key={m.id} className="py-2.5 px-2.5 leading-snug opacity-90">
+                                      {localizeText(m.specialty, lang)}
+                                    </td>
+                                  ))}
+                                </tr>
+                                <tr>
+                                  <td className="py-2.5 pr-3 font-bold opacity-75 align-top">
+                                    {lang === 'uk' ? 'Доставка' : 'Доставка'}
+                                  </td>
+                                  {compareSlice.map((m) => (
+                                    <td key={m.id} className="py-2.5 px-2.5 leading-snug opacity-85">
+                                      {localizeText(m.shippingNote, lang)}
+                                    </td>
+                                  ))}
+                                </tr>
+                                <tr>
+                                  <td className="py-2.5 pr-3 font-bold opacity-75 align-top">
+                                    {lang === 'uk' ? 'Телефон' : 'Телефон'}
+                                  </td>
+                                  {compareSlice.map((m) => {
+                                    const pDigits = extractPhoneDigits(m.phone);
+                                    return (
+                                      <td key={m.id} className="py-2.5 px-2.5">
+                                        {pDigits && !m.phone.startsWith('Замовлення') ? (
+                                          <a
+                                            href={`tel:+${pDigits}`}
+                                            className="inline-flex items-center gap-1 font-bold hover:text-[#b06a1e]"
+                                          >
+                                            <Phone className="w-3 h-3 text-[#b06a1e]" />
+                                            <span>+{pDigits}</span>
+                                          </a>
+                                        ) : (
+                                          <span className="opacity-70">{localizeText(m.phone, lang)}</span>
+                                        )}
+                                      </td>
+                                    );
+                                  })}
+                                </tr>
+                                <tr>
+                                  <td className="py-2.5 pr-3 font-bold opacity-75 align-top">
+                                    {lang === 'uk' ? 'Зв’язок' : 'Связь'}
+                                  </td>
+                                  {compareSlice.map((m) => {
+                                    const pDigits = extractPhoneDigits(m.phone);
+                                    return (
+                                      <td key={m.id} className="py-2.5 px-2.5 space-y-1.5">
+                                        <a
+                                          href={appendUtm(m.websiteUrl, m.id)}
+                                          onClick={() =>
+                                            trackMakerClick(
+                                              m.id,
+                                              m.websiteUrl.includes('instagram.com') ? 'instagram' : 'website',
+                                              { category: m.mainCategory, city: m.city }
+                                            )
+                                          }
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="inline-flex items-center gap-1 rounded-full bg-[#462b1f] hover:bg-[#b06a1e] text-white px-2.5 py-1 text-[10px] font-extrabold transition"
+                                        >
+                                          <span>{lang === 'uk' ? 'Сайт' : 'Сайт'}</span>
+                                          <ArrowUpRight className="w-3 h-3" />
+                                        </a>
+                                        {pDigits && !m.phone.startsWith('Замовлення') && (
+                                          <div className="flex flex-wrap gap-1">
+                                            <a
+                                              href={`viber://chat?number=%2B${pDigits}`}
+                                              className="rounded-full px-2 py-0.5 text-[10px] font-bold bg-[#7360f2]/15 text-[#5e35b1] dark:text-[#c4b5fd]"
+                                            >
+                                              Viber
+                                            </a>
+                                            <a
+                                              href={`https://t.me/+${pDigits}`}
+                                              target="_blank"
+                                              rel="noopener noreferrer"
+                                              className="rounded-full px-2 py-0.5 text-[10px] font-bold bg-[#229ed9]/15 text-[#0088cc] dark:text-[#7dd3fc]"
+                                            >
+                                              Telegram
+                                            </a>
+                                          </div>
+                                        )}
+                                      </td>
+                                    );
+                                  })}
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div
+                      className={`p-4 border-t flex items-center justify-between gap-3 ${
+                        isDark ? 'border-white/10 bg-[#170f0b]' : 'border-[#e1d5c8] bg-[#f7efe4]'
+                      }`}
+                    >
+                      <button
+                        type="button"
+                        onClick={clearFavorites}
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#c75b7a] hover:underline"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        <span>{lang === 'uk' ? 'Очистити список' : 'Очистить список'}</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setIsFavoritesDrawerOpen(false)}
+                        className="rounded-full bg-[#462b1f] hover:bg-[#b06a1e] text-white px-4 py-2 text-xs font-extrabold transition"
+                      >
+                        {lang === 'uk' ? 'Продовжити вибір' : 'Продолжить выбор'}
+                      </button>
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
           </div>
         </div>
       )}

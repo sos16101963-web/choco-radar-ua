@@ -6,6 +6,15 @@
   color-scheme: light;
 }
 
+html {
+  scroll-padding-top: 84px;
+}
+
+:focus-visible {
+  outline: 2px solid #b06a1e;
+  outline-offset: 2px;
+}
+
 body {
   background-color: #faf6f0;
   color: #302016;
@@ -211,18 +220,54 @@ body {
   scrollbar-width: none;
 }
 
-/* Core Web Vitals: defer below-the-fold layout & paint and simplify mobile backdrop cost */
-.cv-auto {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 420px;
-}
+  .btn-primary-2027:active,
+  .btn-amber-2027:active,
+  .btn-rose-2027:active,
+  .btn-glass-pill:active,
+  .dark-btn-glass-pill:active {
+    transform: translateY(0) scale(0.98);
+  }
 
-@media (max-width: 768px) {
-  .bg-crafo-aura-light,
-  .bg-crafo-aura-dark {
-    background-attachment: scroll;
+  /* Core Web Vitals: defer below-the-fold layout & paint and simplify mobile backdrop cost */
+  .cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 420px;
   }
-  .craft-grain-overlay::before {
-    display: none;
+
+  @keyframes fadeUpToast {
+    from {
+      opacity: 0;
+      transform: translate(-50%, 10px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0) scale(1);
+    }
   }
-}
+
+  .animate-toast-in {
+    animation: fadeUpToast 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto !important;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .bg-crafo-aura-light,
+    .bg-crafo-aura-dark {
+      background-attachment: scroll;
+    }
+    .craft-grain-overlay::before {
+      display: none;
+    }
+  }

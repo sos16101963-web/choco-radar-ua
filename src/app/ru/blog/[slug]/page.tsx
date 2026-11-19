@@ -6,6 +6,8 @@ import { BLOG_ARTICLES } from '@/data/blogData';
 import { ArrowUpRight, Clock, Crown, Sparkles, Compass, BookOpen } from 'lucide-react';
 import OptimizedImage from '@/components/OptimizedImage';
 import Breadcrumbs from '@/components/Breadcrumbs';
+import ArticleUxBar, { ArticleShareButton } from '@/components/ArticleUxBar';
+import BackToTopButton from '@/components/BackToTopButton';
 import { buildHreflangAlternates, SITE_NAME, SITE_URL, toAbsoluteUrl } from '@/lib/siteConfig';
 import { generateBlogArticleSchema } from '@/utils/seoSchema';
 
@@ -102,6 +104,7 @@ export default async function RuBlogArticlePage({ params }: BlogArticlePageProps
 
   return (
     <div className="min-h-screen bg-[#fbf6ee] text-[#302016]">
+      <ArticleUxBar />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -137,7 +140,7 @@ export default async function RuBlogArticlePage({ params }: BlogArticlePageProps
         </div>
       </header>
 
-      <article className="mx-auto max-w-4xl px-4 py-8 sm:py-10 sm:px-6 space-y-8">
+      <article id="main-content" className="mx-auto max-w-4xl px-4 py-8 sm:py-10 sm:px-6 space-y-8">
         <Breadcrumbs
           items={[
             { label: 'Крафтовые сладости Украины', href: '/ru' },
@@ -160,6 +163,11 @@ export default async function RuBlogArticlePage({ params }: BlogArticlePageProps
               {article.readTimeMinutes} мин чтения
             </span>
             <span className="text-[#715f53]">• {article.authorRu}</span>
+            <ArticleShareButton
+              title={article.titleRu}
+              url={`${SITE_URL}/ru/blog/${article.slug}`}
+              lang="ru"
+            />
           </div>
 
           <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
@@ -184,10 +192,34 @@ export default async function RuBlogArticlePage({ params }: BlogArticlePageProps
           />
         </div>
 
+        {article.sections.length >= 2 && (
+          <nav
+            aria-label="Содержание статьи"
+            className="rounded-2xl border border-[#e1d5c8] bg-[#fefbf7] p-4 sm:p-5 space-y-2.5"
+          >
+            <div className="text-xs font-extrabold uppercase tracking-wider text-[#b06a1e]">
+              Содержание статьи
+            </div>
+            <ol className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs font-bold text-[#462b1f]">
+              {article.sections.map((sec, idx) => (
+                <li key={idx}>
+                  <a
+                    href={`#sec-${idx}`}
+                    className="inline-flex items-baseline gap-1.5 hover:text-[#b06a1e] hover:underline transition"
+                  >
+                    <span className="text-[#b06a1e]">{idx + 1}.</span>
+                    <span>{sec.headingRu}</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )}
+
         {/* Article Sections */}
         <div className="space-y-8 rounded-3xl border border-[#e1d5c8] bg-[#fefbf7] p-6 sm:p-10 shadow-xs">
           {article.sections.map((sec, idx) => (
-            <section key={idx} className="space-y-3">
+            <section key={idx} id={`sec-${idx}`} className="space-y-3">
               <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#302016]">
                 {sec.headingRu}
               </h2>
@@ -282,6 +314,8 @@ export default async function RuBlogArticlePage({ params }: BlogArticlePageProps
           </div>
         </section>
       </article>
+
+      <BackToTopButton lang="ru" />
     </div>
   );
 }
