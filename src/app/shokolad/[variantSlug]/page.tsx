@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
 import { CHOCOLATE_VARIANTS } from '@/data/sectionVariants';
+import { getCatalogSummary, getMakersForSection } from '@/lib/catalogData';
 import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 
@@ -67,6 +68,8 @@ export default async function ChocolateVariantPage({ params }: PageProps) {
         initialSection="chocolate"
         initialCategory={variant.categorySlug}
         initialVariantId={variant.id}
+        initialMakers={getMakersForSection('chocolate')}
+        catalogSummary={getCatalogSummary()}
         seoOverride={{
           h1Uk: `${variant.titleUk} — кращі крафтові виробники України`,
           h1Ru: `${variant.titleRu} — лучшие крафтовые производители Украины`,

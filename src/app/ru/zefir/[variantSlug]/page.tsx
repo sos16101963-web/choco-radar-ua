@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
 import { ZEFIR_VARIANTS } from '@/data/sectionVariants';
+import { getCatalogSummary, getMakersForSection } from '@/lib/catalogData';
 import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 
@@ -68,6 +69,8 @@ export default async function RuZefirVariantPage({ params }: PageProps) {
         initialCategory={variant.categorySlug}
         initialVariantId={variant.id}
         initialLang="ru"
+        initialMakers={getMakersForSection('zefir')}
+        catalogSummary={getCatalogSummary()}
         seoOverride={{
           h1Uk: `${variant.titleUk} — кращі майстерні України`,
           h1Ru: `${variant.titleRu} — лучшие мастерские Украины`,

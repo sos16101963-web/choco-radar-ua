@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { BLOG_ARTICLES, CITY_SEO_HUBS } from '@/data/blogData';
 import { CATEGORIES, MAKERS } from '@/data/chocolateData';
 import { ArrowUpRight, BookOpen, Clock, Sparkles, MapPin } from 'lucide-react';
-import { getOptimizedImageUrl } from '@/utils/imageOptimizer';
+import OptimizedImage from '@/components/OptimizedImage';
 import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 
@@ -124,20 +124,20 @@ export default function RuBlogIndexPage() {
 
         {/* Articles Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {BLOG_ARTICLES.map((article) => (
+          {BLOG_ARTICLES.map((article, idx) => (
             <article
               key={article.slug}
               className="group rounded-3xl border border-[#e1d5c8] bg-[#fefbf7] overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col"
             >
               <Link href={`/ru/blog/${article.slug}`} className="relative h-72 sm:h-80 overflow-hidden bg-[#f1e6da] block">
-                <img
-                  src={getOptimizedImageUrl(article.heroImage, 600, 75)}
+                <OptimizedImage
+                  src={article.heroImage}
                   alt={article.titleRu}
-                  width={600}
-                  height={320}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                  fill
+                  priority={idx === 0}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  fallbackWidth={600}
+                  className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
                 />
                 <div className="absolute top-4 left-4">
                   <span className="rounded-full bg-[#462b1f]/90 backdrop-blur-md px-3.5 py-1.5 text-xs font-bold text-white shadow-sm">

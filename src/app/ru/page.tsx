@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
 import { PRODUCTS, MAKERS, getPricePer100g } from '@/data/chocolateData';
+import { getCatalogSummary, getMakersForSection } from '@/lib/catalogData';
 import { buildHreflangAlternates, HOME_FAQ, SITE_NAME, SITE_URL, toAbsoluteUrl } from '@/lib/siteConfig';
 
 const title = 'CrafoHab — Все крафтовые производители шоколада, зефира и тортов Украины (2027)';
@@ -125,7 +126,12 @@ export default function RuHomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ChocoRadarApp initialCategory="all" initialLang="ru" />
+      <ChocoRadarApp
+        initialCategory="all"
+        initialLang="ru"
+        initialMakers={getMakersForSection('home')}
+        catalogSummary={getCatalogSummary()}
+      />
     </>
   );
 }

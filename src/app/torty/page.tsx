@@ -1,6 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
+import { getCatalogSummary, getMakersForSection } from '@/lib/catalogData';
 import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 
@@ -41,6 +42,8 @@ export default function TortyPage() {
         initialSection="cakes"
         initialCategory="avtorski-torty-ta-deserty"
         initialVariantId="cakes-custom"
+        initialMakers={getMakersForSection('cakes')}
+        catalogSummary={getCatalogSummary()}
         seoOverride={{
           h1Uk: 'Авторські торти та десерти на замовлення в Україні',
           h1Ru: 'Авторские торты и десерты на заказ в Украине',

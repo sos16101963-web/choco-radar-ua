@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
 import { PRODUCTS, MAKERS, getPricePer100g } from '@/data/chocolateData';
+import { getCatalogSummary, getMakersForSection } from '@/lib/catalogData';
 import { buildHreflangAlternates, HOME_FAQ, SITE_NAME, SITE_URL, toAbsoluteUrl } from '@/lib/siteConfig';
 
 export const metadata: Metadata = {
@@ -112,7 +113,11 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ChocoRadarApp initialCategory="all" />
+      <ChocoRadarApp
+        initialCategory="all"
+        initialMakers={getMakersForSection('home')}
+        catalogSummary={getCatalogSummary()}
+      />
     </>
   );
 }

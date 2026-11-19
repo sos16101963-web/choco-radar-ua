@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
 import { CITY_SECTION_COMBOS } from '@/data/cityCategorySeo';
 import { MAKERS, CategorySlug } from '@/data/chocolateData';
+import { getCatalogSummary, getMakersForSection } from '@/lib/catalogData';
 import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import {
   generateCityCategoryItemListSchema,
@@ -125,6 +126,8 @@ export default async function RuCitySectionPage({ params }: PageProps) {
         initialCategory={initialCategory}
         initialCity={config.cityNameUk}
         initialLang="ru"
+        initialMakers={getMakersForSection(initialSection)}
+        catalogSummary={getCatalogSummary()}
         seoOverride={{
           h1Uk: config.h1Uk,
           h1Ru: config.h1Ru,

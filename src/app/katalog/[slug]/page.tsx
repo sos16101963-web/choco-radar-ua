@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { CATEGORIES, CategorySlug } from '@/data/chocolateData';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
+import { getCatalogSummary, getMakersForSection } from '@/lib/catalogData';
 import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 
@@ -69,6 +70,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       <ChocoRadarApp
         initialSection={section}
         initialCategory={cat.slug as CategorySlug}
+        initialMakers={getMakersForSection(section)}
+        catalogSummary={getCatalogSummary()}
         seoOverride={{
           h1Uk: cat.seoH1,
           leadUk: cat.seoDescription,

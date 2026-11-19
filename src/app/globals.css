@@ -210,3 +210,19 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Core Web Vitals: defer below-the-fold layout & paint and simplify mobile backdrop cost */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 420px;
+}
+
+@media (max-width: 768px) {
+  .bg-crafo-aura-light,
+  .bg-crafo-aura-dark {
+    background-attachment: scroll;
+  }
+  .craft-grain-overlay::before {
+    display: none;
+  }
+}

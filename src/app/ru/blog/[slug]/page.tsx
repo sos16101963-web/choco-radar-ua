@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { BLOG_ARTICLES } from '@/data/blogData';
 import { ArrowUpRight, Clock, Crown, Sparkles } from 'lucide-react';
-import { getOptimizedImageUrl } from '@/utils/imageOptimizer';
+import OptimizedImage from '@/components/OptimizedImage';
 import { buildHreflangAlternates, SITE_NAME, SITE_URL, toAbsoluteUrl } from '@/lib/siteConfig';
 import { generateBlogArticleSchema } from '@/utils/seoSchema';
 
@@ -119,15 +119,15 @@ export default async function RuBlogArticlePage({ params }: BlogArticlePageProps
         </div>
 
         {/* Big Clear Photo Banner */}
-        <div className="rounded-3xl overflow-hidden border border-[#e1d5c8] shadow-md bg-[#f1e6da] h-72 sm:h-96">
-          <img
-            src={getOptimizedImageUrl(article.heroImage, 800, 75)}
+        <div className="relative rounded-3xl overflow-hidden border border-[#e1d5c8] shadow-md bg-[#f1e6da] h-72 sm:h-96">
+          <OptimizedImage
+            src={article.heroImage}
             alt={article.titleRu}
-            width={800}
-            height={400}
-            loading="eager"
-            decoding="async"
-            className="w-full h-full object-cover object-center"
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 896px"
+            fallbackWidth={800}
+            className="object-cover object-center"
           />
         </div>
 

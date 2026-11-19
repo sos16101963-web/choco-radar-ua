@@ -1,6 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
+import { getCatalogSummary, getMakersForSection } from '@/lib/catalogData';
 import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 
@@ -41,6 +42,8 @@ export default function ShokoladPage() {
         initialSection="chocolate"
         initialCategory="plytky-shokoladu"
         initialVariantId="choco-bars"
+        initialMakers={getMakersForSection('chocolate')}
+        catalogSummary={getCatalogSummary()}
         seoOverride={{
           h1Uk: 'Крафтовий шоколад, плитки та цукерки ручної роботи в Україні',
           h1Ru: 'Крафтовый шоколад, плитки и конфеты ручной работы в Украине',

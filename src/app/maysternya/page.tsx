@@ -5,7 +5,7 @@ import { CheckCircle2, MapPin, ArrowUpRight, Sparkles } from 'lucide-react';
 import { MAKERS, MakerSegment, CraftMaker } from '@/data/chocolateData';
 import { SITE_EMAIL, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
-import { getOptimizedImageUrl } from '@/utils/imageOptimizer';
+import OptimizedImage from '@/components/OptimizedImage';
 
 const pageTitle = `Усі ${MAKERS.length} перевірених крафтових майстерень України — каталог CrafoHab 2027`;
 const pageDescription = `Повний довідник перевірених крафтових виробників шоколаду, цукерок ручної роботи, шоколадних квітів, авторських тортів та зефіру в Україні (${MAKERS.length} майстерень). Прямі контакти, рейтинги та сайти без комісії.`;
@@ -139,7 +139,7 @@ export default function MakersDirectoryPage() {
             if (makersInGroup.length === 0) return null;
 
             return (
-              <section key={group.id} className="space-y-4">
+              <section key={group.id} className="space-y-4 cv-auto">
                 <div className="flex items-center justify-between border-b border-[#e1d5c8] pb-3">
                   <h2 className="font-serif text-xl sm:text-2xl font-bold flex items-center gap-2">
                     <span>{group.emoji}</span>
@@ -158,14 +158,13 @@ export default function MakersDirectoryPage() {
                       className="group rounded-2xl border border-[#e1d5c8] bg-[#fefbf7] hover:border-[#b06a1e] hover:shadow-lg transition p-4 flex items-start gap-3.5"
                     >
                       <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 bg-[#f1e6da] border border-[#e1d5c8]">
-                        <img
-                          src={getOptimizedImageUrl(maker.imageUrl, 160, 75)}
+                        <OptimizedImage
+                          src={maker.imageUrl}
                           alt={maker.name}
-                          width={64}
-                          height={64}
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          fill
+                          sizes="64px"
+                          fallbackWidth={160}
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>
 

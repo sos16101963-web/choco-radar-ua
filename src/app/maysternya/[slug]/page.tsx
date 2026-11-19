@@ -17,7 +17,7 @@ import { CITY_SEO_HUBS } from '@/data/blogData';
 import { DISCOVERED_CATEGORY_URLS } from '@/data/categoryLinks';
 import { SITE_EMAIL, SITE_NAME, SITE_URL, toAbsoluteUrl } from '@/lib/siteConfig';
 import { generateMakerProfileSchema } from '@/utils/seoSchema';
-import { getOptimizedImageUrl } from '@/utils/imageOptimizer';
+import OptimizedImage from '@/components/OptimizedImage';
 import MakerProfileActions from '@/components/MakerProfileActions';
 
 interface MakerPageProps {
@@ -167,14 +167,15 @@ export default async function MakerProfilePage({ params }: MakerPageProps) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
             {/* Image Showcase */}
             <div className="lg:col-span-5 relative rounded-2xl overflow-hidden border border-[#e1d5c8] bg-[#f1e6da] aspect-[4/3]">
-              <img
-                src={getOptimizedImageUrl(maker.imageUrl, 800, 80)}
+              <OptimizedImage
+                src={maker.imageUrl}
                 alt={maker.name}
-                width={800}
-                height={600}
-                loading="eager"
-                decoding="async"
-                className="w-full h-full object-cover object-center"
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 480px"
+                fallbackWidth={800}
+                quality={80}
+                className="object-cover object-center"
               />
               <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
                 {maker.isVerified && (
@@ -330,14 +331,13 @@ export default async function MakerProfilePage({ params }: MakerPageProps) {
                     className="rounded-2xl border border-[#e1d5c8] bg-[#fefbf7] overflow-hidden flex flex-col justify-between shadow-xs"
                   >
                     <div className="relative h-44 bg-[#f1e6da]">
-                      <img
-                        src={getOptimizedImageUrl(product.imageUrl, 480, 75)}
+                      <OptimizedImage
+                        src={product.imageUrl}
                         alt={product.title}
-                        width={480}
-                        height={176}
-                        loading="lazy"
-                        decoding="async"
-                        className="w-full h-full object-cover"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        fallbackWidth={480}
+                        className="object-cover"
                       />
                       <span className="absolute top-3 right-3 rounded-full bg-[#302016]/90 text-[#f5c492] px-2.5 py-1 text-[11px] font-extrabold">
                         {pricePer100g} ₴ / 100 г

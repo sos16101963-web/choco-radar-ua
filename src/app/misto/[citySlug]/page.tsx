@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { CITY_SEO_HUBS } from '@/data/blogData';
 import { MAKERS } from '@/data/chocolateData';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
+import { getCatalogSummary, getMakersForSection } from '@/lib/catalogData';
 import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import {
   generateCityCategoryItemListSchema,
@@ -84,6 +85,8 @@ export default async function CityPage({ params }: CityPageProps) {
       <ChocoRadarApp
         initialCategory="all"
         initialCity={city.regionFilterId}
+        initialMakers={getMakersForSection('home')}
+        catalogSummary={getCatalogSummary()}
         seoOverride={{
           h1Uk: city.h1Uk,
           h1Ru: city.h1Ru,

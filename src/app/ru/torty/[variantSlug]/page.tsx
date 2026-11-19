@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
 import { CAKE_VARIANTS } from '@/data/sectionVariants';
+import { getCatalogSummary, getMakersForSection } from '@/lib/catalogData';
 import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 
@@ -68,6 +69,8 @@ export default async function RuCakeVariantPage({ params }: PageProps) {
         initialCategory={variant.categorySlug}
         initialVariantId={variant.id}
         initialLang="ru"
+        initialMakers={getMakersForSection('cakes')}
+        catalogSummary={getCatalogSummary()}
         seoOverride={{
           h1Uk: `${variant.titleUk} — перевірені кондитерські України`,
           h1Ru: `${variant.titleRu} — проверенные кондитерские Украины`,

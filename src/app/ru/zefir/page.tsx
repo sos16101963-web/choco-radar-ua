@@ -1,6 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
+import { getCatalogSummary, getMakersForSection } from '@/lib/catalogData';
 import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 
@@ -42,6 +43,8 @@ export default function RuZefirPage() {
         initialCategory="kraftovyi-zefir-ta-bukety"
         initialVariantId="zefir-bouquets"
         initialLang="ru"
+        initialMakers={getMakersForSection('zefir')}
+        catalogSummary={getCatalogSummary()}
         seoOverride={{
           h1Uk: 'Крафтовий зефір, зефірні букети та ягідна пастила України',
           h1Ru: 'Крафтовый зефир, зефирные букеты и ягодная пастила Украины',
