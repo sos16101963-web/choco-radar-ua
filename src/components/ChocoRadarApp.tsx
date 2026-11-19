@@ -669,6 +669,11 @@ export default function ChocoRadarApp({
         ? CATEGORY_SHORT_LABELS[effectiveCategory]?.uk
         : CATEGORY_SHORT_LABELS[effectiveCategory]?.ru;
 
+    const rawDigits = maker.phone ? maker.phone.split(',')[0].replace(/[^\d]/g, '') : '';
+    const phoneNum = rawDigits.length >= 9
+      ? (rawDigits.startsWith('380') ? rawDigits : rawDigits.startsWith('0') ? '38' + rawDigits : rawDigits)
+      : null;
+
     return (
       <article
         key={maker.id}
@@ -842,7 +847,10 @@ export default function ChocoRadarApp({
               </div>
 
               {/* Secret discreet button for maker's analytics access */}
-              <div className="pt-1 flex justify-end">
+              <div className="pt-1 flex items-center justify-between">
+                <span className={`text-[10px] italic ${isDark ? 'text-[#8c7f73]' : 'text-[#8c7b6d]'}`}>
+                  {lang === 'uk' ? 'Дані з відкритих джерел' : 'Данные из открытых источников'}
+                </span>
                 <button
                   type="button"
                   onClick={(e) => {
@@ -861,78 +869,100 @@ export default function ChocoRadarApp({
                   <span>{lang === 'uk' ? 'Статистика майстерні' : 'Статистика мастерской'}</span>
                 </button>
               </div>
+
+              {/* Legal source note inside info */}
+              <div className={`pt-2 border-t text-[10px] leading-relaxed italic ${isDark ? 'border-white/10 text-[#a89b8f]' : 'border-[#e1d5c8] text-[#7a6858]'}`}>
+                {lang === 'uk'
+                  ? "Інформація взята з відкритих публічних джерел для ознайомлення споживачів. Якщо ви є власником майстерні та бажаєте оновити дані або видалити профіль — зв'яжіться з нами: "
+                  : "Информация взята из открытых публичных источников для ознакомления потребителей. Если вы являетесь владельцем мастерской и желаете обновить данные или удалить профиль — свяжитесь с нами: "}
+                <a href="mailto:editor@crafohab.com.ua" className="underline font-bold hover:text-[#b06a1e]">
+                  editor@crafohab.com.ua
+                </a>
+              </div>
             </div>
           )}
 
-          {/* Direct Action Buttons: Primary Site/Catalog + Fast Messenger */}
-          <div className="mt-auto flex items-center gap-2 pt-2">
-            <a
-              href={appendUtm(directDestinationUrl, maker.id)}
-              onClick={() => {
-                const clickType = cleanDomain.includes('instagram.com') ? 'instagram' : 'website';
-                trackMakerClick(maker.id, clickType, { category: effectiveCategory, city: maker.city });
-              }}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`flex-1 inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-2.5 text-xs sm:text-sm font-extrabold transition ${
-                isLeader
-                  ? 'btn-amber-2027 font-black'
-                  : 'btn-primary-2027'
-              }`}
-            >
-              <span className="truncate">
-                {cleanDomain.includes('instagram.com')
-                  ? 'Instagram'
-                  : categoryDirectUrl
-                  ? lang === 'uk'
-                    ? `Перейти: ${activeVariantShortName}`
-                    : `Перейти: ${activeVariantShortName}`
-                  : lang === 'uk'
-                  ? 'Перейти у каталог'
-                  : 'Перейти в каталог'}
-              </span>
-              <ArrowUpRight className="w-4 h-4 shrink-0" />
-            </a>
-
-            {/* Fast Messenger button */}
-            {maker.phone && !maker.phone.startsWith('Замовлення') && (
+          {/* Direct Action Buttons: Primary Site/Catalog */}
+          <div className="mt-auto flex flex-col gap-2 pt-2">
+            <div className="flex items-center gap-2">
               <a
-                href={`https://wa.me/${maker.phone.replace(/[^\d]/g, '')}?text=${encodeURIComponent(
-                  lang === 'uk'
-                    ? `Доброго дня! Знайшов майстерню ${cleanDisplayName(maker.name)} на CrafoHab, хочу зробити замовлення.`
-                    : `Здравствуйте! Нашел мастерскую ${cleanDisplayName(maker.name)} на CrafoHab, хочу сделать заказ.`
-                )}`}
-                onClick={() => trackMakerClick(maker.id, 'phone', { category: effectiveCategory, city: maker.city })}
+                href={appendUtm(directDestinationUrl, maker.id)}
+                onClick={() => {
+                  const clickType = cleanDomain.includes('instagram.com') ? 'instagram' : 'website';
+                  trackMakerClick(maker.id, clickType, { category: effectiveCategory, city: maker.city });
+                }}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={lang === 'uk' ? 'Швидкий зв’язок у месенджері' : 'Быстрая связь в мессенджере'}
-                className="rounded-full p-2.5 bg-emerald-600/15 text-emerald-700 dark:text-emerald-400 border border-emerald-600/30 hover:bg-emerald-600 hover:text-white transition shrink-0"
-                title={lang === 'uk' ? 'Швидкий зв’язок у месенджері' : 'Быстрая связь в мессенджере'}
+                className={`flex-1 inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-2.5 text-xs sm:text-sm font-extrabold transition ${
+                  isLeader
+                    ? 'btn-amber-2027 font-black'
+                    : 'btn-primary-2027'
+                }`}
               >
-                <MessageCircle className="w-4 h-4" />
+                <span className="truncate">
+                  {cleanDomain.includes('instagram.com')
+                    ? 'Instagram'
+                    : categoryDirectUrl
+                    ? lang === 'uk'
+                      ? `Перейти: ${activeVariantShortName}`
+                      : `Перейти: ${activeVariantShortName}`
+                    : lang === 'uk'
+                    ? 'Перейти у каталог'
+                    : 'Перейти в каталог'}
+                </span>
+                <ArrowUpRight className="w-4 h-4 shrink-0" />
               </a>
-            )}
 
-            <button
-              onClick={() => toggleMakerExpand(maker.id)}
-              aria-label={
-                isExpanded
-                  ? (lang === 'uk' ? 'Згорнути детальну інформацію' : 'Свернуть подробную информацию')
-                  : (lang === 'uk' ? 'Розгорнути детальну інформацію' : 'Развернуть подробную информацию')
-              }
-              className={`inline-flex items-center gap-1 rounded-full px-3 py-2.5 text-xs font-bold border transition shrink-0 ${
-                isDark
-                  ? 'border-white/15 text-[#f0a556] hover:bg-white/10'
-                  : 'border-[#d4c3b3] text-[#462b1f] hover:bg-[#f1e6da]'
-              }`}
-            >
-              <span>{isExpanded ? (lang === 'uk' ? 'Згорнути' : 'Свернуть') : 'Інфо'}</span>
-              {isExpanded ? (
-                <ChevronUp className="w-3.5 h-3.5" />
-              ) : (
-                <ChevronDown className="w-3.5 h-3.5" />
-              )}
-            </button>
+              <button
+                onClick={() => toggleMakerExpand(maker.id)}
+                aria-label={
+                  isExpanded
+                    ? (lang === 'uk' ? 'Згорнути детальну інформацію' : 'Свернуть подробную информацию')
+                    : (lang === 'uk' ? 'Розгорнути детальну інформацію' : 'Развернуть подробную информацию')
+                }
+                className={`inline-flex items-center gap-1 rounded-full px-3 py-2.5 text-xs font-bold border transition shrink-0 ${
+                  isDark
+                    ? 'border-white/15 text-[#f0a556] hover:bg-white/10'
+                    : 'border-[#d4c3b3] text-[#462b1f] hover:bg-[#f1e6da]'
+                }`}
+              >
+                <span>{isExpanded ? (lang === 'uk' ? 'Згорнути' : 'Свернуть') : 'Інфо'}</span>
+                {isExpanded ? (
+                  <ChevronUp className="w-3.5 h-3.5" />
+                ) : (
+                  <ChevronDown className="w-3.5 h-3.5" />
+                )}
+              </button>
+            </div>
+
+            {/* Quick Order: Viber & Telegram (WhatsApp Removed) */}
+            {phoneNum && !maker.phone.startsWith('Замовлення') && (
+              <div className="flex items-center gap-2 pt-0.5 text-xs text-[#6e5d50] dark:text-[#b8a99c]">
+                <span className="text-[11px] font-medium shrink-0">
+                  {lang === 'uk' ? 'Швидке замовлення:' : 'Быстрый заказ:'}
+                </span>
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <a
+                    href={`viber://chat?number=%2B${phoneNum}`}
+                    onClick={() => trackMakerClick(maker.id, 'phone', { category: effectiveCategory, city: maker.city })}
+                    className="inline-flex items-center justify-center rounded-full px-2.5 py-0.5 text-[11px] font-bold bg-[#7360f2]/15 text-[#5e35b1] dark:text-[#c4b5fd] hover:bg-[#7360f2] hover:text-white border border-[#7360f2]/30 transition"
+                    title={lang === 'uk' ? 'Швидке замовлення у Viber' : 'Быстрый заказ в Viber'}
+                  >
+                    Viber
+                  </a>
+                  <a
+                    href={`https://t.me/+${phoneNum}`}
+                    onClick={() => trackMakerClick(maker.id, 'phone', { category: effectiveCategory, city: maker.city })}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center rounded-full px-2.5 py-0.5 text-[11px] font-bold bg-[#229ed9]/15 text-[#0088cc] dark:text-[#7dd3fc] hover:bg-[#229ed9] hover:text-white border border-[#229ed9]/30 transition"
+                    title={lang === 'uk' ? 'Швидке замовлення у Telegram' : 'Быстрый заказ в Telegram'}
+                  >
+                    Telegram
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </article>
@@ -1628,8 +1658,8 @@ export default function ChocoRadarApp({
                 </div>
                 <p className={`mt-3 text-xs sm:text-sm leading-relaxed ${isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'}`}>
                   {lang === 'uk'
-                    ? 'Коробка цукерок може важити як 70 г, так і 250 г при однаковій зовнішній ціні. CrafoHab автоматично розраховує питому вартість за 100 грамів для кожного товару, щоб ви бачили чесне співвідношення ціни та об’єму.'
-                    : 'Коробка конфет может весить как 70 г, так и 250 г при одинаковой внешней цене. CrafoHab автоматически рассчитывает удельную стоимость за 100 граммов для каждого товара, чтобы вы видели честное соотношение цены и объема.'}
+                    ? 'Коробка цукерок може важити як 70 г, так і 250 г при однаковій зовнішній ціні. CrafoHab автоматично розраховує вартість за 100 грамів для кожного товару, щоб ви бачили чесне співвідношення ціни та об’єму.'
+                    : 'Коробка конфет может весить как 70 г, так и 250 г при одинаковой внешней цене. CrafoHab автоматически рассчитывает стоимость за 100 граммов для каждого товара, чтобы вы видели честное соотношение цены и объема.'}
                 </p>
               </div>
 
@@ -2434,6 +2464,23 @@ export default function ChocoRadarApp({
             </Link>
           </div>
         </div>
+
+        {/* Legal Disclaimer / Публічне юридичне роз'яснення */}
+        <div className={`mt-6 pt-5 border-t text-[11px] leading-relaxed max-w-4xl mx-auto text-center ${
+          isDark ? 'border-white/10 text-[#a89b8f]' : 'border-[#e1d5c8] text-[#7a6858]'
+        }`}>
+          <p>
+            {lang === 'uk'
+              ? "Інформація взята з відкритих публічних джерел для ознайомлення споживачів. Якщо ви є власником майстерні та бажаєте оновити дані або видалити профіль — зв'яжіться з нами: "
+              : "Информация взята из открытых публичных источников для ознакомления потребителей. Если вы являетесь владельцем мастерской и желаете обновить данные или удалить профиль — свяжитесь с нами: "}
+            <a
+              href="mailto:editor@crafohab.com.ua"
+              className="font-bold underline hover:text-[#b06a1e] transition ml-1"
+            >
+              editor@crafohab.com.ua
+            </a>
+          </p>
+        </div>
       </footer>
 
       {/* =====================================================================
@@ -3015,6 +3062,51 @@ export default function ChocoRadarApp({
                 <BarChart2 className="w-4 h-4" />
               </button>
             </div>
+
+            {/* Quick Order: Viber & Telegram in Modal */}
+            {(() => {
+              const modalDigits = activeMakerModal.phone ? activeMakerModal.phone.split(',')[0].replace(/[^\d]/g, '') : '';
+              const modalPhone = modalDigits.length >= 9
+                ? (modalDigits.startsWith('380') ? modalDigits : modalDigits.startsWith('0') ? '38' + modalDigits : modalDigits)
+                : null;
+              return modalPhone && !activeMakerModal.phone.startsWith('Замовлення') ? (
+                <div className="flex items-center gap-2 pt-1 text-xs text-[#6e5d50]">
+                  <span className="text-[11px] font-medium shrink-0">
+                    {lang === 'uk' ? 'Швидке замовлення:' : 'Быстрый заказ:'}
+                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <a
+                      href={`viber://chat?number=%2B${modalPhone}`}
+                      onClick={() => trackMakerClick(activeMakerModal.id, 'phone', { category: activeMakerModal.mainCategory, city: activeMakerModal.city })}
+                      className="inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-bold bg-[#7360f2]/15 text-[#5e35b1] hover:bg-[#7360f2] hover:text-white border border-[#7360f2]/30 transition"
+                      title="Viber"
+                    >
+                      Viber
+                    </a>
+                    <a
+                      href={`https://t.me/+${modalPhone}`}
+                      onClick={() => trackMakerClick(activeMakerModal.id, 'phone', { category: activeMakerModal.mainCategory, city: activeMakerModal.city })}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-bold bg-[#229ed9]/15 text-[#0088cc] hover:bg-[#229ed9] hover:text-white border border-[#229ed9]/30 transition"
+                      title="Telegram"
+                    >
+                      Telegram
+                    </a>
+                  </div>
+                </div>
+              ) : null;
+            })()}
+
+            {/* Legal note in modal */}
+            <p className="text-[10px] leading-relaxed italic text-[#7a6858] pt-2 border-t border-[#e1d5c8]/60">
+              {lang === 'uk'
+                ? "Інформація взята з відкритих публічних джерел для ознайомлення споживачів. Якщо ви є власником майстерні та бажаєте оновити дані або видалити профіль — зв'яжіться з нами: "
+                : "Информация взята из открытых публичных источников для ознакомления потребителей. Если вы являетесь владельцем мастерской и желаете обновить данные или удалить профиль — свяжитесь с нами: "}
+              <a href="mailto:editor@crafohab.com.ua" className="font-bold underline hover:text-[#b06a1e]">
+                editor@crafohab.com.ua
+              </a>
+            </p>
           </div>
         </div>
       )}

@@ -259,7 +259,7 @@ export const MAKERS: CraftMaker[] = [
     },
     "instagramHandle": "@craftchoco_kharkiv",
     "instagramUrl": "https://crafo.com.ua",
-    "phone": "+38 (096) 253-56-10 (Viber, Telegram, WhatsApp)",
+    "phone": "+38 (096) 253-56-10 (Viber, Telegram)",
     "address": "м. Харків, вул. Лебединська, 1 (р-н стадіону «Металіст»)",
     "shippingNote": "Працюють щодня 09:00–20:00, доставка по Харкову та Новою Поштою по всій Україні",
     "badges": [
