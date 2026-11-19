@@ -57,6 +57,7 @@ import {
 } from 'lucide-react';
 import { trackMakerClick, appendUtm, getMakerStats } from '@/utils/analytics';
 import { getOptimizedImageUrl } from '@/utils/imageOptimizer';
+import { HOME_FAQ } from '@/lib/siteConfig';
 
 // Direct link to a category page on the maker's site (manual > auto-discovered). null = no verified link.
 function getMakerCategoryUrl(maker: CraftMaker, cat: CategorySlug): string | null {
@@ -64,11 +65,25 @@ function getMakerCategoryUrl(maker: CraftMaker, cat: CategorySlug): string | nul
   return maker.categoryUrls?.[cat] || DISCOVERED_CATEGORY_URLS[maker.id]?.[cat] || null;
 }
 
+export interface PageSeoOverride {
+  h1Uk: string;
+  h1Ru?: string;
+  leadUk?: string;
+  leadRu?: string;
+  articleTitleUk?: string;
+  articleTitleRu?: string;
+  articleUk?: string;
+  articleRu?: string;
+  faqUk?: { q: string; a: string }[];
+  faqRu?: { q: string; a: string }[];
+}
+
 interface ChocoRadarAppProps {
   initialSection?: MacroSectionId;
   initialCategory?: CategorySlug;
   initialCity?: string;
   initialVariantId?: string;
+  seoOverride?: PageSeoOverride;
 }
 
 type Lang = 'uk' | 'ru';
@@ -259,6 +274,7 @@ export default function ChocoRadarApp({
   initialCategory = 'all',
   initialCity = 'all',
   initialVariantId,
+  seoOverride,
 }: ChocoRadarAppProps) {
   const [lang, setLang] = useState<Lang>('uk');
   const [isDark, setIsDark] = useState(false);
@@ -267,6 +283,10 @@ export default function ChocoRadarApp({
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
+      const qParam = params.get('q');
+      if (qParam && qParam.trim() !== '') {
+        setSearchQuery(qParam.trim());
+      }
       const qLang = params.get('lang');
       if (qLang === 'ru' || qLang === 'uk') {
         setLang(qLang);
@@ -375,7 +395,6 @@ export default function ChocoRadarApp({
   const [favoriteMakerIds, setFavoriteMakerIds] = useState<string[]>(['crafo-kharkiv']);
   const [onlyFavorites, setOnlyFavorites] = useState(false);
   const [expandedMakerIds, setExpandedMakerIds] = useState<string[]>([]);
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   // Interactive Sommelier & Calculator inside the Right Drawer
   const [activeEngagementTab, setActiveEngagementTab] = useState<'quiz' | 'calculator'>('quiz');
@@ -545,8 +564,21 @@ export default function ChocoRadarApp({
     searchQuery,
   ]);
 
-  // Top 3 Flagship Makers for Home Page preview (filters by city if selected)
+  // Top 3 Flagship Makers for Home Page preview (filters by searchQuery or city if selected)
   const homeTop3Makers = useMemo(() => {
+    if (searchQuery.trim() !== '') {
+      const q = searchQuery.toLowerCase();
+      return MAKERS.filter(
+        (m) =>
+          (selectedCity === 'all' || isCityMatch(m, selectedCity)) &&
+          (m.name.toLowerCase().includes(q) ||
+            m.city.toLowerCase().includes(q) ||
+            m.specialty.toLowerCase().includes(q) ||
+            m.description.toLowerCase().includes(q))
+      )
+        .sort((a, b) => b.rating - a.rating)
+        .slice(0, 6);
+    }
     if (selectedCity === 'all') {
       const ids = ['crafo-kharkiv', 'chebakery-kharkiv', 'piolli-zefir'];
       return ids
@@ -566,7 +598,7 @@ export default function ChocoRadarApp({
         return b.rating - a.rating;
       })
       .slice(0, 3);
-  }, [selectedCity]);
+  }, [selectedCity, searchQuery]);
 
   // Interactive Sommelier Recommendations — NOW RETURNS TOP-3 MAIN PRODUCERS!
   const quizRecommendedMakers = useMemo(() => {
@@ -1194,10 +1226,16 @@ export default function ChocoRadarApp({
               </span>
 
               <h1 className="font-serif text-2xl sm:text-5xl font-bold leading-tight tracking-tight">
-                {lang === 'uk' ? 'Кращі, перевірені виробники ' : 'Лучшие, проверенные производители '}
-                <span className="bg-gradient-to-r from-[#7a4a2b] via-[#b06a1e] to-[#c75b7a] bg-clip-text text-transparent">
-                  {lang === 'uk' ? 'крафтової продукції в Україні' : 'крафтовой продукции в Украине'}
-                </span>
+                {seoOverride?.h1Uk ? (
+                  lang === 'uk' ? seoOverride.h1Uk : seoOverride.h1Ru || seoOverride.h1Uk
+                ) : (
+                  <>
+                    {lang === 'uk' ? 'Кращі, перевірені виробники ' : 'Лучшие, проверенные производители '}
+                    <span className="bg-gradient-to-r from-[#7a4a2b] via-[#b06a1e] to-[#c75b7a] bg-clip-text text-transparent">
+                      {lang === 'uk' ? 'крафтової продукції в Україні' : 'крафтовой продукции в Украине'}
+                    </span>
+                  </>
+                )}
               </h1>
 
               <p
@@ -1205,7 +1243,11 @@ export default function ChocoRadarApp({
                   isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'
                 }`}
               >
-                {lang === 'uk'
+                {seoOverride?.leadUk
+                  ? lang === 'uk'
+                    ? seoOverride.leadUk
+                    : seoOverride.leadRu || seoOverride.leadUk
+                  : lang === 'uk'
                   ? 'Єдиний сервіс CrafoHab (crafohab.com.ua), де зібрані найкращі майстерні шоколаду, авторських тортів та крафтового зефіру: обирайте очима, знаходьте 3 основні виробники свого міста та переходьте напряму до замовлення.'
                   : 'Единый сервис CrafoHab (crafohab.com.ua), где собраны лучшие мастерские шоколада, авторских тортов и крафтового зефира: выбирайте глазами, находите 3 основных производителя своего города и переходите напрямую к заказу.'}
               </p>
@@ -1637,7 +1679,7 @@ export default function ChocoRadarApp({
             </section>
 
             {/* ===============================================================
-                2 TRUST STANDARDS OF CRAFOHUB 2027 (ЦІНА ЗА 100 Г + ЧИСТИЙ СКЛАД)
+                2 TRUST STANDARDS OF CRAFOHAB 2027 (ЦІНА ЗА 100 Г + ЧИСТИЙ СКЛАД)
             =============================================================== */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className={`p-5 sm:p-6 rounded-3xl border transition ${
@@ -1837,11 +1879,33 @@ export default function ChocoRadarApp({
                         ? '🌸 Розділ: Крафтовий зефір, зефірні букети та пастила'
                         : '🌸 Раздел: Крафтовый зефир, зефирные букеты и пастила'}
                     </div>
-                    <h1 className="font-serif text-xl sm:text-2xl font-bold mt-0.5">
+                    <h1 className="font-serif text-2xl sm:text-3xl font-bold leading-tight mt-1">
+                      {seoOverride?.h1Uk
+                        ? lang === 'uk'
+                          ? seoOverride.h1Uk
+                          : seoOverride.h1Ru || seoOverride.h1Uk
+                        : lang === 'uk'
+                        ? `${activeVariant.titleUk} — кращі крафтові виробники України`
+                        : `${activeVariant.titleRu} — лучшие крафтовые производители Украины`}
+                    </h1>
+                    <p
+                      className={`text-xs sm:text-sm mt-1 max-w-3xl leading-relaxed ${
+                        isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'
+                      }`}
+                    >
+                      {seoOverride?.leadUk
+                        ? lang === 'uk'
+                          ? seoOverride.leadUk
+                          : seoOverride.leadRu || seoOverride.leadUk
+                        : lang === 'uk'
+                        ? activeVariant.shortDescUk
+                        : activeVariant.shortDescRu}
+                    </p>
+                    <p className="text-xs sm:text-sm font-bold text-[#b06a1e] mt-1.5">
                       {lang === 'uk'
                         ? 'Крок 1. Оберіть потрібний варіант продукту:'
                         : 'Шаг 1. Выберите нужный вариант продукта:'}
-                    </h1>
+                    </p>
                   </div>
 
                   <button
@@ -2272,8 +2336,69 @@ export default function ChocoRadarApp({
           </div>
         )}
 
-        {/* SHARED BOTTOM SECTIONS: BLOG & FAQ */}
+        {/* SHARED BOTTOM SECTIONS: SEO GUIDE, BLOG & FAQ */}
         <div className="mx-auto max-w-7xl px-3 py-8 sm:px-6 lg:px-8 space-y-10">
+          {seoOverride?.articleUk && (
+            <section
+              aria-label={lang === 'uk' ? 'Експертний гід' : 'Экспертный гид'}
+              className={`rounded-3xl border p-6 sm:p-8 space-y-3 shadow-xs ${
+                isDark
+                  ? 'bg-[#261b16] border-white/15 text-[#eee7dd]'
+                  : 'bg-[#fefbf7] border-[#e1d5c8] text-[#302016]'
+              }`}
+            >
+              {seoOverride.articleTitleUk && (
+                <h2 className="font-serif text-xl sm:text-2xl font-bold">
+                  {lang === 'uk'
+                    ? seoOverride.articleTitleUk
+                    : seoOverride.articleTitleRu || seoOverride.articleTitleUk}
+                </h2>
+              )}
+              <p
+                className={`text-xs sm:text-sm leading-relaxed ${
+                  isDark ? 'text-[#c2b6a9]' : 'text-[#5a4638]'
+                }`}
+              >
+                {lang === 'uk'
+                  ? seoOverride.articleUk
+                  : seoOverride.articleRu || seoOverride.articleUk}
+              </p>
+            </section>
+          )}
+
+          {activeSection !== 'home' && (
+            <section
+              aria-label={lang === 'uk' ? 'Популярні міста України' : 'Популярные города Украины'}
+              className={`rounded-3xl border p-5 sm:p-6 space-y-3 ${
+                isDark ? 'bg-[#211713] border-white/15' : 'bg-[#f1e6da]/50 border-[#e1d5c8]'
+              }`}
+            >
+              <h2 className="font-serif text-base sm:text-lg font-bold flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-[#b06a1e]" />
+                <span>
+                  {lang === 'uk'
+                    ? 'Крафтові майстерні у містах України:'
+                    : 'Крафтовые мастерские в городах Украины:'}
+                </span>
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {CITY_SEO_HUBS.map((city) => (
+                  <Link
+                    key={city.slug}
+                    href={`/misto/${city.slug}`}
+                    className={`rounded-full px-3.5 py-1.5 text-xs font-bold border transition ${
+                      isDark
+                        ? 'bg-[#261b16] border-white/15 text-[#eee7dd] hover:border-[#e39851]'
+                        : 'bg-[#fefbf7] border-[#d4c3b3] text-[#302016] hover:border-[#b06a1e]'
+                    }`}
+                  >
+                    📍 {lang === 'uk' ? city.cityNameUk : city.cityNameRu}
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
+
           {/* EXPERT BLOG & SEO LINKS */}
           <section
             id="blog-seo-section"
@@ -2345,7 +2470,7 @@ export default function ChocoRadarApp({
             </div>
           </section>
 
-          {/* FAQ */}
+          {/* FAQ (Semantic details/summary so 100% of answers match JSON-LD in SSR HTML) */}
           <section className="space-y-4">
             <div className="flex items-center gap-2">
               <HelpCircle className="w-5 h-5 text-[#b06a1e]" />
@@ -2355,47 +2480,31 @@ export default function ChocoRadarApp({
             </div>
 
             <div className="space-y-2.5">
-              {[
-                {
-                  qUk: 'Як працює підбір 4 основних виробників на CrafoHab?',
-                  qRu: 'Как работает подбор 4 основных производителей на CrafoHab?',
-                  aUk: 'Ви обираєте розділ (Шоколад, Торти або Зефір) і потрібний вид продукту. Система миттєво показує ТОП-4 перевірених виробників із прямими посиланнями саме у вибраний розділ на їхньому сайті.',
-                  aRu: 'Вы выбираете раздел (Шоколад, Торты или Зефир) и нужный вид продукта. Система мгновенно показывает ТОП-4 проверенных производителей с прямыми ссылками именно в выбранный раздел на их сайте.',
-                },
-                {
-                  qUk: 'Де подивитися детальний опис асортименту та скористатися Сомельє?',
-                  qRu: 'Где посмотреть детальное описание ассортимента и воспользоваться Сомелье?',
-                  aUk: 'Натисніть кнопку «Асортимент» або «Сомельє» у верхній панелі чи внизу екрана смартфона — праворуч плавно відкриється зручна панель з повним описом усіх видів продукції або інтерактивним помічником вибору.',
-                  aRu: 'Нажмите кнопку «Ассортимент» или «Сомелье» в верхней панели или внизу экрана смартфона — справа плавно откроется удобная панель с полным описанием всех видов продукции или интерактивным помощником выбора.',
-                },
-              ].map((faq, idx) => {
-                const isOpen = openFaqIndex === idx;
-                return (
-                  <div
-                    key={idx}
-                    className={`rounded-2xl border transition ${
-                      isDark ? 'bg-[#261b16] border-white/15' : 'bg-[#fefbf7] border-[#e1d5c8]'
-                    }`}
-                  >
-                    <button
-                      onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                      className="w-full px-5 py-4 text-left flex items-center justify-between gap-4 font-bold text-xs sm:text-sm"
-                    >
-                      <span>{lang === 'uk' ? faq.qUk : faq.qRu}</span>
-                      {isOpen ? (
-                        <ChevronUp className="w-4 h-4 text-[#b06a1e] shrink-0" />
-                      ) : (
-                        <ChevronDown className="w-4 h-4 text-[#b06a1e] shrink-0" />
-                      )}
-                    </button>
-                    {isOpen && (
-                      <div className="px-5 pb-4 text-xs sm:text-sm opacity-85 leading-relaxed border-t border-[#e1d5c8]/50 pt-3">
-                        {lang === 'uk' ? faq.aUk : faq.aRu}
-                      </div>
-                    )}
+              {(seoOverride?.faqUk && seoOverride.faqUk.length > 0
+                ? seoOverride.faqUk.map((item, idx) => ({
+                    qUk: item.q,
+                    aUk: item.a,
+                    qRu: seoOverride.faqRu?.[idx]?.q || item.q,
+                    aRu: seoOverride.faqRu?.[idx]?.a || item.a,
+                  }))
+                : HOME_FAQ
+              ).map((faq, idx) => (
+                <details
+                  key={idx}
+                  open={idx === 0}
+                  className={`group rounded-2xl border transition ${
+                    isDark ? 'bg-[#261b16] border-white/15' : 'bg-[#fefbf7] border-[#e1d5c8]'
+                  }`}
+                >
+                  <summary className="cursor-pointer list-none px-5 py-4 text-left flex items-center justify-between gap-4 font-bold text-xs sm:text-sm [&::-webkit-details-marker]:hidden">
+                    <span>{lang === 'uk' ? faq.qUk : faq.qRu}</span>
+                    <ChevronDown className="w-4 h-4 text-[#b06a1e] shrink-0 transition-transform duration-200 group-open:rotate-180" />
+                  </summary>
+                  <div className="px-5 pb-4 text-xs sm:text-sm opacity-85 leading-relaxed border-t border-[#e1d5c8]/50 pt-3">
+                    {lang === 'uk' ? faq.aUk : faq.aRu}
                   </div>
-                );
-              })}
+                </details>
+              ))}
             </div>
           </section>
         </div>

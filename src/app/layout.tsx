@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
+import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
+import { MAKERS } from '@/data/chocolateData';
+import { generateGlobalEntityGraph } from '@/utils/seoSchema';
 
 const inter = Inter({
   subsets: ['latin', 'cyrillic'],
@@ -21,14 +24,15 @@ export const viewport: Viewport = {
   themeColor: '#462b1f',
 };
 
+const makersCount = MAKERS.length;
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://crafohab.com.ua'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'CrafoHab — Всі крафтові виробники шоколаду, зефіру та тортів України (2027)',
     template: '%s | CrafoHab — Платформа крафтових солодощів України',
   },
-  description:
-    'CrafoHab — №1 сервіс крафтових солодощів України. Плитка шоколаду та батончик, цукерки ручної роботи, шоколадні квіти і букети, малина в шоколаді, вироби без цукру, солодощі для дітей, крафтовий зефір та авторські торти. 117 перевірених майстерень, чесна ціна за 100 г та тендерна біржа замовлень.',
+  description: `CrafoHab — №1 сервіс крафтових солодощів України. Плитка шоколаду та батончик, цукерки ручної роботи, шоколадні квіти і букети, малина в шоколаді, вироби без цукру, солодощі для дітей, крафтовий зефір та авторські торти. ${makersCount} перевірених майстерень, чесна ціна за 100 г та тендерна біржа замовлень.`,
   keywords: [
     'CrafoHab Україна',
     'крафтовий шоколад Україна',
@@ -42,17 +46,20 @@ export const metadata: Metadata = {
     'солодощі для дітей без цукру',
     'крафтовий зефір букети',
     'авторські торти на замовлення',
-    'crafo.com.ua',
+    'crafohab.com.ua',
   ],
   openGraph: {
     title: 'CrafoHab — Всі крафтові виробники шоколаду, зефіру та тортів України',
-    description:
-      'Інтерактивний підбір подарунків за 30 секунд, порівняння ціни за 100 г, чистоти складу та прямі контакти 117 перевірених майстерень України.',
-    url: 'https://crafohab.com.ua',
-    siteName: 'CrafoHab',
+    description: `Інтерактивний підбір подарунків за 30 секунд, порівняння ціни за 100 г, чистоти складу та прямі контакти ${makersCount} перевірених майстерень України.`,
+    url: SITE_URL,
+    siteName: SITE_NAME,
     locale: 'uk_UA',
-    alternateLocale: ['ru_UA'],
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'CrafoHab — Всі крафтові виробники шоколаду, зефіру та тортів України',
+    description: `Порівняння крафтових майстерень України за ціною за 100 г і чистотою складу (${makersCount} перевірених виробників).`,
   },
   robots: {
     index: true,
@@ -66,35 +73,23 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://crafohab.com.ua',
-    languages: {
-      'uk-UA': 'https://crafohab.com.ua',
-      'ru-UA': 'https://crafohab.com.ua/?lang=ru',
-    },
+    canonical: SITE_URL,
   },
 };
-
-import { generateOrganizationSchema } from '@/utils/seoSchema';
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const orgSchema = generateOrganizationSchema();
+  const globalGraph = generateGlobalEntityGraph();
 
   return (
     <html lang="uk" className={`${inter.variable} ${playfair.variable} scroll-smooth`}>
       <head>
-        <link
-          rel="preload"
-          as="image"
-          href="/images/crafo-collage.webp"
-          type="image/webp"
-        />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(globalGraph) }}
         />
       </head>
       <body className="min-h-screen bg-[#fbf6ee] text-[#302016] antialiased selection:bg-[#b06a1e] selection:text-white font-sans">

@@ -3,6 +3,8 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
 import { CAKE_VARIANTS } from '@/data/sectionVariants';
+import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
+import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 
 interface PageProps {
   params: Promise<{ variantSlug: string }>;
@@ -19,11 +21,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const variant = CAKE_VARIANTS.find((v) => v.slug === variantSlug || v.id === variantSlug);
   if (!variant) return {};
 
+  const title = `${variant.titleUk} — основні кондитерські України | CrafoHab`;
+  const description = `${variant.shortDescUk} Замовлення святкових та авторських тортів напряму у перевірених майстерень без націнок.`;
+  const url = `${SITE_URL}/torty/${variant.slug}`;
+
   return {
-    title: `${variant.titleUk} — 3 основні кондитерські України | CrafoHab`,
-    description: `${variant.shortDescUk} Замовлення святкових та авторських тортів напряму у перевірених майстерень без націнок.`,
+    title,
+    description,
     alternates: {
-      canonical: `https://choco-radar-ua.vercel.app/torty/${variant.slug}`,
+      canonical: url,
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: SITE_NAME,
+      locale: 'uk_UA',
+      type: 'website',
     },
   };
 }
@@ -35,11 +49,34 @@ export default async function CakeVariantPage({ params }: PageProps) {
     notFound();
   }
 
+  const url = `${SITE_URL}/torty/${variant.slug}`;
+  const breadcrumbsSchema = generateBreadcrumbSchema([
+    { name: SITE_NAME, url: SITE_URL },
+    { name: 'Авторські торти', url: `${SITE_URL}/torty` },
+    { name: variant.titleUk, url },
+  ]);
+
   return (
-    <ChocoRadarApp
-      initialSection="cakes"
-      initialCategory={variant.categorySlug}
-      initialVariantId={variant.id}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
+      />
+      <ChocoRadarApp
+        initialSection="cakes"
+        initialCategory={variant.categorySlug}
+        initialVariantId={variant.id}
+        seoOverride={{
+          h1Uk: `${variant.titleUk} — перевірені кондитерські України`,
+          h1Ru: `${variant.titleRu} — проверенные кондитерские Украины`,
+          leadUk: variant.shortDescUk,
+          leadRu: variant.shortDescRu,
+          articleTitleUk: `Про формат: ${variant.titleUk}`,
+          articleTitleRu: `О формате: ${variant.titleRu}`,
+          articleUk: `${variant.detailedAssortmentUk} Склад: ${variant.ingredientsUk} Термін зберігання: ${variant.shelfLifeUk}.`,
+          articleRu: `${variant.detailedAssortmentRu} Состав: ${variant.ingredientsRu} Срок хранения: ${variant.shelfLifeRu}.`,
+        }}
+      />
+    </>
   );
 }

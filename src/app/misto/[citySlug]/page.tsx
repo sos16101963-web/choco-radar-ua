@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { CITY_SEO_HUBS } from '@/data/blogData';
 import { MAKERS } from '@/data/chocolateData';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
+import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import {
   generateCityCategoryItemListSchema,
   generateBreadcrumbSchema,
@@ -24,11 +25,21 @@ export async function generateMetadata({ params }: CityPageProps): Promise<Metad
   const city = CITY_SEO_HUBS.find((c) => c.slug === citySlug);
   if (!city) return {};
 
+  const url = `${SITE_URL}/misto/${city.slug}`;
+
   return {
     title: city.h1Uk,
     description: city.descriptionUk,
     alternates: {
-      canonical: `https://choco-radar-ua.vercel.app/misto/${city.slug}`,
+      canonical: url,
+    },
+    openGraph: {
+      title: city.h1Uk,
+      description: city.descriptionUk,
+      url,
+      siteName: SITE_NAME,
+      locale: 'uk_UA',
+      type: 'website',
     },
   };
 }
@@ -46,6 +57,8 @@ export default async function CityPage({ params }: CityPageProps) {
       (m.regionCity || '').toLowerCase().includes(city.cityNameUk.toLowerCase())
   );
 
+  const url = `${SITE_URL}/misto/${city.slug}`;
+
   const itemListSchema = generateCityCategoryItemListSchema(
     city.h1Uk,
     city.cityNameUk,
@@ -53,8 +66,8 @@ export default async function CityPage({ params }: CityPageProps) {
   );
 
   const breadcrumbsSchema = generateBreadcrumbSchema([
-    { name: 'CrafoHab', url: 'https://choco-radar-ua.vercel.app' },
-    { name: `Майстерні: ${city.cityNameUk}`, url: `https://choco-radar-ua.vercel.app/misto/${city.slug}` },
+    { name: SITE_NAME, url: SITE_URL },
+    { name: `Майстерні: ${city.cityNameUk}`, url },
   ]);
 
   return (
@@ -67,7 +80,20 @@ export default async function CityPage({ params }: CityPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
       />
-      <ChocoRadarApp initialCategory="all" initialCity={city.regionFilterId} />
+      <ChocoRadarApp
+        initialCategory="all"
+        initialCity={city.regionFilterId}
+        seoOverride={{
+          h1Uk: city.h1Uk,
+          h1Ru: city.h1Ru,
+          leadUk: city.descriptionUk,
+          leadRu: city.descriptionRu,
+          articleTitleUk: `Крафтові солодощі: ${city.cityNameUk}`,
+          articleTitleRu: `Крафтовые сладости: ${city.cityNameRu}`,
+          articleUk: city.seoTextUk,
+          articleRu: city.seoTextRu,
+        }}
+      />
     </>
   );
 }

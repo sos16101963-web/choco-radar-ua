@@ -5,6 +5,8 @@ import { notFound } from 'next/navigation';
 import { BLOG_ARTICLES } from '@/data/blogData';
 import { ArrowUpRight, Clock, Crown, Sparkles } from 'lucide-react';
 import { getOptimizedImageUrl } from '@/utils/imageOptimizer';
+import { SITE_NAME, SITE_URL, toAbsoluteUrl } from '@/lib/siteConfig';
+import { generateBlogArticleSchema } from '@/utils/seoSchema';
 
 interface BlogArticlePageProps {
   params: Promise<{ slug: string }>;
@@ -21,20 +23,25 @@ export async function generateMetadata({ params }: BlogArticlePageProps): Promis
   const article = BLOG_ARTICLES.find((a) => a.slug === slug);
   if (!article) return {};
 
+  const url = `${SITE_URL}/blog/${article.slug}`;
+  const ogImage = toAbsoluteUrl(article.heroImage);
+
   return {
     title: article.titleUk,
     description: article.excerptUk,
     keywords: article.seoKeywords,
     alternates: {
-      canonical: `https://choco-radar-ua.vercel.app/blog/${article.slug}`,
+      canonical: url,
     },
     openGraph: {
       title: article.titleUk,
       description: article.excerptUk,
-      url: `https://choco-radar-ua.vercel.app/blog/${article.slug}`,
+      url,
+      siteName: SITE_NAME,
+      locale: 'uk_UA',
       type: 'article',
       publishedTime: article.publishedAt,
-      images: [article.heroImage],
+      images: [ogImage],
     },
   };
 }
@@ -46,37 +53,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
     notFound();
   }
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'Article',
-        headline: article.titleUk,
-        description: article.excerptUk,
-        datePublished: article.publishedAt,
-        author: {
-          '@type': 'Organization',
-          name: 'CrafoHab Україна',
-        },
-        publisher: {
-          '@type': 'Organization',
-          name: 'CrafoHab Україна',
-          url: 'https://choco-radar-ua.vercel.app',
-        },
-      },
-      {
-        '@type': 'FAQPage',
-        mainEntity: article.faq.map((f) => ({
-          '@type': 'Question',
-          name: f.qUk,
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: f.aUk,
-          },
-        })),
-      },
-    ],
-  };
+  const jsonLd = generateBlogArticleSchema(article);
 
   return (
     <div className="min-h-screen bg-[#fbf6ee] text-[#302016]">

@@ -1,49 +1,24 @@
 import React from 'react';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
-import { PRODUCTS, MAKERS, CATEGORIES, getPricePer100g } from '@/data/chocolateData';
+import { PRODUCTS, MAKERS, getPricePer100g } from '@/data/chocolateData';
+import { HOME_FAQ, SITE_NAME, SITE_URL, toAbsoluteUrl } from '@/lib/siteConfig';
 
 export default function HomePage() {
-  // Google 2027 & AI Overview (GEO) Multi-Entity Schema.org JSON-LD Graph
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'Organization',
-        '@id': 'https://crafohab.com.ua/#organization',
-        name: 'CrafoHab Україна',
-        alternateName: 'CrafoHab — Платформа крафтових солодощів України',
-        url: 'https://crafohab.com.ua',
-        description:
-          'Всеукраїнська сервісна платформа крафтових виробників шоколаду, цукерок, зефіру та авторських тортів.',
-        areaServed: 'UA',
-      },
-      {
-        '@type': 'WebSite',
-        '@id': 'https://crafohab.com.ua/#website',
-        url: 'https://crafohab.com.ua',
-        name: 'CrafoHab — Навігатор крафтового шоколаду, зефіру та тортів України',
-        publisher: {
-          '@id': 'https://crafohab.com.ua/#organization',
+        '@type': 'CollectionPage',
+        '@id': `${SITE_URL}/#webpage`,
+        url: SITE_URL,
+        name: `${SITE_NAME} — Кращі, перевірені виробники крафтової продукції в Україні`,
+        isPartOf: {
+          '@id': `${SITE_URL}/#website`,
         },
-        inLanguage: ['uk-UA', 'ru-UA'],
-      },
-      {
-        '@type': 'BreadcrumbList',
-        '@id': 'https://crafohab.com.ua/#breadcrumbs',
-        itemListElement: [
-          {
-            '@type': 'ListItem',
-            position: 1,
-            name: 'CrafoHab Україна',
-            item: 'https://crafohab.com.ua',
-          },
-          ...CATEGORIES.filter((c) => c.slug !== 'all').map((cat, idx) => ({
-            '@type': 'ListItem',
-            position: idx + 2,
-            name: cat.shortTitle,
-            item: `https://crafohab.com.ua/katalog/${cat.slug}`,
-          })),
-        ],
+        about: {
+          '@id': `${SITE_URL}/#organization`,
+        },
+        inLanguage: 'uk-UA',
       },
       {
         '@type': 'ItemList',
@@ -58,7 +33,8 @@ export default function HomePage() {
             name: maker.name,
             description: maker.description,
             url: maker.websiteUrl,
-            telephone: maker.phone,
+            image: toAbsoluteUrl(maker.imageUrl),
+            ...(maker.phone && !maker.phone.startsWith('Замовлення') ? { telephone: maker.phone } : {}),
             address: {
               '@type': 'PostalAddress',
               addressLocality: maker.city,
@@ -85,6 +61,7 @@ export default function HomePage() {
           item: {
             '@type': 'Product',
             name: product.title,
+            image: toAbsoluteUrl(product.imageUrl),
             description: `${product.expertVerdict} Підсолоджувач: ${product.sweetener}. Ціна за 100 г: ${getPricePer100g(product.priceUah, product.weightGrams)} грн.`,
             brand: {
               '@type': 'Brand',
@@ -109,32 +86,14 @@ export default function HomePage() {
       },
       {
         '@type': 'FAQPage',
-        mainEntity: [
-          {
-            '@type': 'Question',
-            name: 'Чим крафтова плитка шоколаду та батончик відрізняються від мас-маркету?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'Крафтова плитка шоколаду та ремісничий батончик виготовляються з натурального какао-масла та добірних какао-бобів (зокрема бельгійського кувертюру Barry Callebaut у лідера рейтингу crafo.com.ua або фермерських бобів Fino de Aroma) без пальмової олії, замінників та штучних ароматизаторів.',
-            },
+        mainEntity: HOME_FAQ.map((faq) => ({
+          '@type': 'Question',
+          name: faq.qUk,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.aUk,
           },
-          {
-            '@type': 'Question',
-            name: 'Які солодощі обрати в рубриках «Без цукру» та «Для дітей»?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'На платформі CrafoHab рубрики розділені для зручності: у розділі «Без цукру» представлені вироби на меду, кокосовому нектарі, еритритолі та стевії для веганів і діабетиків, а в окремій рубриці «Для дітей» — безпечний дитячий шоколад і батончики на керобі без кофеїну, натуральна ягідна пастила та шоколадні фігурки.',
-            },
-          },
-          {
-            '@type': 'Question',
-            name: 'Як працює Тендерна біржа замовлень на торти, зефірні та шоколадні букети?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'Покупець залишає одну заявку із зазначенням міста, дати та бюджету, а перевірені майстерні свого міста самі надсилають персональні пропозиції з фото та цінами напряму у Telegram або Viber.',
-            },
-          },
-        ],
+        })),
       },
     ],
   };

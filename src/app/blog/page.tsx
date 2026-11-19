@@ -2,16 +2,27 @@ import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { BLOG_ARTICLES, CITY_SEO_HUBS } from '@/data/blogData';
-import { CATEGORIES } from '@/data/chocolateData';
+import { CATEGORIES, MAKERS } from '@/data/chocolateData';
 import { ArrowUpRight, BookOpen, Clock, Sparkles, MapPin } from 'lucide-react';
 import { getOptimizedImageUrl } from '@/utils/imageOptimizer';
+import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
+import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 
 export const metadata: Metadata = {
   title: 'Блог CrafoHab — Рейтинги, огляди та гіди з вибору крафтового шоколаду, зефіру і тортів України',
   description:
     'Експертні статті CrafoHab: як обрати справжню крафтову плитку шоколаду та батончик, шоколадні квіти Callebaut, безпечні солодощі для дітей, вироби без цукру, зефірні букети та авторські торти.',
   alternates: {
-    canonical: 'https://choco-radar-ua.vercel.app/blog',
+    canonical: `${SITE_URL}/blog`,
+  },
+  openGraph: {
+    title: 'Блог CrafoHab — Експертні рейтинги та гіди покупця',
+    description:
+      'Огляди, рейтинги та гіди з вибору крафтового шоколаду, шоколадних квітів, виробів без цукру, солодощів для дітей, зефіру та авторських тортів в Україні.',
+    url: `${SITE_URL}/blog`,
+    siteName: SITE_NAME,
+    locale: 'uk_UA',
+    type: 'website',
   },
 };
 
@@ -20,7 +31,7 @@ export default function BlogIndexPage() {
     '@context': 'https://schema.org',
     '@type': 'Blog',
     name: 'Експертний блог CrafoHab Україна',
-    url: 'https://choco-radar-ua.vercel.app/blog',
+    url: `${SITE_URL}/blog`,
     description:
       'Огляди, рейтинги та гіди з вибору крафтового шоколаду, шоколадних квітів, виробів без цукру, солодощів для дітей, зефіру та авторських тортів в Україні.',
     blogPost: BLOG_ARTICLES.map((art) => ({
@@ -28,19 +39,27 @@ export default function BlogIndexPage() {
       headline: art.titleUk,
       description: art.excerptUk,
       datePublished: art.publishedAt,
-      url: `https://choco-radar-ua.vercel.app/blog/${art.slug}`,
+      url: `${SITE_URL}/blog/${art.slug}`,
       author: {
-        '@type': 'Organization',
-        name: 'CrafoHab Україна',
+        '@id': `${SITE_URL}/#organization`,
       },
     })),
   };
+
+  const breadcrumbsSchema = generateBreadcrumbSchema([
+    { name: SITE_NAME, url: SITE_URL },
+    { name: 'Блог', url: `${SITE_URL}/blog` },
+  ]);
 
   return (
     <div className="min-h-screen bg-[#fbf6ee] text-[#302016]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
       />
 
       {/* Header */}
@@ -52,7 +71,7 @@ export default function BlogIndexPage() {
             </span>
             <span className="flex flex-col items-start leading-tight">
               <span className="font-serif text-base sm:text-lg font-bold tracking-tight inline-flex items-baseline gap-1.5 whitespace-nowrap">
-                <span>Crafo<span className="text-[#b06a1e]">Hub</span></span>
+                <span>Crafo<span className="text-[#b06a1e]">Hab</span></span>
                 <span className="text-[11px] sm:text-xs font-semibold text-[#b06a1e]">
                   в Україні
                 </span>
@@ -68,7 +87,7 @@ export default function BlogIndexPage() {
             href="/"
             className="rounded-full bg-[#462b1f] hover:bg-[#b06a1e] text-white px-4 py-2 text-xs font-bold transition"
           >
-            ← До каталогу 105 майстерень
+            ← До каталогу {MAKERS.length} майстерень
           </Link>
         </div>
       </header>

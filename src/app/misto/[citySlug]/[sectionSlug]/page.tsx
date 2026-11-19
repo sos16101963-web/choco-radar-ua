@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
 import { CITY_SECTION_COMBOS } from '@/data/cityCategorySeo';
 import { MAKERS, CategorySlug } from '@/data/chocolateData';
+import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import {
   generateCityCategoryItemListSchema,
   generateFaqSchema,
@@ -32,21 +33,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!config) return {};
 
+  const url = `${SITE_URL}/misto/${config.citySlug}/${config.categorySlug}`;
+
   return {
     title: config.titleUk,
     description: config.metaDescUk,
     alternates: {
-      canonical: `https://choco-radar-ua.vercel.app/misto/${config.citySlug}/${config.categorySlug}`,
-      languages: {
-        'uk-UA': `https://choco-radar-ua.vercel.app/misto/${config.citySlug}/${config.categorySlug}`,
-        'ru-UA': `https://choco-radar-ua.vercel.app/misto/${config.citySlug}/${config.categorySlug}?lang=ru`,
-      },
+      canonical: url,
     },
     openGraph: {
       title: config.titleUk,
       description: config.metaDescUk,
-      url: `https://choco-radar-ua.vercel.app/misto/${config.citySlug}/${config.categorySlug}`,
-      siteName: 'CrafoHab',
+      url,
+      siteName: SITE_NAME,
       locale: 'uk_UA',
       type: 'website',
     },
@@ -87,11 +86,11 @@ export default async function CitySectionPage({ params }: PageProps) {
   const faqSchema = generateFaqSchema(config.faqUk);
 
   const breadcrumbsSchema = generateBreadcrumbSchema([
-    { name: 'CrafoHab', url: 'https://choco-radar-ua.vercel.app' },
-    { name: config.cityNameUk, url: `https://choco-radar-ua.vercel.app/misto/${config.citySlug}` },
+    { name: SITE_NAME, url: SITE_URL },
+    { name: config.cityNameUk, url: `${SITE_URL}/misto/${config.citySlug}` },
     {
       name: config.categorySlug === 'torty' ? 'Торти' : config.categorySlug === 'zefir' ? 'Зефір' : 'Шоколад',
-      url: `https://choco-radar-ua.vercel.app/misto/${config.citySlug}/${config.categorySlug}`,
+      url: `${SITE_URL}/misto/${config.citySlug}/${config.categorySlug}`,
     },
   ]);
 
@@ -125,6 +124,18 @@ export default async function CitySectionPage({ params }: PageProps) {
         initialSection={initialSection}
         initialCategory={initialCategory}
         initialCity={config.cityNameUk}
+        seoOverride={{
+          h1Uk: config.h1Uk,
+          h1Ru: config.h1Ru,
+          leadUk: config.leadUk,
+          leadRu: config.leadRu,
+          articleTitleUk: config.h1Uk,
+          articleTitleRu: config.h1Ru,
+          articleUk: config.seoArticleUk,
+          articleRu: config.seoArticleRu,
+          faqUk: config.faqUk,
+          faqRu: config.faqRu,
+        }}
       />
     </>
   );

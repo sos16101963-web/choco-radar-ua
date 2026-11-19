@@ -18,6 +18,7 @@ import {
   ArrowUpRight,
 } from 'lucide-react';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
+import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import ForMakersAuditForm from './ForMakersAuditForm';
 
 export const metadata: Metadata = {
@@ -25,19 +26,22 @@ export const metadata: Metadata = {
   description:
     'Підключіть вашу майстерню шоколаду, кондитерську або зефірну флористику до CrafoHab. 0% комісії з замовлень, прямі покупці на ваш сайт та в Instagram, замовлення з тендерної біржі.',
   alternates: {
-    canonical: 'https://choco-radar-ua.vercel.app/for-makers',
+    canonical: `${SITE_URL}/for-makers`,
   },
   openGraph: {
     title: 'Виробникам та кондитерам — Розміщення у CrafoHab 2027',
     description: '0% комісії з продажів, прямі клієнти, індивідуальні тендери по вашому місту.',
-    url: 'https://choco-radar-ua.vercel.app/for-makers',
+    url: `${SITE_URL}/for-makers`,
+    siteName: SITE_NAME,
+    locale: 'uk_UA',
+    type: 'website',
   },
 };
 
 export default function ForMakersPage() {
   const breadcrumbsSchema = generateBreadcrumbSchema([
-    { name: 'CrafoHab', url: 'https://choco-radar-ua.vercel.app' },
-    { name: 'Виробникам крафтових солодощів', url: 'https://choco-radar-ua.vercel.app/for-makers' },
+    { name: SITE_NAME, url: SITE_URL },
+    { name: 'Виробникам крафтових солодощів', url: `${SITE_URL}/for-makers` },
   ]);
 
   return (
@@ -55,7 +59,7 @@ export default function ForMakersPage() {
               🍫
             </span>
             <span className="font-serif text-lg font-bold">
-              Crafo<span className="text-[#b06a1e]">Hub</span>
+              Crafo<span className="text-[#b06a1e]">Hab</span>
             </span>
           </Link>
           <div className="flex items-center gap-3">
