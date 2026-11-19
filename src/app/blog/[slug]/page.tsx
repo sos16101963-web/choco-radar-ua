@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import { BLOG_ARTICLES } from '@/data/blogData';
 import { ArrowUpRight, Clock, Crown, Sparkles } from 'lucide-react';
 import { getOptimizedImageUrl } from '@/utils/imageOptimizer';
-import { SITE_NAME, SITE_URL, toAbsoluteUrl } from '@/lib/siteConfig';
+import { buildHreflangAlternates, SITE_NAME, SITE_URL, toAbsoluteUrl } from '@/lib/siteConfig';
 import { generateBlogArticleSchema } from '@/utils/seoSchema';
 
 interface BlogArticlePageProps {
@@ -32,6 +32,7 @@ export async function generateMetadata({ params }: BlogArticlePageProps): Promis
     keywords: article.seoKeywords,
     alternates: {
       canonical: url,
+      languages: buildHreflangAlternates(`/blog/${article.slug}`),
     },
     openGraph: {
       title: article.titleUk,

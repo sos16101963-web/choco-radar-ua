@@ -8,6 +8,40 @@ export const SITE_EMAIL = 'editor@crafohab.com.ua';
 export const SITE_LAST_UPDATED = '2026-11-19';
 export const INDEXNOW_KEY = 'c7f4a9e2b1d84f6a9c3e5b7d2a8f1e4c';
 
+export const RU_SUPPORTED_PREFIXES = [
+  '/shokolad',
+  '/torty',
+  '/zefir',
+  '/misto',
+  '/blog',
+] as const;
+
+export function hasRuRoute(ukPath: string): boolean {
+  if (ukPath === '/') return true;
+  return RU_SUPPORTED_PREFIXES.some(
+    (prefix) => ukPath === prefix || ukPath.startsWith(`${prefix}/`)
+  );
+}
+
+export function buildHreflangAlternates(ukPath: string) {
+  const clean = ukPath.startsWith('/') ? ukPath : `/${ukPath}`;
+  const normalized = clean === '/' ? '' : clean.replace(/\/$/, '');
+  return {
+    'uk-UA': `${SITE_URL}${normalized}`,
+    'ru-UA': `${SITE_URL}/ru${normalized}`,
+    'x-default': `${SITE_URL}${normalized}`,
+  };
+}
+
+export function extractPhoneDigits(phone?: string | null): string | null {
+  if (!phone || phone.startsWith('Замовлення')) return null;
+  const rawDigits = phone.split(',')[0].replace(/[^\d]/g, '');
+  if (rawDigits.length < 9) return null;
+  if (rawDigits.startsWith('380')) return rawDigits;
+  if (rawDigits.startsWith('0')) return `38${rawDigits}`;
+  return rawDigits;
+}
+
 export function toAbsoluteUrl(pathOrUrl?: string | null): string {
   if (!pathOrUrl) return `${SITE_URL}/images/crafo-collage.jpg`;
   if (pathOrUrl.startsWith('http://') || pathOrUrl.startsWith('https://')) {

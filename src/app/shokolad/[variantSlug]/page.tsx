@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
 import { CHOCOLATE_VARIANTS } from '@/data/sectionVariants';
-import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
+import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 
 interface PageProps {
@@ -30,6 +30,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description,
     alternates: {
       canonical: url,
+      languages: buildHreflangAlternates(`/shokolad/${variant.slug}`),
     },
     openGraph: {
       title,

@@ -5,7 +5,7 @@ import { BLOG_ARTICLES, CITY_SEO_HUBS } from '@/data/blogData';
 import { CATEGORIES, MAKERS } from '@/data/chocolateData';
 import { ArrowUpRight, BookOpen, Clock, Sparkles, MapPin } from 'lucide-react';
 import { getOptimizedImageUrl } from '@/utils/imageOptimizer';
-import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
+import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 
 export const metadata: Metadata = {
@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     'Експертні статті CrafoHab: як обрати справжню крафтову плитку шоколаду та батончик, шоколадні квіти Callebaut, безпечні солодощі для дітей, вироби без цукру, зефірні букети та авторські торти.',
   alternates: {
     canonical: `${SITE_URL}/blog`,
+    languages: buildHreflangAlternates('/blog'),
   },
   openGraph: {
     title: 'Блог CrafoHab — Експертні рейтинги та гіди покупця',

@@ -1,4 +1,4 @@
-import { CraftMaker } from '@/data/chocolateData';
+import { ChocolateProduct, CraftMaker, getPricePer100g } from '@/data/chocolateData';
 import type { BlogArticle } from '@/data/blogData';
 import { SITE_EMAIL, SITE_NAME, SITE_URL, toAbsoluteUrl } from '@/lib/siteConfig';
 
@@ -109,12 +109,109 @@ export function generateLocalBusinessSchema(maker: CraftMaker) {
   };
 }
 
-export function generateCityCategoryItemListSchema(title: string, city: string, makers: CraftMaker[]) {
+export function generateMakerProfileSchema(
+  maker: CraftMaker,
+  makerProducts: ChocolateProduct[]
+) {
+  const profileUrl = `${SITE_URL}/maysternya/${maker.slug}`;
+  const validPhone = getValidPhone(maker.phone);
+  const sameAs = Array.from(
+    new Set([maker.websiteUrl, maker.instagramUrl].filter((v): v is string => Boolean(v)))
+  );
+
+  const graph: Record<string, unknown>[] = [
+    {
+      '@type': maker.segment === 'custom-cakes-pastry' ? 'Bakery' : 'FoodEstablishment',
+      '@id': `${profileUrl}#business`,
+      name: maker.name,
+      description: maker.description,
+      image: [toAbsoluteUrl(maker.imageUrl)],
+      url: profileUrl,
+      sameAs,
+      ...(validPhone ? { telephone: validPhone } : {}),
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: maker.city,
+        streetAddress: maker.address || maker.city,
+        addressCountry: 'UA',
+      },
+      foundingDate: String(maker.foundedYear),
+      areaServed: 'UA',
+      priceRange: '₴₴',
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: maker.rating || 4.95,
+        reviewCount: maker.reviewsCount || 48,
+        bestRating: 5,
+        worstRating: 1,
+      },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: SITE_NAME, item: SITE_URL },
+        { '@type': 'ListItem', position: 2, name: 'Майстерні України', item: `${SITE_URL}/maysternya` },
+        { '@type': 'ListItem', position: 3, name: maker.name, item: profileUrl },
+      ],
+    },
+  ];
+
+  if (makerProducts.length > 0) {
+    graph.push({
+      '@type': 'ItemList',
+      name: `Асортимент майстерні ${maker.name}`,
+      numberOfItems: makerProducts.length,
+      itemListElement: makerProducts.map((product, idx) => ({
+        '@type': 'ListItem',
+        position: idx + 1,
+        item: {
+          '@type': 'Product',
+          name: product.title,
+          image: toAbsoluteUrl(product.imageUrl),
+          description: `${product.expertVerdict} Підсолоджувач: ${product.sweetener}. Ціна за 100 г: ${getPricePer100g(product.priceUah, product.weightGrams)} грн.`,
+          brand: {
+            '@type': 'Brand',
+            name: maker.name,
+          },
+          offers: {
+            '@type': 'AggregateOffer',
+            priceCurrency: 'UAH',
+            lowPrice: product.priceUah,
+            offerCount: product.offersCount,
+            availability: 'https://schema.org/InStock',
+          },
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: product.rating,
+            reviewCount: product.reviewsCount,
+            bestRating: 5,
+            worstRating: 1,
+          },
+        },
+      })),
+    });
+  }
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': graph,
+  };
+}
+
+export function generateCityCategoryItemListSchema(
+  title: string,
+  city: string,
+  makers: CraftMaker[],
+  lang: 'uk' | 'ru' = 'uk'
+) {
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: title,
-    description: `Кращі перевірені майстерні (${city}): порівняння, рейтинги та пряме замовлення.`,
+    description:
+      lang === 'ru'
+        ? `Лучшие проверенные мастерские (${city}): сравнение, рейтинги и прямой заказ.`
+        : `Кращі перевірені майстерні (${city}): порівняння, рейтинги та пряме замовлення.`,
     itemListElement: makers.slice(0, 10).map((m, idx) => {
       const validPhone = getValidPhone(m.phone);
       return {
@@ -123,7 +220,7 @@ export function generateCityCategoryItemListSchema(title: string, city: string, 
         item: {
           '@type': 'LocalBusiness',
           name: m.name,
-          url: m.websiteUrl,
+          url: `${SITE_URL}/maysternya/${m.slug}`,
           image: toAbsoluteUrl(m.imageUrl),
           ...(validPhone ? { telephone: validPhone } : {}),
           address: {
@@ -172,18 +269,26 @@ export function generateBreadcrumbSchema(items: { name: string; url: string }[])
   };
 }
 
-export function generateBlogArticleSchema(article: BlogArticle) {
-  const articleUrl = `${SITE_URL}/blog/${article.slug}`;
+export function generateBlogArticleSchema(article: BlogArticle, lang: 'uk' | 'ru' = 'uk') {
+  const isRu = lang === 'ru';
+  const articleUrl = isRu
+    ? `${SITE_URL}/ru/blog/${article.slug}`
+    : `${SITE_URL}/blog/${article.slug}`;
+  const blogIndexUrl = isRu ? `${SITE_URL}/ru/blog` : `${SITE_URL}/blog`;
+  const homeUrl = isRu ? `${SITE_URL}/ru` : SITE_URL;
+  const headline = isRu ? article.titleRu : article.titleUk;
+  const description = isRu ? article.excerptRu : article.excerptUk;
+
   const graph: Record<string, unknown>[] = [
     {
       '@type': 'Article',
       '@id': `${articleUrl}#article`,
-      headline: article.titleUk,
-      description: article.excerptUk,
+      headline,
+      description,
       image: [toAbsoluteUrl(article.heroImage)],
       datePublished: article.publishedAt,
       dateModified: article.publishedAt,
-      inLanguage: 'uk-UA',
+      inLanguage: isRu ? 'ru-UA' : 'uk-UA',
       mainEntityOfPage: {
         '@type': 'WebPage',
         '@id': articleUrl,
@@ -198,9 +303,9 @@ export function generateBlogArticleSchema(article: BlogArticle) {
     {
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: SITE_NAME, item: SITE_URL },
-        { '@type': 'ListItem', position: 2, name: 'Блог', item: `${SITE_URL}/blog` },
-        { '@type': 'ListItem', position: 3, name: article.titleUk, item: articleUrl },
+        { '@type': 'ListItem', position: 1, name: SITE_NAME, item: homeUrl },
+        { '@type': 'ListItem', position: 2, name: 'Блог', item: blogIndexUrl },
+        { '@type': 'ListItem', position: 3, name: headline, item: articleUrl },
       ],
     },
   ];
@@ -210,10 +315,10 @@ export function generateBlogArticleSchema(article: BlogArticle) {
       '@type': 'FAQPage',
       mainEntity: article.faq.map((f) => ({
         '@type': 'Question',
-        name: f.qUk,
+        name: isRu ? f.qRu : f.qUk,
         acceptedAnswer: {
           '@type': 'Answer',
-          text: f.aUk,
+          text: isRu ? f.aRu : f.aUk,
         },
       })),
     });

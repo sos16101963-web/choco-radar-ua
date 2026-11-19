@@ -1,7 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
-import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
+import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { generateBreadcrumbSchema } from '@/utils/seoSchema';
 
 const title = 'Авторські торти та десерти на замовлення — CrafoHab 2027';
@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   description,
   alternates: {
     canonical: `${SITE_URL}/torty`,
+    languages: buildHreflangAlternates('/torty'),
   },
   openGraph: {
     title,

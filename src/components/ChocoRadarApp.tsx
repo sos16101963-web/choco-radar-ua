@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   CATEGORIES,
   MAKERS,
@@ -57,7 +58,7 @@ import {
 } from 'lucide-react';
 import { trackMakerClick, appendUtm, getMakerStats } from '@/utils/analytics';
 import { getOptimizedImageUrl } from '@/utils/imageOptimizer';
-import { HOME_FAQ } from '@/lib/siteConfig';
+import { extractPhoneDigits, hasRuRoute, HOME_FAQ } from '@/lib/siteConfig';
 
 // Direct link to a category page on the maker's site (manual > auto-discovered). null = no verified link.
 function getMakerCategoryUrl(maker: CraftMaker, cat: CategorySlug): string | null {
@@ -83,6 +84,7 @@ interface ChocoRadarAppProps {
   initialCategory?: CategorySlug;
   initialCity?: string;
   initialVariantId?: string;
+  initialLang?: Lang;
   seoOverride?: PageSeoOverride;
 }
 
@@ -274,11 +276,20 @@ export default function ChocoRadarApp({
   initialCategory = 'all',
   initialCity = 'all',
   initialVariantId,
+  initialLang = 'uk',
   seoOverride,
 }: ChocoRadarAppProps) {
-  const [lang, setLang] = useState<Lang>('uk');
+  const router = useRouter();
+  const [lang, setLang] = useState<Lang>(initialLang);
   const [isDark, setIsDark] = useState(false);
   const [isVariantDropdownOpen, setIsVariantDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    setLang(initialLang);
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = initialLang;
+    }
+  }, [initialLang]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -287,38 +298,51 @@ export default function ChocoRadarApp({
       if (qParam && qParam.trim() !== '') {
         setSearchQuery(qParam.trim());
       }
-      const qLang = params.get('lang');
-      if (qLang === 'ru' || qLang === 'uk') {
-        setLang(qLang);
+      if (initialLang === 'ru') {
         try {
-          localStorage.setItem('crafo_lang', qLang);
+          localStorage.setItem('crafo_lang', 'ru');
         } catch (e) {}
         return;
       }
-      try {
-        const stored = localStorage.getItem('crafo_lang');
-        if (stored === 'ru' || stored === 'uk') {
-          setLang(stored as Lang);
-        }
-      } catch (e) {}
+      const qLang = params.get('lang');
+      if (qLang === 'ru' || qLang === 'uk') {
+        setLang(qLang);
+        document.documentElement.lang = qLang;
+        try {
+          localStorage.setItem('crafo_lang', qLang);
+        } catch (e) {}
+      }
     }
-  }, []);
+  }, [initialLang]);
 
   const changeLanguage = (newLang: Lang) => {
     setLang(newLang);
     if (typeof window !== 'undefined') {
+      document.documentElement.lang = newLang;
       try {
         localStorage.setItem('crafo_lang', newLang);
-        const url = new URL(window.location.href);
-        url.searchParams.set('lang', newLang);
-        window.history.replaceState({}, '', url.toString());
       } catch (e) {}
+
+      const pathname = window.location.pathname || '/';
+      if (newLang === 'ru') {
+        const ukPath = pathname.replace(/^\/ru(?=\/|$)/, '') || '/';
+        if (hasRuRoute(ukPath)) {
+          router.push(ukPath === '/' ? '/ru' : `/ru${ukPath}`);
+          return;
+        }
+      } else {
+        if (pathname === '/ru' || pathname.startsWith('/ru/')) {
+          const ukPath = pathname.replace(/^\/ru(?=\/|$)/, '') || '/';
+          router.push(ukPath);
+          return;
+        }
+      }
     }
   };
 
   const getLocalizedHref = (path: string) => {
-    if (lang === 'ru') {
-      return path.includes('?') ? `${path}&lang=ru` : `${path}?lang=ru`;
+    if (lang === 'ru' && hasRuRoute(path)) {
+      return path === '/' ? '/ru' : `/ru${path}`;
     }
     return path;
   };
@@ -701,10 +725,7 @@ export default function ChocoRadarApp({
         ? CATEGORY_SHORT_LABELS[effectiveCategory]?.uk
         : CATEGORY_SHORT_LABELS[effectiveCategory]?.ru;
 
-    const rawDigits = maker.phone ? maker.phone.split(',')[0].replace(/[^\d]/g, '') : '';
-    const phoneNum = rawDigits.length >= 9
-      ? (rawDigits.startsWith('380') ? rawDigits : rawDigits.startsWith('0') ? '38' + rawDigits : rawDigits)
-      : null;
+    const phoneNum = extractPhoneDigits(maker.phone);
 
     return (
       <article
@@ -803,14 +824,12 @@ export default function ChocoRadarApp({
         <div className="flex flex-1 flex-col gap-3 p-4 sm:p-5">
           <div>
             <h3 className="font-serif text-base sm:text-lg font-bold leading-snug">
-              <a
-                href={directDestinationUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href={`/maysternya/${maker.slug}`}
                 className="hover:underline hover:text-[#b06a1e] transition"
               >
                 {cleanDisplayName(localizeText(maker.name, lang))}
-              </a>
+              </Link>
             </h3>
             <p
               className={`mt-1 flex items-center gap-1 text-xs font-medium ${
@@ -878,11 +897,14 @@ export default function ChocoRadarApp({
                 </div>
               </div>
 
-              {/* Secret discreet button for maker's analytics access */}
-              <div className="pt-1 flex items-center justify-between">
-                <span className={`text-[10px] italic ${isDark ? 'text-[#8c7f73]' : 'text-[#8c7b6d]'}`}>
-                  {lang === 'uk' ? 'Дані з відкритих джерел' : 'Данные из открытых источников'}
-                </span>
+              {/* Secret discreet button for maker's analytics access + profile link */}
+              <div className="pt-1 flex items-center justify-between gap-2 flex-wrap">
+                <Link
+                  href={`/maysternya/${maker.slug}`}
+                  className="text-[11px] font-bold text-[#b06a1e] hover:underline inline-flex items-center gap-1"
+                >
+                  <span>{lang === 'uk' ? 'Повний профіль майстерні →' : 'Полный профиль мастерской →'}</span>
+                </Link>
                 <button
                   type="button"
                   onClick={(e) => {
@@ -2385,7 +2407,7 @@ export default function ChocoRadarApp({
                 {CITY_SEO_HUBS.map((city) => (
                   <Link
                     key={city.slug}
-                    href={`/misto/${city.slug}`}
+                    href={getLocalizedHref(`/misto/${city.slug}`)}
                     className={`rounded-full px-3.5 py-1.5 text-xs font-bold border transition ${
                       isDark
                         ? 'bg-[#261b16] border-white/15 text-[#eee7dd] hover:border-[#e39851]'
@@ -2425,7 +2447,7 @@ export default function ChocoRadarApp({
                 </h2>
               </div>
               <Link
-                href="/blog"
+                href={getLocalizedHref('/blog')}
                 className="inline-flex items-center gap-1.5 rounded-full bg-[#462b1f] hover:bg-[#5c3929] px-5 py-2.5 text-xs font-extrabold text-[#faf4eb] shadow-sm transition shrink-0"
               >
                 <span>{lang === 'uk' ? 'Усі статті блогу' : 'Все статьи блога'}</span>
@@ -2442,7 +2464,7 @@ export default function ChocoRadarApp({
                   }`}
                 >
                   <Link
-                    href={`/blog/${article.slug}`}
+                    href={getLocalizedHref(`/blog/${article.slug}`)}
                     className="relative h-52 sm:h-60 w-full overflow-hidden block bg-[#f3e9dc]"
                   >
                     <img
@@ -2456,7 +2478,7 @@ export default function ChocoRadarApp({
                     />
                   </Link>
                   <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-2">
-                    <Link href={`/blog/${article.slug}`}>
+                    <Link href={getLocalizedHref(`/blog/${article.slug}`)}>
                       <h3 className="font-serif text-base sm:text-lg font-bold leading-snug group-hover:text-[#b06a1e] transition">
                         {lang === 'uk' ? article.titleUk : article.titleRu}
                       </h3>
@@ -2537,6 +2559,9 @@ export default function ChocoRadarApp({
             </Link>
             <Link href={getLocalizedHref('/zefir')} onClick={() => handleSelectSection('zefir')} className="hover:text-[#b06a1e]">
               🌸 {lang === 'uk' ? 'Зефір' : 'Зефир'}
+            </Link>
+            <Link href="/maysternya" className="hover:text-[#b06a1e]">
+              🏭 {lang === 'uk' ? `Усі ${MAKERS.length} майстерень` : `Все ${MAKERS.length} мастерских`}
             </Link>
             <button
               onClick={() => setIsMethodologyModalOpen(true)}
@@ -3170,6 +3195,15 @@ export default function ChocoRadarApp({
               >
                 <BarChart2 className="w-4 h-4" />
               </button>
+            </div>
+
+            <div>
+              <Link
+                href={`/maysternya/${activeMakerModal.slug}`}
+                className="inline-flex items-center gap-1 text-xs font-bold text-[#b06a1e] hover:underline"
+              >
+                <span>{lang === 'uk' ? 'Відкрити повний профіль майстерні →' : 'Открыть полный профиль мастерской →'}</span>
+              </Link>
             </div>
 
             {/* Quick Order: Viber & Telegram in Modal */}

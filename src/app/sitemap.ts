@@ -1,40 +1,56 @@
 import { MetadataRoute } from 'next';
-import { CATEGORIES } from '@/data/chocolateData';
+import { CATEGORIES, MAKERS } from '@/data/chocolateData';
 import { BLOG_ARTICLES, CITY_SEO_HUBS } from '@/data/blogData';
 import { CITY_SECTION_COMBOS } from '@/data/cityCategorySeo';
 import { CAKE_VARIANTS, CHOCOLATE_VARIANTS, ZEFIR_VARIANTS } from '@/data/sectionVariants';
-import { SITE_LAST_UPDATED, SITE_URL } from '@/lib/siteConfig';
+import { buildHreflangAlternates, SITE_LAST_UPDATED, SITE_URL } from '@/lib/siteConfig';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const stableDate = new Date(SITE_LAST_UPDATED);
 
-  const sectionUrls: MetadataRoute.Sitemap = ['/shokolad', '/torty', '/zefir'].map((path) => ({
-    url: `${SITE_URL}${path}`,
-    lastModified: stableDate,
-    changeFrequency: 'daily' as const,
-    priority: 0.95,
-  }));
+  const makeBilingualPair = (
+    ukPath: string,
+    priority: number,
+    lastModified: Date = stableDate,
+    changeFrequency: 'daily' | 'weekly' = 'daily'
+  ): MetadataRoute.Sitemap => {
+    const normalized = ukPath === '/' ? '' : ukPath;
+    const languages = buildHreflangAlternates(ukPath);
+    return [
+      {
+        url: `${SITE_URL}${normalized}`,
+        lastModified,
+        changeFrequency,
+        priority,
+        alternates: { languages },
+      },
+      {
+        url: `${SITE_URL}/ru${normalized}`,
+        lastModified,
+        changeFrequency,
+        priority: Math.max(0.5, Number((priority - 0.05).toFixed(2))),
+        alternates: { languages },
+      },
+    ];
+  };
 
-  const chocolateVariantUrls: MetadataRoute.Sitemap = CHOCOLATE_VARIANTS.map((v) => ({
-    url: `${SITE_URL}/shokolad/${v.slug}`,
-    lastModified: stableDate,
-    changeFrequency: 'daily' as const,
-    priority: 0.92,
-  }));
-
-  const cakeVariantUrls: MetadataRoute.Sitemap = CAKE_VARIANTS.map((v) => ({
-    url: `${SITE_URL}/torty/${v.slug}`,
-    lastModified: stableDate,
-    changeFrequency: 'daily' as const,
-    priority: 0.92,
-  }));
-
-  const zefirVariantUrls: MetadataRoute.Sitemap = ZEFIR_VARIANTS.map((v) => ({
-    url: `${SITE_URL}/zefir/${v.slug}`,
-    lastModified: stableDate,
-    changeFrequency: 'daily' as const,
-    priority: 0.92,
-  }));
+  const bilingualEntries: MetadataRoute.Sitemap = [
+    ...makeBilingualPair('/', 1),
+    ...makeBilingualPair('/shokolad', 0.95),
+    ...makeBilingualPair('/torty', 0.95),
+    ...makeBilingualPair('/zefir', 0.95),
+    ...CHOCOLATE_VARIANTS.flatMap((v) => makeBilingualPair(`/shokolad/${v.slug}`, 0.92)),
+    ...CAKE_VARIANTS.flatMap((v) => makeBilingualPair(`/torty/${v.slug}`, 0.92)),
+    ...ZEFIR_VARIANTS.flatMap((v) => makeBilingualPair(`/zefir/${v.slug}`, 0.92)),
+    ...makeBilingualPair('/blog', 0.9),
+    ...BLOG_ARTICLES.flatMap((art) =>
+      makeBilingualPair(`/blog/${art.slug}`, 0.85, new Date(art.publishedAt), 'weekly')
+    ),
+    ...CITY_SEO_HUBS.flatMap((city) => makeBilingualPair(`/misto/${city.slug}`, 0.85)),
+    ...CITY_SECTION_COMBOS.flatMap((combo) =>
+      makeBilingualPair(`/misto/${combo.citySlug}/${combo.categorySlug}`, 0.88)
+    ),
+  ];
 
   const categoryUrls: MetadataRoute.Sitemap = CATEGORIES.filter((c) => c.slug !== 'all').map(
     (cat) => ({
@@ -45,44 +61,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   );
 
-  const cityUrls: MetadataRoute.Sitemap = CITY_SEO_HUBS.map((city) => ({
-    url: `${SITE_URL}/misto/${city.slug}`,
+  const makerDirectoryUrl: MetadataRoute.Sitemap[number] = {
+    url: `${SITE_URL}/maysternya`,
     lastModified: stableDate,
-    changeFrequency: 'daily' as const,
-    priority: 0.85,
-  }));
+    changeFrequency: 'daily',
+    priority: 0.92,
+  };
 
-  const cityCategoryUrls: MetadataRoute.Sitemap = CITY_SECTION_COMBOS.map((combo) => ({
-    url: `${SITE_URL}/misto/${combo.citySlug}/${combo.categorySlug}`,
+  const makerProfileUrls: MetadataRoute.Sitemap = MAKERS.map((maker) => ({
+    url: `${SITE_URL}/maysternya/${maker.slug}`,
     lastModified: stableDate,
-    changeFrequency: 'daily' as const,
-    priority: 0.88,
-  }));
-
-  const blogUrls: MetadataRoute.Sitemap = BLOG_ARTICLES.map((art) => ({
-    url: `${SITE_URL}/blog/${art.slug}`,
-    lastModified: new Date(art.publishedAt),
     changeFrequency: 'weekly' as const,
-    priority: 0.85,
+    priority: 0.82,
   }));
 
   return [
-    {
-      url: SITE_URL,
-      lastModified: stableDate,
-      changeFrequency: 'daily',
-      priority: 1,
-    },
-    ...sectionUrls,
-    ...chocolateVariantUrls,
-    ...cakeVariantUrls,
-    ...zefirVariantUrls,
-    {
-      url: `${SITE_URL}/blog`,
-      lastModified: stableDate,
-      changeFrequency: 'daily',
-      priority: 0.9,
-    },
+    ...bilingualEntries,
     {
       url: `${SITE_URL}/for-makers`,
       lastModified: stableDate,
@@ -90,8 +84,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     ...categoryUrls,
-    ...cityUrls,
-    ...cityCategoryUrls,
-    ...blogUrls,
+    makerDirectoryUrl,
+    ...makerProfileUrls,
   ];
 }

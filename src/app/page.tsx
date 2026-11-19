@@ -1,7 +1,15 @@
 import React from 'react';
+import { Metadata } from 'next';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
 import { PRODUCTS, MAKERS, getPricePer100g } from '@/data/chocolateData';
-import { HOME_FAQ, SITE_NAME, SITE_URL, toAbsoluteUrl } from '@/lib/siteConfig';
+import { buildHreflangAlternates, HOME_FAQ, SITE_NAME, SITE_URL, toAbsoluteUrl } from '@/lib/siteConfig';
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: SITE_URL,
+    languages: buildHreflangAlternates('/'),
+  },
+};
 
 export default function HomePage() {
   const jsonLd = {

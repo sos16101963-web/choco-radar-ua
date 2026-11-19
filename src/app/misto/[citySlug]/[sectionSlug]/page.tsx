@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
 import { CITY_SECTION_COMBOS } from '@/data/cityCategorySeo';
 import { MAKERS, CategorySlug } from '@/data/chocolateData';
-import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
+import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import {
   generateCityCategoryItemListSchema,
   generateFaqSchema,
@@ -40,6 +40,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description: config.metaDescUk,
     alternates: {
       canonical: url,
+      languages: buildHreflangAlternates(`/misto/${config.citySlug}/${config.categorySlug}`),
     },
     openGraph: {
       title: config.titleUk,

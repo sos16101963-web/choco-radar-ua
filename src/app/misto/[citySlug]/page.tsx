@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { CITY_SEO_HUBS } from '@/data/blogData';
 import { MAKERS } from '@/data/chocolateData';
 import ChocoRadarApp from '@/components/ChocoRadarApp';
-import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
+import { buildHreflangAlternates, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import {
   generateCityCategoryItemListSchema,
   generateBreadcrumbSchema,
@@ -32,6 +32,7 @@ export async function generateMetadata({ params }: CityPageProps): Promise<Metad
     description: city.descriptionUk,
     alternates: {
       canonical: url,
+      languages: buildHreflangAlternates(`/misto/${city.slug}`),
     },
     openGraph: {
       title: city.h1Uk,
