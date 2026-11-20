@@ -4,7 +4,7 @@ export const SITE_URL = (
 
 export const SITE_NAME = 'CrafoHab';
 export const SITE_DOMAIN_LABEL = 'crafohab.com.ua';
-export const SITE_EMAIL = 'editor@crafohab.com.ua';
+export const SITE_EMAIL = 'crafohab@ukr.net';
 export const SITE_LAST_UPDATED = '2026-11-19';
 export const INDEXNOW_KEY = 'c7f4a9e2b1d84f6a9c3e5b7d2a8f1e4c';
 

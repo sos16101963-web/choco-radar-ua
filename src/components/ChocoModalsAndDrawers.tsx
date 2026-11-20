@@ -769,8 +769,8 @@ export default function ChocoModalsAndDrawers({
               {lang === 'uk'
                 ? "Інформація взята з відкритих публічних джерел для ознайомлення споживачів. Якщо ви є власником майстерні та бажаєте оновити дані або видалити профіль — зв'яжіться з нами: "
                 : 'Информация взята из открытых публичных источников для ознакомления потребителей. Если вы являетесь владельцем мастерской и желаете обновить данные или удалить профиль — свяжитесь с нами: '}
-              <a href="mailto:editor@crafohab.com.ua" className="font-bold underline hover:text-[#b06a1e]">
-                editor@crafohab.com.ua
+              <a href="mailto:crafohab@ukr.net" className="font-bold underline hover:text-[#b06a1e]">
+                crafohab@ukr.net
               </a>
             </p>
           </div>
@@ -1029,7 +1029,7 @@ export default function ChocoModalsAndDrawers({
               <div className="border-t border-[#e1d5c8] pt-4 space-y-1">
                 <div className="font-bold text-[#302016]">Контакти редакції та служби верифікації:</div>
                 <div className="text-xs text-[#4a382e]">
-                  Електронна пошта: <a href="mailto:editor@crafohab.com.ua" className="underline text-[#b06a1e]">editor@crafohab.com.ua</a> | Підтримка: <a href="https://t.me/crafohab_ua" target="_blank" rel="noopener noreferrer" className="underline text-[#b06a1e]">Telegram @crafohab_ua</a>
+                  Електронна пошта: <a href="mailto:crafohab@ukr.net" className="underline text-[#b06a1e]">crafohab@ukr.net</a> | Підтримка: <a href="https://t.me/crafohab_ua" target="_blank" rel="noopener noreferrer" className="underline text-[#b06a1e]">Telegram @crafohab_ua</a>
                 </div>
               </div>
             </div>
