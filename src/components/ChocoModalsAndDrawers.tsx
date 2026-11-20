@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
   ArrowUpRight,
@@ -26,7 +26,7 @@ import {
   SECTION_VARIANTS_MAP,
 } from '@/data/sectionVariants';
 import { appendUtm, getMakerStats, trackMakerClick } from '@/utils/analytics';
-import { extractPhoneDigits } from '@/lib/siteConfig';
+import { extractPhoneDigits, SITE_EMAIL } from '@/lib/siteConfig';
 import {
   CatalogCityCount,
   CatalogMaker,
@@ -139,10 +139,126 @@ export default function ChocoModalsAndDrawers({
   // Modal internal states
   const [cityFilterSearch, setCityFilterSearch] = useState('');
   const [tenderSubmitted, setTenderSubmitted] = useState(false);
+  const [tenderCity, setTenderCity] = useState(selectedCity !== 'all' ? selectedCity : '');
+  const [tenderDate, setTenderDate] = useState('');
+  const [tenderDesc, setTenderDesc] = useState('');
+  const [tenderContact, setTenderContact] = useState('');
+  const [tenderHp, setTenderHp] = useState('');
+  const [tenderLoading, setTenderLoading] = useState(false);
+  const [tenderError, setTenderError] = useState<string | null>(null);
+
   const [makerSubmitted, setMakerSubmitted] = useState(false);
+  const [makerBrandName, setMakerBrandName] = useState('');
+  const [makerLink, setMakerLink] = useState('');
+  const [makerContact, setMakerContact] = useState('');
+  const [makerHp, setMakerHp] = useState('');
+  const [makerLoading, setMakerLoading] = useState(false);
+  const [makerError, setMakerError] = useState<string | null>(null);
+
   const [statsPinInput, setStatsPinInput] = useState('');
   const [statsUnlocked, setStatsUnlocked] = useState(false);
   const [statsError, setStatsError] = useState('');
+
+  useEffect(() => {
+    if (!isTenderModalOpen && !tenderCity && selectedCity !== 'all') {
+      setTenderCity(selectedCity);
+    }
+  }, [selectedCity, isTenderModalOpen, tenderCity]);
+
+  const handleTenderSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (tenderLoading) return;
+    setTenderLoading(true);
+    setTenderError(null);
+
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'tender',
+          category: tenderCategory,
+          city: tenderCity,
+          eventDate: tenderDate,
+          description: tenderDesc,
+          contact: tenderContact,
+          lang,
+          sourcePage: typeof window !== 'undefined' ? window.location.pathname : '/',
+          hp: tenderHp,
+        }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.ok) {
+        setTenderError(
+          data?.error ||
+            (lang === 'uk'
+              ? 'Не вдалося надіслати заявку. Спробуйте ще раз.'
+              : 'Не удалось отправить заявку. Попробуйте еще раз.')
+        );
+        return;
+      }
+      setTenderSubmitted(true);
+      setTenderDate('');
+      setTenderDesc('');
+      setTenderContact('');
+      setTenderHp('');
+    } catch {
+      setTenderError(
+        lang === 'uk'
+          ? 'Помилка з’єднання. Перевірте інтернет або напишіть на пошту редакції.'
+          : 'Ошибка соединения. Проверьте интернет или напишите на почту редакции.'
+      );
+    } finally {
+      setTenderLoading(false);
+    }
+  };
+
+  const handleAddMakerSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (makerLoading) return;
+    setMakerLoading(true);
+    setMakerError(null);
+
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'add_maker',
+          plan: selectedPlanForModal,
+          brandName: makerBrandName,
+          link: makerLink,
+          contact: makerContact,
+          lang,
+          sourcePage: typeof window !== 'undefined' ? window.location.pathname : '/',
+          hp: makerHp,
+        }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.ok) {
+        setMakerError(
+          data?.error ||
+            (lang === 'uk'
+              ? 'Не вдалося надіслати заявку. Спробуйте ще раз.'
+              : 'Не удалось отправить заявку. Попробуйте еще раз.')
+        );
+        return;
+      }
+      setMakerSubmitted(true);
+      setMakerBrandName('');
+      setMakerLink('');
+      setMakerContact('');
+      setMakerHp('');
+    } catch {
+      setMakerError(
+        lang === 'uk'
+          ? 'Помилка з’єднання. Перевірте інтернет або напишіть на пошту редакції.'
+          : 'Ошибка соединения. Проверьте интернет или напишите на почту редакции.'
+      );
+    } finally {
+      setMakerLoading(false);
+    }
+  };
 
   const quizRecommendedMakers = useMemo(() => {
     return MAKERS.filter((m) => {
@@ -796,6 +912,7 @@ export default function ChocoModalsAndDrawers({
                 onClick={() => {
                   setIsTenderModalOpen(false);
                   setTenderSubmitted(false);
+                  setTenderError(null);
                 }}
                 aria-label={lang === 'uk' ? 'Закрити форму замовлення' : 'Закрыть форму заказа'}
                 className="p-2 rounded-full bg-[#f1e6da] hover:bg-[#e5d5c3] transition shrink-0"
@@ -819,6 +936,7 @@ export default function ChocoModalsAndDrawers({
                   onClick={() => {
                     setIsTenderModalOpen(false);
                     setTenderSubmitted(false);
+                    setTenderError(null);
                   }}
                   className="rounded-full bg-[#462b1f] text-white px-5 py-2 text-xs font-bold"
                 >
@@ -826,13 +944,18 @@ export default function ChocoModalsAndDrawers({
                 </button>
               </div>
             ) : (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setTenderSubmitted(true);
-                }}
-                className="space-y-3 text-xs sm:text-sm"
-              >
+              <form onSubmit={handleTenderSubmit} className="space-y-3 text-xs sm:text-sm">
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={tenderHp}
+                  onChange={(e) => setTenderHp(e.target.value)}
+                  className="hidden"
+                  aria-hidden="true"
+                />
+
                 {/* Category selector */}
                 <div>
                   <label className="block text-[11px] font-bold text-[#4a382e] mb-1.5">
@@ -873,7 +996,8 @@ export default function ChocoModalsAndDrawers({
                     <input
                       type="text"
                       required
-                      defaultValue={selectedCity !== 'all' ? selectedCity : ''}
+                      value={tenderCity}
+                      onChange={(e) => setTenderCity(e.target.value)}
                       placeholder={lang === 'uk' ? 'Наприклад: Харків' : 'Например: Харьков'}
                       className="w-full bg-white border border-[#d4c3b3] rounded-xl px-3.5 py-2.5 outline-none focus:border-[#b06a1e]"
                     />
@@ -885,6 +1009,8 @@ export default function ChocoModalsAndDrawers({
                     <input
                       type="text"
                       required
+                      value={tenderDate}
+                      onChange={(e) => setTenderDate(e.target.value)}
                       placeholder={lang === 'uk' ? 'Наприклад: 20 травня' : 'Например: 20 мая'}
                       className="w-full bg-white border border-[#d4c3b3] rounded-xl px-3.5 py-2.5 outline-none focus:border-[#b06a1e]"
                     />
@@ -898,6 +1024,8 @@ export default function ChocoModalsAndDrawers({
                   <textarea
                     rows={2}
                     required
+                    value={tenderDesc}
+                    onChange={(e) => setTenderDesc(e.target.value)}
                     placeholder={
                       lang === 'uk'
                         ? 'Наприклад: торт на 15 людей, начинка манго-маракуйя або шоколадний велюр...'
@@ -914,17 +1042,49 @@ export default function ChocoModalsAndDrawers({
                   <input
                     type="text"
                     required
+                    value={tenderContact}
+                    onChange={(e) => setTenderContact(e.target.value)}
                     placeholder="+38 (0XX) XXX-XX-XX або @username"
                     className="w-full bg-white border border-[#d4c3b3] rounded-xl px-3.5 py-2.5 outline-none focus:border-[#b06a1e]"
                   />
                 </div>
 
+                {tenderError && (
+                  <div
+                    role="alert"
+                    className="rounded-xl border border-red-300 bg-red-50 px-3.5 py-2.5 text-xs text-red-800 space-y-1"
+                  >
+                    <p className="font-bold">{tenderError}</p>
+                    <p>
+                      {lang === 'uk' ? 'Або напишіть на ' : 'Или напишите на '}
+                      <a href={`mailto:${SITE_EMAIL}`} className="underline font-bold">
+                        {SITE_EMAIL}
+                      </a>
+                    </p>
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-[#b06a1e] to-[#8c4f12] hover:brightness-110 text-white font-extrabold py-3.5 rounded-full shadow-md transition"
+                  disabled={tenderLoading}
+                  className="w-full bg-gradient-to-r from-[#b06a1e] to-[#8c4f12] hover:brightness-110 text-white font-extrabold py-3.5 rounded-full shadow-md transition disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {lang === 'uk' ? '🎯 Отримати 3–5 розрахунків безкоштовно' : '🎯 Получить 3–5 расчетов бесплатно'}
+                  {tenderLoading
+                    ? lang === 'uk'
+                      ? 'Відправляємо...'
+                      : 'Отправляем...'
+                    : lang === 'uk'
+                    ? '🎯 Отримати 3–5 розрахунків безкоштовно'
+                    : '🎯 Получить 3–5 расчетов бесплатно'}
                 </button>
+
+                <p className="text-[11px] text-center text-[#7a6858]">
+                  {lang === 'uk' ? 'Надсилаючи заявку, ви погоджуєтесь з ' : 'Отправляя заявку, вы соглашаетесь с '}
+                  <Link href="/privacy" className="underline hover:text-[#b06a1e]">
+                    {lang === 'uk' ? 'Політикою конфіденційності' : 'Политикой конфиденциальности'}
+                  </Link>
+                  .
+                </p>
               </form>
             )}
           </div>
@@ -1145,6 +1305,7 @@ export default function ChocoModalsAndDrawers({
                 onClick={() => {
                   setIsAddMakerModalOpen(false);
                   setMakerSubmitted(false);
+                  setMakerError(null);
                 }}
                 aria-label={lang === 'uk' ? 'Закрити форму додавання майстерні' : 'Закрыть форму добавления мастерской'}
                 className="p-2 rounded-full bg-[#f1e6da] hover:bg-[#e5d5c3] transition shrink-0"
@@ -1160,37 +1321,75 @@ export default function ChocoModalsAndDrawers({
                 </div>
               </div>
             ) : (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setMakerSubmitted(true);
-                }}
-                className="space-y-3 text-xs sm:text-sm"
-              >
+              <form onSubmit={handleAddMakerSubmit} className="space-y-3 text-xs sm:text-sm">
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={makerHp}
+                  onChange={(e) => setMakerHp(e.target.value)}
+                  className="hidden"
+                  aria-hidden="true"
+                />
                 <input
                   type="text"
                   required
+                  value={makerBrandName}
+                  onChange={(e) => setMakerBrandName(e.target.value)}
                   placeholder={lang === 'uk' ? 'Назва майстерні' : 'Название мастерской'}
                   className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
                 />
                 <input
                   type="text"
                   required
+                  value={makerLink}
+                  onChange={(e) => setMakerLink(e.target.value)}
                   placeholder={lang === 'uk' ? 'Посилання на сайт або Instagram' : 'Ссылка на сайт или Instagram'}
                   className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
                 />
                 <input
                   type="text"
                   required
-                  placeholder={lang === 'uk' ? 'Телефон для зв’язку' : 'Телефон для связи'}
+                  value={makerContact}
+                  onChange={(e) => setMakerContact(e.target.value)}
+                  placeholder={lang === 'uk' ? 'Телефон або Telegram для зв’язку' : 'Телефон или Telegram для связи'}
                   className="w-full bg-white border border-[#d4c3b3] rounded-2xl px-4 py-3"
                 />
+                {makerError && (
+                  <div
+                    role="alert"
+                    className="rounded-xl border border-red-300 bg-red-50 px-3.5 py-2.5 text-xs text-red-800 space-y-1"
+                  >
+                    <p className="font-bold">{makerError}</p>
+                    <p>
+                      {lang === 'uk' ? 'Або напишіть на ' : 'Или напишите на '}
+                      <a href={`mailto:${SITE_EMAIL}`} className="underline font-bold">
+                        {SITE_EMAIL}
+                      </a>
+                    </p>
+                  </div>
+                )}
                 <button
                   type="submit"
-                  className="w-full bg-[#462b1f] hover:bg-[#b06a1e] text-white font-bold py-3 rounded-full"
+                  disabled={makerLoading}
+                  className="w-full bg-[#462b1f] hover:bg-[#b06a1e] text-white font-bold py-3 rounded-full transition disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {lang === 'uk' ? 'Відправити' : 'Отправить'}
+                  {makerLoading
+                    ? lang === 'uk'
+                      ? 'Відправляємо...'
+                      : 'Отправляем...'
+                    : lang === 'uk'
+                    ? 'Відправити'
+                    : 'Отправить'}
                 </button>
+                <p className="text-[11px] text-center text-[#7a6858]">
+                  {lang === 'uk' ? 'Надсилаючи заявку, ви погоджуєтесь з ' : 'Отправляя заявку, вы соглашаетесь с '}
+                  <Link href="/privacy" className="underline hover:text-[#b06a1e]">
+                    {lang === 'uk' ? 'Політикою конфіденційності' : 'Политикой конфиденциальности'}
+                  </Link>
+                  .
+                </p>
               </form>
             )}
           </div>

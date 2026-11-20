@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
+import { SITE_EMAIL } from '@/lib/siteConfig';
 
 export default function ForMakersAuditForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -9,10 +11,43 @@ export default function ForMakersAuditForm() {
   const [category, setCategory] = useState('🍫 Крафтовий шоколад та цукерки');
   const [link, setLink] = useState('');
   const [contact, setContact] = useState('');
+  const [hp, setHp] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (loading) return;
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'maker_audit',
+          brandName,
+          city,
+          category,
+          link,
+          contact,
+          lang: 'uk',
+          sourcePage: '/for-makers',
+          hp,
+        }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.ok) {
+        setError(data?.error || 'Не вдалося надіслати заявку. Спробуйте ще раз.');
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      setError('Помилка з’єднання. Перевірте інтернет або напишіть на пошту редакції.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (submitted) {
@@ -30,6 +65,17 @@ export default function ForMakersAuditForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3.5 text-xs sm:text-sm">
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        value={hp}
+        onChange={(e) => setHp(e.target.value)}
+        className="hidden"
+        aria-hidden="true"
+      />
+
       <div>
         <label className="block text-[11px] font-bold text-[#4a382e] mb-1">
           Назва майстерні / бренду *
@@ -103,12 +149,36 @@ export default function ForMakersAuditForm() {
         />
       </div>
 
+      {error && (
+        <div
+          role="alert"
+          className="rounded-xl border border-red-300 bg-red-50 px-3.5 py-2.5 text-xs text-red-800 space-y-1"
+        >
+          <p className="font-bold">{error}</p>
+          <p>
+            Або напишіть напряму на{' '}
+            <a href={`mailto:${SITE_EMAIL}`} className="underline font-bold">
+              {SITE_EMAIL}
+            </a>
+          </p>
+        </div>
+      )}
+
       <button
         type="submit"
-        className="w-full bg-gradient-to-r from-[#b06a1e] to-[#8c4f12] text-white font-extrabold py-3.5 rounded-full shadow-md hover:brightness-110 transition text-sm cursor-pointer"
+        disabled={loading}
+        className="w-full bg-gradient-to-r from-[#b06a1e] to-[#8c4f12] text-white font-extrabold py-3.5 rounded-full shadow-md hover:brightness-110 transition text-sm cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
       >
-        🚀 Відправити заявку на безкоштовний аудит
+        {loading ? 'Відправляємо заявку...' : '🚀 Відправити заявку на безкоштовний аудит'}
       </button>
+
+      <p className="text-[11px] text-center text-[#7a6858]">
+        Надсилаючи заявку, ви погоджуєтесь з{' '}
+        <Link href="/privacy" className="underline hover:text-[#b06a1e]">
+          Політикою конфіденційності
+        </Link>
+        .
+      </p>
     </form>
   );
 }

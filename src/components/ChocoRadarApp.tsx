@@ -2910,6 +2910,12 @@ export default function ChocoRadarApp({
               <BarChart2 className="w-3.5 h-3.5 opacity-70" />
               <span>{lang === 'uk' ? 'Кабінет майстра (PIN)' : 'Кабинет мастера (PIN)'}</span>
             </Link>
+            <Link
+              href="/privacy"
+              className="text-[#4a382e] dark:text-[#d4c9be] hover:text-[#b06a1e] font-normal"
+            >
+              {lang === 'uk' ? 'Політика конфіденційності' : 'Политика конфиденциальности'}
+            </Link>
           </div>
         </div>
 

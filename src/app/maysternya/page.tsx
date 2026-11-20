@@ -173,6 +173,10 @@ export default function MakersDirectoryPage() {
           <a href={`mailto:${SITE_EMAIL}`} className="font-bold underline hover:text-[#b06a1e]">
             {SITE_EMAIL}
           </a>
+          {' • '}
+          <Link href="/privacy" className="underline hover:text-[#b06a1e]">
+            Політика конфіденційності та контакти
+          </Link>
         </p>
       </footer>
     </div>

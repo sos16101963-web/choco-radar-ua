@@ -414,9 +414,14 @@ export default async function MakerProfilePage({ params }: MakerPageProps) {
 
       <BackToTopButton lang="uk" />
 
-      <footer className="mt-8 border-t border-[#e1d5c8] bg-[#f1e6da] py-6 px-4 text-center text-xs text-[#4a382e]">
+      <footer className="mt-8 border-t border-[#e1d5c8] bg-[#f1e6da] py-6 px-4 text-center text-xs text-[#4a382e] space-y-1.5">
         <div className="font-bold text-[#302016]">
           CrafoHab Україна (crafohab.com.ua) — Шоколад • Авторські торти • Крафтовий зефір
+        </div>
+        <div className="text-[11px] text-[#7a6858]">
+          <Link href="/privacy" className="underline hover:text-[#b06a1e]">
+            Політика конфіденційності та контакти
+          </Link>
         </div>
       </footer>
     </div>
