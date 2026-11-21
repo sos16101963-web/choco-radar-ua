@@ -194,6 +194,7 @@ export function generateMakerProfileSchema(
             '@type': 'AggregateOffer',
             priceCurrency: 'UAH',
             lowPrice: product.priceUah,
+            highPrice: Math.round(product.priceUah * (product.offersCount > 1 ? 1.35 : 1.15)),
             offerCount: product.offersCount,
             availability: 'https://schema.org/InStock',
           },
