@@ -58,6 +58,9 @@ import {
   getMakerCategoryUrl,
   Lang,
   localizeText,
+  POPULAR_SEO_SHORTCUTS,
+  SeoRelatedLinkGroup,
+  SeoStatsBanner,
 } from '@/lib/homePreviewData';
 import {
   getRecentMakers,
@@ -93,6 +96,8 @@ export interface PageSeoOverride {
   faqUk?: { q: string; a: string }[];
   faqRu?: { q: string; a: string }[];
   breadcrumbs?: BreadcrumbTrailItem[];
+  statsBanner?: SeoStatsBanner;
+  relatedLinks?: SeoRelatedLinkGroup[];
 }
 
 interface ChocoRadarAppProps {
@@ -2135,6 +2140,51 @@ export default function ChocoRadarApp({
                         ? activeVariant.shortDescUk
                         : activeVariant.shortDescRu}
                     </p>
+                    {seoOverride?.statsBanner && (
+                      <div className="mt-2.5 flex flex-wrap items-center gap-2 text-[11px] sm:text-xs font-bold">
+                        <span
+                          className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 ${
+                            isDark
+                              ? 'bg-[#261b16] border-white/15 text-[#eee7dd]'
+                              : 'bg-[#fefbf7] border-[#d9c8b8] text-[#302016]'
+                          }`}
+                        >
+                          ✅{' '}
+                          {seoOverride.statsBanner.cityLabelUk
+                            ? seoOverride.statsBanner.localCount && seoOverride.statsBanner.localCount > 0
+                              ? lang === 'uk'
+                                ? `${seoOverride.statsBanner.localCount} локальних + ${seoOverride.statsBanner.makersCount} у каталозі`
+                                : `${seoOverride.statsBanner.localCount} локальных + ${seoOverride.statsBanner.makersCount} в каталоге`
+                              : lang === 'uk'
+                              ? `${seoOverride.statsBanner.makersCount} майстерень із доставкою у ${seoOverride.statsBanner.cityLabelUk}`
+                              : `${seoOverride.statsBanner.makersCount} мастерских с доставкой в ${seoOverride.statsBanner.cityLabelRu || seoOverride.statsBanner.cityLabelUk}`
+                            : lang === 'uk'
+                            ? `${seoOverride.statsBanner.makersCount} перевірених майстерень`
+                            : `${seoOverride.statsBanner.makersCount} проверенных мастерских`}
+                        </span>
+                        <span
+                          className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 ${
+                            isDark
+                              ? 'bg-[#261b16] border-white/15 text-[#e39851]'
+                              : 'bg-[#fff8ef] border-[#e39851]/40 text-[#8b4c10]'
+                          }`}
+                        >
+                          💰{' '}
+                          {lang === 'uk'
+                            ? `Ціни: від ${seoOverride.statsBanner.minPriceUah} до ${seoOverride.statsBanner.maxPriceUah} грн`
+                            : `Цены: от ${seoOverride.statsBanner.minPriceUah} до ${seoOverride.statsBanner.maxPriceUah} грн`}
+                        </span>
+                        <span
+                          className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 ${
+                            isDark
+                              ? 'bg-[#261b16] border-white/15 text-[#9fd8b1]'
+                              : 'bg-[#effaf3] border-[#75be8f]/40 text-[#1d6438]'
+                          }`}
+                        >
+                          🤝 {lang === 'uk' ? '0% комісії • напряму' : '0% комиссии • напрямую'}
+                        </span>
+                      </div>
+                    )}
                     <p className="text-xs sm:text-sm font-bold text-[#b06a1e] mt-1.5">
                       {lang === 'uk'
                         ? 'Крок 1. Оберіть потрібний варіант продукту:'
@@ -2703,38 +2753,110 @@ export default function ChocoRadarApp({
             </section>
           )}
 
-          {activeSection !== 'home' && (
+          {seoOverride?.relatedLinks && seoOverride.relatedLinks.length > 0 && (
             <section
-              aria-label={lang === 'uk' ? 'Популярні міста України' : 'Популярные города Украины'}
-              className={`rounded-3xl border p-5 sm:p-6 space-y-3 ${
-                isDark ? 'bg-[#211713] border-white/15' : 'bg-[#f1e6da]/50 border-[#e1d5c8]'
+              aria-label={lang === 'uk' ? 'Схожі запити та сусідні категорії' : 'Похожие запросы и соседние категории'}
+              className={`rounded-3xl border p-5 sm:p-6 space-y-5 ${
+                isDark ? 'bg-[#211713] border-white/15' : 'bg-[#fefbf7] border-[#e1d5c8]'
               }`}
             >
-              <h2 className="font-serif text-base sm:text-lg font-bold flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-[#b06a1e]" />
-                <span>
-                  {lang === 'uk'
-                    ? 'Крафтові майстерні у містах України:'
-                    : 'Крафтовые мастерские в городах Украины:'}
-                </span>
-              </h2>
-              <div className="flex flex-wrap gap-2">
-                {CITY_HUB_LINKS.map((city) => (
+              {seoOverride.relatedLinks.map((group, gIdx) => (
+                <div key={gIdx} className="space-y-2.5">
+                  <h2 className="font-serif text-base sm:text-lg font-bold">
+                    {lang === 'uk' ? group.titleUk : group.titleRu}
+                  </h2>
+                  <div className="flex flex-wrap gap-2">
+                    {group.items.map((item) => {
+                      const targetHref =
+                        lang === 'ru' && item.hrefRu
+                          ? item.hrefRu
+                          : getLocalizedHref(item.hrefUk);
+                      return (
+                        <Link
+                          key={item.hrefUk}
+                          href={targetHref}
+                          className={`rounded-full px-3.5 py-1.5 text-xs font-bold border transition ${
+                            isDark
+                              ? 'bg-[#261b16] border-white/15 text-[#eee7dd] hover:border-[#e39851]'
+                              : 'bg-[#f8f1e7] border-[#d4c3b3] text-[#302016] hover:border-[#b06a1e]'
+                          }`}
+                        >
+                          {lang === 'uk' ? item.labelUk : item.labelRu}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </section>
+          )}
+
+          {/* POPULAR PROGRAMMATIC CLUSTERS INTERLINKING */}
+          <section
+            aria-label={lang === 'uk' ? 'Популярні пошукові підбірки та подарунки' : 'Популярные поисковые подборки и подарки'}
+            className={`rounded-3xl border p-5 sm:p-6 space-y-3 ${
+              isDark ? 'bg-[#211713] border-white/15' : 'bg-[#fefbf7] border-[#e1d5c8]'
+            }`}
+          >
+            <h2 className="font-serif text-base sm:text-lg font-bold flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-[#b06a1e]" />
+              <span>
+                {lang === 'uk'
+                  ? 'Популярні пошуки, подарунки та дієтичні підбірки:'
+                  : 'Популярные поиски, подарки и диетические подборки:'}
+              </span>
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {POPULAR_SEO_SHORTCUTS.map((sc) => {
+                const targetHref =
+                  lang === 'ru' && sc.hrefRu ? sc.hrefRu : getLocalizedHref(sc.hrefUk);
+                return (
                   <Link
-                    key={city.slug}
-                    href={getLocalizedHref(`/misto/${city.slug}`)}
+                    key={sc.hrefUk}
+                    href={targetHref}
                     className={`rounded-full px-3.5 py-1.5 text-xs font-bold border transition ${
                       isDark
                         ? 'bg-[#261b16] border-white/15 text-[#eee7dd] hover:border-[#e39851]'
-                        : 'bg-[#fefbf7] border-[#d4c3b3] text-[#302016] hover:border-[#b06a1e]'
+                        : 'bg-[#fbf6ee] border-[#d4c3b3] text-[#302016] hover:border-[#b06a1e]'
                     }`}
                   >
-                    📍 {lang === 'uk' ? city.cityNameUk : city.cityNameRu}
+                    {sc.emoji} {lang === 'uk' ? sc.labelUk : sc.labelRu}
                   </Link>
-                ))}
-              </div>
-            </section>
-          )}
+                );
+              })}
+            </div>
+          </section>
+
+          <section
+            aria-label={lang === 'uk' ? 'Популярні міста України' : 'Популярные города Украины'}
+            className={`rounded-3xl border p-5 sm:p-6 space-y-3 ${
+              isDark ? 'bg-[#211713] border-white/15' : 'bg-[#f1e6da]/50 border-[#e1d5c8]'
+            }`}
+          >
+            <h2 className="font-serif text-base sm:text-lg font-bold flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-[#b06a1e]" />
+              <span>
+                {lang === 'uk'
+                  ? 'Крафтові майстерні у містах України:'
+                  : 'Крафтовые мастерские в городах Украины:'}
+              </span>
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {CITY_HUB_LINKS.map((city) => (
+                <Link
+                  key={city.slug}
+                  href={getLocalizedHref(`/misto/${city.slug}`)}
+                  className={`rounded-full px-3.5 py-1.5 text-xs font-bold border transition ${
+                    isDark
+                      ? 'bg-[#261b16] border-white/15 text-[#eee7dd] hover:border-[#e39851]'
+                      : 'bg-[#fefbf7] border-[#d4c3b3] text-[#302016] hover:border-[#b06a1e]'
+                  }`}
+                >
+                  📍 {lang === 'uk' ? city.cityNameUk : city.cityNameRu}
+                </Link>
+              ))}
+            </div>
+          </section>
 
           {/* EXPERT BLOG & SEO LINKS */}
           <section

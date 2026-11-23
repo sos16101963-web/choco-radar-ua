@@ -2,6 +2,11 @@ import { MetadataRoute } from 'next';
 import { CATEGORIES, MAKERS } from '@/data/chocolateData';
 import { BLOG_ARTICLES, CITY_SEO_HUBS } from '@/data/blogData';
 import { CITY_SECTION_COMBOS } from '@/data/cityCategorySeo';
+import {
+  GEO_VARIANT_LANDINGS,
+  GIFT_OCCASION_LANDINGS,
+  NICHE_TREND_LANDINGS,
+} from '@/data/programmaticSeo';
 import { CAKE_VARIANTS, CHOCOLATE_VARIANTS, ZEFIR_VARIANTS } from '@/data/sectionVariants';
 import { buildHreflangAlternates, SITE_LAST_UPDATED, SITE_URL } from '@/lib/siteConfig';
 
@@ -50,16 +55,28 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...CITY_SECTION_COMBOS.flatMap((combo) =>
       makeBilingualPair(`/misto/${combo.citySlug}/${combo.categorySlug}`, 0.88)
     ),
+    ...GEO_VARIANT_LANDINGS.flatMap((entry) =>
+      makeBilingualPair(`/misto/${entry.citySlug}/${entry.sectionSlug}`, 0.86)
+    ),
+    ...GIFT_OCCASION_LANDINGS.flatMap((gift) =>
+      makeBilingualPair(`/podarunky/${gift.slug}`, 0.88)
+    ),
   ];
 
-  const categoryUrls: MetadataRoute.Sitemap = CATEGORIES.filter((c) => c.slug !== 'all').map(
-    (cat) => ({
+  const categoryUrls: MetadataRoute.Sitemap = [
+    ...CATEGORIES.filter((c) => c.slug !== 'all').map((cat) => ({
       url: `${SITE_URL}/katalog/${cat.slug}`,
       lastModified: stableDate,
       changeFrequency: 'daily' as const,
       priority: 0.9,
-    })
-  );
+    })),
+    ...NICHE_TREND_LANDINGS.map((trend) => ({
+      url: `${SITE_URL}/katalog/${trend.slug}`,
+      lastModified: stableDate,
+      changeFrequency: 'daily' as const,
+      priority: 0.88,
+    })),
+  ];
 
   const makerDirectoryUrl: MetadataRoute.Sitemap[number] = {
     url: `${SITE_URL}/maysternya`,

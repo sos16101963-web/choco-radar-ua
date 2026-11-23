@@ -100,14 +100,66 @@ export const BLOG_PREVIEW_CARDS = [
   },
 ] as const;
 
+export interface SeoStatsBanner {
+  makersCount: number;
+  localCount?: number;
+  minPriceUah: number;
+  maxPriceUah: number;
+  cityLabelUk?: string;
+  cityLabelRu?: string;
+}
+
+export interface SeoRelatedLinkItem {
+  labelUk: string;
+  labelRu: string;
+  hrefUk: string;
+  hrefRu?: string;
+}
+
+export interface SeoRelatedLinkGroup {
+  titleUk: string;
+  titleRu: string;
+  items: SeoRelatedLinkItem[];
+}
+
 export const CITY_HUB_LINKS = [
   { slug: 'kharkiv', cityNameUk: 'Харків', cityNameRu: 'Харьков' },
   { slug: 'kyiv', cityNameUk: 'Київ', cityNameRu: 'Киев' },
   { slug: 'lviv', cityNameUk: 'Львів', cityNameRu: 'Львов' },
   { slug: 'dnipro', cityNameUk: 'Дніпро', cityNameRu: 'Днепр' },
   { slug: 'odesa', cityNameUk: 'Одеса', cityNameRu: 'Одесса' },
+  { slug: 'vinnytsia', cityNameUk: 'Вінниця', cityNameRu: 'Винница' },
+  { slug: 'poltava', cityNameUk: 'Полтава', cityNameRu: 'Полтава' },
+  { slug: 'zaporizhzhia', cityNameUk: 'Запоріжжя', cityNameRu: 'Запорожье' },
+  { slug: 'ivano-frankivsk', cityNameUk: 'Івано-Франківськ', cityNameRu: 'Ивано-Франковск' },
+  { slug: 'cherkasy', cityNameUk: 'Черкаси', cityNameRu: 'Черкассы' },
   { slug: 'lutsk-volyn', cityNameUk: 'Луцьк та Волинь', cityNameRu: 'Луцк и Волынь' },
 ] as const;
+
+export const POPULAR_SEO_SHORTCUTS: {
+  labelUk: string;
+  labelRu: string;
+  hrefUk: string;
+  hrefRu?: string;
+  emoji: string;
+}[] = [
+  { labelUk: 'Дубайський шоколад із катаїфі', labelRu: 'Дубайский шоколад с катаифи', hrefUk: '/katalog/dubaiskyi-shokolad', emoji: '💚' },
+  { labelUk: 'Бенто-торти Київ', labelRu: 'Бенто-торты Киев', hrefUk: '/misto/kyiv/bento-torty', hrefRu: '/ru/misto/kyiv/bento-torty', emoji: '🍱' },
+  { labelUk: 'Бенто-торти Харків', labelRu: 'Бенто-торты Харьков', hrefUk: '/misto/kharkiv/bento-torty', hrefRu: '/ru/misto/kharkiv/bento-torty', emoji: '🍱' },
+  { labelUk: 'Шоколадні квіти Харків', labelRu: 'Шоколадные цветы Харьков', hrefUk: '/misto/kharkiv/shokoladni-kvity', hrefRu: '/ru/misto/kharkiv/shokoladni-kvity', emoji: '🌹' },
+  { labelUk: 'Шоколадні квіти Київ', labelRu: 'Шоколадные цветы Киев', hrefUk: '/misto/kyiv/shokoladni-kvity', hrefRu: '/ru/misto/kyiv/shokoladni-kvity', emoji: '🌹' },
+  { labelUk: 'Зефірні букети Київ', labelRu: 'Зефирные букеты Киев', hrefUk: '/misto/kyiv/zefirni-bukety', hrefRu: '/ru/misto/kyiv/zefirni-bukety', emoji: '💐' },
+  { labelUk: 'Зефірні букети Дніпро', labelRu: 'Зефирные букеты Днепр', hrefUk: '/misto/dnipro/zefirni-bukety', hrefRu: '/ru/misto/dnipro/zefirni-bukety', emoji: '💐' },
+  { labelUk: 'Сирні трюфелі Дорблю', labelRu: 'Сырные трюфели Дорблю', hrefUk: '/katalog/syrni-tryufeli', emoji: '🧀' },
+  { labelUk: 'Шоколад без цукру', labelRu: 'Шоколад без сахара', hrefUk: '/katalog/bez-tsukru', emoji: '🌿' },
+  { labelUk: 'Веганський шоколад', labelRu: 'Веганский шоколад', hrefUk: '/katalog/vegan-shokolad', emoji: '🌱' },
+  { labelUk: 'Полуниця в шоколаді', labelRu: 'Клубника в шоколаде', hrefUk: '/katalog/polunytsia-v-shokoladi', emoji: '🍓' },
+  { labelUk: 'Подарунок мамі', labelRu: 'Подарок маме', hrefUk: '/podarunky/dlia-mamy', hrefRu: '/ru/podarunky/dlia-mamy', emoji: '💝' },
+  { labelUk: 'На день народження', labelRu: 'На день рождения', hrefUk: '/podarunky/na-den-narodzhennia', hrefRu: '/ru/podarunky/na-den-narodzhennia', emoji: '🎉' },
+  { labelUk: 'Корпоративні подарунки', labelRu: 'Корпоративные подарки', hrefUk: '/podarunky/korporatyvni-podarunky', hrefRu: '/ru/podarunky/korporatyvni-podarunky', emoji: '🏢' },
+  { labelUk: 'Дитячі подарунки', labelRu: 'Детские подарки', hrefUk: '/podarunky/dlia-ditei', hrefRu: '/ru/podarunky/dlia-ditei', emoji: '🧸' },
+  { labelUk: 'Подарунок коханій', labelRu: 'Подарок любимой', hrefUk: '/podarunky/dlia-kohanoyi', hrefRu: '/ru/podarunky/dlia-kohanoyi', emoji: '❤️' },
+];
 
 export function getMakerCategoryUrl(
   maker: Pick<CatalogMaker, 'id' | 'categoryUrls'>,
