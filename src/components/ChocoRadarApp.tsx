@@ -2791,142 +2791,172 @@ export default function ChocoRadarApp({
             </section>
           )}
 
-          {/* POPULAR PROGRAMMATIC CLUSTERS INTERLINKING */}
-          <section
-            aria-label={lang === 'uk' ? 'Популярні пошукові підбірки та подарунки' : 'Популярные поисковые подборки и подарки'}
-            className={`rounded-3xl border p-5 sm:p-6 space-y-3 ${
-              isDark ? 'bg-[#211713] border-white/15' : 'bg-[#fefbf7] border-[#e1d5c8]'
-            }`}
-          >
-            <h2 className="font-serif text-base sm:text-lg font-bold flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-[#b06a1e]" />
-              <span>
-                {lang === 'uk'
-                  ? 'Популярні пошуки, подарунки та дієтичні підбірки:'
-                  : 'Популярные поиски, подарки и диетические подборки:'}
-              </span>
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {POPULAR_SEO_SHORTCUTS.map((sc) => {
-                const targetHref =
-                  lang === 'ru' && sc.hrefRu ? sc.hrefRu : getLocalizedHref(sc.hrefUk);
-                return (
-                  <Link
-                    key={sc.hrefUk}
-                    href={targetHref}
-                    className={`rounded-full px-3.5 py-1.5 text-xs font-bold border transition ${
-                      isDark
-                        ? 'bg-[#261b16] border-white/15 text-[#eee7dd] hover:border-[#e39851]'
-                        : 'bg-[#fbf6ee] border-[#d4c3b3] text-[#302016] hover:border-[#b06a1e]'
-                    }`}
-                  >
-                    {sc.emoji} {lang === 'uk' ? sc.labelUk : sc.labelRu}
-                  </Link>
-                );
-              })}
-            </div>
-          </section>
-
-          <section
-            aria-label={lang === 'uk' ? 'Популярні міста України' : 'Популярные города Украины'}
-            className={`rounded-3xl border p-5 sm:p-6 space-y-3 ${
-              isDark ? 'bg-[#211713] border-white/15' : 'bg-[#f1e6da]/50 border-[#e1d5c8]'
-            }`}
-          >
-            <h2 className="font-serif text-base sm:text-lg font-bold flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-[#b06a1e]" />
-              <span>
-                {lang === 'uk'
-                  ? 'Крафтові майстерні у містах України:'
-                  : 'Крафтовые мастерские в городах Украины:'}
-              </span>
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {CITY_HUB_LINKS.map((city) => (
-                <Link
-                  key={city.slug}
-                  href={getLocalizedHref(`/misto/${city.slug}`)}
-                  className={`rounded-full px-3.5 py-1.5 text-xs font-bold border transition ${
-                    isDark
-                      ? 'bg-[#261b16] border-white/15 text-[#eee7dd] hover:border-[#e39851]'
-                      : 'bg-[#fefbf7] border-[#d4c3b3] text-[#302016] hover:border-[#b06a1e]'
-                  }`}
-                >
-                  📍 {lang === 'uk' ? city.cityNameUk : city.cityNameRu}
-                </Link>
-              ))}
-            </div>
-          </section>
-
-          {/* EXPERT BLOG & SEO LINKS */}
-          <section
-            id="blog-seo-section"
-            className={`rounded-3xl border p-5 sm:p-8 shadow-sm ${
-              isDark
-                ? 'bg-gradient-to-br from-[#261b16] to-[#1a120e] border-white/15'
-                : 'bg-gradient-to-br from-[#fefbf7] to-[#f1e6da]/60 border-[#d9c8b8]'
-            }`}
-          >
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
-              <div>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#b06a1e]/15 px-3 py-1 text-[11px] font-extrabold text-[#b06a1e] mb-2">
-                  <BookOpen className="w-3.5 h-3.5" />
+          {/* POPULAR PROGRAMMATIC CLUSTERS & CITY HUBS INTERLINKING (only on main hubs without custom cluster links) */}
+          {!(seoOverride?.relatedLinks && seoOverride.relatedLinks.length > 0) && (
+            <>
+              <section
+                aria-label={lang === 'uk' ? 'Популярні пошукові підбірки та подарунки' : 'Популярные поисковые подборки и подарки'}
+                className={`rounded-3xl border p-5 sm:p-6 space-y-3 ${
+                  isDark ? 'bg-[#211713] border-white/15' : 'bg-[#fefbf7] border-[#e1d5c8]'
+                }`}
+              >
+                <h2 className="font-serif text-base sm:text-lg font-bold flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-[#b06a1e]" />
                   <span>
                     {lang === 'uk'
-                      ? 'Блог CrafoHab • Поради покупцям'
-                      : 'Блог CrafoHab • Советы покупателям'}
+                      ? 'Популярні пошуки, подарунки та дієтичні підбірки:'
+                      : 'Популярные поиски, подарки и диетические подборки:'}
                   </span>
-                </span>
-                <h2 className="font-serif text-xl sm:text-2xl font-bold">
-                  {lang === 'uk'
-                    ? 'Як обрати справжній крафтовий шоколад, букет або торт'
-                    : 'Как выбрать настоящий крафтовый шоколад, букет или торт'}
                 </h2>
+                <div className="flex flex-wrap gap-2">
+                  {POPULAR_SEO_SHORTCUTS.map((sc) => {
+                    const targetHref =
+                      lang === 'ru' && sc.hrefRu ? sc.hrefRu : getLocalizedHref(sc.hrefUk);
+                    return (
+                      <Link
+                        key={sc.hrefUk}
+                        href={targetHref}
+                        className={`rounded-full px-3.5 py-1.5 text-xs font-bold border transition ${
+                          isDark
+                            ? 'bg-[#261b16] border-white/15 text-[#eee7dd] hover:border-[#e39851]'
+                            : 'bg-[#fbf6ee] border-[#d4c3b3] text-[#302016] hover:border-[#b06a1e]'
+                        }`}
+                      >
+                        {sc.emoji} {lang === 'uk' ? sc.labelUk : sc.labelRu}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </section>
+
+              <section
+                aria-label={lang === 'uk' ? 'Популярні міста України' : 'Популярные города Украины'}
+                className={`rounded-3xl border p-5 sm:p-6 space-y-3 ${
+                  isDark ? 'bg-[#211713] border-white/15' : 'bg-[#f1e6da]/50 border-[#e1d5c8]'
+                }`}
+              >
+                <h2 className="font-serif text-base sm:text-lg font-bold flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-[#b06a1e]" />
+                  <span>
+                    {lang === 'uk'
+                      ? 'Крафтові майстерні у містах України:'
+                      : 'Крафтовые мастерские в городах Украины:'}
+                  </span>
+                </h2>
+                <div className="flex flex-wrap gap-2">
+                  {CITY_HUB_LINKS.map((city) => (
+                    <Link
+                      key={city.slug}
+                      href={getLocalizedHref(`/misto/${city.slug}`)}
+                      className={`rounded-full px-3.5 py-1.5 text-xs font-bold border transition ${
+                        isDark
+                          ? 'bg-[#261b16] border-white/15 text-[#eee7dd] hover:border-[#e39851]'
+                          : 'bg-[#fefbf7] border-[#d4c3b3] text-[#302016] hover:border-[#b06a1e]'
+                      }`}
+                    >
+                      📍 {lang === 'uk' ? city.cityNameUk : city.cityNameRu}
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            </>
+          )}
+
+          {/* EXPERT BLOG & SEO LINKS (Full 4 cards on main pages; compact 1-row banner on programmatic pages to boost unique content ratio) */}
+          {seoOverride?.articleUk ? (
+            <div
+              className={`rounded-2xl border px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                isDark
+                  ? 'bg-[#211713] border-white/15 text-[#eee7dd]'
+                  : 'bg-[#fefbf7] border-[#d9c8b8] text-[#302016]'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 text-xs sm:text-sm font-bold">
+                <BookOpen className="w-4 h-4 text-[#b06a1e] shrink-0" />
+                <span>
+                  {lang === 'uk'
+                    ? 'Корисні гіди CrafoHab: як перевірити склад какао-масла і обрати десерт'
+                    : 'Полезные гиды CrafoHab: как проверить состав какао-масла и выбрать десерт'}
+                </span>
               </div>
               <Link
                 href={getLocalizedHref('/blog')}
-                className="inline-flex items-center gap-1.5 rounded-full bg-[#462b1f] hover:bg-[#5c3929] px-5 py-2.5 text-xs font-extrabold text-[#faf4eb] shadow-sm transition shrink-0"
+                className="inline-flex items-center gap-1.5 rounded-full bg-[#462b1f] hover:bg-[#5c3929] px-4 py-2 text-xs font-extrabold text-[#faf4eb] shadow-xs transition shrink-0 self-start sm:self-center"
               >
-                <span>{lang === 'uk' ? 'Усі статті блогу' : 'Все статьи блога'}</span>
-                <ArrowUpRight className="w-4 h-4" />
+                <span>{lang === 'uk' ? 'Читати блог' : 'Читать блог'}</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
               </Link>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {BLOG_PREVIEW_CARDS.map((article) => (
-                <article
-                  key={article.slug}
-                  className={`group rounded-2xl border overflow-hidden flex flex-col transition-all hover:shadow-lg ${
-                    isDark ? 'bg-[#211713] border-white/15' : 'bg-white border-[#e1d5c8]'
-                  }`}
+          ) : (
+            <section
+              id="blog-seo-section"
+              className={`rounded-3xl border p-5 sm:p-8 shadow-sm ${
+                isDark
+                  ? 'bg-gradient-to-br from-[#261b16] to-[#1a120e] border-white/15'
+                  : 'bg-gradient-to-br from-[#fefbf7] to-[#f1e6da]/60 border-[#d9c8b8]'
+              }`}
+            >
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+                <div>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#b06a1e]/15 px-3 py-1 text-[11px] font-extrabold text-[#b06a1e] mb-2">
+                    <BookOpen className="w-3.5 h-3.5" />
+                    <span>
+                      {lang === 'uk'
+                        ? 'Блог CrafoHab • Поради покупцям'
+                        : 'Блог CrafoHab • Советы покупателям'}
+                    </span>
+                  </span>
+                  <h2 className="font-serif text-xl sm:text-2xl font-bold">
+                    {lang === 'uk'
+                      ? 'Як обрати справжній крафтовий шоколад, букет або торт'
+                      : 'Как выбрать настоящий крафтовый шоколад, букет или торт'}
+                  </h2>
+                </div>
+                <Link
+                  href={getLocalizedHref('/blog')}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-[#462b1f] hover:bg-[#5c3929] px-5 py-2.5 text-xs font-extrabold text-[#faf4eb] shadow-sm transition shrink-0"
                 >
-                  <Link
-                    href={getLocalizedHref(`/blog/${article.slug}`)}
-                    className="relative h-52 sm:h-60 w-full overflow-hidden block bg-[#f3e9dc]"
+                  <span>{lang === 'uk' ? 'Усі статті блогу' : 'Все статьи блога'}</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </Link>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {BLOG_PREVIEW_CARDS.map((article) => (
+                  <article
+                    key={article.slug}
+                    className={`group rounded-2xl border overflow-hidden flex flex-col transition-all hover:shadow-lg ${
+                      isDark ? 'bg-[#211713] border-white/15' : 'bg-white border-[#e1d5c8]'
+                    }`}
                   >
-                    <OptimizedImage
-                      src={article.heroImage}
-                      alt={lang === 'uk' ? article.titleUk : article.titleRu}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      fallbackWidth={500}
-                      className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </Link>
-                  <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-2">
-                    <Link href={getLocalizedHref(`/blog/${article.slug}`)}>
-                      <h3 className="font-serif text-base sm:text-lg font-bold leading-snug group-hover:text-[#b06a1e] transition">
-                        {lang === 'uk' ? article.titleUk : article.titleRu}
-                      </h3>
+                    <Link
+                      href={getLocalizedHref(`/blog/${article.slug}`)}
+                      className="relative h-52 sm:h-60 w-full overflow-hidden block bg-[#f3e9dc]"
+                    >
+                      <OptimizedImage
+                        src={article.heroImage}
+                        alt={lang === 'uk' ? article.titleUk : article.titleRu}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        fallbackWidth={500}
+                        className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                      />
                     </Link>
-                    <p className="text-xs opacity-80 line-clamp-2">
-                      {lang === 'uk' ? article.excerptUk : article.excerptRu}
-                    </p>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
+                    <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-2">
+                      <Link href={getLocalizedHref(`/blog/${article.slug}`)}>
+                        <h3 className="font-serif text-base sm:text-lg font-bold leading-snug group-hover:text-[#b06a1e] transition">
+                          {lang === 'uk' ? article.titleUk : article.titleRu}
+                        </h3>
+                      </Link>
+                      <p className="text-xs opacity-80 line-clamp-2">
+                        {lang === 'uk' ? article.excerptUk : article.excerptRu}
+                      </p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* FAQ (Semantic details/summary so 100% of answers match JSON-LD in SSR HTML) */}
           <section className="space-y-4">

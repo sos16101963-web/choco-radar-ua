@@ -47,14 +47,6 @@ export function generateGlobalEntityGraph() {
           '@id': `${SITE_URL}/#organization`,
         },
         inLanguage: 'uk-UA',
-        potentialAction: {
-          '@type': 'SearchAction',
-          target: {
-            '@type': 'EntryPoint',
-            urlTemplate: `${SITE_URL}/?q={search_term_string}`,
-          },
-          'query-input': 'required name=search_term_string',
-        },
       },
     ],
   };
@@ -112,7 +104,8 @@ export function generateLocalBusinessSchema(maker: CraftMaker) {
 export function generateMakerProfileSchema(
   maker: CraftMaker,
   makerProducts: ChocolateProduct[],
-  cityHub?: { slug: string; cityNameUk: string }
+  cityHub?: { slug: string; cityNameUk: string },
+  faqList?: { q: string; a: string }[]
 ) {
   const profileUrl = `${SITE_URL}/maysternya/${maker.slug}`;
   const validPhone = getValidPhone(maker.phone);
@@ -205,6 +198,20 @@ export function generateMakerProfileSchema(
             bestRating: 5,
             worstRating: 1,
           },
+        },
+      })),
+    });
+  }
+
+  if (faqList && faqList.length > 0) {
+    graph.push({
+      '@type': 'FAQPage',
+      mainEntity: faqList.map((item) => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.a,
         },
       })),
     });

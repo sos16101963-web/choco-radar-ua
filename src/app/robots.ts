@@ -16,12 +16,12 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/partner/'],
+        disallow: ['/api/', '/partner/', '/*?q='],
       },
       ...aiSearchBots.map((bot) => ({
         userAgent: bot,
         allow: '/',
-        disallow: ['/api/', '/partner/'],
+        disallow: ['/api/', '/partner/', '/*?q='],
       })),
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

@@ -79,7 +79,32 @@ export default async function MakerProfilePage({ params }: MakerPageProps) {
       : maker.segment === 'craft-zefir-pastila'
       ? { label: 'Крафтовий зефір та букети', href: '/zefir' }
       : { label: 'Крафтовий шоколад та цукерки', href: '/shokolad' };
-  const jsonLd = generateMakerProfileSchema(maker, makerProducts, cityHub);
+
+  const categoryLabels = maker.categories
+    .map((slugKey) => CATEGORIES.find((c) => c.slug === slugKey)?.shortTitle || slugKey)
+    .join(', ');
+
+  const originsText =
+    maker.cacaoOrigin.length > 0
+      ? maker.cacaoOrigin.join(', ')
+      : 'натуральні крафтові інгредієнти без замінників';
+
+  const makerFaq: { q: string; a: string }[] = [
+    {
+      q: `Як замовити продукцію майстерні «${maker.name}»?`,
+      a: `Оформити замовлення можна напряму без комісії платформи: через офіційний сайт майстерні, у Viber чи Telegram${maker.phone && !maker.phone.startsWith('Замовлення') ? ` або за телефоном ${maker.phone}` : ''}. Умови доставки: ${maker.shippingNote}.`,
+    },
+    {
+      q: `Що виготовляє «${maker.name}» та з яких інгредієнтів?`,
+      a: `Основна спеціалізація — ${maker.specialty}. Доступні рубрики: ${categoryLabels}. Основа рецептур та сировини: ${originsText}.`,
+    },
+    {
+      q: `Де знаходиться майстерня та який досвід роботи?`,
+      a: `Майстерня «${maker.name}» працює з ${maker.foundedYear} року у місті ${maker.city}${maker.address && maker.address !== maker.city ? ` (${maker.address})` : ''}. Оцінка покупців у каталозі — ★ ${maker.rating} на основі ${maker.reviewsCount} відгуків.`,
+    },
+  ];
+
+  const jsonLd = generateMakerProfileSchema(maker, makerProducts, cityHub, makerFaq);
 
   // Merge manual + auto-discovered direct category links
   const directCategoryEntries = maker.categories
@@ -368,6 +393,60 @@ export default async function MakerProfilePage({ params }: MakerPageProps) {
             </div>
           </section>
         )}
+
+        {/* Factual Workshop Overview & Ordering Conditions (adds unique semantic depth to every profile) */}
+        <section className="rounded-3xl border border-[#e1d5c8] bg-[#fefbf7] p-6 sm:p-7 space-y-4">
+          <h2 className="font-serif text-xl sm:text-2xl font-bold">
+            Про майстерню «{maker.name}» та умови замовлення
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-xs sm:text-sm leading-relaxed text-[#5a4638]">
+            <div className="space-y-2">
+              <p>
+                <strong className="text-[#302016]">Досвід і локація:</strong> виробництво працює з{' '}
+                {maker.foundedYear} року ({maker.city}
+                {maker.address && maker.address !== maker.city ? `, ${maker.address}` : ''}).
+                Середня оцінка покупців у каталозі — ★ {maker.rating} ({maker.reviewsCount} відгуків).
+              </p>
+              <p>
+                <strong className="text-[#302016]">Напрями асортименту:</strong> {categoryLabels}.
+                Спеціалізація: {maker.specialty}.
+              </p>
+            </div>
+            <div className="space-y-2">
+              <p>
+                <strong className="text-[#302016]">Сировина та склад:</strong> {originsText}.
+              </p>
+              <p>
+                <strong className="text-[#302016]">Доставка й оплата:</strong> {maker.shippingNote}.
+                Контакти подані напряму від майстерні з 0% комісії CrafoHab.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Semantic FAQ Matching JSON-LD FAQPage */}
+        <section className="space-y-3">
+          <h2 className="font-serif text-xl sm:text-2xl font-bold">
+            Часті запитання про «{maker.name}»
+          </h2>
+          <div className="space-y-2.5">
+            {makerFaq.map((faq, idx) => (
+              <details
+                key={idx}
+                open={idx === 0}
+                className="group rounded-2xl border border-[#e1d5c8] bg-[#fefbf7] transition"
+              >
+                <summary className="cursor-pointer list-none px-5 py-4 flex items-center justify-between gap-4 font-bold text-xs sm:text-sm text-[#302016] [&::-webkit-details-marker]:hidden">
+                  <span>{faq.q}</span>
+                  <span className="text-[#b06a1e] font-bold shrink-0">+</span>
+                </summary>
+                <div className="px-5 pb-4 text-xs sm:text-sm text-[#5a4638] leading-relaxed border-t border-[#e1d5c8]/60 pt-3">
+                  {faq.a}
+                </div>
+              </details>
+            ))}
+          </div>
+        </section>
 
         {/* Related Makers */}
         <section className="space-y-4">
